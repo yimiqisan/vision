@@ -1,0 +1,21 @@
+#thumbnails {overflow: scroll;max-height: 500px;margin-left: -30px;}
+#thumbnails .thumbnail {border-width: 0px;}
+#thumbnails .thumbnails > li {margin-left:10px;}
+#note-item .info {margin: 10px;}
+#note-item .info, #note-item .info a{color: #ccc;}
+#note-item .info a:hover{color: #777;}
+#note-item .info .badge{color: #fff;}
+#note-item .info .badge:hover{color: #eee;}
+.inplace, #thumbnails .view {width:460px;height:80px;}
+.inplace {position: absolute;visibility: hidden;z-index: 1000;}
+#thumbnails .view {float:left;border:1px solid #aaa;cursor:text;}
+
+
+
+
+
+
+
+
+
+

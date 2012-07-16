@@ -1,0 +1,48 @@
+{% extends ../base.html %}
+
+{% block meta %}
+	<title>vision</title>
+{% end %}
+
+{% block static %}{% end %}
+{% block body %}
+	<ul class="breadcrumb" style="background:#ededed;">
+		<li><a href="#" title="{{vinfo['name']}}" alt="{{vinfo['name']}}">{{vinfo['name']}}</a></li>
+		<li class="pull-right"><a href="/volume/{{vinfo['vid']}}/edit/" class="btn btn-mini">编辑</a></li>
+	</ul>
+	<div class="span12" style="border-bottom:1px solid #eee">
+		<div class="span2"><img src="/image/avatar/{{ vinfo['logo'] }}_100" alt="头像" style="width:100px;height:100px;" onerror="this.src='/static/img/default_avatar.gif';" /></div>
+		<div class="span8">
+			<p>{{vinfo['name']}} /{{vinfo['subtype_cn']}} 性别：{{vinfo['male_cn']}} 出生日期：{{vinfo['year']}}年</p>
+			<p>{{vinfo['live']}}</p>
+			<p>所属机构：{{vinfo['agency']}}</p>
+			<p>网址：{{vinfo['website']}}</p>
+		</div>
+		<div>
+			<p>级别：
+				{% for i in xrange(0, vinfo['grade']) %}<i class="icon-star"></i>{% end %}
+				{% for i in xrange(0, 5-vinfo['grade']) %}<i class="icon-star-empty"></i>{% end %}
+			</p>
+			<p>关系：
+				{% for i in xrange(0, vinfo['nexus']) %}<i class="icon-star"></i>{% end %}
+				{% for i in xrange(0, 5-vinfo['nexus']) %}<i class="icon-star-empty"></i>{% end %}
+			</p>
+		</div>
+	</div>
+	<div class="span3">
+		<br/><h3>简介</h3><hr/>
+		<p>{{vinfo['intro']}}</p>
+		<h3>相关机构</h3><hr/>
+		<p>{{vinfo['about']}}</p>
+	</div>
+	<div class="span9">
+		{% for w in works %}
+		<div class="thumbnail">
+			<img src="/image/attach/{{ w[0] }}" alt="">
+			<div class="caption">
+				<p>{{ w[1] }}</p>
+			</div>
+		</div>
+		{% end %}
+	</div>
+{% end %}

@@ -1,0 +1,27 @@
+{% extends new_base.html %}
+{% block infos %}
+	<div class="control-group">
+		<label class="control-label" for="name">作品名称</label>
+		<div class="controls">
+			<input type="text" class="input-xlarge" name="name" id="name"/>
+			<p class="help-inline">请输入作品名称</p>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="client">客户</label>
+		<div class="controls">
+			<input type="text" class="input-xlarge" name="client" id="client"/>
+			<p class="help-inline">请输入客户</p>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="year">创作年份</label>
+		<div class="controls">
+			<select type="text" class="input-xlarge" name="year" id="year">
+				<option></option>
+				<option>1988</option>
+			</select>
+			<p class="help-inline">请选择年份</p>
+		</div>
+	</div>
+{% end %}
