@@ -12,7 +12,7 @@
 	<div class="hide"><a href="/space/new/">新建</a></div><hr class="hide"/>
 	<div class="hide"><a href="/space/collect/">收藏</a></div><hr class="hide"/>
 	<div>项目<a class="btn btn-success pull-right" href="/project/new/" style="margin-right:20px;">新建项目</a></div><br/>
-	<div class="tabbable tabs-left pull-right" style="height:400px;overflow:scroll;">
+	<div class="tabbable tabs-left pull-right" style="max-height:400px;overflow:scroll;">
 		<ul class="nav nav-tabs pull-right">
 			{% for i in xrange(0, len(plist)) %}
 				{% if project['pid'] and project['pid'] == plist[i]['pid'] %}
@@ -54,7 +54,7 @@
 				<a href="/item/{{ w['eid'] }}/"><img src="/image/attach/{{ w['logo'] }}_300" style="width:260px;height:180px;" alt=""></a>
 				<ul class="overmenu">
 					<li><a href="/item/{{ w['eid'] }}/edit/">编辑</a></li>
-					<li><a href="/item/{{ w['eid'] }}/remove/">删除</a></li>
+					<li><a href="/item/{{ w['eid'] }}/remove/" onclick="return delconfirm(this);">删除</a></li>
 					<li>
 						<a href="/project/{{ w['eid'] }}/collection/">
 							相关人员&nbsp;&nbsp;&nbsp;&nbsp;

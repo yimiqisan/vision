@@ -54,7 +54,7 @@ class ItemNewHandler(BaseHandler):
         while(True):
             p, e = self.get_argument(str(i)+'PIC', None), self.get_argument(str(i)+'Edit', None)
             if not p or not e:break
-            l.insert(0, (p, e))
+            l.append((p, e))
             if c == i:logo=p
             i+=1
         return (logo, l)
@@ -79,7 +79,7 @@ class ItemRemoveHandler(BaseHandler):
         e = Item()
         r = e._api.remove(id)
         if r[0]:
-            return self.self.redirect('/'+r[1]+'/'+r[2]+'/')
+            return self.redirect('/'+r[1]+'/'+r[2]+'/')
         return self.render_alert(r[1])
 
 class ItemEditHandler(BaseHandler):

@@ -43,7 +43,7 @@ class ItemAPI(API):
     def remove(self, id):
         r = self.one(_id=id)
         if (r[0] and r[1]):
-            vtype, vid = r[1][0].get('vtype', None), r[1][0].get('vid', None)
+            vtype, vid = r[1].get('vtype', None), r[1].get('vid', None)
             super(ItemAPI, self).remove(id)
             return (True, vtype, vid)
         return (False, 'item not exist')

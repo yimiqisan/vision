@@ -18,7 +18,7 @@ from vision.apps.tools import session
 class RootHandler(BaseHandler):
     def get(self):
         if self.current_user:
-            self.redirect('/space/')
+            self.redirect('/space/project/')
         else:
             self.render("index.html")
 

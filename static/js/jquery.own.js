@@ -34,3 +34,7 @@ jQuery.fn.enable = function(opt_enable) {
 function delconfirm(e) {
     if (!confirm(" 确定删除?")) return false;
 };
+
+function backconfirm(e) {
+    if (!confirm(" 确定返回?")) return false;
+};

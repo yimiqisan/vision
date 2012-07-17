@@ -20,7 +20,7 @@ from api import API, Added_id
 
 class Staff(object):
     
-    ADMIN = {'admin': ('admin', '57138d461d7343c685c15e9e6d3bd9ef')}
+    ADMIN = {'admin': ('admin', u'57138d461d7343c685c15e9e6d3bd9ef')}
     
     def __init__(self, api=None):
         self._api = StaffAPI()
