@@ -70,9 +70,9 @@
 				<div style="clear:both;"></div>
 				<input type="hidden" name="eid" value="{{ eid }}">
 				<div class="form-actions" style="margin-left:10px;">
-					<a class="btn btn-success pull-left" href="/" target="_blank" onclick="function(this){$this.closest('form').submit();};return true;">预览</a>
+					<input type="submit" class="btn btn-success preview pull-left" value="预览" />
 					<input type="submit" class="btn btn-primary censor pull-right" style="margin-left:5px;" value="确定" />
-					<a class="btn pull-right">取消</a>
+					<a href="/{{ vtype }}/{{ vid }}/" class="btn pull-right" onclick="return backconfirm(this);">取消</a>
 				</div>
 			</form>
 			<script src="{{ static_url('js/bootstrap-checksubmit.js') }}" type="text/javascript"></script>

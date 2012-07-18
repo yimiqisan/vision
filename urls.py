@@ -27,6 +27,7 @@ handlers = [(r"/", RootHandler),
             (r"/a/volume/type/", AjaxVolumeTypeHandler),
             
             (r"/item/([a-z]+)/(.{32})/new/", ItemNewHandler),
+            (r"/item/([a-z]+)/(.{32})/preview/", ItemPreviewHandler),
             (r"/item/(.{32})/remove/", ItemRemoveHandler),
             (r"/item/(.{32})/edit/", ItemEditHandler),
             (r"/item/(.{32})/", ItemHandler),

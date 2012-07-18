@@ -3,7 +3,7 @@
     "use strict"
 
 /* CHECK CLASS DEFINITION */
-var censor = '.censor'
+var censor = '.censor, .preview'
 ,Check = function ( el ) {
     $(el).on('click', censor, this.censor)
 }
@@ -15,6 +15,12 @@ Check.prototype = {
         var $this = $(this)
         , form = $this.closest('form')
         , be = true;
+        
+        if ($this.hasClass('preview')) {
+            form.attr('target', '_blank');
+            var action = form.attr('action');
+            form.attr('action', action.replace(/new/, 'preview'));
+        }        
         $('.help-inline, .help-block').each(function(i, e){
             var c = $(this).prev()
             , g = $(this).closest('.control-group');

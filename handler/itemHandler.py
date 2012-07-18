@@ -32,7 +32,6 @@ class ItemNewHandler(BaseHandler):
     @addslash
     @session
     def post(self, tp, vid):
-        print vid
         uid = self.SESSION['uid']
         eid = self.get_argument('eid', None)
         logo, works = self.get_works_list()
@@ -71,6 +70,49 @@ class ItemNewHandler(BaseHandler):
         for n in ikeys:d[n] = self.get_argument(n, None)
         return d
 
+class ItemPreviewHandler(BaseHandler):
+    @addslash
+    @session
+    def post(self, tp, vid):
+        uid = self.SESSION['uid']
+        logo, works = self.get_works_list()
+        infos = self.get_info_dict(tp)
+        if tp == u'project':
+            p = Project()
+            rv = p._api.get(vid)
+            html = "item/project.html"
+        else:
+            v =  Volume()
+            rv = v._api.get(vid)
+            html = "item/index.html"
+        vinfo = rv[1] if rv[0] and rv[1] else {}
+        vdict = {'vid':vid, 'vtype':tp, 'works':works}
+        return self.render(html, vinfo=vinfo, **vdict)
+    
+    def get_works_list(self):
+        c = int(self.get_argument('cover', 1))
+        l = []
+        i=1
+        while(True):
+            p, e = self.get_argument(str(i)+'PIC', None), self.get_argument(str(i)+'Edit', None)
+            if not p:break
+            l.append((p, e))
+            if c == i:logo=p
+            i+=1
+        return (logo, l)
+    
+    def get_info_dict(self, tp):
+        tp = tp.lower()
+        if tp == VTYPE_LIST[0]:
+            ikeys = ["name", "client", "year"]
+        elif tp == VTYPE_LIST[1]:
+            ikeys = [""]
+        else:
+            ikeys = []
+        d = {}
+        for n in ikeys:d[n] = self.get_argument(n, None)
+        return d
+
 class ItemRemoveHandler(BaseHandler):
     @addslash
     @session
@@ -89,9 +131,6 @@ class ItemEditHandler(BaseHandler):
         uid = self.SESSION['uid']
         e = Item()
         r = e._api.get(id)
-        
-        print r[1]
-        
         if r[0] and r[1]:
             tp = r[1]['vtype']
             if tp in VTYPE_LIST:
@@ -129,7 +168,7 @@ class AjaxItemHandler(BaseHandler):
         e = Item()
         r = e._api.get(eid)
         if r[0]:
-            return self.write(json.dumps(r[1]['works']))
+            return self.write(json.dumps({'works': r[1]['works'], 'logo':r[1]['logo']}))
 
 
 
