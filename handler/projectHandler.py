@@ -8,7 +8,7 @@ Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 """
 
 
-from tornado.web import addslash
+from tornado.web import addslash, authenticated
 
 from baseHandler import BaseHandler
 from vision.apps.project import Project
@@ -20,6 +20,7 @@ class ProjectNewHandler(BaseHandler):
     KEYS = ["title", "description"]
     @addslash
     @session
+    @authenticated
     def get(self):
         uid = self.SESSION['uid']
         d = {'pid':None}
@@ -28,6 +29,7 @@ class ProjectNewHandler(BaseHandler):
     
     @addslash
     @session
+    @authenticated
     def post(self):
         uid = self.SESSION['uid']
         pid = self.get_argument('pid', None)
@@ -50,6 +52,7 @@ class ProjectNewHandler(BaseHandler):
 class ProjectRemoveHandler(BaseHandler):
     @addslash
     @session
+    @authenticated
     def get(self, pid):
         uid = self.SESSION['uid']
         p = Project()
@@ -59,6 +62,7 @@ class ProjectRemoveHandler(BaseHandler):
 class ProjectEditHandler(BaseHandler):
     @addslash
     @session
+    @authenticated
     def get(self, pid):
         uid = self.SESSION['uid']
         p = Project()
@@ -71,6 +75,7 @@ class ProjectEditHandler(BaseHandler):
 class ProjectHandler(BaseHandler):
     @addslash
     @session
+    @authenticated
     def get(self, pid):
         uid = self.SESSION['uid']
         page = int(self.get_argument('page', 1))

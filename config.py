@@ -18,7 +18,7 @@ settings = dict(
         template_path=os.path.join(os.path.dirname(__file__), "htmls"),
         static_path=os.path.join(os.path.dirname(__file__), "static"),
         cookie_secret="61oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=",
-        login_url="/account/login",
+        login_url="/",
         autoescape="xhtml_escape",
         debug=True,
         cache_engine=redis.Redis(host='localhost', port=6379, db=1),

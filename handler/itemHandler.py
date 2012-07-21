@@ -9,7 +9,7 @@ Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 
 import json
 
-from tornado.web import addslash
+from tornado.web import addslash, authenticated
 
 from baseHandler import BaseHandler
 from vision.apps.project import Project
@@ -21,6 +21,7 @@ from vision.apps.tools import session
 class ItemNewHandler(BaseHandler):
     @addslash
     @session
+    @authenticated
     def get(self, tp, vid):
         uid = self.SESSION['uid']
         tp = tp.lower()
@@ -31,6 +32,7 @@ class ItemNewHandler(BaseHandler):
     
     @addslash
     @session
+    @authenticated
     def post(self, tp, vid):
         uid = self.SESSION['uid']
         eid = self.get_argument('eid', None)
@@ -51,8 +53,8 @@ class ItemNewHandler(BaseHandler):
         l = []
         i=1
         while(True):
-            p, e = self.get_argument(str(i)+'PIC', None), self.get_argument(str(i)+'Edit', None)
-            if not p or not e:break
+            p, e = self.get_argument(str(i)+'PIC', None), self.get_argument(str(i)+'Edit', '')
+            if not p:break
             l.append((p, e))
             if c == i:logo=p
             i+=1
@@ -73,6 +75,7 @@ class ItemNewHandler(BaseHandler):
 class ItemPreviewHandler(BaseHandler):
     @addslash
     @session
+    @authenticated
     def post(self, tp, vid):
         uid = self.SESSION['uid']
         logo, works = self.get_works_list()
@@ -86,7 +89,7 @@ class ItemPreviewHandler(BaseHandler):
             rv = v._api.get(vid)
             html = "item/index.html"
         vinfo = rv[1] if rv[0] and rv[1] else {}
-        vdict = {'vid':vid, 'vtype':tp, 'works':works}
+        vdict = {'vid':vid, 'vtype':tp, 'works':works, 'isPreview': True}
         return self.render(html, vinfo=vinfo, **vdict)
     
     def get_works_list(self):
@@ -94,7 +97,7 @@ class ItemPreviewHandler(BaseHandler):
         l = []
         i=1
         while(True):
-            p, e = self.get_argument(str(i)+'PIC', None), self.get_argument(str(i)+'Edit', None)
+            p, e = self.get_argument(str(i)+'PIC', None), self.get_argument(str(i)+'Edit', '')
             if not p:break
             l.append((p, e))
             if c == i:logo=p
@@ -116,6 +119,7 @@ class ItemPreviewHandler(BaseHandler):
 class ItemRemoveHandler(BaseHandler):
     @addslash
     @session
+    @authenticated
     def get(self, id):
         uid = self.SESSION['uid']
         e = Item()
@@ -127,6 +131,7 @@ class ItemRemoveHandler(BaseHandler):
 class ItemEditHandler(BaseHandler):
     @addslash
     @session
+    @authenticated
     def get(self, id):
         uid = self.SESSION['uid']
         e = Item()
@@ -141,6 +146,7 @@ class ItemEditHandler(BaseHandler):
 class ItemHandler(BaseHandler):
     @addslash
     @session
+    @authenticated
     def get(self, eid):
         uid = self.SESSION['uid']
         e = Item()
@@ -156,13 +162,16 @@ class ItemHandler(BaseHandler):
                 rv = v._api.get(vid)
                 html = "item/index.html"
             vinfo = rv[1] if rv[0] and rv[1] else {}
-            return self.render(html, vinfo=vinfo, **r[1])
+            r[1].update({'isPreview': False})
+            vdict = r[1]
+            return self.render(html, vinfo=vinfo, **vdict)
         else:
             return self.render_alert(r[1])
 
 class AjaxItemHandler(BaseHandler):
     @addslash
     @session
+    @authenticated
     def get(self, eid):
         uid = self.SESSION['uid']
         e = Item()

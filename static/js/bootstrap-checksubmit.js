@@ -20,7 +20,11 @@ Check.prototype = {
             form.attr('target', '_blank');
             var action = form.attr('action');
             form.attr('action', action.replace(/new/, 'preview'));
-        }        
+        }else{
+            form.removeAttr('target');
+            var action = form.attr('action');
+            form.attr('action', action.replace(/preview/, 'new'));
+        }
         $('.help-inline, .help-block').each(function(i, e){
             var c = $(this).prev()
             , g = $(this).closest('.control-group');

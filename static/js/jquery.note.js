@@ -138,7 +138,7 @@
             return pic_name;
         };
         function o(u) {
-            $("#thumbnails input[type=radio]").attr("checked", false);
+            $("#thumbnails input[type=radio]").removeAttr("checked");
             $(u).attr("checked", true);
             return false;
         };

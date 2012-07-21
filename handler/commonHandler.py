@@ -8,7 +8,7 @@ Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 """
 
 import json
-from tornado.web import addslash
+from tornado.web import addslash, authenticated
 
 from baseHandler import BaseHandler
 from vision.apps.staff import Staff
@@ -42,6 +42,7 @@ class LoginHandler(BaseHandler):
 class LogoutHandler(BaseHandler):
     @addslash
     @session
+    @authenticated
     def get(self):
         del self.SESSION['uid'], self.SESSION['nick']
         self.redirect('/')

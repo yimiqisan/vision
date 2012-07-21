@@ -1,0 +1,11 @@
+系统架构概述：
+	操作系统	ubuntu 10.03 <http://www.ubuntu.com/>
+	数据库		MongoDB	<http://www.mongodb.org/>
+	系统缓存	Redis	<http://www.redis.io/>
+	开发语言	Python	<http://www.python.org/>、 JavaScript(jQuery)、 Html、 css
+	WEB架构	Tornado	<http://www.tornadoweb.org/>
+	系统采用网站开发中常用的MTV架构即：模板+数据模型+视图
+	
+详细描述：
+	1. 图片存储系统 利用MongoDB下的fs模块为基础，报错存储、调用、删除的操作
+	2. 项目模块

@@ -8,7 +8,7 @@ Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 """
 
 import json
-from tornado.web import addslash
+from tornado.web import addslash, authenticated
 
 from baseHandler import BaseHandler
 from vision.apps import volume
@@ -19,6 +19,7 @@ class VolumeNewHandler(BaseHandler):
     KEYS = ["maintype", "maintype_cn", "prop", "prop_cn", "subtype", "subtype_cn", "logo", "name", "male", "year", "live", "agency", "website", "grade", "nexus", "intro", "about"]
     @addslash
     @session
+    @authenticated
     def get(self):
         uid = self.SESSION['uid']
         d = {}
@@ -28,6 +29,7 @@ class VolumeNewHandler(BaseHandler):
     
     @addslash
     @session
+    @authenticated
     def post(self):
         uid = self.SESSION['uid']
         vid = self.get_argument('vid', None)
@@ -49,6 +51,7 @@ class VolumeNewHandler(BaseHandler):
 class VolumeRemoveHandler(BaseHandler):
     @addslash
     @session
+    @authenticated
     def get(self, id):
         uid = self.SESSION['uid']
         v = volume.Volume()
@@ -58,6 +61,7 @@ class VolumeRemoveHandler(BaseHandler):
 class VolumeEditHandler(BaseHandler):
     @addslash
     @session
+    @authenticated
     def get(self, vid):
         uid = self.SESSION['uid']
         v = volume.Volume()
@@ -70,6 +74,7 @@ class VolumeEditHandler(BaseHandler):
 class VolumeHandler(BaseHandler):
     @addslash
     @session
+    @authenticated
     def get(self, vid):
         uid = self.SESSION['uid']
         v = volume.Volume()
@@ -85,6 +90,7 @@ class VolumeHandler(BaseHandler):
 class VolumeListHandler(BaseHandler):
     @addslash
     @session
+    @authenticated
     def get(self):
         uid = self.SESSION['uid']
         page = int(self.get_argument('page', 1))
@@ -95,6 +101,7 @@ class VolumeListHandler(BaseHandler):
 class AjaxVolumeTypeHandler(BaseHandler):
     @addslash
     @session
+    @authenticated
     def get(self):
         uid = self.SESSION['uid']
         kind = self.get_argument('kind', None)

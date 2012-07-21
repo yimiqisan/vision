@@ -8,7 +8,7 @@ Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 """
 
 
-from tornado.web import addslash
+from tornado.web import addslash, authenticated
 
 from baseHandler import BaseHandler
 from vision.apps.staff import Staff
@@ -20,6 +20,7 @@ from vision.apps.tools import session
 class SpaceHandler(BaseHandler):
     @addslash
     @session
+    @authenticated
     def get(self):
         uid = self.SESSION['uid']
         page = int(self.get_argument('page', 1))
@@ -30,12 +31,14 @@ class SpaceHandler(BaseHandler):
 class SpacePermHandler(BaseHandler):
     @addslash
     @session
+    @authenticated
     def get(self):
         uid = self.SESSION['uid']
         return self.render("space/perm.html")
     
     @addslash
     @session
+    @authenticated
     def post(self):
         e= self.get_argument('email', None)
         if e is None:return self.render('space/perm.html', **{'warning': '设置邮箱，可能帮您找回失散多年的密码'})
@@ -67,6 +70,7 @@ class SpacePermHandler(BaseHandler):
 class SpaceNewHandler(BaseHandler):
     @addslash
     @session
+    @authenticated
     def get(self):
         uid = self.SESSION['uid']
         return self.redirect("/volume/new/")
@@ -74,6 +78,7 @@ class SpaceNewHandler(BaseHandler):
 class SpaceCollectHandler(BaseHandler):
     @addslash
     @session
+    @authenticated
     def get(self):
         uid = self.SESSION['uid']
         page = int(self.get_argument('page', 1))
@@ -84,6 +89,7 @@ class SpaceCollectHandler(BaseHandler):
 class SpaceProjectHandler(BaseHandler):
     @addslash
     @session
+    @authenticated
     def get(self):
         uid = self.SESSION['uid']
         return self.redirect("/project/")
