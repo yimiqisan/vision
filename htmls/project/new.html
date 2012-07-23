@@ -12,7 +12,7 @@
 	<div class="span12">
 		<br/>
 		<h3 class="pull-left">新建</h3>
-		<a href="/space/project/" class="btn pull-right" style="margin-right:5px;" onclick="return backconfirm(this);">返回</a>
+		<a href="/space/project/" class="btn pull-right hide" style="margin-right:5px;" onclick="return backconfirm(this);">返回</a>
 		<div style="clear:both;"></div><hr/>
 		<form class="form-horizontal" method="POST" action="/project/new/">
 			<div class="control-group">
@@ -45,7 +45,7 @@
 			<input type="hidden" name="pid" value="{% if pid %}{{ pid }}{% end %}">
 			<div class="form-actions">
 				<input type="submit" class="btn btn-primary censor" value="确定" />
-				<a class="btn">取消</a>
+				<a href="/space/project/" class="btn" onclick="return backconfirm(this);">取消</a>
 			</div>
 		</form>
 		<script src="{{ static_url('js/bootstrap-checksubmit.js') }}" type="text/javascript"></script>

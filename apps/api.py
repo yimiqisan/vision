@@ -136,6 +136,7 @@ class API(object):
     def edit(self, id, *args, **kwargs):
         items=dict(args)
         items.update(kwargs)
+        isOverWrite = items.pop('isOverWrite', False)
         keyl_l = items.keys()
         addeds = {}
         lists = {}
@@ -143,7 +144,7 @@ class API(object):
             try:
                 if k not in self.structure:
                     addeds[k]=items.pop(k)
-                elif isinstance([], self.structure[k]):
+                elif isinstance([], self.structure[k]) and not isOverWrite:
                     li = items.pop(k, None)
                     if li:lists[k] = {"$each":li} if isinstance(li, list) else li
                 elif isinstance({}, self.structure[k]):

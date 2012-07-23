@@ -49,6 +49,7 @@ class ItemAPI(API):
         return (False, 'item not exist')
     
     def edit(self, id, **kwargs):
+        kwargs['isOverWrite']=True
         return super(ItemAPI, self).edit(id, **kwargs)
 
     def _output_format(self, result=[], cuid=DEFAULT_CUR_UID):

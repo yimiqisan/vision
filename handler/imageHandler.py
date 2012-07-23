@@ -14,7 +14,7 @@ from vision.apps.tools import session
 
 
 class AvatarHandler(BaseHandler):
-    @authenticated
+    #@authenticated
     def get(self, fn=None):
         if not fn:return
         v = self.get_argument('v', None)
@@ -24,7 +24,7 @@ class AvatarHandler(BaseHandler):
         self.write(p.display(fn, **kwargs))
 
 class AttachHandler(BaseHandler):
-    @authenticated
+    #@authenticated
     def get(self, fn=None):
         if not fn:return
         v = self.get_argument('v', None)
@@ -35,7 +35,7 @@ class AttachHandler(BaseHandler):
         self.write(d)
 
 class UploadImageHandler(BaseHandler):
-    @authenticated
+    #@authenticated
     def get(self):
         pid = self.get_argument("pid", None)
         self.render('upload_image.html', pid=pid)
@@ -49,7 +49,7 @@ class UploadImageHandler(BaseHandler):
         self.redirect('/image/upload?pid='+r)
     
 class AjaxImageHandler(BaseHandler):
-    @authenticated
+    #@authenticated
     @session
     def post(self):
         uid = self.get_argument('uid', None)
@@ -59,7 +59,7 @@ class AjaxImageHandler(BaseHandler):
         return self.write(r)
 
 class AjaxImageDeleteHandler(BaseHandler):
-    @authenticated
+    #@authenticated
     @session
     def post(self):
         uid = self.SESSION['uid']
@@ -69,6 +69,6 @@ class AjaxImageDeleteHandler(BaseHandler):
         return self.write({'ret':'ok'})
 
 class AjaxImageCheckHandler(BaseHandler):
-    @authenticated
+    #@authenticated
     def post(self):
         return True
