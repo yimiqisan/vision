@@ -40,7 +40,7 @@ class LoginHandler(BaseHandler):
             re = e._api.list(owner=uid, channel=u'site')
             self.SESSION['uid']=uid
             self.SESSION['nick']=n
-            self.SESSION['perm']=re[0].get('value', PERM_CLASS['NORMAL'])
+            self.SESSION['perm']=re[0].get('value', PERM_CLASS['NORMAL']) if re else PERM_CLASS['SUPEROR']
             self.redirect('/')
         else:
             self.render_alert(r[1])
