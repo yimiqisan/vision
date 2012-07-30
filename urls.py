@@ -18,7 +18,10 @@ handlers = [(r"/", RootHandler),
             (r"/space/new/", SpaceNewHandler),
             (r"/space/collect/", SpaceCollectHandler),
             (r"/space/project/", SpaceProjectHandler),
-
+            
+            (r"/perm/", PermHandler),
+            (r"/perm/new/", PermNewHandler),
+            
             (r"/volume/new/", VolumeNewHandler),
             (r"/volume/(.{32})/remove/", VolumeRemoveHandler),
             (r"/volume/(.{32})/edit/", VolumeEditHandler),

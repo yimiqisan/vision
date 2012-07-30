@@ -46,7 +46,9 @@ class PermissionAPI(API):
         return super(PermissionAPI, self).drops(owner=owner, channel=channel, cid=cid)
     
     def get(self, channel, id):
-        pass
+        r = self.one(_id=id)
+        if (r[0] and r[1]):return (True, self._output_format(result=r[1]))
+        return r
     
     def _output_map(self, out):
         ret_d = {'id':out['_id'], 'owner':out['owner'], 'channel':out['channel'], 'cid':out['cid'], 'value':out['value'], 'created':out['created'].strftime('%m-%d %H:%M')}

@@ -115,9 +115,12 @@ class StaffAPI(API):
             a.decr()
         return super(StaffAPI, self).remove(id)
     
+    def _perm(self, cuid, uid):
+        return 1
+    
     def _output_format(self, result=[], cuid=DEFAULT_CUR_UID):
         now = datetime.now()
-        output_map = lambda i: {'id':i['_id'], 'added_id':i['added_id'], 'owner':i['owner'], 'perm':self._perm(cuid, i['owner']), 'is_own':(cuid==i['owner'] if i['owner'] else True), 'nick':i['added'].get('nick', '匿名驴友'), 'tid':i.get('topic', None), 'content':i['content'], 'channel':i['channel'], 'count': self._count(i['_id']), 'created':self._escape_created(now, i['created'])}
+        output_map = lambda i: {'id':i['_id'], 'added_id':i['added_id'], 'belong':i['belong'], 'perm':self._perm(cuid, i['belong']), 'is_own':(cuid==i['belong'] if i['belong'] else True), 'nick':i['nick'], 'level':i['level'], 'created':self._escape_created(now, i['created'])}
         if isinstance(result, dict):
             return output_map(result)
         return map(output_map, result)
@@ -127,12 +130,10 @@ class StaffAPI(API):
         if (r[0] and r[1]):return (True, self._output_format(result=r[1]))
         return r
     
-    def page(self, cuid=DEFAULT_CUR_UID, owner=None, topic=None, channel=None, at=None, page=1, pglen=10, cursor=None, limit=20, order_by='added_id', order=-1):
+    def page(self, cuid=DEFAULT_CUR_UID, belong=None, level=None, page=1, pglen=10, cursor=None, limit=20, order_by='added_id', order=-1):
         kwargs = {}
-        if owner:kwargs['owner']=owner
-        if topic:kwargs['topic'] = {'$in':topic} if isinstance(topic, list) else topic
-        if at:kwargs['at_list']=at
-        if channel:kwargs['channel']={'$in':channel}
+        if belong:kwargs['belong']=belong
+        if level:kwargs['level'] = {'$in':level} if isinstance(level, list) else level
         kwargs['page']=page
         kwargs['pglen']=pglen
         if cursor:kwargs['cursor']=cursor

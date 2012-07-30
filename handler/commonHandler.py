@@ -11,7 +11,9 @@ import json
 from tornado.web import addslash, authenticated
 
 from baseHandler import BaseHandler
+from vision.config import PERM_CLASS
 from vision.apps.staff import Staff
+from vision.apps.perm import Permission
 from vision.apps.tools import session
 
 
@@ -33,8 +35,12 @@ class LoginHandler(BaseHandler):
         s = Staff()
         r = s.login(n, p)
         if r[0]:
-            self.SESSION['uid']=r[1]['_id']
+            uid = r[1]['_id']
+            e = Permission()
+            re = e._api.list(owner=uid, channel=u'site')
+            self.SESSION['uid']=uid
             self.SESSION['nick']=n
+            self.SESSION['perm']=re[0].get('value', PERM_CLASS['NORMAL'])
             self.redirect('/')
         else:
             self.render_alert(r[1])
@@ -44,7 +50,7 @@ class LogoutHandler(BaseHandler):
     @session
     @authenticated
     def get(self):
-        del self.SESSION['uid'], self.SESSION['nick']
+        del self.SESSION['uid'], self.SESSION['nick'], self.SESSION['perm']
         self.redirect('/')
 
 class Error404Handler(BaseHandler):

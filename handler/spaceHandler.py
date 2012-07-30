@@ -34,7 +34,7 @@ class SpacePermHandler(BaseHandler):
     @authenticated
     def get(self):
         uid = self.SESSION['uid']
-        return self.render("space/perm.html")
+        return self.redirect("/perm/")
     
     @addslash
     @session

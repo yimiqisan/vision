@@ -27,6 +27,7 @@ class BaseHandler(RequestHandler):
     @session
     def render(self, template_name, **kwargs):
         kwargs['uid'] = self.SESSION['uid']
+        kwargs['perm'] = self.SESSION['perm']
         kwargs['warning'] = kwargs.get('warning', None)
         super(BaseHandler, self).render(template_name, **kwargs)
     

@@ -93,8 +93,8 @@ class VolumeDoc(Document):
     
     structure = {
             '_id':      unicode,
-            'items':    list,
-            'logo':   unicode,
+            'owner':    unicode,
+            'logo':     unicode,
             'name':     unicode,
             'prop':     IS(u'PERSONAL', u'ORGANIZATION', u'SHOW'),
             'maintype': IS(u'FASHION', u'ART', u'DESIGN', u'HUMAN', u'BRAND'),

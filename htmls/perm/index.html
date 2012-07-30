@@ -1,0 +1,34 @@
+{% extends base.html %}
+
+{% block meta %}
+	<title>vision</title>
+{% end %}
+
+{% block static %}{% end %}
+{% block bodyleft %}
+	<br/>
+	<div class="hide"><a href="/space/">主页</a></div><hr class="hide"/>
+	<div class="">授权</div><hr/>
+	<div class="hide"><a href="/space/new/">新建</a></div><hr class="hide"/>
+	<div class="hide"><a href="/space/collect/">收藏</a></div><hr class="hide"/>
+	<div><a href="/space/project/">项目</a></div><hr/>
+{% end %}
+
+{% block bodyright %}
+	<br/>
+	<h3 class="pull-left">管理列表</h3><a class="btn btn-success pull-right" href="/perm/new/" style="margin-right:10px;">新建管理</a>
+	<div style="clear:both;"></div>
+	<hr/>
+	
+	<ul class="thumbnails">
+		{% for s in slist %}
+		<li class="span3 bg-white">
+			<a href="" title="{{s['nick']}}" alt="{{s['nick']}}" class="thumbnail" style="min-height:100px;">
+				<div style="float:left; clear:right; margin-right:10px;"><img src="/image/attach/{{ s.get('id', None) }}_100" alt="{{s['nick']}}" style="width:80px;height:80px;" width="80" height="80" onerror="this.src='/static/img/default_avatar.gif';"></div>
+				<h3>{{s['nick']}}</h3><i style="color:gray;font-size:10px;">{{s['created']}}</i>
+			</a>
+		</li>
+		{% end %}
+	</ul>
+	{% module Template("util/pagination.html", pagination=sinfo, url='/perm/', param='') %}
+{% end %}

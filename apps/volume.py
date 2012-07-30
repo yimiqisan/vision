@@ -188,12 +188,31 @@ class VolumeAPI(API):
         if (r[0] and r[1]):return (True, self._output_format(result=r[1]))
         return r
     
-    def page(self, cuid=DEFAULT_CUR_UID, owner=None, page=1, pglen=10, cursor=None, limit=20, order_by='added_id', order=-1):
+    def page(self, cuid=DEFAULT_CUR_UID, owner=None, name=None, prop=None, maintype=None, subtype=None, live=None, agency=None, tags=[], grade=None, nexus=None, male=None, year_interval=(None, None), page=1, pglen=10, limit=20, order_by='added_id', order=-1):
         kwargs = {}
         if owner:kwargs['owner']=owner
+        if name:kwargs['name']=re.compile('.*'+name+'.*')
+        if prop:
+            prop_list = [u'PERSONAL', u'ORGANIZATION', u'SHOW']
+            if isinstance(prop, list) and set(prop).issubset(set(prop_list)):
+                kwargs['prop']={'$all':prop}
+            elif prop.upper() in prop_list:
+                kwargs['prop']=prop
+        if maintype:
+            mtype_list = [u'FASHION', u'ART', u'DESIGN', u'HUMAN', u'BRAND']
+            if isinstance(maintype, list) and set(maintype).issubset(set(mtype_list)):
+                kwargs['maintype']={'$all':maintype}
+            elif maintype.upper() in mtype_list:
+                kwargs['maintype']=maintype
+        if subtype:kwargs['subtype'] = {'$all':subtype} if isinstance(subtype, list) else subtype
+        if live:kwargs['live']=live
+        if agency:kwargs['agency']=agency
+        if grade:kwargs['grade']=grade
+        if nexus:kwargs['nexus']=nexus
+        if type(male) == type(False):kwargs['male']=male
+        ### year_interval
         kwargs['page']=page
         kwargs['pglen']=pglen
-        if cursor:kwargs['cursor']=cursor
         kwargs['limit']=limit
         kwargs['order_by']=order_by
         kwargs['order']=order
