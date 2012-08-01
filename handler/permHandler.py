@@ -29,7 +29,7 @@ class PermHandler(BaseHandler):
             return self.render("perm/index.html", slist=r[1], sinfo=r[2])
 
 class PermNewHandler(BaseHandler):
-    KEYS = ["email", "nick", "password", "perm", "profession"]
+    KEYS = ["email", "nick", "password", "perm", "profession", "logo", "male"]
     @addslash
     @session
     @authenticated
@@ -54,7 +54,12 @@ class PermNewHandler(BaseHandler):
         m = self.get_argument('perm', None)
         if m is None:return self.render('perm/new.html', **{'warning': '请选择主分类'})
         s = Staff()
-        r = s.register(n, p, email=e)
+        if pid:
+            ####
+            r = p._api.edit(pid, **d)
+        else:
+            r = r = s.register(n, p, email=e)
+            pid = r[1]
         if r[0]:
             self._set_perm(r[1])
             self.redirect('/space/perm/')
@@ -71,3 +76,15 @@ class PermNewHandler(BaseHandler):
         p = Permission()
         p._api.award(uid, u'site', key.upper())
 
+class PermEditHandler(BaseHandler):
+    @addslash
+    @session
+    @authenticated
+    def get(self, sid):
+        uid = self.SESSION['uid']
+        s = Staff()
+        r = s._api.get(sid)
+        if r[0]:
+            return self.render("project/new.html", **r[1])
+        else:
+            return self.render_alert(r[1])

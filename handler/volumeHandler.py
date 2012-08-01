@@ -94,8 +94,11 @@ class VolumeListHandler(BaseHandler):
     def get(self):
         uid = self.SESSION['uid']
         page = int(self.get_argument('page', 1))
+        prop = self.get_argument('prop', None)
+        maintype = self.get_argument('maintype', None)
+        subtype = self.get_argument('subtype', None)
         v = volume.Volume()
-        r = v._api.page(page=page)
+        r = v._api.page(uid=uid, owner=uid, prop=prop, maintype=maintype, subtype=subtype, page=page)
         return self.render("volume/list.html", vlist=r[1], vinfo=r[2])
 
 class AjaxVolumeTypeHandler(BaseHandler):

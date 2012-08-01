@@ -7,9 +7,9 @@
 {% block static %}{% end %}
 {% block bodyleft %}
 	<br/>
-	<div class="hide"><a href="/space/">主页</a></div><hr class="hide"/>
+	<div class=""><a href="/space/">主页</a></div><hr class=""/>
 	<div class=""><a href="/space/perm/">授权</a></div><hr class=""/>
-	<div class="hide"><a href="/space/new/">新建</a></div><hr class="hide"/>
+	<div class=""><a href="/space/new/">新建</a></div><hr class=""/>
 	<div class="hide"><a href="/space/collect/">收藏</a></div><hr class="hide"/>
 	<div>项目<a class="btn btn-success pull-right" href="/project/new/" style="margin-right:20px;">新建项目</a></div><br/>
 	<div class="tabbable tabs-left pull-right" style="max-height:400px;overflow:scroll;">
@@ -72,5 +72,5 @@
 		{% end %}
 	</ul>
 	<script src="{{ static_url('js/bootstrap-overmenu.js') }}" type="text/javascript"></script>
-	{% module Template("util/pagination.html", pagination=pinfo, url='/project/', param='') %}
+	{% module Template("util/pagination.html", pagination=pinfo, url='/project/'+pid, param='') %}
 {% end %}

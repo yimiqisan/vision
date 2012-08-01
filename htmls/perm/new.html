@@ -4,12 +4,34 @@
 	<title>vision</title>
 {% end %}
 
-{% block static %}{% end %}
+{% block static %}
+	<script language="javascript" src="{{ static_url('js/jquery.uploadify.min.js') }}" type="text/javascript"></script>
+	<script language="javascript" type="text/javascript">
+		$(document).ready(function() {
+			$("#poster").uploadify({
+				swf				: '{{ static_url("js/uploadify.swf") }}',
+				uploader		: '/a/image',
+				checkExisting	: '/a/image/check',
+				width			: '100',
+				buttonText		: '上传头像',
+				cancelImage		: '{{ static_url("img/uploadify-cancel.png") }}',
+				auto			: true,
+				fileObjName		: 'upload',
+				onUploadSuccess : function (file, data, response) {
+					$('#poster-disp').html('<span><input type="hidden" name="logo" value="'+data+'"/><img width=100 height=100 src="/image/attach/'+data+'_300"></span>');
+					$('#poster_queue').hide();
+					},
+				onError			: function (event, queueID, fileObj){alert("文件:" + fileObj.name + " 上传失败");}
+			});
+		})
+	</script>
+	<link rel="stylesheet" type="text/css" href="{{ static_url('css/uploadify.css') }}"/>
+{% end %}
 {% block bodyleft %}
 	<br/>
-	<div class="hide"><a href="/space/">主页</a></div><hr class="hide"/>
+	<div class=""><a href="/space/">主页</a></div><hr class=""/>
 	<div class="">授权</div><hr/>
-	<div class="hide"><a href="/space/new/">新建</a></div><hr class="hide"/>
+	<div class=""><a href="/space/new/">新建</a></div><hr class=""/>
 	<div class="hide"><a href="/space/collect/">收藏</a></div><hr class="hide"/>
 	<div><a href="/space/project/">项目</a></div><hr/>
 {% end %}
@@ -29,21 +51,53 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label" for="email">邮箱：</label>
+			<label class="control-label" for="logo">头像：</label>
+			<div class="controls">
+				<div id="poster">头像上传</div>
+				<div id="poster-disp">
+					{% if logo %}
+						<span><input type="hidden" name="logo" value="{{ logo }}"/><img width=100 height=100 src="/image/attach/{{ logo }}_100"></span>
+					{% else %}
+					{% end %}
+				</div><br/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="male">性别：</label>
+			<div class="controls">
+				<select type="text" class="input-xlarge" id="male" name="male">
+					{% if male is None %}
+						<option></option>
+						<option value="male">男</option>
+						<option value="female">女</option>
+					{% elif male is True %}
+						<option value="male">男</option>
+						<option value="female">女</option>
+					{% elif male is False %}
+						<option value="female">女</option>
+						<option value="male">男</option>
+					{% end %}
+				</select>
+				<p class="help-inline">请选择性别</p>
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label" for="email"><span style="color:red;">*</span>邮箱：</label>
 			<div class="controls">
 				<input id="email" name="email" value="{% if email %}{{ email }}{% end %}"/>
 				<p class="hide help-inline">请输入邮箱</p>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label" for="password">密码：</label>
+			<label class="control-label" for="password"><span style="color:red;">*</span>密码：</label>
 			<div class="controls">
 				<input type="password" id="password" name="password" value="{% if password %}{{ password }}{% end %}"/>
 				<p class="hide help-inline">请输入密码</p>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label" for="perm">权限：</label>
+			<label class="control-label" for="perm"><span style="color:red;">*</span>权限：</label>
 			<div class="controls">
 				<select type="text" id="perm" name="perm">
 					{% if perm == 'MANAGER' %}
@@ -58,7 +112,7 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label" for="profession">职业：</label>
+			<label class="control-label" for="profession"><span style="color:red;">*</span>职业：</label>
 			<div class="controls">
 				<select type="text" id="profession" name="profession">
 					<option value="FDESIGNER">设计师</option>

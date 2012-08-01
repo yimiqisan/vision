@@ -9,8 +9,8 @@
 	<br/>
 	<div>主页</div><hr/>
 	<div class=""><a href="/space/perm/">授权</a></div><hr/>
-	<div class="hide"><a href="/space/new/">新建</a></div><hr/>
-	<div class="hide"><a href="/space/collect/">收藏</a></div><hr/>
+	<div class=""><a href="/space/new/">新建</a></div><hr/>
+	<div class="hide"><a href="/space/collect/">收藏</a></div><hr class="hide"/>
 	<div><a href="/space/project/">项目</a></div><hr/>
 {% end %}
 
@@ -20,7 +20,7 @@
 			<div class="container">
 				<div class="nav-collapse">
 					<ul class="nav pull-right">
-						<li class="dropdown">
+						<li class="dropdown" style="display:none;">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">日期 <b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><a href="#">今天</a></li>
@@ -30,16 +30,16 @@
 								<li class="nav-header">全部</li>
 							</ul>
 						</li>
-						<li class="divider-vertical"></li>
-						<li class="dropdown">
+						<li class="divider-vertical" style="display:none;"></li>
+						<li class="dropdown" style="display:none;">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">国家 <b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><a href="#">国家</a></li>
 								<li><a href="#">城市</a></li>
 							</ul>
 						</li>
-						<li class="divider-vertical"></li>
-						<li class="dropdown">
+						<li class="divider-vertical" style="display:none;"></li>
+						<li class="dropdown" style="display:none;">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">标签 <b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><a href="#">级别</a></li>
@@ -49,8 +49,8 @@
 								<li><a href="#">按姓名A~Z排序</a></li>
 							</ul>
 						</li>
-						<li class="divider-vertical"></li>
-						<li class="dropdown">
+						<li class="divider-vertical" style="display:none;"></li>
+						<li class="dropdown" style="display:none;">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">属性 <b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><a href="#">个人</a></li>
@@ -58,7 +58,7 @@
 								<li><a href="#">展会</a></li>
 							</ul>
 						</li>
-						<li class="divider-vertical"></li>
+						<li class="divider-vertical" style=""></li>
 						<li>
 							<form class="navbar-search" action="">
 								<input type="text" class="search-query span2" placeholder="搜索">
