@@ -13,6 +13,7 @@ from tornado.web import addslash, authenticated
 from baseHandler import BaseHandler
 from vision.apps import volume
 from vision.apps.item import Item
+from vision.apps.perm import addperm
 from vision.apps.tools import session
 
 class VolumeNewHandler(BaseHandler):
@@ -91,6 +92,7 @@ class VolumeListHandler(BaseHandler):
     @addslash
     @session
     @authenticated
+    @addperm
     def get(self):
         uid = self.SESSION['uid']
         page = int(self.get_argument('page', 1))
@@ -98,7 +100,7 @@ class VolumeListHandler(BaseHandler):
         maintype = self.get_argument('maintype', None)
         subtype = self.get_argument('subtype', None)
         v = volume.Volume()
-        r = v._api.page(uid=uid, owner=uid, prop=prop, maintype=maintype, subtype=subtype, page=page)
+        r = v._api.page(cuid=uid, owner=uid, perm=self.pm, prop=prop, maintype=maintype, subtype=subtype, page=page)
         return self.render("volume/list.html", vlist=r[1], vinfo=r[2])
 
 class AjaxVolumeTypeHandler(BaseHandler):

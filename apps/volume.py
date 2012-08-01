@@ -188,7 +188,7 @@ class VolumeAPI(API):
         if (r[0] and r[1]):return (True, self._output_format(result=r[1]))
         return r
     
-    def page(self, cuid=DEFAULT_CUR_UID, owner=None, name=None, prop=None, maintype=None, subtype=None, live=None, agency=None, tags=[], grade=None, nexus=None, male=None, year_interval=(None, None), page=1, pglen=10, limit=20, order_by='added_id', order=-1):
+    def page(self, cuid=DEFAULT_CUR_UID, owner=None, perm=None, name=None, prop=None, maintype=None, subtype=None, live=None, agency=None, tags=[], grade=None, nexus=None, male=None, year_interval=(None, None), page=1, pglen=10, limit=20, order_by='added_id', order=-1):
         kwargs = {}
         if owner:kwargs['owner']=owner
         if name:kwargs['name']=re.compile('.*'+name+'.*')

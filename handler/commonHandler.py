@@ -31,7 +31,7 @@ class LoginHandler(BaseHandler):
         n = self.get_argument('nick', None)
         if n is None:return self.render('login.html', **{'warning': '请先报上名号', 'n':n})
         p = self.get_argument('password', None)
-        if p is None:return self.render('login.html', **{'warning': '您接头暗号是？', 'n':n})
+        if p is None:return self.render('login.html', **{'warning': '请输入密码', 'n':n})
         s = Staff()
         r = s.login(n, p)
         if r[0]:
@@ -40,6 +40,7 @@ class LoginHandler(BaseHandler):
             re = e._api.list(owner=uid, channel=u'site')
             self.SESSION['uid']=uid
             self.SESSION['nick']=n
+            self.SESSION['logo']=r[1]['added'].get('logo', None)
             self.SESSION['perm']=re[0].get('value', PERM_CLASS['NORMAL']) if re else PERM_CLASS['SUPEROR']
             self.redirect('/')
         else:
@@ -50,10 +51,10 @@ class LogoutHandler(BaseHandler):
     @session
     @authenticated
     def get(self):
-        del self.SESSION['uid'], self.SESSION['nick'], self.SESSION['perm']
+        del self.SESSION['uid'], self.SESSION['nick'], self.SESSION['logo'], self.SESSION['perm']
         self.redirect('/')
 
 class Error404Handler(BaseHandler):
     @addslash
     def get(self):
-        self.render_alert(u"从前有个山，\n山里有个庙，\n庙里有个页面，\n现在找不到。")
+        self.render_alert(u"该页面不存在")

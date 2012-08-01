@@ -9,9 +9,7 @@ Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 import os
 import redis
 from mongokit import Connection
-
-#import uimethods, uimodules
-
+import uimethods
 
 #config settings
 settings = dict(
@@ -21,6 +19,7 @@ settings = dict(
         login_url="/",
         autoescape="xhtml_escape",
         debug=True,
+        ui_methods=uimethods,
         cache_engine=redis.Redis(host='localhost', port=6379, db=1),
 )
 

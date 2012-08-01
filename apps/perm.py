@@ -45,10 +45,16 @@ class PermissionAPI(API):
     def deprive(self, owner, channel, cid=None):
         return super(PermissionAPI, self).drops(owner=owner, channel=channel, cid=cid)
     
-    def get(self, channel, id):
+    def get(self, id):
         r = self.one(_id=id)
         if (r[0] and r[1]):return (True, self._output_format(result=r[1]))
         return r
+    
+    def get_owner_value(self, owner):
+        r = self.one(owner=owner)
+        if r[0] and r[1]:
+            return int(r[1].get('value', PERM_CLASS['NORMAL']))
+        return PERM_CLASS['NORMAL']
     
     def _output_map(self, out):
         ret_d = {'id':out['_id'], 'owner':out['owner'], 'channel':out['channel'], 'cid':out['cid'], 'value':out['value'], 'created':out['created'].strftime('%m-%d %H:%M')}
@@ -82,14 +88,27 @@ class preperm(object):
             p = Permission()
             cuid = decorated_cls.SESSION['uid']
             pm = p._api.site_perm(cuid)
-            if pm is None:decorated_cls.render_alert(u"从前有个山，\n山里有个庙，\n庙里有个页面，\n现在找不到。")
+            if pm is None:decorated_cls.render_alert(u"该页无法显示")
             if isinstance(self.keys, str) and (pm!=PERM_CLASS[self.keys]):
-                decorated_cls.render_alert(u"从前有个山，\n山里有个庙，\n庙里有个页面，\n现在找不到。")
+                decorated_cls.render_alert(u"该页无法显示")
             elif isinstance(self.keys, list) and (pm not in [PERM_CLASS[k] for k in self.keys]):
-                decorated_cls.render_alert(u"从前有个山，\n山里有个庙，\n庙里有个页面，\n现在找不到。")
+                decorated_cls.render_alert(u"该页无法显示")
             decorated_cls.__setattr__('pm', pm)
             return method(decorated_cls, *args)
         return wapper
+
+
+import functools
+def addperm(method):
+    @functools.wraps(method)
+    def wrapper(self, *args, **kwargs):
+        uid = self.SESSION['uid']
+        p = Permission()
+        v = p._api.get_owner_value(uid)
+        self.__setattr__('pm', v)
+        return method(self, *args, **kwargs)
+    return wrapper
+    
     
     
     

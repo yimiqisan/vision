@@ -31,16 +31,17 @@ class Staff(object):
         else:
             return None
     
-    def register(self, nick, password=None, **info):
-        r = self._api.is_nick_exist(nick)
-        if r:return (False, '名号已被占用')
+    def register(self, **info):
+        nick = info.get('nick', None)
+        if nick:
+            r = self._api.is_nick_exist(nick)
+            if r:return (False, '名号已被占用')
         email = info.get('email', None)
         if email:
             if self._api.is_email_exist(email):return (False, '邮箱已被占用')
-        if not password:
-            password = self.random_password()
-        pwd = unicode(md5(password).hexdigest())
-        info.update({'nick':nick, 'password':pwd})
+        password = info.get('password', None)
+        if password:
+            info['password'] = unicode(md5(password).hexdigest())
         c = self._api.create(**info)
         if c[0]:
             self.info = info
@@ -50,7 +51,7 @@ class Staff(object):
     
     def login(self, nick, password):
         if (nick in self.ADMIN.keys()) and (password == self.ADMIN[nick][0]):
-            return (True, {'_id':self.ADMIN[nick][1]})
+            return (True, {'_id':self.ADMIN[nick][1], 'added':{'logo': None}})
         r = self._api.is_nick_exist(nick)
         if not r:return (False, '查无此人')
         c = self._api.one(nick=nick)
@@ -110,9 +111,6 @@ class StaffAPI(API):
     
     def remove(self, id):
         r = self.get(id)
-        if r[0] and r[1] and (r[1]['channel'] == u'reply'):
-            a = Added_id(r[1]['tid'])
-            a.decr()
         return super(StaffAPI, self).remove(id)
     
     def _perm(self, cuid, uid):
@@ -120,7 +118,7 @@ class StaffAPI(API):
     
     def _output_format(self, result=[], cuid=DEFAULT_CUR_UID):
         now = datetime.now()
-        output_map = lambda i: {'id':i['_id'], 'added_id':i['added_id'], 'belong':i['belong'], 'perm':self._perm(cuid, i['belong']), 'is_own':(cuid==i['belong'] if i['belong'] else True), 'nick':i['nick'], 'level':i['level'], 'created':self._escape_created(now, i['created'])}
+        output_map = lambda i: {'pid':i['_id'], 'added_id':i['added_id'], 'email':i.get('email', None), 'password':None, 'belong':i['belong'], 'perm':self._perm(cuid, i['belong']), 'is_own':(cuid==i['belong'] if i['belong'] else True), 'nick':i['nick'], 'level':i['level'], 'logo':i['added'].get('logo', None), 'male':i['added'].get('male', None), 'created':self._escape_created(now, i['created'])}
         if isinstance(result, dict):
             return output_map(result)
         return map(output_map, result)
