@@ -87,7 +87,7 @@ class ProjectHandler(BaseHandler):
             rp = p._api.get(pid)
             if rp[0]: project=rp[1]
             e = Item()
-            re = e._api.page(vid=pid, page=page, limit=1)
+            re = e._api.page(vid=pid, page=page, limit=20)
             works= re[1] if re[0] and re[1] and pid else []
             return self.render("space/project.html", plist=r[1], pinfo=re[2], works=works, project=project, pid=pid if pid else '')
         else:

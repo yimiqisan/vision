@@ -28,28 +28,6 @@
 	<link rel="stylesheet" type="text/css" href="{{ static_url('css/uploadify.css') }}"/>
 {% end %}
 {% block bodyleft %}
-	<br/>
-	<div class="hide"><a href="/space/">主页</a></div><hr class="hide"/>
-	<div class="">账户管理</div><hr/>
-	<div class="hide"><a href="/space/new/">新建</a></div><hr class="hide"/>
-	<div class="hide"><a href="/space/collect/">收藏</a></div><hr class="hide"/>
-	<div><a href="/space/project/">项目</a></div><hr/>
-{% end %}
-
-{% block bodyright %}
-	<br/>
-		<h3 class="pull-left">新建用户</h3>
-		<a class="btn pull-right" href="/space/perm/" style="margin-right:10px;">返回列表</a>
-		<div style="clear:both;"></div>
-	<hr/>
-	<form class="form-horizontal" action="/perm/new/" method="POST">
-		<div class="control-group">
-			<label class="control-label" for="nick">用户名：</label>
-			<div class="controls">
-				<input id="nick" name="nick" value="{% if nick %}{{ nick }}{% end %}"/>
-				<p class="hide help-inline">请输入用户名</p>
-			</div>
-		</div>
 		<div class="control-group">
 			<label class="control-label" for="logo">头像：</label>
 			<div class="controls">
@@ -61,25 +39,15 @@
 				</div><br/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label" for="male">性别：</label>
-			<div class="controls">
-				<select type="text" class="input-xlarge" id="male" name="male">
-					{% if male is None %}
-						<option></option>
-						<option value="male">男</option>
-						<option value="female">女</option>
-					{% elif male is True %}
-						<option value="male">男</option>
-						<option value="female">女</option>
-					{% elif male is False %}
-						<option value="female">女</option>
-						<option value="male">男</option>
-					{% end %}
-				</select>
-			</div>
-		</div>
-		
+{% end %}
+
+{% block bodyright %}
+	<br/>
+		<h3 class="pull-left">新建账户</h3>
+		<a class="btn pull-right" href="/space/perm/" style="margin-right:10px;">返回列表</a>
+		<div style="clear:both;"></div>
+	<hr/>
+	<form class="form-horizontal" action="/perm/new/" method="POST">
 		<div class="control-group">
 			<label class="control-label" for="email"><span style="color:red;">*</span>邮箱：</label>
 			<div class="controls">
@@ -110,7 +78,7 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label" for="profession"><span style="color:red;">*</span>职业：</label>
+			<label class="control-label" for="profession"><span style="color:red;">*</span>属性：</label>
 			<div class="controls">
 				<select type="text" id="profession" name="profession">
 					<option value="FDESIGNER">设计师</option>
@@ -121,9 +89,47 @@
 					<option value="FBLOGER">博主</option>
 					<option value="FARTIST">艺术家</option>
 				</select>
-				<p class="help-inline">请选择职业</p>
+				<p class="help-inline">请选择属性</p>
 			</div>
 		</div>
+		<div class="control-group">
+			<label class="control-label" for="nick">用户名：</label>
+			<div class="controls">
+				<input id="nick" name="nick" value="{% if nick %}{{ nick }}{% end %}"/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="male">性别：</label>
+			<div class="controls">
+				<select type="text" class="input-large" id="male" name="male">
+					{% if male is None %}
+						<option></option>
+						<option value="male">男</option>
+						<option value="female">女</option>
+					{% elif male is True %}
+						<option value="male">男</option>
+						<option value="female">女</option>
+					{% elif male is False %}
+						<option value="female">女</option>
+						<option value="male">男</option>
+					{% end %}
+				</select>
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label" for="job">职务：</label>
+			<div class="controls">
+				<input type="text" id="job" name="job" value="{% if job %}{{ job }}{% end %}"/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="discribe">描述：</label>
+			<div class="controls">
+				<textarea id="dispcribe" name="discribe">{% if discribe %}{{ discribe }}{% end %}</textarea>
+			</div>
+		</div>
+		
 		<input type="hidden" name="pid" value="{% if pid %}{{ pid }}{% end %}">
 		<div class="form-actions">
 			<input type="submit" class="btn btn-primary censor" value="确定" />

@@ -4,39 +4,39 @@
 	<title>vision</title>
 {% end %}
 
-{% block static %}{% end %}
+{% block static %}
+	<script language="javascript" type="text/javascript">
+		$(document).ready(function() {$('a[rel=tooltip]').tooltip();})
+	</script>
+{% end %}
 {% block bodyleft %}
-	<br/>
-	<div class="hide"><a href="/space/">主页</a></div><hr class="hide"/>
-	<div class="">账户管理</div><hr/>
-	<div class="hide"><a href="/space/new/">新建</a></div><hr class="hide"/>
-	<div class="hide"><a href="/space/collect/">收藏</a></div><hr class="hide"/>
-	<div><a href="/space/project/">项目</a></div><hr/>
+d
 {% end %}
 
 {% block bodyright %}
 	<br/>
 	<h3 class="pull-left">管理列表</h3>
-	<a class="btn btn-success pull-right" href="/perm/new/" style="margin-right:10px;">新建管理</a>
+	<a class="btn btn-success pull-right" href="/perm/new/" style="margin-right:10px;">新建账户</a>
 	<div style="clear:both;"></div><hr/>		
 	<table class="table">
 		<thead>
 			<tr>
-				<th>#</th>
-				<th>名称</th>
-				<th>权限（职位）</th>
-				<th>操作</th>
+				<th width=30% align="center">e-mail</th>
+				<th width=30% align="center">权限（属性）</th>
+				<th width=25% align="center">姓名</th>
+				<th width=15% align="center">操作</th>
 			</tr>
 		</thead>
 		<tbody>
 			{% for s in slist %}
 			<tr>
-				<td>{{ slist.index(s)+1 }}</td>
+				<td>{{s['email']}}</td>
+				<td>{{s['perm']}}({s['profession']}})</td>
 				<td>{{s['nick']}}</td>
-				<td><div style="display:none;">{{s['perm']}}({s['profession']}})</div></td>
 				<td>
-					<a href="/perm/{{s['pid']}}/edit/">编辑</a>&nbsp;&nbsp;
-					<a class="close" href="/perm/{{s['pid']}}/remove/" onclick="return delconfirm(this);">&times;</a>
+					<a href="/perm/{{s['pid']}}/edit/" rel="tooltip" data-original-title="编辑" title="编辑"><i class="icon-edit"></i></a>&nbsp;&nbsp;&nbsp;
+					<a href="/perm/{{s['pid']}}/cpwd/" rel="tooltip" data-original-title="改密码" title="改密码"><i class="icon-repeat"></i></a>&nbsp;&nbsp;&nbsp;
+					<a href="/perm/{{s['pid']}}/remove/" rel="tooltip" onclick="return delconfirm(this);" data-original-title="删除" title="删除"><i class="icon-trash"></i></a>
 				</td>
 			</tr>
 			{% end %}

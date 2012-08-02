@@ -23,6 +23,7 @@ handlers = [(r"/", RootHandler),
             (r"/perm/new/", PermNewHandler),
             (r"/perm/(.{32})/remove/", PermRemoveHandler),
             (r"/perm/(.{32})/edit/", PermEditHandler),
+            (r"/perm/(.{32})/cpwd/", PermCpwdHandler),
             
             (r"/volume/new/", VolumeNewHandler),
             (r"/volume/(.{32})/remove/", VolumeRemoveHandler),

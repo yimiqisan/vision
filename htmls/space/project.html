@@ -7,9 +7,8 @@
 {% block static %}{% end %}
 {% block bodyleft %}
 	<br/>
-	<div class="hide"><a href="/space/">主页</a></div><hr class="hide"/>
-	{% if verify(perm, [0x01, 0x02]) %}<div class=""><a href="/space/perm/">账户管理</a></div><hr/>{% end %}
-	<div class="hide"><a href="/space/new/">新建</a></div><hr class="hide"/>
+	<div class=""><a href="/space/">主页</a></div><hr class=""/>
+	<div class=""><a href="/space/new/">新建</a></div><hr class=""/>
 	<div class="hide"><a href="/space/collect/">收藏</a></div><hr class="hide"/>
 	<div>项目<a class="btn btn-success pull-right" href="/project/new/" style="margin-right:20px;">新建项目</a></div><br/>
 	<div class="tabbable tabs-left pull-right" style="max-height:400px;overflow-y:scroll;">

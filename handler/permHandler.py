@@ -36,7 +36,9 @@ class PermNewHandler(BaseHandler):
                 "perm": "请选择权限",
                 "profession": "请选择职业",
                 "logo": "",
-                "male": ""
+                "male": "",
+                "job": "",
+                "discribe": ""
     }
     @addslash
     @session
@@ -104,3 +106,11 @@ class PermEditHandler(BaseHandler):
             return self.render("perm/new.html", **r[1])
         else:
             return self.render_alert(r[1])
+
+class PermCpwdHandler(BaseHandler):
+    @addslash
+    @session
+    @authenticated
+    def get(self, she):
+        uid = self.SESSION['uid']
+        return self.render("perm/cpwd.html", pid=she)

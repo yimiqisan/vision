@@ -1,0 +1,47 @@
+{% extends base.html %}
+
+{% block meta %}
+	<title>vision</title>
+{% end %}
+
+{% block static %}{% end %}
+{% block bodyleft %}
+d
+{% end %}
+
+{% block bodyright %}
+	<br/>
+		<h3 class="pull-left">修改密码</h3>
+		<a class="btn pull-right" href="/space/perm/" style="margin-right:10px;">返回列表</a>
+		<div style="clear:both;"></div>
+	<hr/>
+	<form class="form-horizontal" action="/perm/new/" method="POST">
+		<div class="control-group">
+			<label class="control-label" for="verifypwd"><span style="color:red;">*</span>{% if verify(perm, [0x01, 0x02]) %}管理密码：{% else %}旧的密码{% end %}</label>
+			<div class="controls">
+				<input type="verifypwd" id="verifypwd" name="verifypwd" value=""/>
+				<p class="hide help-inline">请输入密码</p>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="newpwd"><span style="color:red;">*</span>新的密码：</label>
+			<div class="controls">
+				<input type="newpwd" id="newpwd" name="newpwd" value=""/>
+				<p class="hide help-inline">请输入新密码</p>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="repwd"><span style="color:red;">*</span>重复密码：</label>
+			<div class="controls">
+				<input type="repwd" id="repwd" name="repwd" value=""/>
+				<p class="hide help-inline">请输入重复新密码</p>
+			</div>
+		</div>
+		
+		<input type="hidden" name="pid" value="{% if pid %}{{ pid }}{% end %}">
+		<div class="form-actions">
+			<input type="submit" class="btn btn-primary censor" value="确定" />
+			<a href="/space/perm/" class="btn" onclick="return backconfirm(this);">取消</a>
+		</div>
+	</form>
+{% end %}

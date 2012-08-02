@@ -21,7 +21,7 @@
 					<div class="nav-collapse">
 					{% if current_user %}
 						<ul class="nav nav-vision">
-							<li id="nav-fashion" class="dropdown" style="display:none;">
+							<li id="nav-fashion" class="dropdown" style="">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">时尚<b class="caret"></b></a>
 								<ul class="dropdown-menu">
 									<li><a href="/volume/">设计师</a></li>
@@ -36,7 +36,7 @@
 									<li><a href="/volume/">展会</a></li>
 								</ul>
 							</li>
-							<li id="nav-art" class="dropdown" style="display:none;">
+							<li id="nav-art" class="dropdown" style="">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">艺术<b class="caret"></b></a>
 								<ul class="dropdown-menu">
 									<li><a href="/volume/">绘画</a></li>
@@ -49,7 +49,7 @@
 									<li><a href="/volume/">展会</a></li>
 								</ul>
 							</li>
-							<li id="nav-design" class="dropdown" style="display:none;">
+							<li id="nav-design" class="dropdown" style="">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">设计<b class="caret"></b></a>
 								<ul class="dropdown-menu">
 									<li><a href="/volume/">建筑</a></li>
@@ -62,7 +62,7 @@
 									<li><a href="/volume/">展会</a></li>
 								</ul>
 							</li>
-							<li id="nav-human" class="dropdown" style="display:none;">
+							<li id="nav-human" class="dropdown" style="">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">人文<b class="caret"></b></a>
 								<ul class="dropdown-menu">
 									<li><a href="/volume/">表演者</a></li>
@@ -70,7 +70,7 @@
 									<li><a href="/volume/">博物馆</a></li>
 								</ul>
 							</li>
-							<li id="nav-brand" class="dropdown" style="display:none;">
+							<li id="nav-brand" class="dropdown" style="">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">品牌<b class="caret"></b></a>
 								<ul class="dropdown-menu">
 									<li><a href="/volume/">媒体人</a></li>
@@ -88,7 +88,12 @@
 								</a>
 								<ul class="nav-list dropdown-menu">
 									<li><a href="/space/project/"><i class="icon-home"></i>&nbsp;&nbsp;&nbsp;&nbsp;个人工作空间</a></li>
-									{% if verify(perm, [0x01, 0x02]) %}<li><a href="/space/perm/"><i class="icon-user"></i>&nbsp;&nbsp;&nbsp;&nbsp;账户管理</a></li>{% end %}
+									{% if verify(perm, [0x01, 0x02]) %}
+										<li><a href="/space/perm/"><i class="icon-user"></i>&nbsp;&nbsp;&nbsp;&nbsp;账户管理</a></li>
+									{% else %}
+										<li><a href=""><i class="icon-user"></i>&nbsp;&nbsp;&nbsp;&nbsp;修改个人信息</a></li>
+									{% end %}
+									{% if not verify(perm, [0x01]) %}<li><a href="/perm/{{uid}}/cpwd/"><i class="icon-repeat"></i>&nbsp;&nbsp;&nbsp;&nbsp;修改个人密码</a></li>{% end %}
 									<li class="divider"></li>
 									<li><a href="/logout/"><i class="icon-off"></i>&nbsp;&nbsp;&nbsp;&nbsp;退出</a></li>
 								</ul>
