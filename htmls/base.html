@@ -87,7 +87,7 @@
 									<img src="/image/attach/{{ ulogo }}_100" style="width:24px;height:24px;" width=24 height=24 onerror="this.src='/static/img/default_avatar.gif';" />&nbsp;{{ current_user }}<b class="caret"></b>
 								</a>
 								<ul class="nav-list dropdown-menu">
-									<li><a href="/space/project/"><i class="icon-home"></i>&nbsp;&nbsp;&nbsp;&nbsp;个人工作空间</a></li>
+									<li><a href="/space/"><i class="icon-home"></i>&nbsp;&nbsp;&nbsp;&nbsp;个人工作空间</a></li>
 									{% if verify(perm, [0x01, 0x02]) %}
 										<li><a href="/space/perm/"><i class="icon-user"></i>&nbsp;&nbsp;&nbsp;&nbsp;账户管理</a></li>
 									{% else %}

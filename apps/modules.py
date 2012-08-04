@@ -58,7 +58,7 @@ class PermissionDoc(Document):
             'added_id': int,
             'channel':  IS(u'site', u'project'),
             'cid':      unicode,
-            'value':    int,
+            'value':    unicode,
     }
     required_fields = ['_id', 'created']
     default_values = {'_id':uuid.uuid4().hex, 'created':datetime.now()}

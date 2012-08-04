@@ -22,7 +22,7 @@ d
 		<thead>
 			<tr>
 				<th width=30% align="center">e-mail</th>
-				<th width=30% align="center">权限（属性）</th>
+				<th width=30% align="center">权限</th>
 				<th width=25% align="center">姓名</th>
 				<th width=15% align="center">操作</th>
 			</tr>
@@ -31,7 +31,7 @@ d
 			{% for s in slist %}
 			<tr>
 				<td>{{s['email']}}</td>
-				<td>{{s['perm']}}({s['profession']}})</td>
+				<td>{{list2txt(s['perm'])}}</td>
 				<td>{{s['nick']}}</td>
 				<td>
 					<a href="/perm/{{s['pid']}}/edit/" rel="tooltip" data-original-title="编辑" title="编辑"><i class="icon-edit"></i></a>&nbsp;&nbsp;&nbsp;

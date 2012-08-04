@@ -39,7 +39,7 @@ class PermissionAPI(API):
     def award(self, owner, channel, key, cid=None, **kwargs):
         if key not in PERM_CLASS.keys():
             return (False, 'beyond key')
-        value = PERM_CLASS[key]
+        value = unicode(key)
         return super(PermissionAPI, self).create(owner=owner, channel=channel, cid=cid, value=value, **kwargs)
     
     def deprive(self, owner, channel, cid=None):
@@ -51,10 +51,13 @@ class PermissionAPI(API):
         return r
     
     def get_owner_value(self, owner):
-        r = self.one(owner=owner)
+        r = self.find(owner=owner)
+        pl = []
         if r[0] and r[1]:
-            return int(r[1].get('value', PERM_CLASS['NORMAL']))
-        return PERM_CLASS['NORMAL']
+            pl = [PERM_CLASS[i.get('value', 'NORMAL')] for i in r[1]]
+        else:
+            pl.append(PERM_CLASS['NORMAL'])
+        return pl
     
     def _output_map(self, out):
         ret_d = {'id':out['_id'], 'owner':out['owner'], 'channel':out['channel'], 'cid':out['cid'], 'value':out['value'], 'created':out['created'].strftime('%m-%d %H:%M')}

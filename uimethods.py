@@ -26,6 +26,13 @@ def verify(handler, perm, reference):
         return (s <= perm <= e)
     return False
 
+def list2txt(handler, v=None):
+    if isinstance(v, list):
+        return ','.join(map(lambda x: x[1], v))
+    elif isinstance(v, unicode) or isinstance(v, str):
+        return v
+    return ''
+
 def dict2txt(handler, v=None):
     if isinstance(v, dict):
         return ''.join(v.values())

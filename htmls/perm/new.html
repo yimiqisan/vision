@@ -6,6 +6,8 @@
 
 {% block static %}
 	<script language="javascript" src="{{ static_url('js/jquery.uploadify.min.js') }}" type="text/javascript"></script>
+	<script language="javascript" src="http://www.ryancramer.com/projects/asmselect/examples/jquery.ui.js" type="text/javascript"></script>
+	<script language="javascript" src="{{ static_url('js/jquery.asmselect.js') }}" type="text/javascript"></script>
 	<script language="javascript" type="text/javascript">
 		$(document).ready(function() {
 			$("#poster").uploadify({
@@ -22,6 +24,12 @@
 					$('#poster_queue').hide();
 					},
 				onError			: function (event, queueID, fileObj){alert("文件:" + fileObj.name + " 上传失败");}
+			});
+			$("select[multiple]").asmSelect({
+				addItemTarget: 'bottom',
+				animate: true,
+				highlight: true,
+				sortable: true
 			});
 		})
 	</script>
@@ -80,14 +88,12 @@
 		<div class="control-group">
 			<label class="control-label" for="profession"><span style="color:red;">*</span>属性：</label>
 			<div class="controls">
-				<select type="text" id="profession" name="profession">
-					<option value="FDESIGNER">设计师</option>
-					<option value="FPHOTOGRAPHER">摄影师</option>
-					<option value="FSTYLISTS">造型师</option>
-					<option value="FMAKEUP">化妆师</option>
-					<option value="FMODEL">模特</option>
-					<option value="FBLOGER">博主</option>
-					<option value="FARTIST">艺术家</option>
+				<select multiple="multiple" id="profession" name="profession" title="">
+					<option value="FASHION">时尚</option>
+					<option value="ART">艺术</option>
+					<option value="DESIGN">设计</option>
+					<option value="HUMAN">人文</option>
+					<option value="BRAND">品牌</option>
 				</select>
 				<p class="help-inline">请选择属性</p>
 			</div>
@@ -126,7 +132,7 @@
 		<div class="control-group">
 			<label class="control-label" for="discribe">描述：</label>
 			<div class="controls">
-				<textarea id="dispcribe" name="discribe">{% if discribe %}{{ discribe }}{% end %}</textarea>
+				<textarea id="dispcribe" name="discribe" rows=10 cols=20>{% if discribe %}{{ discribe }}{% end %}</textarea>
 			</div>
 		</div>
 		

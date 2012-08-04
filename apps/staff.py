@@ -16,6 +16,7 @@ from md5 import md5
 from vision.config import DB_CON, DB_NAME, DEFAULT_CUR_UID
 from modules import StaffDoc
 from api import API, Added_id
+from perm import Permission
 
 
 class Staff(object):
@@ -81,6 +82,7 @@ class StaffAPI(API):
         col_name = StaffDoc.__collection__
         collection = datastore[col_name]
         doc = collection.StaffDoc()
+        self.p = Permission()
         API.__init__(self, col_name=col_name, collection=collection, doc=doc)
     
     def is_nick_exist(self, nick):
@@ -113,12 +115,12 @@ class StaffAPI(API):
         r = self.get(id)
         return super(StaffAPI, self).remove(id)
     
-    def _perm(self, cuid, uid):
-        return 1
+    def _perm(self, uid):
+        return self.p._api.get_owner_value(uid)
     
     def _output_format(self, result=[], cuid=DEFAULT_CUR_UID):
         now = datetime.now()
-        output_map = lambda i: {'pid':i['_id'], 'added_id':i['added_id'], 'email':i.get('email', None), 'password':None, 'belong':i['belong'], 'perm':self._perm(cuid, i['belong']), 'is_own':(cuid==i['belong'] if i['belong'] else True), 'nick':i['nick'], 'level':i['level'], 'logo':i['added'].get('logo', None), 'male':i['added'].get('male', None), 'created':self._escape_created(now, i['created'])}
+        output_map = lambda i: {'pid':i['_id'], 'added_id':i['added_id'], 'perm':self._perm(i['_id']), 'email':i.get('email', None), 'password':None, 'belong':i['belong'], 'is_own':(cuid==i['belong'] if i['belong'] else True), 'nick':i['nick'], 'level':i['level'], 'logo':i['added'].get('logo', None), 'male':i['added'].get('male', None), 'created':self._escape_created(now, i['created'])}
         if isinstance(result, dict):
             return output_map(result)
         return map(output_map, result)

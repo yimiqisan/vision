@@ -59,8 +59,11 @@ class PermNewHandler(BaseHandler):
         for k in self.KEY_DICT.keys():
             v = self.get_argument(k, None)
             if (v is None)and(self.KEY_DICT[k]):
-                return self.render('perm/new.html', **{'warning': self.KEY_DICT[k]})
-            d[k] = v
+                d['warning'] = self.KEY_DICT[k]
+                d['pid'] = ''
+                d.update(map(lambda x: (x,''), self.KEY_DICT.keys()))
+                return self.render('perm/new.html', **d)
+            d[k] = v.strip() if v is not None else ''
         s = Staff()
         if pid:
             r = p._api.edit(pid, **d)
@@ -71,17 +74,20 @@ class PermNewHandler(BaseHandler):
             self._set_perm(r[1])
             self.redirect('/space/perm/')
         else:
-            return self.render('perm/new.html', **{'warning': r[1], 'email':e})
+            d['warning'] = r[1]
+            d['pid'] = ''
+            return self.render('perm/new.html', **d)
     
     def _set_perm(self, uid):
         m = str(self.get_argument('perm', 'EDITOR'))
         if m == 'MANAGER':
             key = m
         elif m == 'EDITOR':
-            s = str(self.get_argument('profession', 'NORMAL'))
+            s = self.request.arguments.get('profession', 'NORMAL')
             key = s
         p = Permission()
-        p._api.award(uid, u'site', key.upper())
+        for k in key:
+            print p._api.award(uid, u'site', k.upper())
 
 class PermRemoveHandler(BaseHandler):
     @addslash
