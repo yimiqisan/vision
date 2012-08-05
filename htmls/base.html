@@ -6,6 +6,15 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script src="{{ static_url('js/jquery.min.js') }}" type="text/javascript"></script>
 		<script src="{{ static_url('js/jquery.own.js') }}" type="text/javascript"></script>
+		<script language="javascript" type="text/javascript">
+			$(document).ready(function() {
+				$('.dropdown').hover(function(){
+					$(this).addClass('open');
+				},function(){
+					$('.dropdown').removeClass('open');
+				})
+			})
+		</script>
 		<link href="{{ static_url('css/vision.css') }}" rel="stylesheet">
 		{% block static %}{% end %}
 	</head>
@@ -22,63 +31,64 @@
 					{% if current_user %}
 						<ul class="nav nav-vision">
 							<li id="nav-fashion" class="dropdown" style="">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">时尚<b class="caret"></b></a>
+								<a href="/volume/fashion/" class="dropdown-toggle" data-toggle="dropdown">时尚<b class="caret"></b></a>
 								<ul class="dropdown-menu">
-									<li><a href="/volume/">设计师</a></li>
-									<li><a href="/volume/">摄影师</a></li>
-									<li><a href="/volume/">造型师</a></li>
-									<li><a href="/volume/">化妆师</a></li>
-									<li><a href="/volume/">模特</a></li>
-									<li><a href="/volume/">博主</a></li>
-									<li><a href="/volume/">杂志</a></li>
-									<li><a href="/volume/">协会</a></li>
-									<li><a href="/volume/">院校</a></li>
-									<li><a href="/volume/">展会</a></li>
+									<li><a href="/volume/fdesigner/">设计师</a></li>
+									<li><a href="/volume/fphotographer/">摄影师</a></li>
+									<li><a href="/volume/fstylists/">造型师</a></li>
+									<li><a href="/volume/fmakeup/">化妆师</a></li>
+									<li><a href="/volume/fmodel/">模特</a></li>
+									<li><a href="/volume/fbloger/">博主</a></li>
+									<li><a href="/volume/fartist/">艺术家</a></li>
+									<li><a href="/volume/fmagazine/">杂志</a></li>
+									<li><a href="/volume/fassociation/">协会</a></li>
+									<li><a href="/volume/finstitutions/">院校</a></li>
+									<li><a href="/volume/fshow/">展会</a></li>
 								</ul>
 							</li>
 							<li id="nav-art" class="dropdown" style="">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">艺术<b class="caret"></b></a>
+								<a href="/volume/art/" class="dropdown-toggle" data-toggle="dropdown">艺术<b class="caret"></b></a>
 								<ul class="dropdown-menu">
-									<li><a href="/volume/">绘画</a></li>
-									<li><a href="/volume/">装置</a></li>
-									<li><a href="/volume/">雕塑</a></li>
-									<li><a href="/volume/">影像</a></li>
-									<li><a href="/volume/">多媒体</a></li>
-									<li><a href="/volume/">协会</a></li>
-									<li><a href="/volume/">院校</a></li>
-									<li><a href="/volume/">展会</a></li>
+									<li><a href="/volume/apainting/">绘画</a></li>
+									<li><a href="/volume/aequipment/">装置</a></li>
+									<li><a href="/volume/asculpture/">雕塑</a></li>
+									<li><a href="/volume/aimage/">影像</a></li>
+									<li><a href="/volume/amultimedia/">多媒体</a></li>
+									<li><a href="/volume/aassociation/">协会</a></li>
+									<li><a href="/volume/ainstitution/">院校</a></li>
+									<li><a href="/volume/ashow/">展会</a></li>
 								</ul>
 							</li>
 							<li id="nav-design" class="dropdown" style="">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">设计<b class="caret"></b></a>
+								<a href="/volume/design/" class="dropdown-toggle" data-toggle="dropdown">设计<b class="caret"></b></a>
 								<ul class="dropdown-menu">
-									<li><a href="/volume/">建筑</a></li>
-									<li><a href="/volume/">室内</a></li>
-									<li><a href="/volume/">产品</a></li>
-									<li><a href="/volume/">平面</a></li>
-									<li><a href="/volume/">多媒体</a></li>
-									<li><a href="/volume/">协会</a></li>
-									<li><a href="/volume/">院校</a></li>
-									<li><a href="/volume/">展会</a></li>
+									<li><a href="/volume/dbuilding/">建筑</a></li>
+									<li><a href="/volume/dindoor/">室内</a></li>
+									<li><a href="/volume/dproduct/">产品</a></li>
+									<li><a href="/volume/dflat/">平面</a></li>
+									<li><a href="/volume/dmutilmedia/">多媒体</a></li>
+									<li><a href="/volume/dassociation/">协会</a></li>
+									<li><a href="/volume/dinstitution/">院校</a></li>
+									<li><a href="/volume/dshow/">展会</a></li>
 								</ul>
 							</li>
 							<li id="nav-human" class="dropdown" style="">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">人文<b class="caret"></b></a>
+								<a href="/volume/human/" class="dropdown-toggle" data-toggle="dropdown">人文<b class="caret"></b></a>
 								<ul class="dropdown-menu">
-									<li><a href="/volume/">表演者</a></li>
-									<li><a href="/volume/">剧院</a></li>
-									<li><a href="/volume/">博物馆</a></li>
+									<li><a href="/volume/hperformer/">表演者</a></li>
+									<li><a href="/volume/htheater/">剧院</a></li>
+									<li><a href="/volume/hmuseum/">博物馆</a></li>
 								</ul>
 							</li>
 							<li id="nav-brand" class="dropdown" style="">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">品牌<b class="caret"></b></a>
+								<a href="/volume/brand/" class="dropdown-toggle" data-toggle="dropdown">品牌<b class="caret"></b></a>
 								<ul class="dropdown-menu">
-									<li><a href="/volume/">媒体人</a></li>
-									<li><a href="/volume/">公司</a></li>
+									<li><a href="/volume/bmediapeople/">媒体人</a></li>
+									<li><a href="/volume/bcompany/">公司</a></li>
 								</ul>
 							</li>
 							<li id="nav-project" class="dropdown">
-								<a href="/space/project">项目</a>
+								<a href="/space/project/">项目</a>
 							</li>
 						</ul>
 						<ul class="nav user_log pull-right">
@@ -88,12 +98,12 @@
 								</a>
 								<ul class="nav-list dropdown-menu">
 									<li><a href="/space/"><i class="icon-home"></i>&nbsp;&nbsp;&nbsp;&nbsp;个人工作空间</a></li>
-									{% if verify(perm, [0x01, 0x02]) %}
+									{% if verify(perm[0], [0x01, 0x02]) %}
 										<li><a href="/space/perm/"><i class="icon-user"></i>&nbsp;&nbsp;&nbsp;&nbsp;账户管理</a></li>
 									{% else %}
-										<li><a href=""><i class="icon-user"></i>&nbsp;&nbsp;&nbsp;&nbsp;修改个人信息</a></li>
+										<li><a href="/perm/{{uid}}/edit/"><i class="icon-user"></i>&nbsp;&nbsp;&nbsp;&nbsp;修改个人信息</a></li>
 									{% end %}
-									{% if not verify(perm, [0x01]) %}<li><a href="/perm/{{uid}}/cpwd/"><i class="icon-repeat"></i>&nbsp;&nbsp;&nbsp;&nbsp;修改个人密码</a></li>{% end %}
+									{% if not verify(perm[0], [0x01]) %}<li><a href="/perm/{{uid}}/cpwd/"><i class="icon-repeat"></i>&nbsp;&nbsp;&nbsp;&nbsp;修改个人密码</a></li>{% end %}
 									<li class="divider"></li>
 									<li><a href="/logout/"><i class="icon-off"></i>&nbsp;&nbsp;&nbsp;&nbsp;退出</a></li>
 								</ul>

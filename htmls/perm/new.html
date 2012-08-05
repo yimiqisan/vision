@@ -63,6 +63,7 @@
 				<p class="hide help-inline">请输入邮箱</p>
 			</div>
 		</div>
+		{% if not pid %}
 		<div class="control-group">
 			<label class="control-label" for="password"><span style="color:red;">*</span>密码：</label>
 			<div class="controls">
@@ -70,6 +71,7 @@
 				<p class="hide help-inline">请输入密码</p>
 			</div>
 		</div>
+		{% end %}
 		<div class="control-group">
 			<label class="control-label" for="perm"><span style="color:red;">*</span>权限：</label>
 			<div class="controls">

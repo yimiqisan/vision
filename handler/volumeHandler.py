@@ -93,15 +93,14 @@ class VolumeListHandler(BaseHandler):
     @session
     @authenticated
     @addperm
-    def get(self):
+    def get(self, subtype):
         uid = self.SESSION['uid']
         page = int(self.get_argument('page', 1))
         prop = self.get_argument('prop', None)
-        maintype = self.get_argument('maintype', None)
-        subtype = self.get_argument('subtype', None)
+        word = self.get_argument('word', None)
         v = volume.Volume()
-        r = v._api.page(cuid=uid, owner=uid, perm=self.pm, prop=prop, maintype=maintype, subtype=subtype, page=page)
-        return self.render("volume/list.html", vlist=r[1], vinfo=r[2])
+        r = v._api.page(cuid=uid, owner=uid, perm=self.pm, prop=prop, name=word, subtype=subtype.upper(), page=page)
+        return self.render("volume/list.html", vlist=r[1], vinfo=r[2], subtype=subtype)
 
 class AjaxVolumeTypeHandler(BaseHandler):
     @addslash

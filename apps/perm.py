@@ -12,7 +12,7 @@ import uuid
 from datetime import datetime
 import time
 
-from vision.config import DB_CON, DB_NAME, PERM_CLASS
+from vision.config import DB_CON, DB_NAME, ADMIN, PERM_CLASS
 from modules import PermissionDoc
 from api import API
 
@@ -106,9 +106,12 @@ def addperm(method):
     @functools.wraps(method)
     def wrapper(self, *args, **kwargs):
         uid = self.SESSION['uid']
-        p = Permission()
-        v = p._api.get_owner_value(uid)
-        self.__setattr__('pm', v)
+        if uid == ADMIN['admin'][1]:
+            self.__setattr__('pm', PERM_CLASS['SUPEROR'])
+        else:
+            p = Permission()
+            v = p._api.get_owner_value(uid)
+            self.__setattr__('pm', v)
         return method(self, *args, **kwargs)
     return wrapper
     

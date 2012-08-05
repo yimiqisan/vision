@@ -13,16 +13,13 @@ from datetime import datetime
 import time
 from md5 import md5
 
-from vision.config import DB_CON, DB_NAME, DEFAULT_CUR_UID
+from vision.config import DB_CON, DB_NAME, ADMIN, DEFAULT_CUR_UID
 from modules import StaffDoc
 from api import API, Added_id
 from perm import Permission
 
 
 class Staff(object):
-    
-    ADMIN = {'admin': ('admin', u'57138d461d7343c685c15e9e6d3bd9ef')}
-    
     def __init__(self, api=None):
         self._api = StaffAPI()
     
@@ -51,8 +48,8 @@ class Staff(object):
         return c
     
     def login(self, nick, password):
-        if (nick in self.ADMIN.keys()) and (password == self.ADMIN[nick][0]):
-            return (True, {'_id':self.ADMIN[nick][1], 'added':{'logo': None}})
+        if (nick in ADMIN.keys()) and (password == ADMIN[nick][0]):
+            return (True, {'_id':ADMIN[nick][1], 'added':{'logo': None}})
         r = self._api.is_nick_exist(nick)
         if not r:return (False, '查无此人')
         c = self._api.one(nick=nick)
@@ -120,7 +117,7 @@ class StaffAPI(API):
     
     def _output_format(self, result=[], cuid=DEFAULT_CUR_UID):
         now = datetime.now()
-        output_map = lambda i: {'pid':i['_id'], 'added_id':i['added_id'], 'perm':self._perm(i['_id']), 'email':i.get('email', None), 'password':None, 'belong':i['belong'], 'is_own':(cuid==i['belong'] if i['belong'] else True), 'nick':i['nick'], 'level':i['level'], 'logo':i['added'].get('logo', None), 'male':i['added'].get('male', None), 'created':self._escape_created(now, i['created'])}
+        output_map = lambda i: {'pid':i['_id'], 'added_id':i['added_id'], 'perm':self._perm(i['_id']), 'email':i.get('email', None), 'password':None, 'belong':i['belong'], 'job':i['added'].get('job', ''), 'discribe':i['added'].get('discribe', ''), 'is_own':(cuid==i['belong'] if i['belong'] else True), 'nick':i['nick'], 'level':i['level'], 'logo':i['added'].get('logo', None), 'male':i['added'].get('male', None), 'created':self._escape_created(now, i['created'])}
         if isinstance(result, dict):
             return output_map(result)
         return map(output_map, result)

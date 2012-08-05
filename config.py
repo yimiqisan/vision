@@ -23,6 +23,8 @@ settings = dict(
         cache_engine=redis.Redis(host='localhost', port=6379, db=1),
 )
 
+ADMIN = {'admin': ('admin', u'57138d461d7343c685c15e9e6d3bd9ef')}
+
 PERM_CLASS = {
     'SUPEROR':      (0x01, "超级管理员"),
     'MANAGER':      (0x02, "管理员"),
@@ -39,7 +41,7 @@ PERM_CLASS = {
     'FMAKEUP':      (0x34, "化妆师"),
     'FMODEL':       (0x35, "模特"),
     'FBLOGER':      (0x36, "博主"),
-    'FARTIST':      (0x37, ""),
+    'FARTIST':      (0x37, "艺术家"),
     'FMAGAZINE':    (0x38, "杂志"),
     'FASSOCIATION': (0x39, "协会"),
     'FINSTITUTIONS':(0x3a, "院校"),

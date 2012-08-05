@@ -11,8 +11,9 @@ import logging
 import uuid
 from datetime import datetime
 import time
+import re
 
-from vision.config import DB_CON, DB_NAME, DEFAULT_CUR_UID
+from vision.config import DB_CON, DB_NAME, DEFAULT_CUR_UID, PERM_CLASS
 from modules import VolumeDoc
 from api import API, Added_id
 
@@ -190,7 +191,22 @@ class VolumeAPI(API):
     
     def page(self, cuid=DEFAULT_CUR_UID, owner=None, perm=None, name=None, prop=None, maintype=None, subtype=None, live=None, agency=None, tags=[], grade=None, nexus=None, male=None, year_interval=(None, None), page=1, pglen=10, limit=20, order_by='added_id', order=-1):
         kwargs = {}
-        if owner:kwargs['owner']=owner
+        pmlist = [PERM_CLASS['SUPEROR'], PERM_CLASS['MANAGER']]
+        if subtype:pmlist.append(PERM_CLASS.get(subtype, ''))
+        mtype_list = [u'FASHION', u'ART', u'DESIGN', u'HUMAN', u'BRAND']
+        if subtype:
+            if subtype in mtype_list:
+                kwargs['maintype']=subtype
+            else:
+                kwargs['subtype']=subtype
+        if perm not in pmlist and owner:
+            kwargs['owner']=owner
+#        if maintype:
+#            if isinstance(maintype, list) and set(maintype).issubset(set(mtype_list)):
+#                kwargs['maintype']={'$all':maintype}
+#            elif maintype.upper() in mtype_list:
+#                kwargs['maintype']=maintype
+#        if subtype:kwargs['subtype'] = {'$all':subtype} if isinstance(subtype, list) else subtype
         if name:kwargs['name']=re.compile('.*'+name+'.*')
         if prop:
             prop_list = [u'PERSONAL', u'ORGANIZATION', u'SHOW']
@@ -198,13 +214,6 @@ class VolumeAPI(API):
                 kwargs['prop']={'$all':prop}
             elif prop.upper() in prop_list:
                 kwargs['prop']=prop
-        if maintype:
-            mtype_list = [u'FASHION', u'ART', u'DESIGN', u'HUMAN', u'BRAND']
-            if isinstance(maintype, list) and set(maintype).issubset(set(mtype_list)):
-                kwargs['maintype']={'$all':maintype}
-            elif maintype.upper() in mtype_list:
-                kwargs['maintype']=maintype
-        if subtype:kwargs['subtype'] = {'$all':subtype} if isinstance(subtype, list) else subtype
         if live:kwargs['live']=live
         if agency:kwargs['agency']=agency
         if grade:kwargs['grade']=grade
@@ -216,6 +225,7 @@ class VolumeAPI(API):
         kwargs['limit']=limit
         kwargs['order_by']=order_by
         kwargs['order']=order
+        print kwargs
         r = super(VolumeAPI, self).page(**kwargs)
         if r[0]:
             kw = {'result':r[1]}
