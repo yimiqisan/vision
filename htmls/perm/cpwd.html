@@ -15,25 +15,29 @@ d
 		<a class="btn pull-right" href="/space/perm/" style="margin-right:10px;">返回列表</a>
 		<div style="clear:both;"></div>
 	<hr/>
-	<form class="form-horizontal" action="/perm/new/" method="POST">
+	<form class="form-horizontal" action="/perm/{{ pid }}/cpwd/" method="POST">
 		<div class="control-group">
-			<label class="control-label" for="verifypwd"><span style="color:red;">*</span>{% if verify(perm, [0x01, 0x02]) %}管理密码：{% else %}旧的密码{% end %}</label>
+			<label class="control-label" for="verifypwd"><span style="color:red;">*</span>{% if verify(perm[0], [0x01, 0x02]) %}管理密码：{% else %}旧的密码：{% end %}</label>
 			<div class="controls">
-				<input type="verifypwd" id="verifypwd" name="verifypwd" value=""/>
-				<p class="hide help-inline">请输入密码</p>
+				{% if verify(perm[0], [0x01, 0x02]) %}
+					<input type="password" id="verifypwd" name="verifypwd" value=""/>
+				{% else %}
+					<input type="password" id="oldpwd" name="oldpwd" value=""/>
+				{% end %}
+				<p class="hide help-inline">{% if verify(perm[0], [0x01, 0x02]) %}请输入管理密码：{% else %}请输入旧的密码：{% end %}</p>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label" for="newpwd"><span style="color:red;">*</span>新的密码：</label>
 			<div class="controls">
-				<input type="newpwd" id="newpwd" name="newpwd" value=""/>
+				<input type="password" id="newpwd" name="newpwd" value=""/>
 				<p class="hide help-inline">请输入新密码</p>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label" for="repwd"><span style="color:red;">*</span>重复密码：</label>
 			<div class="controls">
-				<input type="repwd" id="repwd" name="repwd" value=""/>
+				<input type="password" id="repwd" name="repwd" value=""/>
 				<p class="hide help-inline">请输入重复新密码</p>
 			</div>
 		</div>

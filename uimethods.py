@@ -27,7 +27,9 @@ def verify(handler, perm, reference):
     return False
 
 def list2txt(handler, v=None):
-    if isinstance(v, list):
+    if isinstance(v, tuple):
+        return v[1]
+    elif isinstance(v, list):
         return ','.join(map(lambda x: x[1], v))
     elif isinstance(v, unicode) or isinstance(v, str):
         return v

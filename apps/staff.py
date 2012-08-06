@@ -29,6 +29,18 @@ class Staff(object):
         else:
             return None
     
+    def whois(self, k, v):
+        if v == ADMIN['admin'][1]:
+            self.info = {'nick': ADMIN['admin'][0], 'password': unicode(md5(ADMIN['admin'][0]).hexdigest()), '_id': ADMIN['admin'][1]}
+            self.uid = ADMIN['admin'][1]
+            return None
+        c = self._api.one(**{k:v})
+        if c[0] and c[1]:
+            self.info = c[1]
+            self.uid = self.info['_id']
+        else:
+            self.uid = self.info = None
+    
     def register(self, **info):
         nick = info.get('nick', None)
         if nick:

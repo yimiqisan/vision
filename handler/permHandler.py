@@ -7,7 +7,7 @@ Created by 刘 智勇 on 2012-07-14.
 Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 """
 
-
+from md5 import md5
 from tornado.web import addslash, authenticated
 
 from baseHandler import BaseHandler
@@ -108,7 +108,6 @@ class PermEditHandler(BaseHandler):
         s = Staff()
         r = s._api.get(sid)
         if r[0]:
-            print r
             return self.render("perm/new.html", **r[1])
         else:
             return self.render_alert(r[1])
@@ -120,3 +119,31 @@ class PermCpwdHandler(BaseHandler):
     def get(self, she):
         uid = self.SESSION['uid']
         return self.render("perm/cpwd.html", pid=she)
+    
+    @addslash
+    @session
+    @authenticated
+    def post(self, she):
+        uid = self.SESSION['uid']
+        vpwd = self.get_argument('verifypwd', None)
+        opwd = self.get_argument('oldpwd', None)
+        newpwd = self.get_argument('newpwd', None)
+        repwd = self.get_argument('repwd', None)
+        if newpwd != repwd:return self.render("perm/cpwd.html", pid=she, warning='重复密码不匹配')
+        s = Staff()
+        newpwd = unicode(md5(newpwd).hexdigest())
+        if vpwd:
+            s.whois("_id", uid)
+            vpwd = unicode(md5(vpwd).hexdigest())
+            if (s.password != vpwd):return self.render('perm/cpwd.html', pid=she, **{'warning': '密码不正确'})
+            s._api.change_pwd(she, vpwd, newpwd, repwd)
+        if opwd:
+            s.whois("_id", she)
+            opwd = unicode(md5(opwd).hexdigest())
+            if (s.password != opwd):return self.render('perm/cpwd.html', pid=she, **{'warning': '密码不正确'})
+            s._api.change_pwd(she, opwd, newpwd, repwd)
+        return self.redirect('/space/perm/')
+        
+        
+        
+        

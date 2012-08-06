@@ -22,7 +22,7 @@
 				onUploadSuccess : function (file, data, response) {
 					$('#poster-disp').html('<span><input type="hidden" name="logo" value="'+data+'"/><img width=100 height=100 src="/image/attach/'+data+'_300"></span>');
 					$('#poster_queue').hide();
-					},
+				},
 				onError			: function (event, queueID, fileObj){alert("文件:" + fileObj.name + " 上传失败");}
 			});
 		})
@@ -31,7 +31,7 @@
 {% end %}
 {% block body %}
 	<div class="span12">
-		<br/><h3 class="pull-left">新建</h3><a class="btn pull-right" style="margin-right:10px;" href="/space/">返回工作室</a>
+		<br/><h3 class="pull-left">新建</h3><a class="btn pull-right" style="margin-right:10px;" onclick="return backconfirm(this);" href="/space/">返回工作室</a>
 		<div style="clear:both;"></div>
 		<hr/>
 		<form class="form-horizontal" method="post" action="/volume/new/">
@@ -78,7 +78,7 @@
 				<div id="poster">头像上传</div>
 			</div>
 			
-			<div class="span7">
+			<div class="span9">
 				<div class="control-group">
 					<label class="control-label" for="name">姓名</label>
 					<div class="controls">
@@ -177,10 +177,10 @@
 				<input type="hidden" name="vid" value="{% if vid %}{{ vid }}{% end %}">
 			</div>
 			<div style="clear:both;"></div>
-			<div class="span9">
+			<div class="span11">
 				<div class="form-actions">
 					<input type="submit" class="btn btn-primary censor" value="确定" />
-					<a class="btn">取消</a>
+					<a class="btn" href="/space/" onclick="return backconfirm(this);">取消</a>
 				</div>
 			</div>
 		</form>

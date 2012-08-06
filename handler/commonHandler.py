@@ -41,7 +41,7 @@ class LoginHandler(BaseHandler):
             self.SESSION['uid']=uid
             self.SESSION['nick']=n
             self.SESSION['logo']=r[1]['added'].get('logo', None)
-            self.SESSION['perm']=re[0].get('value', PERM_CLASS['NORMAL']) if re else PERM_CLASS['SUPEROR']
+            self.SESSION['perm']=PERM_CLASS[re[0].get('value', 'NORMAL') if re else 'SUPEROR']
             self.redirect('/')
         else:
             self.render_alert(r[1])
