@@ -36,12 +36,10 @@ class LoginHandler(BaseHandler):
         r = s.login(n, p)
         if r[0]:
             uid = r[1]['_id']
-            e = Permission()
-            re = e._api.list(owner=uid, channel=u'site')
             self.SESSION['uid']=uid
             self.SESSION['nick']=n
             self.SESSION['logo']=r[1]['added'].get('logo', None)
-            self.SESSION['perm']=PERM_CLASS[re[0].get('value', 'NORMAL') if re else 'SUPEROR']
+            self.SESSION['perm']=r[1]['perm']
             self.redirect('/')
         else:
             self.render_alert(r[1])

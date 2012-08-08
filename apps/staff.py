@@ -13,7 +13,7 @@ from datetime import datetime
 import time
 from md5 import md5
 
-from vision.config import DB_CON, DB_NAME, ADMIN, DEFAULT_CUR_UID
+from vision.config import DB_CON, DB_NAME, PERM_CLASS, ADMIN, DEFAULT_CUR_UID
 from modules import StaffDoc
 from api import API, Added_id
 from perm import Permission
@@ -61,14 +61,17 @@ class Staff(object):
     
     def login(self, nick, password):
         if (nick in ADMIN.keys()) and (password == ADMIN[nick][0]):
-            return (True, {'_id':ADMIN[nick][1], 'added':{'logo': None}})
+            return (True, {'_id':ADMIN[nick][1], 'perm':[PERM_CLASS['SUPEROR']], 'added':{'logo': None}})
         r = self._api.is_nick_exist(nick)
         if not r:return (False, '查无此人')
         c = self._api.one(nick=nick)
         password = unicode(md5(password).hexdigest())
         if c[0] and (c[1]['password'] == password):
-            self.info = c[1]
-            return (True, c[1])
+            p = Permission()
+            info = c[1]
+            info['perm'] = p._api.get_owner_value(info['_id'])
+            self.info = info
+            return (True, info)
         self.info = None
         return (False, '用户名或密码错误')
     

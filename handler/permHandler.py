@@ -87,7 +87,7 @@ class PermNewHandler(BaseHandler):
             key = s
         p = Permission()
         for k in key:
-            print p._api.award(uid, u'site', k.upper())
+            p._api.award(uid, u'site', k.upper())
 
 class PermRemoveHandler(BaseHandler):
     @addslash
