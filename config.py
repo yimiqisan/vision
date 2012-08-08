@@ -25,6 +25,8 @@ settings = dict(
 
 ADMIN = {'admin': ('admin', u'57138d461d7343c685c15e9e6d3bd9ef')}
 
+DATE_FORMAT = "%Y-%m-%d"
+
 PERM_CLASS = {
     'SUPEROR':      (0x01, "超级管理员"),
     'MANAGER':      (0x02, "管理员"),

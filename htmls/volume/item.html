@@ -13,7 +13,7 @@
 	<div class="span12" style="border-bottom:1px solid #eee">
 		<div class="span2"><img src="/image/attach/{{logo}}_100" alt="头像" style="width:100px;height:100px;" /></div>
 		<div class="span8">
-			<p>{{name}} /{{subtype_cn}} 性别：{{male_cn}} 出生日期：{{year}}年</p>
+			<p>{{name}} /{{subtype_cn}} 性别：{{male_cn}} 出生日期：{{year}}</p>
 			<p>{{live}}</p>
 			<p>所属机构：{{agency}}</p>
 			<p>网址：{{website}}</p>
@@ -36,7 +36,7 @@
 		<p>{{about}}</p>
 	</div>
 	<div class="span9">
-		<a class="btn btn-large" href="/item/{{prop.lower()}}/{{vid}}/new/">新建作品</a>
+		<a class="btn btn-large hide" href="/item/{{prop.lower()}}/{{vid}}/new/">新建作品</a>
 		<ul class="thumbnails">
 			{% for w in wlist %}
 			<li class="span3">

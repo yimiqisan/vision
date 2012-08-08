@@ -13,7 +13,7 @@ from datetime import datetime
 import time
 import re
 
-from vision.config import DB_CON, DB_NAME, DEFAULT_CUR_UID, PERM_CLASS
+from vision.config import DB_CON, DB_NAME, DEFAULT_CUR_UID, PERM_CLASS, DATE_FORMAT
 from modules import VolumeDoc
 from api import API, Added_id
 
@@ -149,7 +149,7 @@ class VolumeAPI(API):
         if kwargs.has_key('male'):
             kwargs['male'] = kwargs['male'] == u'male'
         if kwargs.has_key('year'):
-            kwargs['year'] = int(kwargs['year'])
+            kwargs['year'] = datetime.strptime(kwargs['year'], DATE_FORMAT)
         if kwargs.has_key('live'):
             kwargs['live'] = int(kwargs['live'])
         if kwargs.has_key('grade'):
@@ -179,7 +179,7 @@ class VolumeAPI(API):
     
     def _output_format(self, result=[], cuid=DEFAULT_CUR_UID):
         now = datetime.now()
-        output_map = lambda i: {'vid':i['_id'], 'added_id':i['added_id'], 'logo':i.get('logo', None), 'name':i.get('name', '无名'), 'prop':i.get('prop', None), 'prop_cn':get_cn(p=i.get('prop', None)), 'maintype':i.get('maintype', None), 'maintype_cn':get_cn(m=i.get('maintype', None)), 'subtype':i.get('subtype', None), 'subtype_cn':get_cn(s=i.get('subtype', None)), 'live':i.get('live', None), 'male':i.get('male', None), 'male_cn':'男' if i.get('male', None) else '女', 'year':i.get('year', None), 'website':i['added'].get('website', None), 'agency':i.get('agency', None), 'grade':i.get('grade', None), 'nexus':i.get('nexus', None), 'intro':i['added'].get('intro', None), 'about':i['added'].get('about', None), 'created':self._escape_created(now, i['created'])}
+        output_map = lambda i: {'vid':i['_id'], 'added_id':i['added_id'], 'logo':i.get('logo', None), 'name':i.get('name', '无名'), 'prop':i.get('prop', None), 'prop_cn':get_cn(p=i.get('prop', None)), 'maintype':i.get('maintype', None), 'maintype_cn':get_cn(m=i.get('maintype', None)), 'subtype':i.get('subtype', None), 'subtype_cn':get_cn(s=i.get('subtype', None)), 'live':i.get('live', None), 'male':i.get('male', None), 'male_cn':'男' if i.get('male', None) else '女', 'year':datetime.strftime(i.get('year', datetime.now()), DATE_FORMAT), 'website':i['added'].get('website', None), 'agency':i.get('agency', None), 'grade':i.get('grade', None), 'nexus':i.get('nexus', None), 'intro':i['added'].get('intro', None), 'about':i['added'].get('about', None), 'created':self._escape_created(now, i['created'])}
         if isinstance(result, dict):
             return output_map(result)
         return map(output_map, result)

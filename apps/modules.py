@@ -106,7 +106,7 @@ class VolumeDoc(Document):
             'grade':    int,
             'nexus':    int,
             'male':     bool,
-            'year':     int,
+            'year':     datetime,
             'created':  datetime,
             'added':    dict,
             'added_id': int,

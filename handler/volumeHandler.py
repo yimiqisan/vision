@@ -46,7 +46,7 @@ class VolumeNewHandler(BaseHandler):
         if r[0]:
             return self.redirect('/volume/'+vid+'/')
         else:
-            d.update({'vid':vid, warning:r[1]})
+            d.update({'vid':vid, 'warning':r[1]})
             return self.render("volume/new.html", **d)
 
 class VolumeRemoveHandler(BaseHandler):
