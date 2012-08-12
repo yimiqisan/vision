@@ -28,18 +28,18 @@ class LoginHandler(BaseHandler):
     @addslash
     @session
     def post(self):
-        n = self.get_argument('nick', None)
-        if n is None:return self.render('login.html', **{'warning': '请先报上名号', 'n':n})
+        m = self.get_argument('email', None)
+        if m is None:return self.render('login.html', **{'warning': '请输入邮箱', 'm':m})
         p = self.get_argument('password', None)
-        if p is None:return self.render('login.html', **{'warning': '请输入密码', 'n':n})
+        if p is None:return self.render('login.html', **{'warning': '请输入密码', 'm':m})
         s = Staff()
-        r = s.login(n, p)
+        r = s.login(m, p)
         if r[0]:
             uid = r[1]['_id']
             self.SESSION['uid']=uid
-            self.SESSION['nick']=n
-            self.SESSION['logo']=r[1]['added'].get('logo', None)
-            self.SESSION['perm']=r[1]['perm']
+            self.SESSION['nick']=r[1]['nick']
+            self.SESSION['ulogo']=r[1].get('avatar', None)
+            self.SESSION['perm']=r[1]['pm']
             self.redirect('/')
         else:
             self.render_alert(r[1])
@@ -49,7 +49,7 @@ class LogoutHandler(BaseHandler):
     @session
     @authenticated
     def get(self):
-        del self.SESSION['uid'], self.SESSION['nick'], self.SESSION['logo'], self.SESSION['perm']
+        del self.SESSION['uid'], self.SESSION['nick'], self.SESSION['ulogo'], self.SESSION['perm']
         self.redirect('/')
 
 class Error404Handler(BaseHandler):

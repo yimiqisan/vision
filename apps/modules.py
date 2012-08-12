@@ -30,6 +30,7 @@ class StaffDoc(Document):
     
     structure = {
             '_id':      unicode,
+            'avatar':     unicode,
             'nick':     unicode,
             'email':    unicode,
             'password': unicode,

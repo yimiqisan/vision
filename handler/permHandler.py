@@ -11,8 +11,9 @@ from md5 import md5
 from tornado.web import addslash, authenticated
 
 from baseHandler import BaseHandler
+from vision.config import PERM_CLASS
 from vision.apps.staff import Staff
-from vision.apps.perm import Permission
+from vision.apps.perm import Permission, addperm
 from vision.apps.tools import session
 
 
@@ -22,20 +23,24 @@ class PermHandler(BaseHandler):
     @authenticated
     def get(self):
         uid = self.SESSION['uid']
+        perm = self.SESSION['perm']
+        kwargs = {}
+        if perm[0][0] == 0x02:kwargs['level'] = u'editor'
         page = self.get_argument('page', 1)
         s = Staff()
-        r = s._api.page(page=page)
+        r = s._api.page(page=page, **kwargs)
         if r[0]:
             return self.render("perm/index.html", slist=r[1], sinfo=r[2])
 
 class PermNewHandler(BaseHandler):
     KEY_DICT = {
                 "email": "设置邮箱，可能帮您找回失散多年的密码",
-                "nick": "请先报上名号",
                 "password": "请填写密码",
-                "perm": "请选择权限",
-                "profession": "请选择职业",
-                "logo": "",
+                "pm": "请选择权限",
+                "profession": "请选择属性",
+                "level": "",
+                "nick": "",
+                "avatar": "",
                 "male": "",
                 "job": "",
                 "discribe": ""
@@ -47,47 +52,66 @@ class PermNewHandler(BaseHandler):
         uid = self.SESSION['uid']
         d = {'pid':None}
         for n in self.KEY_DICT.keys():d[n] = None
+        if d['pm'] is None:d['pm'] = [PERM_CLASS['NORMAL']]
         return self.render("perm/new.html", **d)
     
     @addslash
     @session
     @authenticated
+    @addperm
     def post(self):
         uid = self.SESSION['uid']
         pid = self.get_argument('pid', None)
+        k_dict = self.KEY_DICT.copy()
         d = {}
-        for k in self.KEY_DICT.keys():
+        if pid:
+            k_dict.pop('email')
+            k_dict.pop('password')
+            k_dict.pop('pm')
+            k_dict.pop('profession')
+        if str(self.get_argument('pm', 'EDITOR')) == 'MANAGER':
+            k_dict['profession'] = ''
+        for k in k_dict.keys():
             v = self.get_argument(k, None)
-            if (v is None)and(self.KEY_DICT[k]):
-                d['warning'] = self.KEY_DICT[k]
+            if (v is None)and(k_dict[k]):
+                if pid:return self.redirect('/perm/'+pid+'/edit/')
+                d['warning'] = k_dict[k]
                 d['pid'] = ''
-                d.update(map(lambda x: (x,''), self.KEY_DICT.keys()))
+                d.update(map(lambda x: (x,''), k_dict.keys()))
                 return self.render('perm/new.html', **d)
             d[k] = v.strip() if v is not None else ''
         s = Staff()
         if pid:
-            r = p._api.edit(pid, **d)
+            r = s._api.edit(pid, **d)
         else:
             r = r = s.register(**d)
             pid = r[1]
         if r[0]:
             self._set_perm(r[1])
-            self.redirect('/space/perm/')
+            if self.pm in [0x01, 0x02]:
+                self.redirect('/space/perm/')
+            else:
+                self.redirect('/space/')
         else:
             d['warning'] = r[1]
             d['pid'] = ''
             return self.render('perm/new.html', **d)
     
     def _set_perm(self, uid):
-        m = str(self.get_argument('perm', 'EDITOR'))
+        m = str(self.get_argument('pm', 'EDITOR'))
         if m == 'MANAGER':
             key = m
         elif m == 'EDITOR':
-            s = self.request.arguments.get('profession', 'NORMAL')
+            s = self.request.arguments.get('profession', None)
             key = s
+        if key is None:return
         p = Permission()
-        for k in key:
-            p._api.award(uid, u'site', k.upper())
+        p._api.deprive(uid, u'site')
+        if isinstance(key, list):
+            for k in key:
+                p._api.award(uid, u'site', k.upper())
+        else:
+            p._api.award(uid, u'site', key.upper())
 
 class PermRemoveHandler(BaseHandler):
     @addslash
@@ -123,6 +147,7 @@ class PermCpwdHandler(BaseHandler):
     @addslash
     @session
     @authenticated
+    @addperm
     def post(self, she):
         uid = self.SESSION['uid']
         vpwd = self.get_argument('verifypwd', None)
@@ -142,7 +167,10 @@ class PermCpwdHandler(BaseHandler):
             opwd = unicode(md5(opwd).hexdigest())
             if (s.password != opwd):return self.render('perm/cpwd.html', pid=she, **{'warning': '密码不正确'})
             s._api.change_pwd(she, opwd, newpwd, repwd)
-        return self.redirect('/space/perm/')
+        if self.pm in [0x01, 0x02]:
+            self.redirect('/space/perm/')
+        else:
+            self.redirect('/space/')
         
         
         

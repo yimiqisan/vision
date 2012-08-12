@@ -63,7 +63,7 @@ VOL_TYPES_SUB = {
 
 VOL_PROPERTY_MAIN = [
             ['PERSONAL', '个人'],
-            ['ORGANIZATION', '组织'],
+            ['ORGANIZATION', '机构'],
             ['SHOW', '展会']
 ]
     
@@ -91,6 +91,20 @@ VOL_PROPERTY_SUB = {
             ['ASHOW', '展会'],
             ['DSHOW', '展会']]
 }
+
+def _get_mtype(key):
+    for s in VOL_TYPES_SUB.keys():
+        if key == s:return s
+        for t in VOL_TYPES_SUB[s]:
+            if key == t[0]:
+                return s
+    return None
+
+def _get_perm_key(value):
+    for k, v in PERM_CLASS.items():
+        if value == v:
+            return k
+    return None
 
 def get_sub(t=None, p=None):
     if (t is None) and (p is None):
@@ -162,7 +176,7 @@ class VolumeAPI(API):
         if kwargs.has_key('male'):
             kwargs['male'] = kwargs['male'] == u'male'
         if kwargs.has_key('year'):
-            kwargs['year'] = int(kwargs['year'])
+            kwargs['year'] = datetime.strptime(kwargs['year'], DATE_FORMAT)
         if kwargs.has_key('live'):
             kwargs['live'] = int(kwargs['live'])
         if kwargs.has_key('grade'):
@@ -189,18 +203,63 @@ class VolumeAPI(API):
         if (r[0] and r[1]):return (True, self._output_format(result=r[1]))
         return r
     
+    def page_own(self, cuid=DEFAULT_CUR_UID, owner=None, perm=None, name=None, prop=None, live=None, agency=None, tags=[], grade=None, nexus=None, male=None, year_interval=(None, None), page=1, pglen=10, limit=20, order_by='added_id', order=-1):
+        kwargs = {}
+        if owner:kwargs['owner']=owner
+        if name:kwargs['name']=re.compile('.*'+name+'.*')
+        if prop:
+            prop_list = [u'PERSONAL', u'ORGANIZATION', u'SHOW']
+            if isinstance(prop, list) and set(prop).issubset(set(prop_list)):
+                kwargs['prop']={'$all':prop}
+            elif prop.upper() in prop_list:
+                kwargs['prop']=prop
+        if live:kwargs['live']=live
+        if agency:kwargs['agency']=agency
+        if grade:kwargs['grade']=grade
+        if nexus:kwargs['nexus']=nexus
+        if type(male) == type(False):kwargs['male']=male
+        ### year_interval
+        kwargs['page']=page
+        kwargs['pglen']=pglen
+        kwargs['limit']=limit
+        kwargs['order_by']=order_by
+        kwargs['order']=order
+        r = super(VolumeAPI, self).page(**kwargs)
+        if r[0]:
+            kw = {'result':r[1]}
+            if cuid:kw['cuid']=cuid
+            l = self._output_format(**kw)
+            return (True, l, r[2])
+        else:
+            return (False, r[1])
+
+    
     def page(self, cuid=DEFAULT_CUR_UID, owner=None, perm=None, name=None, prop=None, maintype=None, subtype=None, live=None, agency=None, tags=[], grade=None, nexus=None, male=None, year_interval=(None, None), page=1, pglen=10, limit=20, order_by='added_id', order=-1):
         kwargs = {}
         pmlist = [PERM_CLASS['SUPEROR'], PERM_CLASS['MANAGER']]
-        if subtype:pmlist.append(PERM_CLASS.get(subtype, ''))
-        mtype_list = [u'FASHION', u'ART', u'DESIGN', u'HUMAN', u'BRAND']
         if subtype:
-            if subtype in mtype_list:
+            mtype_l = ['FASHION', 'ART', 'DESIGN', 'HUMAN', 'BRAND']
+            subkey = _get_mtype(subtype)
+            pmlist.append(PERM_CLASS.get(subkey, ''))
+            if perm and owner:
+                for p in perm:
+                    if p in pmlist:
+                        owner=None
+                        break
+                if owner:kwargs['owner']=owner
+            
+            if subtype in mtype_l:
                 kwargs['maintype']=subtype
             else:
                 kwargs['subtype']=subtype
-        if perm not in pmlist and owner:
-            kwargs['owner']=owner
+        else:
+            flag = False
+            mtypelist = []
+            for p in perm:
+                if p not in pmlist:
+                    flag = True
+                mtypelist.append(_get_perm_key(p))
+            if flag:kwargs['maintype'] = {'$in':mtypelist}
 #        if maintype:
 #            if isinstance(maintype, list) and set(maintype).issubset(set(mtype_list)):
 #                kwargs['maintype']={'$all':maintype}

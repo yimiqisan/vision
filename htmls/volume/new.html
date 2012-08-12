@@ -58,12 +58,12 @@
 					</div>
 				</div>
 				<div class="control-group">
-					<label class="control-label" for="subtype">角色</label>
+					<label class="control-label" for="subtype">二级属性</label>
 					<div class="controls">
 						<select type="text" class="span2" id="subtype" name="subtype">
 							<option value="{% if subtype %}{{ subtype }}{% end %}">{% if subtype_cn %}{{ subtype_cn }}{% end %}</option>
 						</select>
-						<p class="help-inline">请选择角色</p>
+						<p class="help-inline">请选择二级属性</p>
 					</div>
 				</div>
 			</div>
@@ -111,7 +111,7 @@
 				<div class="control-group">
 					<label class="control-label" for="year">出生日期</label>
 					<div class="controls">
-						<input name="year" id="year" class="date-pick dp-applied" value="{% if year %}{{ year }}{% end %}" />
+						<input name="year" id="year" class="date-pick dp-applied disabled" value="{% if year %}{{ year }}{% end %}" />
 						<p class="help-inline">请选择出生日期</p>
 					</div>
 				</div>
@@ -125,10 +125,7 @@
 				<div class="control-group">
 					<label class="control-label" for="agency">所属机构</label>
 					<div class="controls">
-						<select type="text" class="input-xlarge" id="agency" name="agency">
-							<option>{% if agency %}{{ agency }}{% end %}</option>
-							<option>Trunk Studio</option>
-						</select>
+						<input type="text" name="agency" class="input-xlarge" id="agency" value="{% if agency %}{{ agency }}{% end %}" />
 						<p class="help-inline">请选择所属机构</p>
 					</div>
 				</div>

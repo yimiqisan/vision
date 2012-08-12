@@ -3,7 +3,21 @@ function _(a,b){
     function m(a){l(PLACE_L2L1[a]),g.val(a).change()}
     function l(a){k(1),f.val(a).change()}
     function k(a){e.val(a).change()}
-    function j(a,b,c,d){a.change(function(){b.hide();var a=c(this.value);a!=""&&d.html('<option value="0">- 请选择 -</option>'+a).show()}).val("0")}function c(a){return d.find("select[name="+a+"]")}var d=$("#"+a).html(['<input name="'+a+'" type="hidden" value="1">','<select name="country">',option_conutry(),'</select><select name="city"><option value="0">- 请选择 -</option>',option_city(),'</select><select name="town"></select><select name="loc"></select>'].join("")),e=c("country"),f=c("city").val("0"),g=c("town"),h=c("loc"),i=$(g);i.push(h[0]),i.hide(),d.find("select").change(function(){var b=this,c=b.value;c!="0"&&d.find("input[name="+a+"]").val(c),$(b).blur()}),e.change(function(){"1"==this.value?f.show():f.hide(),f.val("0"),i.hide()}).val("1"),j(f,i,option_town,g),j(g,h,option_loc,h);if(b){var o=b.toString(16),b=b-0;o in COUNTRY_DICT?k(b):$.inArray(o,PLACE_L1)+1?l(b):b in PLACE_L2L1?m(b):b in PLACE_L3L2&&n(b)}}
+    function j(a,b,c,d){a.change(function(){b.hide();var a=c(this.value);a!=""&&d.html('<option value="0">- 请选择 -</option>'+a).show()}).val("0")}
+    function c(a){return d.find("select[name="+a+"]")}
+    var d=$("#"+a).html(['<input name="'+a+'" type="hidden" value="1">','<select name="country">',option_conutry(),'</select><select name="city"><option value="0">- 请选择 -</option>',option_city(),'</select><select name="town"></select><select name="loc"></select>'].join("")),
+    e=c("country"),
+    f=c("city").val("0"),
+    g=c("town"),
+    h=c("loc"),
+    i=$(g);
+    i.push(h[0]),i.hide(),
+    d.find("select").change(function(){var b=this,c=b.value;c!="0"&&d.find("input[name="+a+"]").val(c),
+    $(b).blur()}),
+    e.change(function(){"1"==this.value?f.show():f.hide(),f.val("0"),i.hide()}).val("1"),
+    j(f,i,option_town,g),j(g,h,option_loc,h);
+    if(b){var o=b.toString(16),b=b-0;o in COUNTRY_DICT?k(b):$.inArray(o,PLACE_L1)+1?l(b):b in PLACE_L2L1?m(b):b in PLACE_L3L2&&n(b)}
+}
     function select_pid(a,b){document.write('<span id="'+a+'"/>'),_(a,b)}
     function option_loc(a){return _option2(PLACE_L2L3,a)}
     function option_town(a){return _option2(PLACE_L1L2,a)}

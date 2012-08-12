@@ -25,7 +25,7 @@ class SpaceHandler(BaseHandler):
         uid = self.SESSION['uid']
         page = int(self.get_argument('page', 1))
         v = Volume()
-        r = v._api.page(owner=uid, page=page, limit=15)
+        r = v._api.page_own(owner=uid, page=page, limit=15)
         return self.render("space/index.html", vlist=r[1], vinfo=r[2])
 
 class SpacePermHandler(BaseHandler):

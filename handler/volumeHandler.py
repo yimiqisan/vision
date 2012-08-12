@@ -110,7 +110,7 @@ class AjaxVolumeTypeHandler(BaseHandler):
         uid = self.SESSION['uid']
         kind = self.get_argument('kind', None)
         if kind == u'maintype':
-            options = volume.VOL_TYPES_MAIN
+            options = volume.VOL_TYPES_MAIN[:-1]
         elif kind == u'property':
             options = volume.VOL_PROPERTY_MAIN
         elif kind == u'subtype':

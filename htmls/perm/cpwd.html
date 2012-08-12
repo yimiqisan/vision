@@ -5,14 +5,11 @@
 {% end %}
 
 {% block static %}{% end %}
-{% block bodyleft %}
-d
-{% end %}
 
 {% block bodyright %}
 	<br/>
 		<h3 class="pull-left">修改密码</h3>
-		<a class="btn pull-right" href="/space/perm/" style="margin-right:10px;">返回列表</a>
+		<a class="btn pull-right" href="{% if verify(perm, [0x01, 0x02]) %}/space/perm/{% else %}/space/{% end %}" style="margin-right:10px;">返回</a>
 		<div style="clear:both;"></div>
 	<hr/>
 	<form class="form-horizontal" action="/perm/{{ pid }}/cpwd/" method="POST">

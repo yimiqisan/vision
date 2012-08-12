@@ -52,6 +52,10 @@ class Staff(object):
         password = info.get('password', None)
         if password:
             info['password'] = unicode(md5(password).hexdigest())
+        if info['pm'] == 'MANAGER':
+            info['level'] = u'manager'
+        else:
+            info['level'] = u'editor'
         c = self._api.create(**info)
         if c[0]:
             self.info = info
@@ -59,17 +63,17 @@ class Staff(object):
             self.info = None
         return c
     
-    def login(self, nick, password):
-        if (nick in ADMIN.keys()) and (password == ADMIN[nick][0]):
-            return (True, {'_id':ADMIN[nick][1], 'perm':[PERM_CLASS['SUPEROR']], 'added':{'logo': None}})
-        r = self._api.is_nick_exist(nick)
+    def login(self, email, password):
+        if (email in ADMIN.keys()) and (password == ADMIN[email][0]):
+            return (True, {'_id':ADMIN[email][1], 'pm':[PERM_CLASS['SUPEROR']], 'added':{'logo': None}, 'nick': 'admin'})
+        r = self._api.is_email_exist(email)
         if not r:return (False, '查无此人')
-        c = self._api.one(nick=nick)
+        c = self._api.one(email=email)
         password = unicode(md5(password).hexdigest())
         if c[0] and (c[1]['password'] == password):
             p = Permission()
             info = c[1]
-            info['perm'] = p._api.get_owner_value(info['_id'])
+            info['pm'] = p._api.get_owner_value(info['_id'])
             self.info = info
             return (True, info)
         self.info = None
@@ -132,7 +136,7 @@ class StaffAPI(API):
     
     def _output_format(self, result=[], cuid=DEFAULT_CUR_UID):
         now = datetime.now()
-        output_map = lambda i: {'pid':i['_id'], 'added_id':i['added_id'], 'perm':self._perm(i['_id']), 'email':i.get('email', None), 'password':None, 'belong':i['belong'], 'job':i['added'].get('job', ''), 'discribe':i['added'].get('discribe', ''), 'is_own':(cuid==i['belong'] if i['belong'] else True), 'nick':i['nick'], 'level':i['level'], 'logo':i['added'].get('logo', None), 'male':i['added'].get('male', None), 'created':self._escape_created(now, i['created'])}
+        output_map = lambda i: {'pid':i['_id'], 'added_id':i['added_id'], 'pm':self._perm(i['_id']), 'email':i.get('email', None), 'password':None, 'belong':i['belong'], 'job':i['added'].get('job', ''), 'discribe':i['added'].get('discribe', ''), 'is_own':(cuid==i['belong'] if i['belong'] else True), 'nick':i['nick'], 'level':i['level'], 'avatar':i.get('avatar', None), 'male':i['added'].get('male', None), 'created':self._escape_created(now, i['created'])}
         if isinstance(result, dict):
             return output_map(result)
         return map(output_map, result)

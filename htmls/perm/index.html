@@ -9,13 +9,10 @@
 		$(document).ready(function() {$('a[rel=tooltip]').tooltip();})
 	</script>
 {% end %}
-{% block bodyleft %}
-d
-{% end %}
 
 {% block bodyright %}
 	<br/>
-	<h3 class="pull-left">管理列表</h3>
+	<h3 class="pull-left">账户列表</h3>
 	<a class="btn btn-success pull-right" href="/perm/new/" style="margin-right:10px;">新建账户</a>
 	<div style="clear:both;"></div><hr/>		
 	<table class="table">
@@ -31,7 +28,7 @@ d
 			{% for s in slist %}
 			<tr>
 				<td>{{s['email']}}</td>
-				<td>{{list2txt(s['perm'])}}</td>
+				<td>{{list2txt(s['pm'])}}</td>
 				<td>{{s['nick']}}</td>
 				<td>
 					<a href="/perm/{{s['pid']}}/edit/" rel="tooltip" data-original-title="编辑" title="编辑"><i class="icon-edit"></i></a>&nbsp;&nbsp;&nbsp;

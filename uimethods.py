@@ -17,13 +17,25 @@ def truncate(handler, v, length=100):
 
 def verify(handler, perm, reference):
     if isinstance(reference, int):
-        return perm == reference
+        if isinstance(perm, list):
+            for p in perm:
+                if p[0] == reference:return True
+        else:
+            return perm[0] == reference
     elif isinstance(reference, list):
-        return (perm in reference)
+        if isinstance(perm, list):
+            for p in perm:
+                if p[0] in reference:return True
+        else:
+            return (perm[0] in reference)
     elif isinstance(reference, dict):
         s=reference.get('start', 0x00)
         e=reference.get('end', 0x99)
-        return (s <= perm <= e)
+        if isinstance(perm, list):
+            for p in perm:
+                if (s <= p[0] <= e):return True
+        else:
+            return (s <= perm[0] <= e)
     return False
 
 def list2txt(handler, v=None):
