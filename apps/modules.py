@@ -119,6 +119,37 @@ class VolumeDoc(Document):
     use_schemaless = True
     use_dot_notation=True
 
+class CollectDoc(Document):
+    __collection__ = 'collect'
+    __database__ = DB_NAME
+    
+    structure = {
+            '_id':      unicode,
+            'refer_id': unicode,
+            'owner':    unicode,
+            'logo':     unicode,
+            'name':     unicode,
+            'prop':     IS(u'PERSONAL', u'ORGANIZATION', u'SHOW'),
+            'maintype': IS(u'FASHION', u'ART', u'DESIGN', u'HUMAN', u'BRAND'),
+            'subtype':  unicode,
+            'live':     int,
+            'agency':   unicode,
+            'tags':     list,
+            'grade':    int,
+            'nexus':    int,
+            'male':     bool,
+            'year':     datetime,
+            'created':  datetime,
+            'added':    dict,
+            'added_id': int,
+    }
+    
+    required_fields = ['_id', 'name', 'prop', 'maintype', 'subtype', 'created']
+    default_values = {'_id':uuid.uuid4().hex, 'created':datetime.now()}
+    
+    use_schemaless = True
+    use_dot_notation=True
+
 class ProjectDoc(Document):
     __collection__ = 'project'
     __database__ = DB_NAME

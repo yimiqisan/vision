@@ -4,7 +4,32 @@
 	<title>vision</title>
 {% end %}
 
-{% block static %}{% end %}
+{% block static %}
+<script language="javascript" type="text/javascript">
+	function add_select(rid){
+		var url = '/a/collect/'+rid+'/add/'
+		var args = {};
+		$.postJSON(url, "POST", args, function(response) {
+			if (response.error){
+        		disabled.enable();
+    			return alert(response.error);
+			}
+    		alert('收藏成功');
+		});
+	}
+	function del_select(rid){
+		var url = '/a/collect/'+rid+'/del/'
+		var args = {'to': id, 'content': tarea};
+		$.postJSON(url, "POST", args, function(response) {
+			if (response.error){
+        		disabled.enable();
+    			return alert(response.error);
+			}
+    		alert('取消成功');
+		});
+	}
+</script>
+{% end %}
 {% block body %}
 	<div class="span12">
 		<div class="navbar">
@@ -72,7 +97,7 @@
 						<li><a href="/volume/{{ v['vid'] }}/edit/">编辑</a></li>
 						<li><a>
 							收藏&nbsp;&nbsp;&nbsp;&nbsp;
-							<select style="display:inline;height:20px;"><option>个人</option><option>机构</option><option>展会</option></select>
+							<button class="btn btn-small btn-success" onclick="add_select('{{ v["vid"] }}');" style="height:20px;">收藏到个人</button>
 						</a></li>
 					</ul>
 					<div class="caption" style="height:80px;">

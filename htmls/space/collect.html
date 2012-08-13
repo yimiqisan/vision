@@ -7,7 +7,7 @@
 {% block static %}{% end %}
 {% block bodyleft %}
 	<br/>
-	<div class=""><a href="/space/">主页</a></div><hr class=""/>
+	<div class=""><a href="/space/">主页</a></div><hr/>
 	<div class=""><a href="/space/new/">新建</a></div><hr/>
 	<div>收藏</div><hr/>
 	<div><a href="/space/project/">项目</a></div><hr/>
@@ -70,15 +70,15 @@
 	</div>
 	
 	<ul class="thumbnails">
-		{% for v in [] %}
+		{% for v in vlist %}
 		<li class="span3">
 			<div class="thumbnail overmenu-group">
-				<a href="/volume/{{ v['mid'] }}/"><img src="/image/attach/{{ v.get('logo', None) }}_300" style="width:260px;height:180px;" alt=""></a>
+				<a href="/volume/{{ v['cid'] }}/"><img src="/image/attach/{{ v.get('logo', None) }}_300" style="width:260px;height:180px;" alt=""></a>
 				<ul class="overmenu">
-					<li><a href="/volume/{{ v['mid'] }}/">查看</a></li>
-					<li><a href="/volume/{{ v['mid'] }}/remove/" onclick="return delconfirm(this);">删除</a></li>
+					<li><a href="/volume/{{ v['cid'] }}/">查看</a></li>
+					<li><a href="/volume/{{ v['cid'] }}/remove/" onclick="return delconfirm(this);">删除</a></li>
 					<li>
-						<a href="/volume/{{ v['mid'] }}/collection/">
+						<a href="/volume/{{ v['cid'] }}/collection/">
 							收藏&nbsp;&nbsp;&nbsp;&nbsp;
 							<select style="display:inline;height:20px;"><option>个人</option><option>机构</option><option>展会</option></select>
 						</a>

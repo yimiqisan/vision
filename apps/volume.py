@@ -252,7 +252,7 @@ class VolumeAPI(API):
                 kwargs['maintype']=subtype
             else:
                 kwargs['subtype']=subtype
-        else:
+        elif perm is not None:
             flag = False
             mtypelist = []
             for p in perm:

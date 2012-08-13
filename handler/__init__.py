@@ -13,5 +13,5 @@ from spaceHandler import SpaceHandler, SpacePermHandler, SpaceNewHandler, SpaceC
 from permHandler import PermHandler, PermNewHandler, PermRemoveHandler, PermEditHandler, PermCpwdHandler
 from itemHandler import ItemNewHandler, ItemPreviewHandler, ItemRemoveHandler, ItemEditHandler, ItemHandler, AjaxItemHandler
 from volumeHandler import VolumeHandler, VolumeNewHandler, VolumeRemoveHandler, VolumeEditHandler, VolumeHandler, VolumeListHandler, AjaxVolumeTypeHandler
+from collectHandler import CollectHandler, CollectItemHandler, AjaxCollectAddHandler, AjaxCollectDelHandler, CollectListHandler
 from projectHandler import ProjectNewHandler, ProjectRemoveHandler, ProjectEditHandler, ProjectHandler
-

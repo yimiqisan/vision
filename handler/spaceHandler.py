@@ -50,10 +50,7 @@ class SpaceCollectHandler(BaseHandler):
     @authenticated
     def get(self):
         uid = self.SESSION['uid']
-        page = int(self.get_argument('page', 1))
-        v = Volume()
-        r = v._api.page(page=page, limit=15)
-        return self.render("space/collect.html", vlist=r[1], vinfo=r[2])
+        return self.redirect("/collect/")
 
 class SpaceProjectHandler(BaseHandler):
     @addslash

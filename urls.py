@@ -32,6 +32,12 @@ handlers = [(r"/", RootHandler),
             (r"/volume/?(.*)/", VolumeListHandler),
             (r"/a/volume/type/", AjaxVolumeTypeHandler),
             
+            (r"/collect/", CollectHandler),
+            (r"/collect/(.{32})/", CollectItemHandler),
+            (r"/a/collect/(.{32})/add/", AjaxCollectAddHandler),
+            (r"/a/collect/(.{32})/del/", AjaxCollectDelHandler),
+            (r"/collect/list/", CollectListHandler),
+            
             (r"/item/([a-z]+)/(.{32})/new/", ItemNewHandler),
             (r"/item/([a-z]+)/(.{32})/preview/", ItemPreviewHandler),
             (r"/item/(.{32})/remove/", ItemRemoveHandler),
