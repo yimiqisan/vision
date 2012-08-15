@@ -41,7 +41,7 @@
 {% block bodyright %}
 <div class="span3" style="width:199px;">
 	<div class="control-group">
-		<label class="control-label" for="ulogo">头像：</label>
+		<label class="control-label" for="ulogo"></label>
 		<div class="controls">
 			<div id="poster">头像上传</div>
 				<div id="poster-disp">
@@ -55,7 +55,7 @@
 
 <div class="span9" style="border-left:1px solid #eee">
 	<br/>
-		<h3 class="pull-left" style="margin-left:10px;">新建账户</h3>
+		<h3 class="pull-left" style="margin-left:10px;">{% if pid %}编辑账户信息{% else %}新建账户{% end %}</h3>
 		<a class="btn pull-right" href="{% if verify(perm, [0x01, 0x02]) %}/space/perm/{% else %}/space/{% end %}" onclick="return backconfirm(this);" style="margin-right:10px;">返回</a>
 		<div style="clear:both;"></div>
 	<hr/>
@@ -145,7 +145,7 @@
 		<input type="hidden" name="pid" value="{% if pid %}{{ pid }}{% end %}">
 		<div class="form-actions">
 			<input type="submit" class="btn btn-primary censor" value="确定" />
-			<a href="/space/perm/" class="btn" onclick="return backconfirm(this);">取消</a>
+			<a class="btn pull-right" href="{% if verify(perm, [0x01, 0x02]) %}/space/perm/{% else %}/space/{% end %}" onclick="return backconfirm(this);" style="margin-right:10px;">取消</a>
 		</div>
 	</form>
 	<script src="{{ static_url('js/bootstrap-checksubmit.js') }}" type="text/javascript"></script>

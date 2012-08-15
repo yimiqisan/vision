@@ -18,6 +18,26 @@ function _(a,b){
     j(f,i,option_town,g),j(g,h,option_loc,h);
     if(b){var o=b.toString(16),b=b-0;o in COUNTRY_DICT?k(b):$.inArray(o,PLACE_L1)+1?l(b):b in PLACE_L2L1?m(b):b in PLACE_L3L2&&n(b)}
 }
+function _show(a, b, c){
+    function show_country(a){return COUNTRY_DICT[a];}
+    function show_city(a){r = show_country(1);return r+PID2NAME[a.toString(16)];}
+    function show_town(a){r = show_city(PLACE_L2L1[a]);return r+PID2NAME[a.toString(16)];}
+    function show_loc(a){r = show_town(PLACE_L3L2[a]);return r+PID2NAME[a.toString(16)];}
+    if(b) {
+        var o=b.toString(16),b=b-0;
+        if (o in COUNTRY_DICT){
+            n=show_country(b)
+        }else if($.inArray(o,PLACE_L1)+1){
+            n=show_city(b)
+        }else if(b in PLACE_L2L1){
+            n = show_town(b)
+        }else if(b in PLACE_L3L2){
+            n=show_loc(b);
+        }
+        $('#'+a).text(c+n);
+    }
+}
+    function show_pid(a,b,c){document.write('<p id="'+a+'"></p>'),_show(a,b,c)}
     function select_pid(a,b){document.write('<span id="'+a+'"/>'),_(a,b)}
     function option_loc(a){return _option2(PLACE_L2L3,a)}
     function option_town(a){return _option2(PLACE_L1L2,a)}

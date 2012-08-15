@@ -6,7 +6,6 @@
 
 {% block static %}
 	<script language="javascript" src="{{ static_url('js/jquery.live.js') }}" type="text/javascript"></script>
-	
 {% end %}
 {% block body %}
 	<ul class="breadcrumb" style="background:#ededed;">
@@ -17,7 +16,7 @@
 		<div class="span2"><img src="/image/attach/{{logo}}_100" alt="头像" style="width:100px;height:100px;" /></div>
 		<div class="span8">
 			<p>{{name}} /{{subtype_cn}} 性别：{{male_cn}} 出生日期：{{year}}</p>
-			<p>{{live}}</p>
+			<script>show_pid('live', {{live}}, '国家地区：')</script>
 			<p>所属机构：{{agency}}</p>
 			<p>网址：{{website}}</p>
 		</div>

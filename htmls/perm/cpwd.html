@@ -9,7 +9,7 @@
 {% block bodyright %}
 	<br/>
 		<h3 class="pull-left">修改密码</h3>
-		<a class="btn pull-right" href="{% if verify(perm, [0x01, 0x02]) %}/space/perm/{% else %}/space/{% end %}" style="margin-right:10px;">返回</a>
+		<a class="btn pull-right" href="{% if verify(perm, [0x01, 0x02]) %}/space/perm/{% else %}/space/{% end %}" onclick="return backconfirm(this);" style="margin-right:10px;">返回</a>
 		<div style="clear:both;"></div>
 	<hr/>
 	<form class="form-horizontal" action="/perm/{{ pid }}/cpwd/" method="POST">
@@ -42,7 +42,7 @@
 		<input type="hidden" name="pid" value="{% if pid %}{{ pid }}{% end %}">
 		<div class="form-actions">
 			<input type="submit" class="btn btn-primary censor" value="确定" />
-			<a href="/space/perm/" class="btn" onclick="return backconfirm(this);">取消</a>
+			<a class="btn pull-right" href="{% if verify(perm, [0x01, 0x02]) %}/space/perm/{% else %}/space/{% end %}" onclick="return backconfirm(this);" style="margin-right:10px;">取消</a>
 		</div>
 	</form>
 {% end %}
