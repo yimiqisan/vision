@@ -54,6 +54,26 @@ $.fn.selectlist.Constructor = Selectlist
 				$("#prop").append("<option value=" + i + ">" + t + "</option>");
 			});
 		});
+		
+		
+		var maintype = $('#maintype').val()
+		, prop = $('#prop').val()
+		, stype = $('#subtype option');
+        var args = {'kind': 'subtype'};
+		if (maintype) {args['maintype'] = maintype};
+		if (prop) {args['property'] = prop};
+		$.postJSON("/a/volume/type/", "GET", args, function(response) {
+			if (response.error){
+				return alert(response.error);
+			}
+			$("#subtype").html("<option></option>");
+			$(response).each(function() {
+				var i = $(this)[0]
+				, t = $(this)[1];
+				$("#subtype").append("<option value=" + i + ">" + t + "</option>");
+			});
+			$("#subtype").append(stype);
+		});
 
 		$('#maintype').change(function(){
 			var maintype = $(this).val()
@@ -78,7 +98,24 @@ $.fn.selectlist.Constructor = Selectlist
 		$('#prop').change(function(){
 			var prop = $(this).val()
 			, maintype = $('#maintype').val();
+			
 			if (prop) {
+			    if (prop == 'PERSONAL') {
+			        $("[for='name']").text('姓名');
+			        $("[for='builder']").parent().addClass('hide');
+			        $("[for='male']").parent().removeClass('hide');
+			        $("[for='year']").text('出生日期');
+			        $("[for='market']").parent().addClass('hide');
+			        
+			    }else if (prop == 'ORGANIZATION') {
+			        $("[for='name']").text('名称');
+			        $("[for='male']").parent().addClass('hide');
+			        $("[for='builder']").parent().removeClass('hide');
+			        $("[for='year']").text('创建时间');
+			        $("[for='market']").parent().removeClass('hide');
+			    }else if (prop == 'SHOW') {
+			        
+			    }
 				var args = {'kind': 'subtype', 'property': prop};
 				if (maintype) {args['maintype'] = maintype};
 				$.postJSON("/a/volume/type/", "GET", args, function(response) {

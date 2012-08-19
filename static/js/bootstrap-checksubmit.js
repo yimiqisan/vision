@@ -29,6 +29,7 @@ Check.prototype = {
             var c = $(this).prev()
             , g = $(this).closest('.control-group');
             g.removeClass('error');
+            if (g.hasClass('hide')) { return true; }
             if (typeof c.attr('name') === 'undefined'){
                 c = c.find('input');
             }

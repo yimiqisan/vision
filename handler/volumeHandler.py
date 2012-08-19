@@ -17,7 +17,7 @@ from vision.apps.perm import addperm
 from vision.apps.tools import session
 
 class VolumeNewHandler(BaseHandler):
-    KEYS = ["maintype", "maintype_cn", "prop", "prop_cn", "subtype", "subtype_cn", "logo", "name", "male", "year", "live", "agency", "website", "grade", "nexus", "intro", "about"]
+    KEYS = ["maintype", "maintype_cn", "prop", "prop_cn", "subtype", "subtype_cn", "logo", "name", "male", "year", "live", "agency", "website", "grade", "nexus", "intro", "about", "builder", "market"]
     @addslash
     @session
     @authenticated
@@ -117,6 +117,7 @@ class AjaxVolumeTypeHandler(BaseHandler):
         elif kind == u'subtype':
             t = self.get_argument('maintype', None)
             p = self.get_argument('property', None)
+            print t, p
             options = volume.get_sub(t, p)
         else:
             options = {}

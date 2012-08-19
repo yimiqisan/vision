@@ -17,7 +17,7 @@ from modules import ItemDoc
 from api import API, Added_id
 from vision.apps.reply import Reply
 
-VTYPE_LIST = [u'personal', u'organization', u'project']
+VTYPE_LIST = [u'personal', u'organization', u'show', u'project']
 
 class Item(object):
     def __init__(self, api=None):

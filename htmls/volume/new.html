@@ -83,13 +83,22 @@
 			
 			<div class="span9">
 				<div class="control-group">
-					<label class="control-label" for="name">姓名</label>
+					<label class="control-label" for="name">{% if prop=='PERSONAL' %}姓名{% else %}名称{% end %}</label>
 					<div class="controls">
 						<input type="text" class="input-xlarge" id="name" name="name" value="{% if name %}{{name}}{% end %}"/>
-						<p class="help-inline">请输入姓名</p>
+						<p class="help-inline">请输入{% if prop=='PERSONAL' %}姓名{% else %}名称{% end %}</p>
 					</div>
 				</div>
-				<div class="control-group">
+				
+				<div class="control-group {% if prop=='PERSONAL' %}hide{% end %}">
+					<label class="control-label" for="builder">负责人</label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="builder" name="builder" value="{% if builder %}{{builder}}{% end %}"/>
+						<p class="help-inline">请输入负责人</p>
+					</div>
+				</div>
+				
+				<div class="control-group {% if prop!='PERSONAL' %}hide{% end %}">
 					<label class="control-label" for="male">性别</label>
 					<div class="controls">
 						<select type="text" class="input-xlarge" id="male" name="male">
@@ -109,10 +118,10 @@
 					</div>
 				</div>
 				<div class="control-group">
-					<label class="control-label" for="year">出生日期</label>
+					<label class="control-label" for="year">{% if prop=='PERSONAL' %}出生日期{% else %}创建时间{% end %}</label>
 					<div class="controls">
 						<input name="year" id="year" class="date-pick dp-applied disabled" value="{% if year %}{{ year }}{% end %}" />
-						<p class="help-inline">请选择出生日期</p>
+						<p class="help-inline">请选择{% if prop=='PERSONAL' %}出生日期{% else %}创建时间{% end %}</p>
 					</div>
 				</div>
 				<div class="control-group">
@@ -171,6 +180,15 @@
 						<p class="help-inline">请输入相关机构</p>
 					</div>
 				</div>
+
+				<div class="control-group {% if prop=='PERSONAL' %}hide{% end %}">
+					<label class="control-label" for="market">市场投放</label>
+					<div class="controls">
+						<textarea class="input-xlarge" id="market" rows="3" name="market">{% if market %}{{ market }}{% end %}</textarea>
+						<p class="help-inline">请输入市场投放</p>
+					</div>
+				</div>
+				
 				<input type="hidden" name="vid" value="{% if vid %}{{ vid }}{% end %}">
 			</div>
 			<div style="clear:both;"></div>
