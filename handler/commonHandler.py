@@ -32,17 +32,39 @@ class LoginHandler(BaseHandler):
         if m is None:return self.render('login.html', **{'warning': '请输入邮箱', 'm':m})
         p = self.get_argument('password', None)
         if p is None:return self.render('login.html', **{'warning': '请输入密码', 'm':m})
+        c = self.get_argument('cache', None)
         s = Staff()
         r = s.login(m, p)
         if r[0]:
             uid = r[1]['_id']
             self.SESSION['uid']=uid
-            self.SESSION['nick']=r[1]['nick']
+            self.SESSION['nick']=r[1]['nick'] if r[1]['nick'] else r[1]['email']
             self.SESSION['ulogo']=r[1].get('avatar', None)
             self.SESSION['perm']=r[1]['pm']
             self.redirect('/')
         else:
             self.render_alert(r[1])
+
+class AjaxLoginHandler(BaseHandler):
+    @addslash
+    @session
+    def post(self):
+        m = self.get_argument('email', None)
+        if m is None:return self.write(json.dumps({'error':'请输入邮箱'}))
+        p = self.get_argument('password', None)
+        if p is None:return self.write(json.dumps({'error':'请输入密码'}))
+        c = self.get_argument('cache', None)
+        s = Staff()
+        r = s.login(m, p)
+        if r[0]:
+            uid = r[1]['_id']
+            self.SESSION['uid']=uid
+            self.SESSION['nick']=r[1]['nick'] if r[1]['nick'] else r[1]['email']
+            self.SESSION['ulogo']=r[1].get('avatar', None)
+            self.SESSION['perm']=r[1]['pm']
+            self.redirect('/')
+        else:
+            self.write(json.dumps({'error':r[1]}))
 
 class LogoutHandler(BaseHandler):
     @addslash

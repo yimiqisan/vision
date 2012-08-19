@@ -52,10 +52,6 @@ class Staff(object):
         password = info.get('password', None)
         if password:
             info['password'] = unicode(md5(password).hexdigest())
-        if info['pm'] == 'MANAGER':
-            info['level'] = u'manager'
-        else:
-            info['level'] = u'editor'
         c = self._api.create(**info)
         if c[0]:
             self.info = info

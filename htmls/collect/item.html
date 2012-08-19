@@ -1,0 +1,56 @@
+{% extends ../base.html %}
+
+{% block meta %}
+	<title>vision</title>
+{% end %}
+
+{% block static %}
+	<script language="javascript" src="{{ static_url('js/jquery.live.js') }}" type="text/javascript"></script>
+{% end %}
+{% block body %}
+	<ul class="breadcrumb" style="background:#ededed;">
+		<li><a href="#" title="{{name}}" alt="{{name}}">{{name}}</a></li>
+		<li class="pull-right"><a class="btn btn-mini" href="/collect/">返回</a></li>
+	</ul>
+	<div class="span12" style="border-bottom:1px solid #eee">
+		<div class="span2"><img src="/image/attach/{{logo}}_100" alt="头像" style="width:100px;height:100px;" /></div>
+		<div class="span8">
+			<p>{{name}} /{{subtype_cn}} 性别：{{male_cn}} 出生日期：{{year}}</p>
+			<script>show_pid('live', {{live}}, '国家地区：')</script>
+			<p>所属机构：{{agency}}</p>
+			<p>网址：{{website}}</p>
+		</div>
+		<div>
+			<p>级别：
+				{% for i in xrange(0, grade) %}<i class="icon-star"></i>{% end %}
+				{% for i in xrange(0, 5-grade) %}<i class="icon-star-empty"></i>{% end %}
+			</p>
+			<p>关系：
+				{% for i in xrange(0, nexus) %}<i class="icon-star"></i>{% end %}
+				{% for i in xrange(0, 5-nexus) %}<i class="icon-star-empty"></i>{% end %}
+			</p>
+		</div>
+	</div>
+	<div class="span3" style="width:219px;border-right:1px solid #eee">
+		<br/><h3>简介</h3><hr/>
+		<p>{{intro}}</p>
+		<h3>相关机构</h3><hr/>
+		<p>{{about}}</p>
+	</div>
+	<div class="span9">
+		<ul class="thumbnails">
+			{% for w in wlist %}
+			<li class="span3">
+				<div class="thumbnail">
+					<a href="/item/{{w['eid']}}"><img src="/image/attach/{{ w['logo'] }}_300" style="width:260px;height:180px;" alt=""></a>
+					<div class="caption">
+						<h4>{{w['name']}}</h4></br>
+						<p>{{w['client']}}</p>
+					</div>
+				</div>
+			</li>
+			{% end %}
+		</ul>
+		{% module Template("util/pagination.html", pagination=winfo, url='/collect/{{cid}}', param='') %}
+	</div>
+{% end %}

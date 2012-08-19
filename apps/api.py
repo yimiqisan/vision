@@ -124,8 +124,9 @@ class API(object):
     def _edit_added(self, id, **addeds):
         r = self.one(_id=id)
         if r[0]:
-            addeds.update(r[1].get('added', {}))
-            self.collection.update({"_id":id}, {'$set':{'added': addeds}})
+            addeds_t = r[1].get('added', {})
+            addeds_t.update(addeds)
+            self.collection.update({"_id":id}, {'$set':{'added': addeds_t}})
     
     def _edit_dict(self, id, key, **dicts):
         r = self.one(_id=id)
@@ -160,6 +161,23 @@ class API(object):
             logging.info(e)
             return(False, unicode(e))
         return (True, id)
+    
+    def extend(self, **kwargs):
+        cursor = kwargs.pop('cursor', None)
+        limit = kwargs.pop('limit', 20)
+        order = kwargs.pop('order', -1)
+        order_by = kwargs.pop('order_by', 'added_id')
+        if cursor and (order < 0):
+            kwargs.update({order_by:{'$lt':cursor}})
+        elif cursor and (order > 0):
+            kwargs.update({order_by:{'$gt':cursor}})
+        try:
+            objs= self.collection.find(kwargs).sort(order_by, order).limit(limit)
+#            kwargs.update({'created':{'$lt':datetime.now()}})
+#            objs= self.collection.find(kwargs).sort('created', 1).limit(limit)
+        except:
+            return (False, 'search error')
+        return (True, objs)
     
     def page(self, **kwargs):
         page = kwargs.pop('page', 1)

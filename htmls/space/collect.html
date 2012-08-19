@@ -73,16 +73,11 @@
 		{% for v in vlist %}
 		<li class="span3">
 			<div class="thumbnail overmenu-group">
-				<a href="/volume/{{ v['cid'] }}/"><img src="/image/attach/{{ v.get('logo', None) }}_300" style="width:260px;height:180px;" alt=""></a>
-				<ul class="overmenu">
-					<li><a href="/volume/{{ v['cid'] }}/">查看</a></li>
-					<li><a href="/volume/{{ v['cid'] }}/remove/" onclick="return delconfirm(this);">删除</a></li>
-					<li>
-						<a href="/volume/{{ v['cid'] }}/collection/">
-							收藏&nbsp;&nbsp;&nbsp;&nbsp;
-							<select style="display:inline;height:20px;"><option>个人</option><option>机构</option><option>展会</option></select>
-						</a>
-					</li>
+				<a href="/collect/{{ v['cid'] }}/"><img src="/image/attach/{{ v.get('logo', None) }}_300" style="width:260px;height:180px;" alt=""></a>
+				<ul class="overmenu" bot=0 >
+					<li><a href="/collect/{{ v['cid'] }}/">查看</a></li>
+					<li><a href="/collect/{{ v['cid'] }}/remove/" onclick="return delconfirm(this);">取消收藏</a></li>
+					<li><a href="">loading...</a></li>
 				</ul>
 				<div class="caption" style="height:110px;">
 					<h4>{{ v['name'] }} / {{ v['subtype_cn'] }}</h4></br>

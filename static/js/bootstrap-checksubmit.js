@@ -32,13 +32,19 @@ Check.prototype = {
             if (typeof c.attr('name') === 'undefined'){
                 c = c.find('input');
             }
-            if (c.val() === '') {
+            if (c.attr('type') == 'checkbox'){
+                be = false;
+                c.each(function(e, i){
+                    if($(this).attr('checked') == 'checked'){be = true;}
+                })
+                if (!be){$(this).closest('.control-group').addClass('error');}
+            }else if (c.val() === '') {
                 $(this).closest('.control-group').addClass('error');
                 be = false;
             }
             return true;
         })
-        $this.trigger('censorn')
+        $this.trigger('censorn');
         if (be) {form.submit();}
         return false;
     }

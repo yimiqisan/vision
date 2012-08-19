@@ -25,6 +25,15 @@
 					},
 				onError			: function (event, queueID, fileObj){alert("文件:" + fileObj.name + " 上传失败");}
 			});
+			
+			$('.censor').on('censorn', function(){
+				var cobj = $('[name="profession"]:checked');
+				if (cobj.length == 0) {
+					return false;
+				}
+				return true;
+			})
+
 		})
 		function on_perm_change(e) {
 			var v = $(e).val();
@@ -34,6 +43,7 @@
 				$('[for=profession]').parent().show();
 			}
 		}
+
 	</script>
 	<link rel="stylesheet" type="text/css" href="{{ static_url('css/uploadify.css') }}"/>
 {% end %}
@@ -80,30 +90,35 @@
 			<label class="control-label" for="pm"><span style="color:red;">*</span>权限：</label>
 			<div class="controls">
 				<select type="text" id="pm" name="pm" onchange="on_perm_change(this);return false;" {% if pid and not verify(perm, [0x01]) %}disabled{% end %}>
-					{% if level == 'manager' %}
+					{% if level == 'editor' %}
+						<option value="EDITOR">编辑</option>
+						{% if verify(perm, 0x01) %}<option value="MANAGER">管理员</option>{% end %}
+					{% elif level == 'manager' %}
 						<option value="MANAGER">管理员</option>
 						<option value="EDITOR">编辑</option>
 					{% else %}
-						<option value="EDITOR">编辑</option>
 						{% if verify(perm, 0x01) %}<option value="MANAGER">管理员</option>{% end %}
+						<option value="EDITOR">编辑</option>
 					{% end %}
 				</select>
 				<p class="help-inline">请给新用户分配权限</p>
 			</div>
 		</div>
-		{% if not verify(perm, 0x02) %}
-		<div class="control-group {% if verify(pm, 0x02) %}hide{% end %}">
+
+		<div class="control-group {% if level and level != 'editor' %}hide{% end %}">
 			<label class="control-label" for="profession"><span style="color:red;">*</span>属性：</label>
 			<div class="controls">
-				<label class="checkbox inline"><input type="checkbox" name="profession" value="FASHION" {% if pid and verify(pm, 0x30) %} checked {% end %} {% if pid and not verify(perm, [0x01, 0x02]) %}disabled{% end %}> 时尚 </label>
-				<label class="checkbox inline"><input type="checkbox" name="profession" value="ART" {% if pid and verify(pm, 0x40) %} checked {% end %} {% if pid and not verify(perm, [0x01, 0x02]) %}disabled{% end %}> 艺术 </label>
-				<label class="checkbox inline"><input type="checkbox" name="profession" value="DESIGN" {% if pid and verify(pm, 0x50) %} checked {% end %} {% if pid and not verify(perm, [0x01, 0x02]) %}disabled{% end %}> 设计 </label>
-				<label class="checkbox inline"><input type="checkbox" name="profession" value="HUMAN" {% if pid and verify(pm, 0x60) %} checked {% end %} {% if pid and not verify(perm, [0x01, 0x02]) %}disabled{% end %}> 人文 </label>
-				<label class="checkbox inline"><input type="checkbox" name="profession" value="BRAND" {% if pid and verify(pm, 0x70) %} checked {% end %} {% if pid and not verify(perm, [0x01, 0x02]) %}disabled{% end %}> 品牌 </label>
+				<div>
+					<label class="checkbox inline"><input type="checkbox" name="profession" value="FASHION" {% if pid and verify(pm, 0x30) %} checked {% end %} {% if pid and not verify(perm, [0x01, 0x02]) %}disabled{% end %}> 时尚 </label>
+					<label class="checkbox inline"><input type="checkbox" name="profession" value="ART" {% if pid and verify(pm, 0x40) %} checked {% end %} {% if pid and not verify(perm, [0x01, 0x02]) %}disabled{% end %}> 艺术 </label>
+					<label class="checkbox inline"><input type="checkbox" name="profession" value="DESIGN" {% if pid and verify(pm, 0x50) %} checked {% end %} {% if pid and not verify(perm, [0x01, 0x02]) %}disabled{% end %}> 设计 </label>
+					<label class="checkbox inline"><input type="checkbox" name="profession" value="HUMAN" {% if pid and verify(pm, 0x60) %} checked {% end %} {% if pid and not verify(perm, [0x01, 0x02]) %}disabled{% end %}> 人文 </label>
+					<label class="checkbox inline"><input type="checkbox" name="profession" value="BRAND" {% if pid and verify(pm, 0x70) %} checked {% end %} {% if pid and not verify(perm, [0x01, 0x02]) %}disabled{% end %}> 品牌 </label>
+				</div>
 				<p class="help-inline">请选择属性</p>
 			</div>
 		</div>
-		{% end %}
+
 		<div class="control-group">
 			<label class="control-label" for="nick">用户名：</label>
 			<div class="controls">

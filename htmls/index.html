@@ -5,15 +5,30 @@
 {% end %}
 
 {% block static %}
+	<script type="text/javascript" src="{{ static_url('js/jquery.clogin.js') }}"></script>
 	<script language="javascript" type="text/javascript">
 		$(document).ready(function() {
 			$('.carousel').carousel({interval: 2000});
+			$('.login  [type=submit]').on('loginn', function(){
+				var $this = $(this)
+				, form = $this.closest('form')
+				, email = form.find('[name=email]')
+				, password = form.find('[name=password]')
+				, url = '/a/login/'
+				, args = {};
+				args.email = email.val();
+				args.password = password.val();
+				$.postJSON(url, "POST", args, function(response) {
+					if (response.error){
+		  				return alert(response.error);
+					}
+				});				
+			})
 		})
 	</script>
 {% end %}
 {% block body %}
 	<div class="span12">
-		
 		<div id="myCarousel" class="carousel slide">
             <div class="carousel-inner">
               <div class="item">

@@ -45,4 +45,5 @@
 			<a class="btn pull-right" href="{% if verify(perm, [0x01, 0x02]) %}/space/perm/{% else %}/space/{% end %}" onclick="return backconfirm(this);" style="margin-right:10px;">取消</a>
 		</div>
 	</form>
+	<script src="{{ static_url('js/bootstrap-checksubmit.js') }}" type="text/javascript"></script>
 {% end %}

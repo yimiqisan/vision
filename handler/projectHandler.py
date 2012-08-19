@@ -13,6 +13,7 @@ from tornado.web import addslash, authenticated
 from baseHandler import BaseHandler
 from vision.apps.project import Project
 from vision.apps.item import Item
+from vision.apps.reply import Reply
 from vision.apps.tools import session
 
 
@@ -89,6 +90,13 @@ class ProjectHandler(BaseHandler):
             e = Item()
             re = e._api.page(vid=pid, page=page, limit=20)
             works= re[1] if re[0] and re[1] and pid else []
-            return self.render("space/project.html", plist=r[1], pinfo=re[2], works=works, project=project, pid=pid if pid else '')
+            
+            return self.render("space/project.html", plist=r[1], pinfo=re[2], works=works, project=project, pid=pid if pid else '', rl=[])
         else:
             return self.render_alert(r[1])
+
+
+
+
+
+

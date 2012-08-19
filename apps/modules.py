@@ -41,7 +41,7 @@ class StaffDoc(Document):
             'added_id': int,
     }
     
-    required_fields = ['_id', 'nick', 'password', 'created']
+    required_fields = ['_id', 'email', 'password', 'created']
     default_values = {'_id':uuid.uuid4().hex, 'created':datetime.now()}
     
     use_schemaless = True
@@ -166,6 +166,27 @@ class ProjectDoc(Document):
     }
     
     required_fields = ['_id', 'title', 'created']
+    default_values = {'_id':uuid.uuid4().hex, 'created':datetime.now()}
+    
+    use_schemaless = True
+    use_dot_notation=True
+
+class TimeLineDoc(Document):
+    __collection__ = 'timeline'
+    __database__ = DB_NAME
+    
+    structure = {
+            '_id':      unicode,
+            'owner':    unicode,
+            'created':  datetime,
+            'added':    dict,
+            'added_id': int,
+            'content':  unicode,
+            'at_list':  list,
+            'topic':    unicode,
+            'channel':  IS(u'normal', u'reply'),
+    }
+    required_fields = ['_id', 'created', 'content']
     default_values = {'_id':uuid.uuid4().hex, 'created':datetime.now()}
     
     use_schemaless = True

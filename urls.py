@@ -11,6 +11,7 @@ from handler import *
 
 handlers = [(r"/", RootHandler),
             (r"/login/", LoginHandler),
+            (r"/a/login/", AjaxLoginHandler),
             (r"/logout/", LogoutHandler),
             
             (r"/space/", SpaceHandler),
@@ -33,6 +34,7 @@ handlers = [(r"/", RootHandler),
             (r"/a/volume/type/", AjaxVolumeTypeHandler),
             
             (r"/collect/", CollectHandler),
+            (r"/collect/(.{32})/remove/", CollectRemoveHandler),
             (r"/collect/(.{32})/", CollectItemHandler),
             (r"/a/collect/(.{32})/add/", AjaxCollectAddHandler),
             (r"/a/collect/(.{32})/del/", AjaxCollectDelHandler),
@@ -49,6 +51,10 @@ handlers = [(r"/", RootHandler),
             (r"/project/(.{32})/remove/", ProjectRemoveHandler),
             (r"/project/(.{32})/edit/", ProjectEditHandler),
             (r"/project/(.{32})?/?", ProjectHandler),
+            
+            (r"/a/reply/", AjaxReplyHandler),
+            (r"/a/reply/new/", AjaxNewReplyHandler),
+            (r"/a/reply/remove/", AjaxRemoveHandler),
             
             (r"/image/upload", UploadImageHandler),
             (r"/image/avatar/?(\w*)", AvatarHandler),

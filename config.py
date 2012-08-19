@@ -90,7 +90,7 @@ DB_CON = Connection(host=MONGO_HOST, port=MONGO_PORT)
 
 #session initialize settings
 SESSION_SET = {
-    "SESSION_EXPIRE_TIME": 86400,    # sessions are valid for 86400 seconds (24 hours)
+    "SESSION_EXPIRE_TIME": 3600*24,    # sessions are valid for 86400 seconds (24 hours)
     "REDIS_URL": {'ip': 'localhost', 'port': 6379, 'db': 0, },
 }
 

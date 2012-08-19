@@ -15,6 +15,29 @@ def ifNone(handler, v=None):
 def truncate(handler, v, length=100):
     return v[:length]
 
+def affect(handler, affect, reference):
+    if isinstance(reference, int):
+        if isinstance(affect, list):
+            for a in affect:
+                if a == reference:return True
+        else:
+            return affect == reference
+    elif isinstance(reference, list):
+        if isinstance(affect, list):
+            for a in affect:
+                if a in reference:return True
+        else:
+            return (affect in reference)
+    elif isinstance(reference, dict):
+        s=reference.get('start', 0x00)
+        e=reference.get('end', 0x99)
+        if isinstance(affect, list):
+            for a in affect:
+                if (s <= a <= e):return True
+        else:
+            return (s <= affect <= e)
+    return False
+
 def verify(handler, perm, reference):
     if isinstance(reference, int):
         if isinstance(perm, list):

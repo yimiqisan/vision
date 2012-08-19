@@ -33,26 +33,22 @@ class PermHandler(BaseHandler):
             return self.render("perm/index.html", slist=r[1], sinfo=r[2])
 
 class PermNewHandler(BaseHandler):
-    KEY_DICT = {
-                "email": "设置邮箱，可能帮您找回失散多年的密码",
-                "password": "请填写密码",
-                "pm": "请选择权限",
-                "profession": "请选择属性",
-                "level": "",
-                "nick": "",
-                "avatar": "",
-                "male": "",
-                "job": "",
-                "discribe": ""
-    }
+    PARAMS={'email':'设置邮箱，可能帮您找回失散多年的密码',
+            'password':'请填写密码',
+            'pm':'请选择权限',
+            'profession':'请选择属性'
+            }
+    ARGS = ['level', 'nick', 'avatar', 'male', 'job', 'discribe']
     @addslash
     @session
     @authenticated
+    @addperm
     def get(self):
         uid = self.SESSION['uid']
+        l = self.PARAMS.keys() + self.ARGS
         d = {'pid':None}
-        for n in self.KEY_DICT.keys():d[n] = None
-        if d['pm'] is None:d['pm'] = [PERM_CLASS['NORMAL']]
+        for n in l:d[n] = None
+        d['pm'] = PERM_CLASS['NORMAL']
         return self.render("perm/new.html", **d)
     
     @addslash
@@ -62,48 +58,76 @@ class PermNewHandler(BaseHandler):
     def post(self):
         uid = self.SESSION['uid']
         pid = self.get_argument('pid', None)
-        k_dict = self.KEY_DICT.copy()
-        d = {}
         if pid:
-            k_dict.pop('email')
-            k_dict.pop('password')
-            k_dict.pop('pm')
-            k_dict.pop('profession')
-        if str(self.get_argument('pm', 'EDITOR')) == 'MANAGER':
-            k_dict['profession'] = ''
-        for k in k_dict.keys():
-            v = self.get_argument(k, None)
-            if (v is None)and(k_dict[k]):
-                if pid:return self.redirect('/perm/'+pid+'/edit/')
-                d['warning'] = k_dict[k]
-                d['pid'] = ''
-                d.update(map(lambda x: (x,''), k_dict.keys()))
-                return self.render('perm/new.html', **d)
-            d[k] = v.strip() if v is not None else ''
-        s = Staff()
-        if pid:
-            r = s._api.edit(pid, **d)
+            r = self._edit(pid)
         else:
-            r = r = s.register(**d)
-            pid = r[1]
+            r = self._save()
         if r[0]:
             self._set_perm(r[1])
-            if self.pm in [0x01, 0x02]:
-                self.redirect('/space/perm/')
-            else:
-                self.redirect('/space/')
+            if isinstance(self.pm, list):
+                for p in self.pm:
+                    if p[0] in [0x01, 0x02]:
+                        return self.redirect('/space/perm/')
+            elif isinstance(self.pm, tuple):
+                if self.pm[0] in [0x01, 0x02]:
+                    return self.redirect('/space/perm/')
+            return self.redirect('/space/')
         else:
-            d['warning'] = r[1]
-            d['pid'] = ''
+            l = self.PARAMS.keys() + self.ARGS
+            d = {'pid':None, 'pm':PERM_CLASS['NORMAL'], 'warning': r[1]}
+            for n in l:d[n] = None
             return self.render('perm/new.html', **d)
     
+    @session
+    def _save(self):
+        uid = self.SESSION['uid']
+        kwargs = {'belong':uid}
+        params = self.PARAMS.copy()
+        pm = self.get_argument('pm', None)
+        if pm == u'MANAGER':
+            kwargs['level'] = u'manager'
+            params.pop('profession')
+        elif pm == u'EDITOR':
+            kwargs['level'] = u'editor'
+        else:
+            return (False, '请选择权限')
+        for k, v in params.items():
+            o = self.get_argument(k, None)
+            if o:
+                kwargs[k]=o
+            else:
+                return (False, v)
+        for k in self.ARGS:
+            o = self.get_argument(k, None)
+            if o:kwargs[k]=o
+        s = Staff()
+        return s.register(**kwargs)
+    
+    @addperm
+    def _edit(self, id):
+        l = self.ARGS
+        kwargs = {}
+        if self.pm[0] in [0x01, 0x02]:l.extend(self.PARAMS.keys())
+        for k in l:
+            o = self.get_argument(k, None)
+            if o:kwargs[k]=o
+        pm = self.get_argument('pm', None)
+        if pm == u'MANAGER':
+            kwargs['level'] = u'manager'
+        elif pm == u'EDITOR':
+            kwargs['level'] = u'editor'
+        s = Staff()
+        return s._api.edit(id, **kwargs)
+    
     def _set_perm(self, uid):
-        m = str(self.get_argument('pm', 'EDITOR'))
-        if m == 'MANAGER':
-            key = m
-        elif m == 'EDITOR':
+        pm = self.get_argument('pm', None)
+        if pm == u'MANAGER':
+            key = pm
+        elif pm == u'EDITOR':
+            key = self.request.arguments.get('profession', None)
+        else:
             s = self.request.arguments.get('profession', None)
-            key = s
+            key = s if s else None
         if key is None:return
         p = Permission()
         p._api.deprive(uid, u'site')
@@ -112,16 +136,6 @@ class PermNewHandler(BaseHandler):
                 p._api.award(uid, u'site', k.upper())
         else:
             p._api.award(uid, u'site', key.upper())
-
-class PermRemoveHandler(BaseHandler):
-    @addslash
-    @session
-    @authenticated
-    def get(self, id):
-        uid = self.SESSION['uid']
-        s = Staff()
-        s._api.remove(id)
-        return self.redirect('/space/perm/')
 
 class PermEditHandler(BaseHandler):
     @addslash
@@ -135,6 +149,16 @@ class PermEditHandler(BaseHandler):
             return self.render("perm/new.html", **r[1])
         else:
             return self.render_alert(r[1])
+
+class PermRemoveHandler(BaseHandler):
+    @addslash
+    @session
+    @authenticated
+    def get(self, id):
+        uid = self.SESSION['uid']
+        s = Staff()
+        s._api.remove(id)
+        return self.redirect('/space/perm/')
 
 class PermCpwdHandler(BaseHandler):
     @addslash

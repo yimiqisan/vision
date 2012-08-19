@@ -72,7 +72,7 @@
 				<div class="form-actions" style="margin-left:10px;">
 					<input type="submit" class="btn btn-success preview pull-left" value="预览" />
 					<input type="submit" class="btn btn-primary censor pull-right" style="margin-left:5px;" value="确定" />
-					<a href="/volume/{{ vid }}/" class="btn pull-right" onclick="return backconfirm(this);">取消</a>
+					<a href="/{% if vtype == u'project' %}project{% else %}volume{% end %}/{{ vid }}/" class="btn pull-right" onclick="return backconfirm(this);">取消</a>
 				</div>
 			</form>
 			<script src="{{ static_url('js/bootstrap-checksubmit.js') }}" type="text/javascript"></script>

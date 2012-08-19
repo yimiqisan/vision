@@ -9,12 +9,12 @@ Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 
 import logging
 import uuid
-from datetime import datetime
+from datetime import datetime, timedelta
 import time
 import re
 
 from vision.config import DB_CON, DB_NAME, DEFAULT_CUR_UID, PERM_CLASS, DATE_FORMAT
-from modules import VolumeDoc
+from modules import VolumeDoc, CollectDoc
 from api import API, Added_id
 
 VOL_TYPES_MAIN = [
@@ -92,6 +92,10 @@ VOL_PROPERTY_SUB = {
             ['DSHOW', '展会']]
 }
 
+VOLUME_AFFECT_OWN = 0x01
+VOLUME_AFFECT_COL = 0x02
+VOLUME_AFFECT_DEF = 0x03
+
 def _get_mtype(key):
     for s in VOL_TYPES_SUB.keys():
         if key == s:return s
@@ -157,6 +161,7 @@ class VolumeAPI(API):
         col_name = VolumeDoc.__collection__
         collection = datastore[col_name]
         doc = collection.VolumeDoc()
+        self.capi = CollectAPI()
         API.__init__(self, col_name=col_name, collection=collection, doc=doc)
     
     def save(self, owner, name, prop, maintype, subtype, **kwargs):
@@ -171,7 +176,7 @@ class VolumeAPI(API):
         if kwargs.has_key('nexus'):
             kwargs['nexus'] = int(kwargs['nexus'])
         return super(VolumeAPI, self).create(owner=owner, name=name, prop=prop, maintype=maintype, subtype=subtype, **kwargs)
-
+        
     def edit(self, id, **kwargs):
         if kwargs.has_key('male'):
             kwargs['male'] = kwargs['male'] == u'male'
@@ -188,12 +193,18 @@ class VolumeAPI(API):
     def remove(self, id):
         return super(VolumeAPI, self).remove(id)
     
-    def _perm(self, cuid, owner):
-        return PERM_CLASS['NORMAL']
+    def _affect(self, cuid, owner, rid):
+        if (cuid == owner):
+            r = VOLUME_AFFECT_OWN
+        elif self.capi.exist(rid):
+            r = VOLUME_AFFECT_COL
+        else:
+            r = VOLUME_AFFECT_DEF
+        return r
     
     def _output_format(self, result=[], cuid=DEFAULT_CUR_UID):
         now = datetime.now()
-        output_map = lambda i: {'vid':i['_id'], 'added_id':i['added_id'], 'logo':i.get('logo', None), 'name':i.get('name', '无名'), 'prop':i.get('prop', None), 'prop_cn':get_cn(p=i.get('prop', None)), 'maintype':i.get('maintype', None), 'maintype_cn':get_cn(m=i.get('maintype', None)), 'subtype':i.get('subtype', None), 'subtype_cn':get_cn(s=i.get('subtype', None)), 'live':i.get('live', None), 'male':i.get('male', None), 'male_cn':'男' if i.get('male', None) else '女', 'year':datetime.strftime(i.get('year', datetime.now()), DATE_FORMAT), 'website':i['added'].get('website', None), 'agency':i.get('agency', None), 'grade':i.get('grade', None), 'nexus':i.get('nexus', None), 'intro':i['added'].get('intro', None), 'about':i['added'].get('about', None), 'created':self._escape_created(now, i['created'])}
+        output_map = lambda i: {'vid':i['_id'], 'added_id':i['added_id'], 'affect':self._affect(cuid, i['owner'], i['_id']), 'logo':i.get('logo', None), 'name':i.get('name', '无名'), 'prop':i.get('prop', None), 'prop_cn':get_cn(p=i.get('prop', None)), 'maintype':i.get('maintype', None), 'maintype_cn':get_cn(m=i.get('maintype', None)), 'subtype':i.get('subtype', None), 'subtype_cn':get_cn(s=i.get('subtype', None)), 'live':i.get('live', None), 'male':i.get('male', None), 'male_cn':'男' if i.get('male', None) else '女', 'year':datetime.strftime(i.get('year', datetime.now()), DATE_FORMAT), 'website':i['added'].get('website', None), 'agency':i.get('agency', None), 'grade':i.get('grade', None), 'nexus':i.get('nexus', None), 'intro':i['added'].get('intro', None), 'about':i['added'].get('about', None), 'created':self._escape_created(now, i['created'])}
         if isinstance(result, dict):
             return output_map(result)
         return map(output_map, result)
@@ -202,6 +213,24 @@ class VolumeAPI(API):
         r = self.one(_id=id)
         if (r[0] and r[1]):return (True, self._output_format(result=r[1]))
         return r
+    
+    def _deal_created(self, dtime):
+        if dtime == 'day':
+            year = datetime.now().year
+            month = datetime.now().month
+            day = datetime.now().day
+            return {'created':{'$gt':datetime(year=year,month=month,day=day)}}
+        elif dtime == 'week':
+            t = datetime.today()
+            n = datetime.now() - timedelta(days=t.weekday())
+            year, month, day = n.year, n.month, n.day
+            return {'created':{'$gt':datetime(year=year,month=month,day=day)}}
+        elif dtime == 'month':
+            year = datetime.now().year
+            month = datetime.now().month
+            return {'created':{'$gt':datetime(year=year,month=month,day=1)}}
+        else:
+            return {}
     
     def page_own(self, cuid=DEFAULT_CUR_UID, owner=None, perm=None, name=None, prop=None, live=None, agency=None, tags=[], grade=None, nexus=None, male=None, year_interval=(None, None), page=1, pglen=10, limit=20, order_by='added_id', order=-1):
         kwargs = {}
@@ -232,11 +261,11 @@ class VolumeAPI(API):
             return (True, l, r[2])
         else:
             return (False, r[1])
-
-    
-    def page(self, cuid=DEFAULT_CUR_UID, owner=None, perm=None, name=None, prop=None, maintype=None, subtype=None, live=None, agency=None, tags=[], grade=None, nexus=None, male=None, year_interval=(None, None), page=1, pglen=10, limit=20, order_by='added_id', order=-1):
+        
+    def page(self, cuid=DEFAULT_CUR_UID, owner=None, perm=None, created=None, name=None, prop=None, maintype=None, subtype=None, live=None, agency=None, tags=[], grade=None, nexus=None, male=None, year_interval=(None, None), page=1, pglen=10, limit=20, order_by='added_id', order=-1):
         kwargs = {}
         pmlist = [PERM_CLASS['SUPEROR'], PERM_CLASS['MANAGER']]
+        if isinstance(perm, tuple):perm = [perm]
         if subtype:
             mtype_l = ['FASHION', 'ART', 'DESIGN', 'HUMAN', 'BRAND']
             subkey = _get_mtype(subtype)
@@ -259,13 +288,9 @@ class VolumeAPI(API):
                 if p not in pmlist:
                     flag = True
                 mtypelist.append(_get_perm_key(p))
-            if flag:kwargs['maintype'] = {'$in':mtypelist}
-#        if maintype:
-#            if isinstance(maintype, list) and set(maintype).issubset(set(mtype_list)):
-#                kwargs['maintype']={'$all':maintype}
-#            elif maintype.upper() in mtype_list:
-#                kwargs['maintype']=maintype
-#        if subtype:kwargs['subtype'] = {'$all':subtype} if isinstance(subtype, list) else subtype
+            if flag:
+                kwargs['maintype'] = {'$in':mtypelist}
+        if created:kwargs.update(self._deal_created(created))
         if name:kwargs['name']=re.compile('.*'+name+'.*')
         if prop:
             prop_list = [u'PERSONAL', u'ORGANIZATION', u'SHOW']
@@ -292,4 +317,19 @@ class VolumeAPI(API):
             return (True, l, r[2])
         else:
             return (False, r[1])
+
+class CollectAPI(API):
+    def __init__(self):
+        DB_CON.register([CollectDoc])
+        datastore = DB_CON[DB_NAME]
+        col_name = CollectDoc.__collection__
+        collection = datastore[col_name]
+        doc = collection.CollectDoc()
+        API.__init__(self, col_name=col_name, collection=collection, doc=doc)
     
+    def exist(self, rid):
+        try:
+            return self.collection.one({'refer_id': rid}) is not None
+        except Exception, e:
+            logging.info(e)
+            raise Exception
