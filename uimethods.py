@@ -95,6 +95,7 @@ def abstract(handler, c, n=100):
 
 def flist(handler, pid, l):
     cnt = len(l)
+    if cnt == 0:return []
     idx = 0
     for i in xrange(0, cnt+1):
         if l[i]['pid'] == pid:
@@ -144,7 +145,7 @@ def next_index(handler, pid, l):
     if end > cnt:
         end = cnt
     if (cnt-idx)<3:
-        return 4
+        return min(4, cnt-1)
     else:
         return min(3, idx+1)
 

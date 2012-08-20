@@ -49,17 +49,19 @@
 {% end %}
 
 {% block bodyright %}
-		<ul class="nav nav-tabs" style="display:block;max-width:700px;height:50px;overflow-x:hidden;">
-			<li><a href="/project/{{plist[per_index(project['pid'], plist)]['pid']}}/"><i class="icon-backward"></i></a></li>
-			{% for i in xrange(0, len(flist(project['pid'], plist))) %}
-				{% if project['pid'] and project['pid'] == plist[i]['pid'] %}
-					<li class="active pull-left"><a href="#" title="{{plist[i]['title']}}">{{ abstract(plist[i]['title'], 16) }}</a></li>
-				{% else %}
-					<li><a href="/project/{{ plist[i]['pid'] }}/" title="{{plist[i]['title']}}">{{ abstract(plist[i]['title'], 8) }}</a></li>
-				{% end %}
+	{% if len(plist) > 0 %}
+	<ul class="nav nav-tabs" style="display:block;max-width:700px;height:50px;overflow-x:hidden;">
+		{% if len(plist)>0 %}<li><a href="/project/{{plist[per_index(project['pid'], plist)]['pid']}}/"><i class="icon-backward"></i></a></li>{% end %}
+		{% for i in xrange(0, len(flist(project['pid'], plist))) %}
+			{% if project['pid'] and project['pid'] == plist[i]['pid'] %}
+				<li class="active pull-left"><a href="#" title="{{plist[i]['title']}}">{{ abstract(plist[i]['title'], 16) }}</a></li>
+			{% else %}
+				<li><a href="/project/{{ plist[i]['pid'] }}/" title="{{plist[i]['title']}}">{{ abstract(plist[i]['title'], 8) }}</a></li>
 			{% end %}
-			<li><a href="/project/{{plist[next_index(project['pid'], plist)]['pid']}}/"><i class="icon-forward"></i></a></li>
-		</ul>
+		{% end %}
+		{% if len(plist)>0 %}<li><a href="/project/{{plist[next_index(project['pid'], plist)]['pid']}}/"><i class="icon-forward"></i></a></li>{% end %}
+	</ul>
+	{% end %}
 	<div class="well">
 	{% if len(plist) > 0 %}
 		<h3 class="pull-left">{{ project['title'] }}</h3>
