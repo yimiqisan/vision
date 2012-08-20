@@ -12,6 +12,7 @@ from tornado.web import addslash, authenticated
 
 from baseHandler import BaseHandler
 from vision.apps.project import Project
+from vision.apps.perm import Permission
 from vision.apps.item import Item
 from vision.apps.reply import Reply
 from vision.apps.tools import session
@@ -37,19 +38,30 @@ class ProjectNewHandler(BaseHandler):
         d = {}
         for n in self.KEYS:
             d[n] = self.get_argument(n, None)
-        d['member'] = []
         p = Project()
+        d['members'] = self.request.arguments.get('members', [])
         if pid:
             r = p._api.edit(pid, **d)
         else:
             r = p._api.save(uid, **d)
             pid = r[1]
-        print r
         if r[0]:
+            self._set_perm(pid)
             return self.redirect('/project/'+pid+'/')
         else:
             d.update({'pid':'', 'warning':r[1]})
             return self.render("project/new.html", **d)
+    
+    @session
+    def _set_perm(self, pid):
+        uid = self.SESSION['uid']
+        members = self.request.arguments.get('members', [])
+        p = Permission()
+        p._api.deprive(uid, u'project', cid=pid)
+        p._api.award(uid, u'project', 'PROJECTOR', cid=pid)
+        for member in members:
+            p._api.deprive(unicode(member), u'project', cid=pid)
+            p._api.award(unicode(member), u'project', 'RELATION', cid=pid)
 
 class ProjectRemoveHandler(BaseHandler):
     @addslash
@@ -90,7 +102,6 @@ class ProjectHandler(BaseHandler):
             e = Item()
             re = e._api.page(vid=pid, page=page, limit=20)
             works= re[1] if re[0] and re[1] and pid else []
-            
             return self.render("space/project.html", plist=r[1], pinfo=re[2], works=works, project=project, pid=pid if pid else '', rl=[])
         else:
             return self.render_alert(r[1])

@@ -50,7 +50,7 @@ class ItemNewHandler(BaseHandler):
     
     def get_works_list(self):
         c = int(self.get_argument('cover', 1))
-        l = []
+        logo, l = None, []
         i=1
         while(True):
             p, e = self.get_argument(str(i)+'PIC', None), self.get_argument(str(i)+'Edit', '')
@@ -94,7 +94,7 @@ class ItemPreviewHandler(BaseHandler):
     
     def get_works_list(self):
         c = int(self.get_argument('cover', 1))
-        l = []
+        logo, l = None, []
         i=1
         while(True):
             p, e = self.get_argument(str(i)+'PIC', None), self.get_argument(str(i)+'Edit', '')

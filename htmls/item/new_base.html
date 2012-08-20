@@ -33,6 +33,9 @@
 			});
 			$('.censor').on('censorn', function(){
 				slist = ToolMan.junkdrawer().inspectListOrder('thumbnails');
+				if (slist.length == 0) {
+					alert('请上传作品');
+				}
 				for (var i=0; i<slist.length; i++) {
 					var num = slist[i].charAt(3, slist[i].length-1)
 					, j = i+1; 

@@ -92,3 +92,75 @@ def abstract(handler, c, n=100):
         return s[:n-3] + '...'
     else:
         return s[:n]
+
+def flist(handler, pid, l):
+    cnt = len(l)
+    idx = 0
+    for i in xrange(0, cnt+1):
+        if l[i]['pid'] == pid:
+            idx = i
+            break
+    start = idx-2
+    end = idx+3
+    if start<0:
+        end -= start
+        start = 0
+    if end > cnt:
+        end = cnt
+    if end - start < 5:
+        start = max(0, end-5)
+    return l[start:end]
+
+def per_index(handler, pid, l):
+    cnt = len(l)
+    idx = 0
+    for i in xrange(0, cnt+1):
+        if l[i]['pid'] == pid:
+            idx = i
+            break
+    start = idx-2
+    end = idx+3
+    if start<0:
+        end -= start
+        start = 0
+    if end > cnt:
+        end = cnt
+    if end - start < 5:
+        start = max(0, end-5)
+    return max(start, idx-1)
+
+def next_index(handler, pid, l):
+    cnt = len(l)
+    idx = 0
+    for i in xrange(0, cnt+1):
+        if l[i]['pid'] == pid:
+            idx = i
+            break
+    start = idx-2
+    end = idx+3
+    if start<0:
+        end -= start
+        start = 0
+    if end > cnt:
+        end = cnt
+    if (cnt-idx)<3:
+        return 4
+    else:
+        return min(3, idx+1)
+
+if __name__ == '__main__':
+    l = [{'pid':'a'}, {'pid':'b'}, {'pid':'c'}, {'pid':'d'}, {'pid':'e'}, {'pid':'f'}, {'pid':'g'}, {'pid':'h'}, {'pid':'i'}]
+    print next_index('handler', 'a', l)
+    print next_index('handler', 'b', l)
+    print next_index('handler', 'c', l)
+    print next_index('handler', 'd', l)
+    print next_index('handler', 'e', l)
+    print next_index('handler', 'f', l)
+    print next_index('handler', 'g', l)
+    print next_index('handler', 'h', l)
+    print next_index('handler', 'i', l)
+
+
+
+
+

@@ -35,7 +35,7 @@ class ProjectAPI(API):
         doc = collection.ProjectDoc()
         API.__init__(self, col_name=col_name, collection=collection, doc=doc)
     
-    def save(self, owner, title, description, *members, **kwargs):
+    def save(self, owner, title, description, members, **kwargs):
         return super(ProjectAPI, self).create(owner=owner, title=title, description=description, members=list(members), **kwargs)
     
     def remove(self, id):

@@ -8,6 +8,7 @@ Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 """
 
 from md5 import md5
+import json
 from tornado.web import addslash, authenticated
 
 from baseHandler import BaseHandler
@@ -196,6 +197,17 @@ class PermCpwdHandler(BaseHandler):
         else:
             self.redirect('/space/')
         
-        
-        
-        
+class AjaxStaffListHandler(BaseHandler):
+    @addslash
+    @session
+    @authenticated
+    def get(self):
+        uid = self.SESSION['uid']
+        s = Staff()
+        r = s._api.page()
+        l = []
+        for i in r[1]:
+            if i['pid'] != uid:
+                l.append((i['pid'], i['nick']))
+        return self.write(json.dumps(l))
+    
