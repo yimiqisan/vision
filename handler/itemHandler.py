@@ -65,7 +65,7 @@ class ItemNewHandler(BaseHandler):
         if tp == VTYPE_LIST[0]:
             ikeys = ["name", "client", "year"]
         elif tp == VTYPE_LIST[1]:
-            ikeys = [""]
+            ikeys = ["name", "client", "year"]
         else:
             ikeys = []
         d = {}
@@ -109,7 +109,7 @@ class ItemPreviewHandler(BaseHandler):
         if tp == VTYPE_LIST[0]:
             ikeys = ["name", "client", "year"]
         elif tp == VTYPE_LIST[1]:
-            ikeys = [""]
+            ikeys = ["name", "client", "year"]
         else:
             ikeys = []
         d = {}
@@ -125,7 +125,7 @@ class ItemRemoveHandler(BaseHandler):
         e = Item()
         r = e._api.remove(id)
         if r[0]:
-            return self.redirect('/'+r[1]+'/'+r[2]+'/')
+            return self.redirect('/volume/'+r[2]+'/')
         return self.render_alert(r[1])
 
 class ItemEditHandler(BaseHandler):

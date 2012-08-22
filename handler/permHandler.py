@@ -63,6 +63,11 @@ class PermNewHandler(BaseHandler):
             r = self._edit(pid)
         else:
             r = self._save()
+        if uid == pid:
+            s = Staff()
+            s.whois('_id', uid)
+            self.SESSION['nick']=s.nick if s.nick else s.email
+            self.SESSION['ulogo']=s.avatar
         if r[0]:
             self._set_perm(r[1])
             if isinstance(self.pm, list):
@@ -104,8 +109,10 @@ class PermNewHandler(BaseHandler):
         s = Staff()
         return s.register(**kwargs)
     
+    @session
     @addperm
     def _edit(self, id):
+        uid = self.SESSION['uid']
         l = self.ARGS
         kwargs = {}
         if self.pm[0] in [0x01, 0x02]:l.extend(self.PARAMS.keys())

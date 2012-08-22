@@ -27,6 +27,7 @@
 				},
 				onQueueComplete : function (queueData) {
 					dragsort.makeListSortable(document.getElementById("thumbnails"));
+					$("#thumbnails input[type=radio]:first").attr("checked", true);
 					$('#image').modal('hide');
 				},
 				onError			: function (event, queueID, fileObj){alert("文件:" + fileObj.name + " 上传失败");}
@@ -45,6 +46,23 @@
 				}
 			})
 			yhui.iNote.init('{{ eid }}');
+			
+			
+			var c = new Date,
+			d = c.getFullYear();
+			select_span("year", '00000000', d, d - 128);
+			function select_span(b, c, d, e) {
+				var a = $("#year");
+				var i = [], j, l = d > e ? -1 : 1;
+				if (d != e) {
+					j = d, i.push('<option value=""></option>');
+					for (; j != e; j += l) i.push('<option value="' + j + '">' + j + "</option>");
+				}
+				a.html(i.join(""));
+				var n = $("#year");
+				c -= 0, c && (n.val(parseInt(c / 1e4)), o.val(parseInt(c / 100) % 100).change())
+			}
+			
 		})
 		
 		var coordinates = ToolMan.coordinates()

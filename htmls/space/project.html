@@ -22,6 +22,10 @@
 					}
 					$(this).val(response.cursor);
 					$("#ext-24d49699ca9141f781055deac1bb770b").remove();
+					
+					var h = $(this).closest('.overmenu-group').height();
+					var bottom = h - 310;
+					$(this).closest('.overmenu').animate({'bottom':bottom}, 'fast');
 				})
 			});
 		})
@@ -64,7 +68,7 @@
 	{% end %}
 	<div class="well">
 	{% if len(plist) > 0 %}
-		<h3 class="pull-left">{{ project['title'] }}</h3>
+		<h3 class="pull-left">{{ abstract(project['title'], 70) }}</h3>
 		<div class="btn-group pull-right" style="margin:5px 5px 0 0;">
 			<button class="btn dropdown-toggle" data-toggle="dropdown">项目操作<span class="caret"></span></button>
 			<ul class="dropdown-menu">
@@ -74,7 +78,7 @@
 				<li><a href="/project/{{ project['pid'] }}/remove/" onclick="return delconfirm(this);">删除项目</a></li>
 			</ul>
 		</div>
-	
+		
 		<div style="clear:both;"></div><br/>
 		<div><p>{{ project['description'] }}</p></div>
 	{% else %}
@@ -87,19 +91,17 @@
 		<li class="span3">
 			<div class="thumbnail overmenu-group">
 				<a href="/item/{{ w['eid'] }}/"><img src="/image/attach/{{ w['logo'] }}_300" style="width:260px;height:180px;" alt=""></a>
-				<ul class="overmenu.tmp" bot=25 >
+				<div class="caption">
+					<br/><br/><br/><br/><br/><br/><br/><br/>
+				</div>
+				<ul class="overmenu" bot=25 >
 					<li><a href="/item/{{ w['eid'] }}/edit/">编辑</a></li>
 					<li><a href="/item/{{ w['eid'] }}/remove/" onclick="return delconfirm(this);">删除</a></li>
 					<li>
-						<a href="/project/{{ w['eid'] }}/collection/">
-							相关人员&nbsp;&nbsp;&nbsp;&nbsp;
-							<select style="display:inline;height:20px;"><option>张佳</option><option>江枫</option><option>丽娜</option></select>
-						</a>
+						<a href="/project/{{ w['eid'] }}/collection/">相关人员</a>
 					</li>
 				</ul>
-				<div class="caption">
-					<br/><br/><br/><br/><br/><br/><br/><br/><br/>
-				</div>
+
 				<div class="caption reply-group" id="m-{{ w['eid'] }}" style="border-top:1px solid #eee;margin-bottom:5px;padding:1px;">
 					<div class="pull-right reply-url" id="ext-{{w['eid']}}"><a href="#inp-{{w['eid']}}" data-toggle="reply-extend">评论({{w['cnt']}})</a></div>
 					<input type="hidden" id="inp-{{w['eid']}}" value="0" class="reply"/>

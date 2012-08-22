@@ -36,10 +36,13 @@ $.fn.selectlist.Constructor = Selectlist
 			if (response.error){
 				return alert(response.error);
 			}
+			var default_value = $('#maintype option:first').val();
 			$(response).each(function() {  
 				var i = $(this)[0]
 				, t = $(this)[1];
-				$("#maintype").append("<option value=" + i + ">" + t + "</option>");
+				if (i != default_value) {
+				    $("#maintype").append("<option value=" + i + ">" + t + "</option>");
+				}
 			});
 		});
 
@@ -48,10 +51,13 @@ $.fn.selectlist.Constructor = Selectlist
 			if (response.error){
 				return alert(response.error);
 			}
+			var default_value = $('#prop option:first').val();
 			$(response).each(function() {
 				var i = $(this)[0]
 				, t = $(this)[1];
-				$("#prop").append("<option value=" + i + ">" + t + "</option>");
+				if (i != default_value) {
+				    $("#prop").append("<option value=" + i + ">" + t + "</option>");
+				}
 			});
 		});
 		
@@ -67,10 +73,13 @@ $.fn.selectlist.Constructor = Selectlist
 				return alert(response.error);
 			}
 			$("#subtype").html("<option></option>");
+			var default_value = stype.val();
 			$(response).each(function() {
 				var i = $(this)[0]
 				, t = $(this)[1];
-				$("#subtype").append("<option value=" + i + ">" + t + "</option>");
+				if (i != default_value) {
+				    $("#subtype").append("<option value=" + i + ">" + t + "</option>");
+				}
 			});
 			$("#subtype").append(stype);
 		});

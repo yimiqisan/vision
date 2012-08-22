@@ -33,14 +33,23 @@
 				}
 				return true;
 			})
-
 		})
+		function on_mail_blur(e) {
+			var $e = $(e),
+			reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
+			if (!reg.test($e.val())) {
+            	alert('邮箱格式不正确');
+            	$e.select();
+        	}
+		}
 		function on_perm_change(e) {
 			var v = $(e).val();
 			if (v == 'MANAGER'){
 				$('[for=profession]').parent().hide();
+				$('.pm_toggle').removeClass('help-inline').css('display', 'none');
 			}else{
 				$('[for=profession]').parent().show();
+				$('.pm_toggle').addClass('help-inline');
 			}
 		}
 
@@ -65,7 +74,7 @@
 
 <div class="span9" style="border-left:1px solid #eee">
 	<br/>
-		<h3 class="pull-left" style="margin-left:10px;">{% if pid %}编辑账户信息{% else %}新建账户{% end %}</h3>
+		<h3 class="pull-left" style="margin-left:10px;">{% if pid %}编辑信息{% else %}新建账户{% end %}</h3>
 		<a class="btn pull-right" href="{% if verify(perm, [0x01, 0x02]) %}/space/perm/{% else %}/space/{% end %}" onclick="return backconfirm(this);" style="margin-right:10px;">返回</a>
 		<div style="clear:both;"></div>
 	<hr/>
@@ -73,7 +82,7 @@
 		<div class="control-group">
 			<label class="control-label" for="email"><span style="color:red;">*</span>邮箱：</label>
 			<div class="controls">
-				<input id="email" name="email" value="{% if email %}{{ email }}{% end %}" {% if pid and not verify(perm, 0x01) %}disabled{% end %}/>
+				<input onblur="on_mail_blur(this);" id="email" name="email" value="{% if email %}{{ email }}{% end %}" {% if pid and not verify(perm, 0x01) %}disabled{% end %}/>
 				<p class="hide help-inline">请输入邮箱</p>
 			</div>
 		</div>
@@ -97,8 +106,8 @@
 						<option value="MANAGER">管理员</option>
 						<option value="EDITOR">编辑</option>
 					{% else %}
-						{% if verify(perm, 0x01) %}<option value="MANAGER">管理员</option>{% end %}
 						<option value="EDITOR">编辑</option>
+						{% if verify(perm, 0x01) %}<option value="MANAGER">管理员</option>{% end %}
 					{% end %}
 				</select>
 				<p class="help-inline">请给新用户分配权限</p>
@@ -115,7 +124,7 @@
 					<label class="checkbox inline"><input type="checkbox" name="profession" value="HUMAN" {% if pid and verify(pm, 0x60) %} checked {% end %} {% if pid and not verify(perm, [0x01, 0x02]) %}disabled{% end %}> 人文 </label>
 					<label class="checkbox inline"><input type="checkbox" name="profession" value="BRAND" {% if pid and verify(pm, 0x70) %} checked {% end %} {% if pid and not verify(perm, [0x01, 0x02]) %}disabled{% end %}> 品牌 </label>
 				</div>
-				<p class="help-inline">请选择属性</p>
+				<p class="pm_toggle help-inline">请选择属性</p>
 			</div>
 		</div>
 

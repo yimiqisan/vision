@@ -117,7 +117,6 @@ class AjaxVolumeTypeHandler(BaseHandler):
         elif kind == u'subtype':
             t = self.get_argument('maintype', None)
             p = self.get_argument('property', None)
-            print t, p
             options = volume.get_sub(t, p)
         else:
             options = {}
