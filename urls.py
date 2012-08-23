@@ -52,6 +52,8 @@ handlers = [(r"/", RootHandler),
             (r"/project/(.{32})/remove/", ProjectRemoveHandler),
             (r"/project/(.{32})/edit/", ProjectEditHandler),
             (r"/project/(.{32})?/?", ProjectHandler),
+            (r"/project/(.{32})/edit/", ProjectEditHandler),
+            (r"/project/(.{32})/stick/", ProjectStickHandler),
             
             (r"/a/reply/", AjaxReplyHandler),
             (r"/a/reply/new/", AjaxNewReplyHandler),

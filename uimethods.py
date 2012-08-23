@@ -94,7 +94,6 @@ def abstract(handler, c, n=100):
         return s[:n]
 
 def flist(handler, pid, l):
-    return l
     cnt = len(l)
     if cnt == 0:return []
     idx = 0
@@ -114,7 +113,6 @@ def flist(handler, pid, l):
     return l[start:end]
 
 def per_index(handler, pid, l):
-    return 0
     cnt = len(l)
     idx = 0
     for i in xrange(0, cnt+1):
@@ -133,7 +131,6 @@ def per_index(handler, pid, l):
     return max(start, idx-1)
 
 def next_index(handler, pid, l):
-    return 0
     cnt = len(l)
     idx = 0
     for i in xrange(0, cnt+1):

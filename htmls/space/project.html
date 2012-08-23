@@ -72,15 +72,15 @@
 		<div class="btn-group pull-right" style="margin:5px 5px 0 0;">
 			<button class="btn dropdown-toggle" data-toggle="dropdown">项目操作<span class="caret"></span></button>
 			<ul class="dropdown-menu">
-				{% if verify(project['pm'], 0x20) %}<li><a href="/project/{{ project['pid'] }}/edit/">编辑项目</a></li>{% end %}
-				{% if verify(project['pm'], [0x20, 0x21]) %}<li><a href="/item/project/{{ project['pid'] }}/new/">粘贴作品</a></li>{% end %}
-				{% if verify(project['pm'], 0x20) %}<li class="divider"></li><li><a href="/project/{{ project['pid'] }}/remove/" onclick="return delconfirm(this);">删除项目</a></li>{% end %}
+				{% if verify(project['pm'], [0x20, 0x21]) %}<li><a href="/project/{{ project['pid'] }}/edit/">编辑项目</a></li>{% end %}
+				{% if verify(project['pm'], [0x20, 0x21]) %}<li><a href="/item/project/{{ project['pid'] }}/new/">新建作品</a></li>{% end %}
+				{% if verify(project['pm'], [0x20, 0x21]) %}<li><a href="/project/{{ project['pid'] }}/stick/">从收藏粘贴</a></li>{% end %}
+				{% if verify(project['pm'], [0x20, 0x21]) %}<li class="divider"></li><li><a href="/project/{{ project['pid'] }}/remove/" onclick="return delconfirm(this);">删除项目</a></li>{% end %}
 			</ul>
 		</div>
 		
 		<div style="clear:both;"></div><br/>
 		<div><p>描述：{{ project['description'] }}</p></div>
-		<div><p>相关人员：{{ project['description'] }}</p></div>
 	{% else %}
 		<h2>还没有项目</h2>
 	{% end %}
@@ -95,11 +95,9 @@
 					<br/><br/><br/><br/><br/><br/><br/><br/>
 				</div>
 				<ul class="overmenu" bot=25 >
+					<li><a href="/item/{{ w['eid'] }}/">查看</a></li>
 					<li><a href="/item/{{ w['eid'] }}/edit/">编辑</a></li>
 					<li><a href="/item/{{ w['eid'] }}/remove/" onclick="return delconfirm(this);">删除</a></li>
-					<li>
-						<a href="/project/{{ w['eid'] }}/collection/">相关人员</a>
-					</li>
 				</ul>
 
 				<div class="caption reply-group" id="m-{{ w['eid'] }}" style="border-top:1px solid #eee;margin-bottom:5px;padding:1px;">

@@ -299,6 +299,7 @@ class VolumeAPI(API):
             flag = False
             mtypelist = []
             for p in perm:
+                pmlist.extend([PERM_CLASS['PROJECTOR'], PERM_CLASS['RELATION']])
                 if p not in pmlist:
                     flag = True
                 mtypelist.append(_get_perm_key(p))

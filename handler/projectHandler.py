@@ -91,6 +91,24 @@ class ProjectEditHandler(BaseHandler):
         else:
             return self.render_alert(r[1])
 
+class ProjectStickHandler(BaseHandler):
+    @addslash
+    @session
+    @authenticated
+    def get(self, pid):
+        uid = self.SESSION['uid']
+        return self.write('ok')
+        p = Project()
+        r = p._api.get(pid, cuid=uid)
+        if r[0]:
+            proj = r[1]
+            m = Permission()
+            rp = m._api.list(channel=u'project', cid=pid)
+            proj['members'] = rp
+            return self.render("project/stick.html", **proj)
+        else:
+            return self.render_alert(r[1])
+
 class ProjectHandler(BaseHandler):
     @addslash
     @session
