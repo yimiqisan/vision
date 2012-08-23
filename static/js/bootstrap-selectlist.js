@@ -45,7 +45,7 @@ $.fn.selectlist.Constructor = Selectlist
 				}
 			});
 		});
-
+        
 		var args = {'kind': 'property'};
 		$.postJSON("/a/volume/type/", "GET", args, function(response) {
 			if (response.error){
@@ -115,7 +115,6 @@ $.fn.selectlist.Constructor = Selectlist
 			        $("[for='male']").parent().removeClass('hide');
 			        $("[for='year']").text('出生日期');
 			        $("[for='market']").parent().addClass('hide');
-			        
 			    }else if (prop == 'ORGANIZATION') {
 			        $("[for='name']").text('名称');
 			        $("[for='male']").parent().addClass('hide');

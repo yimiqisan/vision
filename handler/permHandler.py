@@ -199,7 +199,7 @@ class PermCpwdHandler(BaseHandler):
             opwd = unicode(md5(opwd).hexdigest())
             if (s.password != opwd):return self.render('perm/cpwd.html', pid=she, **{'warning': '密码不正确'})
             s._api.change_pwd(she, opwd, newpwd, repwd)
-        if self.pm in [0x01, 0x02]:
+        if self.pm[0] in [0x01, 0x02]:
             self.redirect('/space/perm/')
         else:
             self.redirect('/space/')
