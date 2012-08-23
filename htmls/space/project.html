@@ -72,10 +72,9 @@
 		<div class="btn-group pull-right" style="margin:5px 5px 0 0;">
 			<button class="btn dropdown-toggle" data-toggle="dropdown">项目操作<span class="caret"></span></button>
 			<ul class="dropdown-menu">
-				<li><a href="/project/{{ project['pid'] }}/edit/">编辑项目</a></li>
-				<li><a href="/item/project/{{ project['pid'] }}/new/">粘贴作品</a></li>
-				<li class="divider"></li>
-				<li><a href="/project/{{ project['pid'] }}/remove/" onclick="return delconfirm(this);">删除项目</a></li>
+				{% if verify(project['pm'], 0x20) %}<li><a href="/project/{{ project['pid'] }}/edit/">编辑项目</a></li>{% end %}
+				{% if verify(project['pm'], [0x20, 0x21]) %}<li><a href="/item/project/{{ project['pid'] }}/new/">粘贴作品</a></li>{% end %}
+				{% if verify(project['pm'], 0x20) %}<li class="divider"></li><li><a href="/project/{{ project['pid'] }}/remove/" onclick="return delconfirm(this);">删除项目</a></li>{% end %}
 			</ul>
 		</div>
 		
@@ -111,7 +110,7 @@
 					<input type="hidden" id="ins-{{w['eid']}}"/>
 					<div class="clear"></div>
 					<div class="reply-submit">
-						<a class="photo30 pull-left" href="#"><img width="30" height="30" alt="" src="/image/avatar/{{ ulogo }}_100"></a>
+						<a class="photo30 pull-left" href="#"><img width="30" height="30" alt="" src="/image/avatar/{{ ulogo }}_100" onerror="this.src='/static/img/default_avatar.gif';" ></a>
 						<textarea id="tarea-{{w['eid']}}" class="reply-content" rows=1 cols=30></textarea>
 						<div class="clear"></div>
 						<div class="pull-right">

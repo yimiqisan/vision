@@ -24,7 +24,7 @@ class AjaxReplyHandler(BaseHandler):
         cursor = self.get_argument('cursor', None)
         if cursor:cursor=int(cursor)
         rly = Reply()
-        r = rly._api.extend(cuid=uid, channel=[u'reply'], topic=tid, cursor=cursor, limit=10, order=1)
+        r = rly._api.extend(cuid=uid, channel=[u'reply'], topic=tid, cursor=cursor, limit=10, order=-1)
         if r[0]:
             htmls = []
             for i in r[1]:

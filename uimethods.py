@@ -149,18 +149,18 @@ def next_index(handler, pid, l):
     else:
         return min(3, idx+1)
 
-if __name__ == '__main__':
-    l = [{'pid':'a'}, {'pid':'b'}, {'pid':'c'}, {'pid':'d'}, {'pid':'e'}, {'pid':'f'}, {'pid':'g'}, {'pid':'h'}, {'pid':'i'}]
-    print next_index('handler', 'a', l)
-    print next_index('handler', 'b', l)
-    print next_index('handler', 'c', l)
-    print next_index('handler', 'd', l)
-    print next_index('handler', 'e', l)
-    print next_index('handler', 'f', l)
-    print next_index('handler', 'g', l)
-    print next_index('handler', 'h', l)
-    print next_index('handler', 'i', l)
+def build_params(handler, params):
+    l = []
+    for k, v in params.items():
+        s = str(k)+'='+str(v)
+        l.append(s)
+    return '&'.join(l)
 
+if __name__ == '__main__':
+    #l = [{'pid':'a'}, {'pid':'b'}, {'pid':'c'}, {'pid':'d'}, {'pid':'e'}, {'pid':'f'}, {'pid':'g'}, {'pid':'h'}, {'pid':'i'}]
+    #print next_index('handler', 'a', l)
+    parms = {}#{'day':'today', 'people':'lzy', 'place':'bj'}
+    print build_params('handler', parms)
 
 
 

@@ -279,6 +279,12 @@ class VolumeAPI(API):
             
             if subtype in mtype_l:
                 kwargs['maintype']=subtype
+            elif subtype == 'INSTITUTIONS':
+                kwargs['subtype']={'$in': [u'FINSTITUTIONS', u'AINSTITUTION', u'DINSTITUTION']}
+            elif subtype == 'ASSOCIATION':
+                kwargs['subtype']={'$in': [u'FASSOCIATION', u'AASSOCIATION', u'DASSOCIATION']}
+            elif subtype == 'MAGAZINE':
+                kwargs['subtype']={'$in': [u'FMAGAZINE']}
             else:
                 kwargs['subtype']=subtype
         elif perm is not None:
@@ -309,6 +315,7 @@ class VolumeAPI(API):
         kwargs['limit']=limit
         kwargs['order_by']=order_by
         kwargs['order']=order
+        print kwargs
         r = super(VolumeAPI, self).page(**kwargs)
         if r[0]:
             kw = {'result':r[1]}

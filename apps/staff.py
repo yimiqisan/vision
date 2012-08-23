@@ -69,7 +69,7 @@ class Staff(object):
         if c[0] and (c[1]['password'] == password):
             p = Permission()
             info = c[1]
-            info['pm'] = p._api.get_owner_value(info['_id'])
+            info['pm'] = p._api.get_owner_value(info['_id'], channel=u'site')
             self.info = info
             return (True, info)
         self.info = None
@@ -128,7 +128,7 @@ class StaffAPI(API):
         return super(StaffAPI, self).remove(id)
     
     def _perm(self, uid):
-        return self.p._api.get_owner_value(uid)
+        return self.p._api.get_owner_value(uid, u'site')
     
     def _output_format(self, result=[], cuid=DEFAULT_CUR_UID):
         now = datetime.now()

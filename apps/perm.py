@@ -50,8 +50,12 @@ class PermissionAPI(API):
         if (r[0] and r[1]):return (True, self._output_format(result=r[1]))
         return r
     
-    def get_owner_value(self, owner):
-        r = self.find(owner=owner)
+    def get_owner_value(self, owner=None, channel=None, cid=None):
+        kwargs = {}
+        if owner:kwargs['owner'] = owner
+        if channel:kwargs['channel'] = channel
+        if cid:kwargs['cid'] = cid
+        r = self.find(**kwargs)
         pl = []
         if r[0] and r[1]:
             pl = [PERM_CLASS[i.get('value', 'NORMAL')] for i in r[1]]

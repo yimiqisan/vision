@@ -31,11 +31,11 @@
 							<li class="dropdown" style="">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">日期 <b class="caret"></b></a>
 								<ul class="dropdown-menu">
-									<li><a href="/volume/?dtime=day">今天</a></li>
-									<li><a href="/volume/?dtime=week">本周</a></li>
-									<li><a href="/volume/?dtime=month">本月</a></li>
+									<li><a href="/volume/{{subtype}}/?dtime=day&{{build_params(params)}}">今天</a></li>
+									<li><a href="/volume/{{subtype}}/?dtime=week&{{build_params(params)}}">本周</a></li>
+									<li><a href="/volume/{{subtype}}/?dtime=month&{{build_params(params)}}">本月</a></li>
 									<li class="divider"></li>
-									<li><a href="/volume/?dtime=all">全部</a></li>
+									<li><a href="/volume/{{subtype}}/?dtime=all&{{build_params(params)}}">全部</a></li>
 								</ul>
 							</li>
 							<li class="divider-vertical" style=""></li>
@@ -77,26 +77,26 @@
 									<li class="dropright">
 										<a href="#" class="dropright-toggle" data-toggle="dropright">个人 <b class="pull-right rcaret"></b></a>
 										<ul class="dropright-menu">
-											<li><a href='/volume/fdesigner/'>设计师</a></li>
-											<li><a href="/volume/fphotographer/">摄影师</a></li>
-											<li><a href="/volume/fstylists/">造型师</a></li>
-											<li><a href="/volume/fmakeup/">化妆师</a></li>
-											<li><a href="/volume/fmodel/">模特</a></li>
-											<li><a href="/volume/fbloger/">博主</a></li>
-											<li><a href="/volume/fartist/">艺术家</a></li>
-											<li><a href="/volume/hperformer/">表演者</a></li>
-											<li><a href="/volume/bmediapeople/">媒体人</a></li>
+											<li><a href='/volume/fdesigner/?{{build_params(params)}}'>设计师</a></li>
+											<li><a href="/volume/fphotographer/?{{build_params(params)}}">摄影师</a></li>
+											<li><a href="/volume/fstylists/?{{build_params(params)}}">造型师</a></li>
+											<li><a href="/volume/fmakeup/?{{build_params(params)}}">化妆师</a></li>
+											<li><a href="/volume/fmodel/?{{build_params(params)}}">模特</a></li>
+											<li><a href="/volume/fbloger/?{{build_params(params)}}">博主</a></li>
+											<li><a href="/volume/fartist/?{{build_params(params)}}">艺术家</a></li>
+											<li><a href="/volume/hperformer/?{{build_params(params)}}">表演者</a></li>
+											<li><a href="/volume/bmediapeople/?{{build_params(params)}}">媒体人</a></li>
 										</ul>
 									</li>
 									<li class="dropright">
 										<a href="#" class="dropright-toggle" data-toggle="dropright">机构 <b class="pull-right rcaret"></b></a>
 										<ul class="dropright-menu">
-											<li><a href='/volume/'>杂志</a></li>
-											<li><a href="/volume/">协会</a></li>
-											<li><a href="/volume/">院校</a></li>
+											<li><a href='/volume/magazine/?{{build_params(params)}}'>杂志</a></li>
+											<li><a href="/volume/association/?{{build_params(params)}}">协会</a></li>
+											<li><a href="/volume/institutions/?{{build_params(params)}}">院校</a></li>
 										</ul>
 									</li>
-									<li><a href="#">展会</a></li>
+									<li><a href="/volume/show/?{{build_params(params)}}">展会</a></li>
 								</ul>
 							</li>
 							<li class="divider-vertical"></li>

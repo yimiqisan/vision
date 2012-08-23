@@ -15,6 +15,7 @@ import time
 from vision.config import DB_CON, DB_NAME, DEFAULT_CUR_UID
 from modules import ProjectDoc
 from api import API, Added_id
+from perm import Permission
 
 class Project(object):
     def __init__(self, api=None):
@@ -33,6 +34,7 @@ class ProjectAPI(API):
         col_name = ProjectDoc.__collection__
         collection = datastore[col_name]
         doc = collection.ProjectDoc()
+        self.p = Permission()
         API.__init__(self, col_name=col_name, collection=collection, doc=doc)
     
     def save(self, owner, title, description, members, **kwargs):
@@ -44,16 +46,19 @@ class ProjectAPI(API):
     def edit(self, id, **kwargs):
         return super(ProjectAPI, self).edit(id, **kwargs)
     
+    def _perm(self, uid, pid):
+        return self.p._api.get_owner_value(uid, u'project', cid=pid)
+    
     def _output_format(self, result=[], cuid=DEFAULT_CUR_UID):
         now = datetime.now()
-        output_map = lambda i: {'pid':i['_id'], 'added_id':i['added_id'], 'owner':i['owner'], 'is_own':(cuid==i['owner'] if i['owner'] else True), 'title':i['title'], 'description':i.get('description', None), 'members':i['members'], 'created':self._escape_created(now, i['created'])}
+        output_map = lambda i: {'pid':i['_id'], 'added_id':i['added_id'], 'pm':self._perm(cuid, i['_id']), 'owner':i['owner'], 'is_own':(cuid==i['owner'] if i['owner'] else True), 'title':i['title'], 'description':i.get('description', None), 'members':i['members'], 'created':self._escape_created(now, i['created'])}
         if isinstance(result, dict):
             return output_map(result)
         return map(output_map, result)
     
-    def get(self, id):
+    def get(self, id, cuid=DEFAULT_CUR_UID):
         r = self.one(_id=id)
-        if (r[0] and r[1]):return (True, self._output_format(result=r[1]))
+        if (r[0] and r[1]):return (True, self._output_format(result=r[1], cuid=cuid))
         return r
     
     def page(self, cuid=DEFAULT_CUR_UID, owner=None, page=1, pglen=10, cursor=None, limit=20, order_by='added_id', order=-1):
