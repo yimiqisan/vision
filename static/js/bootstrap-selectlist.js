@@ -114,12 +114,14 @@ $.fn.selectlist.Constructor = Selectlist
 			        $("[for='builder']").parent().addClass('hide');
 			        $("[for='male']").parent().removeClass('hide');
 			        $("[for='year']").text('出生日期');
+			        $("[for='intro']").parent().removeClass('hide');
 			        $("[for='market']").parent().addClass('hide');
 			    }else if (prop == 'ORGANIZATION') {
 			        $("[for='name']").text('名称');
 			        $("[for='male']").parent().addClass('hide');
 			        $("[for='builder']").parent().removeClass('hide');
 			        $("[for='year']").text('创建时间');
+			        $("[for='intro']").parent().addClass('hide');
 			        $("[for='market']").parent().removeClass('hide');
 			    }else if (prop == 'SHOW') {
 			        

@@ -323,7 +323,6 @@ class VolumeAPI(API):
         kwargs['limit']=limit
         kwargs['order_by']=order_by
         kwargs['order']=order
-        print kwargs
         r = super(VolumeAPI, self).page(**kwargs)
         if r[0]:
             kw = {'result':r[1]}

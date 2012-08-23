@@ -166,7 +166,7 @@
 					</div>
 				</div>
 				<hr/>
-				<div class="control-group">
+				<div class="control-group {% if prop!='PERSONAL' %}hide{% end %}">
 					<label class="control-label" for="intro">简介</label>
 					<div class="controls">
 						<textarea class="input-xlarge" id="intro" rows="3" name="intro">{% if intro %}{{ intro }}{% end %}</textarea>
@@ -180,7 +180,7 @@
 						<p class="help-inline">请输入相关机构</p>
 					</div>
 				</div>
-
+				
 				<div class="control-group {% if prop=='PERSONAL' %}hide{% end %}">
 					<label class="control-label" for="market">市场投放</label>
 					<div class="controls">
