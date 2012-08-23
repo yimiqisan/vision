@@ -99,6 +99,10 @@ class VolumeListHandler(BaseHandler):
         prop = self.get_argument('prop', None)
         dtime = self.get_argument('dtime', None)
         word = self.get_argument('word', None)
+        # loading ...
+        if subtype == u'show':
+            prop=u'SHOW'
+            subtype = ''
         v = volume.Volume()
         r = v._api.page(cuid=uid, owner=uid, perm=self.pm, created=dtime, prop=prop, name=word, subtype=subtype.upper(), page=page)
         if r[0]:
