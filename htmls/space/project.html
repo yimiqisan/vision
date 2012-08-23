@@ -68,7 +68,7 @@
 	{% end %}
 	<div class="well">
 	{% if len(plist) > 0 %}
-		<h3 class="pull-left">{{ abstract(project['title'], 70) }}</h3>
+		<h3 class="pull-left">名称：{{ abstract(project['title'], 70) }}</h3>
 		<div class="btn-group pull-right" style="margin:5px 5px 0 0;">
 			<button class="btn dropdown-toggle" data-toggle="dropdown">项目操作<span class="caret"></span></button>
 			<ul class="dropdown-menu">
@@ -79,7 +79,7 @@
 		</div>
 		
 		<div style="clear:both;"></div><br/>
-		<div><p>{{ project['description'] }}</p></div>
+		<div><p>描述：{{ project['description'] }}</p></div>
 	{% else %}
 		<h2>还没有项目</h2>
 	{% end %}

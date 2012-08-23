@@ -82,7 +82,6 @@ class ItemAPI(API):
             kw = {'result':r[1]}
             if cuid:kw['cuid']=cuid
             l = self._output_format(**kw)
-            print l
             return (True, l, r[2])
         else:
             return (False, r[1])

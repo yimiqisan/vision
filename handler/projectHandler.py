@@ -102,7 +102,7 @@ class ProjectHandler(BaseHandler):
         r = p._api.page(cuid=uid)
         if r[0]:
             plist = self._f_proj(r[1])
-            if not pid:pid = r[1][0]['pid'] if len(r[1])>0 else None
+            if not pid:pid = plist[0]['pid'] if len(plist)>0 else None
             rp = p._api.get(pid, cuid=uid)
             if rp[0]: project=rp[1]
             e = Item()
