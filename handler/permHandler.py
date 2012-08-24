@@ -58,6 +58,7 @@ class PermNewHandler(BaseHandler):
     @addperm
     def post(self):
         uid = self.SESSION['uid']
+        perm = self.SESSION['perm']
         pid = self.get_argument('pid', None)
         if pid:
             r = self._edit(pid)
@@ -70,14 +71,10 @@ class PermNewHandler(BaseHandler):
             self.SESSION['ulogo']=s.avatar
         if r[0]:
             self._set_perm(r[1])
-            if isinstance(self.pm, list):
-                for p in self.pm:
-                    if p[0] in [0x01, 0x02]:
-                        return self.redirect('/space/perm/')
-            elif isinstance(self.pm, tuple):
-                if self.pm[0] in [0x01, 0x02]:
-                    return self.redirect('/space/perm/')
-            return self.redirect('/space/')
+            if (perm[0][0] in [0x01, 0x02]) and (uid != pid):
+                self.redirect('/space/perm/')
+            else:
+                self.redirect('/space/')
         else:
             l = self.PARAMS.keys() + self.ARGS
             d = {'pid':None, 'pm':PERM_CLASS['NORMAL'], 'warning': r[1]}
@@ -200,7 +197,7 @@ class PermCpwdHandler(BaseHandler):
             opwd = unicode(md5(opwd).hexdigest())
             if (s.password != opwd):return self.render('perm/cpwd.html', pid=she, **{'warning': '密码不正确'})
             s._api.change_pwd(she, opwd, newpwd, repwd)
-        if perm[0][0] in [0x01, 0x02]:
+        if (perm[0][0] in [0x01, 0x02]) and (uid != she):
             self.redirect('/space/perm/')
         else:
             self.redirect('/space/')
