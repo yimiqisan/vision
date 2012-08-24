@@ -42,8 +42,14 @@ class PermissionAPI(API):
         value = unicode(key)
         return super(PermissionAPI, self).create(owner=owner, channel=channel, cid=cid, value=value, **kwargs)
     
-    def deprive(self, owner, channel, cid=None):
-        return super(PermissionAPI, self).drops(owner=owner, channel=channel, cid=cid)
+    def deprive(self, owner=None, channel=None, value=None, cid=None):
+        kwargs = {}
+        if owner:kwargs['owner'] = owner
+        if channel:kwargs['channel'] = channel
+        if value:kwargs['value'] = value
+        if cid:kwargs['cid'] = cid
+        print kwargs
+        return super(PermissionAPI, self).drops(**kwargs)
     
     def get(self, id):
         r = self.one(_id=id)

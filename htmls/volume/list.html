@@ -118,14 +118,26 @@
 				<div class="thumbnail overmenu-group">
 					<a href="/volume/{{ v['vid'] }}/"><img src="/image/attach/{{ v.get('logo', None) }}_300" style="width:260px;height:180px;" alt=""></a>
 					<ul class="overmenu" bot=0>
-						<li><a href="/volume/{{ v['vid'] }}/">查看</a></li>
-						<li><a href="/volume/{{ v['vid'] }}/edit/">编辑</a></li>
-						{% if affect(v['affect'], 0x01) %}
+						{% if verify(perm, 0x01) %}
+							<li><a href="/volume/{{ v['vid'] }}/edit/">编辑</a></li>
+							<li><a href="/volume/{{ v['vid'] }}/">查看</a></li>
 							<li><a href="/volume/{{ v['vid'] }}/remove/" onclick="return delconfirm(this);">删除</a></li>
-						{% elif affect(v['affect'], 0x02) %}
-							<li><a>已收藏</a></li>
+						{% elif verify(perm, 0x02) %}
+							<li><a href="/volume/{{ v['vid'] }}/edit/">编辑</a></li>
+							{% if affect(v['affect'], 0x02) %}
+								<li><a>已收藏</a></li>
+							{% else %}
+								<li><a href="#" onclick="add_select('{{ v["vid"] }}', this);return false;" >收藏</a></li>
+							{% end %}
+							<li><a href="/volume/{{ v['vid'] }}/remove/" onclick="return delconfirm(this);">删除</a></li>
 						{% else %}
-							<li><a href="#" onclick="add_select('{{ v["vid"] }}', this);return false;" >收藏</a></li>
+							<li><a href="/volume/{{ v['vid'] }}/edit/">编辑</a></li>
+							{% if affect(v['affect'], 0x02) %}
+								<li><a>已收藏</a></li>
+							{% else %}
+								<li><a href="#" onclick="add_select('{{ v["vid"] }}', this);return false;" >收藏</a></li>
+							{% end %}
+							<li><a href="/volume/{{ v['vid'] }}/">查看</a></li>
 						{% end %}
 					</ul>
 					<div class="caption" style="height:80px;">

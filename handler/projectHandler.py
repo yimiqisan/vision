@@ -61,8 +61,8 @@ class ProjectNewHandler(BaseHandler):
         p = Permission()
         p._api.deprive(uid, u'project', cid=pid)
         p._api.award(uid, u'project', 'PROJECTOR', cid=pid)
+        p._api.deprive(channel=u'project', value='RELATION', cid=pid)
         for member in members:
-            p._api.deprive(unicode(member), u'project', cid=pid)
             p._api.award(unicode(member), u'project', 'RELATION', cid=pid)
 
 class ProjectRemoveHandler(BaseHandler):
@@ -98,11 +98,12 @@ class ProjectStickHandler(BaseHandler):
     @authenticated
     def get(self, pid):
         uid = self.SESSION['uid']
+        page = int(self.get_argument('page', 1))
         i = Item()
         ro = i._api.page(vid=pid, vtype=u'project')
         olist = [o['refer_id'] for o in ro[1]]
         c = Collect()
-        r = c._api.page(owner=uid)
+        r = c._api.page(page=page)
         ilist = []
         for ci in r[1]:
             rid = ci['refer_id']

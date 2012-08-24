@@ -69,7 +69,8 @@ class Staff(object):
         if c[0] and (c[1]['password'] == password):
             p = Permission()
             info = c[1]
-            info['pm'] = p._api.get_owner_value(info['_id'], channel=u'site')
+            info['pm'] = p._api.get_owner_value(info['_id'], u'site')
+            print info['pm']
             self.info = info
             return (True, info)
         self.info = None

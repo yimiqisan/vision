@@ -182,6 +182,7 @@ class PermCpwdHandler(BaseHandler):
     @addperm
     def post(self, she):
         uid = self.SESSION['uid']
+        perm = self.SESSION['perm']
         vpwd = self.get_argument('verifypwd', None)
         opwd = self.get_argument('oldpwd', None)
         newpwd = self.get_argument('newpwd', None)
@@ -199,7 +200,7 @@ class PermCpwdHandler(BaseHandler):
             opwd = unicode(md5(opwd).hexdigest())
             if (s.password != opwd):return self.render('perm/cpwd.html', pid=she, **{'warning': '密码不正确'})
             s._api.change_pwd(she, opwd, newpwd, repwd)
-        if self.pm[0] in [0x01, 0x02]:
+        if perm[0][0] in [0x01, 0x02]:
             self.redirect('/space/perm/')
         else:
             self.redirect('/space/')

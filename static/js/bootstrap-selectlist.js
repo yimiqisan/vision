@@ -124,7 +124,12 @@ $.fn.selectlist.Constructor = Selectlist
 			        $("[for='intro']").parent().addClass('hide');
 			        $("[for='market']").parent().removeClass('hide');
 			    }else if (prop == 'SHOW') {
-			        
+			        $("[for='name']").text('名称');
+			        $("[for='male']").parent().addClass('hide');
+			        $("[for='builder']").parent().removeClass('hide');
+			        $("[for='year']").text('创建时间');
+			        $("[for='intro']").parent().addClass('hide');
+			        $("[for='market']").parent().removeClass('hide');			        
 			    }
 				var args = {'kind': 'subtype', 'property': prop};
 				if (maintype) {args['maintype'] = maintype};
