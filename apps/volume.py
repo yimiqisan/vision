@@ -204,7 +204,7 @@ class VolumeAPI(API):
     def _affect(self, cuid, owner, rid):
         if (cuid == owner):
             r = VOLUME_AFFECT_OWN
-        elif self.capi.exist(rid):
+        elif self.capi.exist('refer_id', rid):
             r = VOLUME_AFFECT_COL
         else:
             r = VOLUME_AFFECT_DEF
