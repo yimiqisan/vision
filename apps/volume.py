@@ -202,9 +202,10 @@ class VolumeAPI(API):
         return super(VolumeAPI, self).remove(id)
     
     def _affect(self, cuid, owner, rid):
+        print self.capi.exist(rid)
         if (cuid == owner):
             r = VOLUME_AFFECT_OWN
-        elif self.capi.exist('refer_id', rid):
+        elif self.capi.exist(rid):
             r = VOLUME_AFFECT_COL
         else:
             r = VOLUME_AFFECT_DEF
@@ -324,7 +325,6 @@ class VolumeAPI(API):
         kwargs['limit']=limit
         kwargs['order_by']=order_by
         kwargs['order']=order
-        print kwargs
         r = super(VolumeAPI, self).page(**kwargs)
         if r[0]:
             kw = {'result':r[1]}
@@ -348,4 +348,4 @@ class CollectAPI(API):
             return self.collection.one({'refer_id': rid}) is not None
         except Exception, e:
             logging.info(e)
-            raise Exception
+            return True
