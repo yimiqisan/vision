@@ -131,7 +131,7 @@
 		<div class="control-group">
 			<label class="control-label" for="nick">用户名：</label>
 			<div class="controls">
-				<input id="nick" name="nick" value="{% if nick %}{{ nick }}{% end %}" {% if (pid==uid) and verify(perm, 0x02) %}disabled{% end %}/>
+				<input id="nick" name="nick" value="{% if nick %}{{ nick }}{% end %}"/>
 			</div>
 		</div>
 		<div class="control-group">
