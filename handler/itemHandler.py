@@ -65,7 +65,9 @@ class ItemNewHandler(BaseHandler):
         if tp == VTYPE_LIST[0]:
             ikeys = ["name", "client", "year"]
         elif tp == VTYPE_LIST[1]:
-            ikeys = ["name", "client", "year"]
+            ikeys = ["title", "content"]
+        elif tp == VTYPE_LIST[2]:
+            ikeys = ["title", "content"]
         else:
             ikeys = []
         d = {}
@@ -109,7 +111,9 @@ class ItemPreviewHandler(BaseHandler):
         if tp == VTYPE_LIST[0]:
             ikeys = ["name", "client", "year"]
         elif tp == VTYPE_LIST[1]:
-            ikeys = ["name", "client", "year"]
+            ikeys = ["title", "content"]
+        elif tp == VTYPE_LIST[2]:
+            ikeys = ["title", "content"]
         else:
             ikeys = []
         d = {}
@@ -179,6 +183,15 @@ class AjaxItemHandler(BaseHandler):
         if r[0]:
             return self.write(json.dumps({'works': r[1]['works'], 'logo':r[1]['logo']}))
 
-
+class AjaxItemPasteHandler(BaseHandler):
+    @addslash
+    @session
+    @authenticated
+    def post(self, eid):
+        uid = self.SESSION['uid']
+        vid = self.get_argument('vid', None)
+        e = Item()
+        r = e._api.copy(eid, **{'vid':vid, 'vtype':u'project'})
+        if r[0]:return self.write(json.dumps({'rep':'ok'}))
 
 

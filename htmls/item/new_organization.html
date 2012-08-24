@@ -2,24 +2,18 @@
 
 {% block infos %}
 	<div class="control-group">
-		<label class="control-label" for="name">作品名称</label>
+		<label class="control-label" for="title">标题</label>
 		<div class="controls">
-			<input type="text" class="input-xlarge" name="name" id="name"/>
-			<p class="help-inline">请输入作品名称</p>
+			<input type="text" class="input-xlarge" name="title" id="title"/>
+			<p class="help-inline">请输入作品标题</p>
 		</div>
 	</div>
+	
 	<div class="control-group">
-		<label class="control-label" for="client">客户</label>
+		<label class="control-label" for="content">正文</label>
 		<div class="controls">
-			<input type="text" class="input-xlarge" name="client" id="client"/>
-			<p class="help-inline">请输入客户</p>
-		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label" for="year">创作年份</label>
-		<div class="controls">
-			<select type="text" class="input-xlarge" name="year" id="year"></select>
-			<p class="help-inline">请选择年份</p>
+			<textarea class="input-xlarge" id="content" rows="3" name="content">{% if content %}{{ content }}{% end %}</textarea>
+			<p class="help-inline">请输入正文</p>
 		</div>
 	</div>
 {% end %}

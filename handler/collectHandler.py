@@ -61,7 +61,7 @@ class AjaxCollectAddHandler(BaseHandler):
     def post(self, rid):
         uid = self.SESSION['uid']
         c = Collect()
-        print c._api.save(uid, rid)
+        r = c._api.save(uid, rid)
         return self.write({})
 
 class AjaxCollectDelHandler(BaseHandler):

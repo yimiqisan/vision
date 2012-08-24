@@ -15,7 +15,7 @@
 
 		var options = {
 
-			listType: 'ol',						// Ordered list 'ol', or unordered list 'ul'
+			listType: 'ul',						// Ordered list 'ol', or unordered list 'ul'
 			sortable: false, 					// Should the list be sortable?
 			highlight: false,					// Use the highlight feature? 
 			animate: false,						// Animate the the adding/removing of items in the list?
@@ -23,7 +23,7 @@
 			hideWhenAdded: false,					// Hide the option when added to the list? works only in FF
 			debugMode: false,					// Debug mode keeps original select visible 
 
-			removeLabel: '&times;',					// Text used in the "remove" link
+			removeLabel: '   &times;',					// Text used in the "remove" link
 			highlightAddedLabel: 'Added: ',				// Text that precedes highlight of added item
 			highlightRemovedLabel: 'Removed: ',			// Text that precedes highlight of removed item
 

@@ -76,7 +76,7 @@ class ItemDoc(Document):
             'logo':     unicode,
             'works':    list,
             'owner':    unicode,
-            'vtype':    IS(u'personal', u'organization', u'project'),
+            'vtype':    IS(u'personal', u'organization', u'project', u'show'),
             'vid':      unicode,
             'created':  datetime,
             'added':    dict,

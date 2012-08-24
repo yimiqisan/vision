@@ -210,11 +210,15 @@ class AjaxStaffListHandler(BaseHandler):
     @authenticated
     def get(self):
         uid = self.SESSION['uid']
+        cid = self.get_argument('cid', None)
+        p = Permission()
+        rp = p._api.list(channel=u'project', cid=cid)
+        rlist = [i['owner'] for i in rp]
         s = Staff()
         r = s._api.page()
         l = []
         for i in r[1]:
             if i['pid'] != uid:
-                l.append((i['pid'], i['nick']))
+                l.append((i['pid'], i['nick'], i['pid'] in rlist))
         return self.write(json.dumps(l))
     

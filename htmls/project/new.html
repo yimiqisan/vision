@@ -9,14 +9,18 @@
 	<script language="javascript" type="text/javascript">
 		$(document).ready(function() {
         	var args = {};
+			args['cid'] = '{{ pid }}';
 			$.postJSON('/a/staff/', 'GET', args, function(response) {
 				if (response.error){
 					return alert(response.error);
 				}
 				$(response).each(function() {
-					var i = $(this)[0]
-					, t = $(this)[1];
-					$("#members").append("<option value=" + i + ">" + t + "</option>");
+					var i = $(this)[0], t = $(this)[1], s = $(this)[2];
+					if (s) {
+						$("#members").append("<option value=" + i + " selected='selected'>" + t + "</option>");
+					}else{
+						$("#members").append("<option value=" + i + ">" + t + "</option>");
+					}
 				});
 			});
 			$("select[multiple]").asmSelect({

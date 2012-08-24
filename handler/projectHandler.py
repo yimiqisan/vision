@@ -15,6 +15,7 @@ from baseHandler import BaseHandler
 from vision.apps.project import Project
 from vision.apps.perm import Permission
 from vision.apps.item import Item
+from vision.apps.collect import Collect
 from vision.apps.reply import Reply
 from vision.apps.tools import session
 
@@ -97,15 +98,20 @@ class ProjectStickHandler(BaseHandler):
     @authenticated
     def get(self, pid):
         uid = self.SESSION['uid']
-        return self.write('ok')
-        p = Project()
-        r = p._api.get(pid, cuid=uid)
+        i = Item()
+        ro = i._api.page(vid=pid, vtype=u'project')
+        olist = [o['refer_id'] for o in ro[1]]
+        c = Collect()
+        r = c._api.page(owner=uid)
+        ilist = []
+        for ci in r[1]:
+            rid = ci['refer_id']
+            ri = i._api.page(vid=rid)
+            for j in ri[1]:
+                j['is_paste'] = j['eid'] in olist
+            ilist.extend(ri[1])
         if r[0]:
-            proj = r[1]
-            m = Permission()
-            rp = m._api.list(channel=u'project', cid=pid)
-            proj['members'] = rp
-            return self.render("project/stick.html", **proj)
+            return self.render("project/stick.html", ilist=ilist, pid=pid)
         else:
             return self.render_alert(r[1])
 

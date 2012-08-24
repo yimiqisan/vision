@@ -45,8 +45,13 @@
 				<div class="thumbnail overmenu-group">
 					<a href="/item/{{w['eid']}}"><img src="/image/attach/{{ w['logo'] }}_300" style="width:260px;height:180px;" alt=""></a>
 					<div class="caption">
-						<h4>{{w['name']}}</h4></br>
-						<p>{{w['client']}}</p>
+						{% if w['vtype'] == u'personal' %}
+							<h4>{{w['name']}}</h4></br>
+							<p>{{w['client']}}</p>
+						{% else %}
+							<h4>{{w['title']}}</h4></br>
+							<p>{{w['content']}}</p>
+						{% end %}
 					</div>
 					<ul class="overmenu" bot=0 >
 						<li><a href="/item/{{ w['eid'] }}/">查看</a></li>
