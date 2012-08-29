@@ -39,13 +39,13 @@ function select_span(a, b, c, d, e, f, g, h) {
 		j, a, k = '<option value="0">- 日 -</option>',
 		l = d > e ? -1 : 1;
 	if (d != e) {
-		j = d, i.push('<select id="' + b + '_year"class="' + b + '_year date_year" name="year">'), f || i.push('<option value="0000">- 年 -</option>');
+		j = d, i.push('<select id="' + b + '_year" style="width:100px;" class="' + b + '_year date_year" name="year">'), f || i.push('<option value="0000">- 年 -</option>');
 		for (; j != e; j += l) i.push('<option value="' + j + '">' + j + "</option>");
 		i.push("</select>")
 	}
-	i.push('<select id="' + b + '_month" class="' + b + '_month date_month" name="month">'), f || i.push('<option value="0">- 月 -</option>');
+	i.push('<select id="' + b + '_month" style="width:100px;" class="' + b + '_month date_month" name="month">'), f || i.push('<option value="0">- 月 -</option>');
 	for (j = 1; j < 13; ++j) i.push('<option value="' + j + '">' + j + "</option>");
-	i.push('</select><select id="' + b + '_day"class="' + b + '_day date_day" name="day">' + k + "</select>");
+	i.push('</select><select id="' + b + '_day" style="width:100px;" class="' + b + '_day date_day" name="day">' + k + "</select>");
 	if (h) {
 		i.push('<select id="' + b + '_hour" class="' + b + '_hour date_hour" name="' + b + '_hour">');
 		for (j = 0; j < 24; ++j) i.push('<option value="' + j + '">' + zfill(j, 2) + "</option>");

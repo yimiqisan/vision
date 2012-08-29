@@ -327,6 +327,8 @@ class VolumeAPI(API):
         if grade:kwargs['grade']=grade
         if nexus:kwargs['nexus']=nexus
         if type(male) == type(False):kwargs['male']=male
+        if not subtype:
+            kwargs = {'$or':[{'owner':owner}, kwargs]}
         ### born_interval
         kwargs['page']=page
         kwargs['pglen']=pglen
