@@ -21,7 +21,6 @@
 						$(htmls[i]).insertAfter($("#"+id));
 					}
 					$(this).val(response.cursor);
-					$("#ext-24d49699ca9141f781055deac1bb770b").remove();
 					
 					var h = $(this).closest('.overmenu-group').height();
 					var bottom = h - 310;
@@ -42,9 +41,9 @@
 		<ul class="nav nav-tabs pull-right">
 			{% for i in xrange(0, len(plist)) %}
 				{% if project['pid'] and project['pid'] == plist[i]['pid'] %}
-					<li class="active pull-left"><a href="#" title="{{ plist[i]['title'] }}">{{ abstract(plist[i]['title'], 14) }}</a></li>
+					<li class="active pull-left"><a href="#" title="{{ plist[i]['title'] }}">{{ abstract(plist[i]['title'], 30) }}</a></li>
 				{% else %}
-					<li><a href="/project/{{ plist[i]['pid'] }}/" title="{{ plist[i]['title'] }}">{{ abstract(plist[i]['title'], 14) }}</a></li>
+					<li><a href="/project/{{ plist[i]['pid'] }}/" title="{{ plist[i]['title'] }}">{{ abstract(plist[i]['title'], 30) }}</a></li>
 				{% end %}
 			{% end %}
 		</ul>
@@ -68,19 +67,20 @@
 	{% end %}
 	<div class="well">
 	{% if len(plist) > 0 %}
-		<h3 class="pull-left">名称：{{ abstract(project['title'], 70) }}</h3>
+		<h3 class="pull-left"><bold style="display:inline;">名称：</bold>{{ abstract(project['title'], 58) }}</h3>
 		<div class="btn-group pull-right" style="margin:5px 5px 0 0;">
 			<button class="btn dropdown-toggle" data-toggle="dropdown">项目操作<span class="caret"></span></button>
 			<ul class="dropdown-menu">
 				{% if verify(project['pm'], [0x20, 0x21]) %}<li><a href="/project/{{ project['pid'] }}/edit/">编辑项目</a></li>{% end %}
 				{% if verify(project['pm'], [0x20, 0x21]) %}<li><a href="/item/project/{{ project['pid'] }}/new/">新建作品</a></li>{% end %}
-				{% if verify(project['pm'], [0x20, 0x21]) %}<li><a href="/project/{{ project['pid'] }}/stick/">从收藏粘贴</a></li>{% end %}
+				{% if verify(project['pm'], [0x20, 0x21]) %}<li><a href="/project/{{ project['pid'] }}/build/">从创建的粘贴</a></li>{% end %}
+				{% if verify(project['pm'], [0x20, 0x21]) %}<li><a href="/project/{{ project['pid'] }}/stick/">从收藏的粘贴</a></li>{% end %}
 				{% if verify(project['pm'], [0x20, 0x21]) %}<li class="divider"></li><li><a href="/project/{{ project['pid'] }}/remove/" onclick="return delconfirm(this);">删除项目</a></li>{% end %}
 			</ul>
 		</div>
 		
 		<div style="clear:both;"></div><br/>
-		<div><p>描述：{{ project['description'] }}</p></div>
+		<div><p><blod style="font-weight: bold;font-size:16px;">描述：</blod>{{ project['description'] }}</p></div>
 	{% else %}
 		<h2>还没有项目</h2>
 	{% end %}
@@ -102,6 +102,9 @@
 
 				<div class="caption reply-group" id="m-{{ w['eid'] }}" style="border-top:1px solid #eee;margin-bottom:5px;padding:1px;">
 					<div class="pull-right reply-url" id="ext-{{w['eid']}}"><a href="#inp-{{w['eid']}}" data-toggle="reply-extend">评论({{w['cnt']}})</a></div>
+					
+					<a onclick="Reply.toggle(this);return false;" id="r-{{ w['eid'] }}" class="wb_reply">回复</a>
+					
 					<input type="hidden" id="inp-{{w['eid']}}" value="0" class="reply"/>
 					{% for reply in rl %}
 						{% module Template("util/reply.html", reply=reply) %}

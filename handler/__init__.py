@@ -14,5 +14,5 @@ from permHandler import PermHandler, PermNewHandler, PermRemoveHandler, PermEdit
 from itemHandler import ItemNewHandler, ItemPreviewHandler, ItemRemoveHandler, ItemEditHandler, ItemHandler, AjaxItemHandler, AjaxItemPasteHandler
 from volumeHandler import VolumeHandler, VolumeNewHandler, VolumeRemoveHandler, VolumeEditHandler, VolumeHandler, VolumeListHandler, AjaxVolumeTypeHandler
 from collectHandler import CollectHandler, CollectRemoveHandler, CollectItemHandler, AjaxCollectAddHandler, AjaxCollectDelHandler, CollectListHandler
-from projectHandler import ProjectNewHandler, ProjectRemoveHandler, ProjectEditHandler, ProjectStickHandler, ProjectHandler
+from projectHandler import ProjectNewHandler, ProjectRemoveHandler, ProjectEditHandler, ProjectBuildHandler, ProjectStickHandler, ProjectHandler
 from replyHandler import AjaxReplyHandler, AjaxNewReplyHandler, AjaxRemoveHandler

@@ -38,18 +38,22 @@ class ProjectAPI(API):
         API.__init__(self, col_name=col_name, collection=collection, doc=doc)
     
     def save(self, owner, title, description, members, **kwargs):
+        ''' 新建项目 '''
         return super(ProjectAPI, self).create(owner=owner, title=title, description=description, members=list(members), **kwargs)
     
     def remove(self, id):
+        ''' 删除项目 '''
         return super(ProjectAPI, self).remove(id)
     
     def edit(self, id, **kwargs):
+        ''' 编辑项目 '''
         return super(ProjectAPI, self).edit(id, **kwargs)
     
     def _perm(self, uid, pid):
         return self.p._api.get_owner_value(uid, u'project', cid=pid)
     
     def _output_format(self, result=[], cuid=DEFAULT_CUR_UID):
+        ''' 项目格式化输出 '''
         now = datetime.now()
         output_map = lambda i: {'pid':i['_id'], 'added_id':i['added_id'], 'pm':self._perm(cuid, i['_id']), 'owner':i['owner'], 'is_own':(cuid==i['owner'] if i['owner'] else True), 'title':i['title'], 'description':i.get('description', None), 'members':i['members'], 'created':self._escape_created(now, i['created'])}
         if isinstance(result, dict):
@@ -57,11 +61,13 @@ class ProjectAPI(API):
         return map(output_map, result)
     
     def get(self, id, cuid=DEFAULT_CUR_UID):
+        ''' 获取单个项目 '''
         r = self.one(_id=id)
         if (r[0] and r[1]):return (True, self._output_format(result=r[1], cuid=cuid))
         return r
     
     def page(self, cuid=DEFAULT_CUR_UID, owner=None, page=1, pglen=10, cursor=None, limit=20, order_by='added_id', order=-1):
+        ''' 分页显示项目 '''
         kwargs = {}
         if owner:kwargs['owner']=owner
         kwargs['page']=page

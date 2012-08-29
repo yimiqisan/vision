@@ -18,6 +18,8 @@ from vision.apps.tools import session
 
 
 class CollectHandler(BaseHandler):
+    '''收藏首页
+    '''
     @addslash
     @session
     @authenticated
@@ -25,10 +27,12 @@ class CollectHandler(BaseHandler):
         uid = self.SESSION['uid']
         page = int(self.get_argument('page', 1))
         c = Collect()
-        r = c._api.page(page=page, limit=15)
+        r = c._api.page(owner=uid, page=page, limit=15)
         return self.render("space/collect.html", vlist=r[1], vinfo=r[2])
 
 class CollectRemoveHandler(BaseHandler):
+    '''取消收藏
+    '''
     @addslash
     @session
     @authenticated
@@ -39,6 +43,8 @@ class CollectRemoveHandler(BaseHandler):
         return self.redirect('/collect/')
 
 class CollectItemHandler(BaseHandler):
+    '''收藏单项展示
+    '''
     @addslash
     @session
     @authenticated
@@ -55,6 +61,8 @@ class CollectItemHandler(BaseHandler):
             return self.render_alert(r[1])
 
 class AjaxCollectAddHandler(BaseHandler):
+    '''ajax方式添加收藏
+    '''
     @addslash
     @session
     @authenticated
@@ -65,6 +73,8 @@ class AjaxCollectAddHandler(BaseHandler):
         return self.write({})
 
 class AjaxCollectDelHandler(BaseHandler):
+    '''ajax方式取消收藏
+    '''
     @addslash
     @session
     @authenticated
@@ -75,6 +85,8 @@ class AjaxCollectDelHandler(BaseHandler):
         return self.redirect('/space/')
 
 class CollectListHandler(BaseHandler):
+    '''收藏列表
+    '''
     @addslash
     @session
     @authenticated
@@ -87,3 +99,5 @@ class CollectListHandler(BaseHandler):
         v = volume.Volume()
         r = v._api.page(cuid=uid, owner=uid, perm=self.pm, prop=prop, name=word, subtype=subtype.upper(), page=page)
         return self.render("volume/list.html", vlist=r[1], vinfo=r[2], subtype=subtype)
+
+

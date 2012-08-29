@@ -30,6 +30,7 @@ class Staff(object):
             return None
     
     def whois(self, k, v):
+        ''' 确定用户身份 '''
         if v == ADMIN['admin'][1]:
             self.info = {'nick': ADMIN['admin'][0], 'password': unicode(md5(ADMIN['admin'][0]).hexdigest()), '_id': ADMIN['admin'][1]}
             self.uid = ADMIN['admin'][1]
@@ -42,6 +43,7 @@ class Staff(object):
             self.uid = self.info = None
     
     def register(self, **info):
+        ''' 注册账号 '''
         nick = info.get('nick', None)
         if nick:
             r = self._api.is_nick_exist(nick)
@@ -60,6 +62,7 @@ class Staff(object):
         return c
     
     def login(self, email, password):
+        ''' 账户登陆 '''
         if (email in ADMIN.keys()) and (password == ADMIN[email][0]):
             return (True, {'_id':ADMIN[email][1], 'pm':[PERM_CLASS['SUPEROR']], 'added':{'logo': None}, 'nick': 'admin'})
         r = self._api.is_email_exist(email)
@@ -99,12 +102,15 @@ class StaffAPI(API):
         API.__init__(self, col_name=col_name, collection=collection, doc=doc)
     
     def is_nick_exist(self, nick):
+        ''' 判断nick是否存在 '''
         return self.exist("nick", nick)
     
     def is_email_exist(self, email):
+        ''' 判断email是否存在 '''
         return self.exist("email", email)
     
     def is_nick(self, nick):
+        ''' 判断是否是nick '''
         try:
             nick.encode('utf8')
         except UnicodeEncodeError:
@@ -114,9 +120,11 @@ class StaffAPI(API):
         return True
     
     def change_pwd(self, id, o, n, c):
+        ''' 改变密码 '''
         self.edit(id, password=n)
     
     def nick2id(self, nick):
+        ''' 根据nick获取id '''
         if self.is_nick(nick):
             r = self.one(nick=nick)
             if r[0] and r[1]:
@@ -125,6 +133,7 @@ class StaffAPI(API):
         return nick
     
     def remove(self, id):
+        ''' 删除账号 '''
         r = self.get(id)
         return super(StaffAPI, self).remove(id)
     
@@ -132,18 +141,21 @@ class StaffAPI(API):
         return self.p._api.get_owner_value(uid, u'site')
     
     def _output_format(self, result=[], cuid=DEFAULT_CUR_UID):
+        ''' 格式化输出用户信息 '''
         now = datetime.now()
-        output_map = lambda i: {'pid':i['_id'], 'added_id':i['added_id'], 'pm':self._perm(i['_id']), 'email':i.get('email', None), 'password':None, 'belong':i['belong'], 'job':i['added'].get('job', ''), 'discribe':i['added'].get('discribe', ''), 'is_own':(cuid==i['belong'] if i['belong'] else True), 'nick':i['nick'], 'level':i['level'], 'avatar':i.get('avatar', None), 'male':i['added'].get('male', None), 'created':self._escape_created(now, i['created'])}
+        output_map = lambda i: {'pid':i['_id'], 'added_id':i['added_id'], 'pm':self._perm(i['_id']), 'email':i.get('email', None), 'password':None, 'belong':i['belong'], 'job':i['added'].get('job', ''), 'discribe':i['added'].get('discribe', ''), 'is_own':(cuid==i['belong'] if i['belong'] else True), 'nick':i['nick'] if i['nick'] else i.get('email', None), 'level':i['level'], 'avatar':i.get('avatar', None), 'male':i['added'].get('male', None), 'created':self._escape_created(now, i['created'])}
         if isinstance(result, dict):
             return output_map(result)
         return map(output_map, result)
     
     def get(self, id):
+        ''' 获取单个用户信息 '''
         r = self.one(_id=id)
         if (r[0] and r[1]):return (True, self._output_format(result=r[1]))
         return r
     
     def page(self, cuid=DEFAULT_CUR_UID, belong=None, level=None, page=1, pglen=10, cursor=None, limit=20, order_by='added_id', order=-1):
+        ''' 分页显示用户信息 '''
         kwargs = {}
         if belong:kwargs['belong']=belong
         if level:kwargs['level'] = {'$in':level} if isinstance(level, list) else level

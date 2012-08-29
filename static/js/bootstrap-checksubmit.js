@@ -10,43 +10,46 @@ var censor = '.censor, .preview'
 
 Check.prototype = {
     constructor: Check
-
+    
     , censor: function ( e ) {
-        var $this = $(this)
-        , form = $this.closest('form')
-        , be = true;
+        e && e.preventDefault();
+        var $that = $(this)
+        , form = $that.closest('form')
+        , action = form.attr('action');
         
-        if ($this.hasClass('preview')) {
+        $that.attr('switch', 'on');
+        if ($that.hasClass('preview')) {
             form.attr('target', '_blank');
-            var action = form.attr('action');
             form.attr('action', action.replace(/new/, 'preview'));
         }else{
             form.removeAttr('target');
-            var action = form.attr('action');
             form.attr('action', action.replace(/preview/, 'new'));
         }
         $('.help-inline, .help-block').each(function(i, e){
-            var c = $(this).prev()
-            , g = $(this).closest('.control-group');
+            var g = $(this).closest('.control-group')
+            , n = g.find('label').attr('for')
+            , c = g.find('[name='+n+']');
             g.removeClass('error');
             if (g.hasClass('hide')) { return true; }
-            if (typeof c.attr('name') === 'undefined'){
-                c = c.find('input');
-            }
             if (c.attr('type') == 'checkbox'){
-                be = false;
+                var err = true;
                 c.each(function(e, i){
-                    if($(this).attr('checked') == 'checked'){be = true;}
+                    if($(this).attr('checked') == 'checked'){
+                        err = false;
+                    }
                 })
-                if (!be){$(this).closest('.control-group').addClass('error');}
-            }else if (c.val() === '') {
+                if (err){
+                    $(this).closest('.control-group').addClass('error');
+                    $that.attr('switch', 'off');
+                }
+            }else if (!c.val()) {
                 $(this).closest('.control-group').addClass('error');
-                be = false;
+                $that.attr('switch', 'off');
             }
-            return true;
         })
-        $this.trigger('censorn');
-        if (be) {form.submit();}
+        $that.trigger('censorn');
+        var swi = $that.attr('switch');
+        if (swi == 'on') {form.submit();}
         return false;
     }
 }

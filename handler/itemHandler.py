@@ -19,6 +19,8 @@ from vision.apps.tools import session
 
 
 class ItemNewHandler(BaseHandler):
+    '''新建作品
+    '''
     @addslash
     @session
     @authenticated
@@ -75,6 +77,8 @@ class ItemNewHandler(BaseHandler):
         return d
 
 class ItemPreviewHandler(BaseHandler):
+    '''作品预览
+    '''
     @addslash
     @session
     @authenticated
@@ -121,6 +125,8 @@ class ItemPreviewHandler(BaseHandler):
         return d
 
 class ItemRemoveHandler(BaseHandler):
+    '''作品删除
+    '''
     @addslash
     @session
     @authenticated
@@ -133,6 +139,8 @@ class ItemRemoveHandler(BaseHandler):
         return self.render_alert(r[1])
 
 class ItemEditHandler(BaseHandler):
+    '''作品编辑
+    '''
     @addslash
     @session
     @authenticated
@@ -148,6 +156,8 @@ class ItemEditHandler(BaseHandler):
         return self.render_alert(r[1])
 
 class ItemHandler(BaseHandler):
+    '''单个作品展示
+    '''
     @addslash
     @session
     @authenticated
@@ -173,6 +183,8 @@ class ItemHandler(BaseHandler):
             return self.render_alert(r[1])
 
 class AjaxItemHandler(BaseHandler):
+    '''ajax方式展示单个作品
+    '''
     @addslash
     @session
     @authenticated
@@ -184,6 +196,8 @@ class AjaxItemHandler(BaseHandler):
             return self.write(json.dumps({'works': r[1]['works'], 'logo':r[1]['logo']}))
 
 class AjaxItemPasteHandler(BaseHandler):
+    '''ajax方式粘贴作品
+    '''
     @addslash
     @session
     @authenticated

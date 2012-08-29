@@ -192,3 +192,26 @@
 .modal-open .dropright-menu {
   z-index: 2050;
 }
+
+
+
+.navbar .brand {
+display: block;
+float: left;
+padding: 10px 20px 10px;
+margin-left: -20px;
+font-size: 20px;
+font-weight: 200;
+color: #555;
+text-shadow: 0 1px 0 white;
+}
+
+.brand img {
+    position: absolute;
+    left: -60px;
+    top: 0px;
+}
+
+.parallel-menu {min-width:580px;}
+.parallel-menu li {float:left;}
+.parallel-menu a {padding:1px 5px;float:left;}

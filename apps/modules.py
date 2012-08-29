@@ -25,12 +25,13 @@ class IdDoc(Document):
     use_dot_notation=True
 
 class StaffDoc(Document):
+    ''' 账号表 '''
     __collection__ = 'staff'
     __database__ = DB_NAME
     
     structure = {
             '_id':      unicode,
-            'avatar':     unicode,
+            'avatar':   unicode,
             'nick':     unicode,
             'email':    unicode,
             'password': unicode,
@@ -48,6 +49,7 @@ class StaffDoc(Document):
     use_dot_notation=True
 
 class PermissionDoc(Document):
+    ''' 权限表 '''
     __collection__ = 'permission'
     __database__ = DB_NAME
     
@@ -68,6 +70,7 @@ class PermissionDoc(Document):
     use_dot_notation=True
 
 class ItemDoc(Document):
+    ''' 作品表 '''
     __collection__ = 'item'
     __database__ = DB_NAME
     
@@ -90,6 +93,7 @@ class ItemDoc(Document):
     use_dot_notation=True
 
 class VolumeDoc(Document):
+    ''' 作品集表 '''
     __collection__ = 'volume'
     __database__ = DB_NAME
     
@@ -107,7 +111,7 @@ class VolumeDoc(Document):
             'grade':    int,
             'nexus':    int,
             'male':     bool,
-            'year':     datetime,
+            'born':     datetime,
             'created':  datetime,
             'added':    dict,
             'added_id': int,
@@ -120,6 +124,7 @@ class VolumeDoc(Document):
     use_dot_notation=True
 
 class CollectDoc(Document):
+    ''' 收藏表 '''
     __collection__ = 'collect'
     __database__ = DB_NAME
     
@@ -138,7 +143,7 @@ class CollectDoc(Document):
             'grade':    int,
             'nexus':    int,
             'male':     bool,
-            'year':     datetime,
+            'born':     datetime,
             'created':  datetime,
             'added':    dict,
             'added_id': int,
@@ -151,6 +156,7 @@ class CollectDoc(Document):
     use_dot_notation=True
 
 class ProjectDoc(Document):
+    ''' 项目表 '''
     __collection__ = 'project'
     __database__ = DB_NAME
     
@@ -172,6 +178,7 @@ class ProjectDoc(Document):
     use_dot_notation=True
 
 class TimeLineDoc(Document):
+    ''' 回复表 '''
     __collection__ = 'timeline'
     __database__ = DB_NAME
     
@@ -191,3 +198,10 @@ class TimeLineDoc(Document):
     
     use_schemaless = True
     use_dot_notation=True
+
+
+
+
+
+
+

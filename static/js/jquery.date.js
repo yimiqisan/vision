@@ -16,26 +16,7 @@ function zfill(a, b) {
 	while (c.length < b) c = "0" + c;
 	return c
 }
-
-
-			var c = new Date,
-			d = c.getFullYear();
-			select_span("year", '00000000', d, d - 128);
-			function select_span(b, c, d, e) {
-				var a = $("#year");
-				var i = [], j, l = d > e ? -1 : 1;
-				if (d != e) {
-					j = d, i.push('<option value=""></option>');
-					for (; j != e; j += l) i.push('<option value="' + j + '">' + j + "</option>");
-				}
-				a.html(i.join(""));
-				var n = $("#year");
-				c -= 0, c && (n.val(parseInt(c / 1e4)), o.val(parseInt(c / 100) % 100).change())
-			}
-
-
 function select_span(a, b, c, d, e, f, g, h) {
-    var a = $("#year");
 	function m(b) {
 		return a.find("select[name=" + b + "]")
 	}
@@ -54,7 +35,7 @@ function select_span(a, b, c, d, e, f, g, h) {
 			b = p.val();
 		q.val(n.val() + (a.length < 2 ? "0" : "") + a + (b.length < 2 ? "0" : "") + b)
 	}
-	var i = ['<input type="hidden" value="0" name="' + b + '">'],
+	var i = ['<input type="hidden" value="" name="' + b + '">'],
 		j, a, k = '<option value="0">- 日 -</option>',
 		l = d > e ? -1 : 1;
 	if (d != e) {
@@ -73,9 +54,9 @@ function select_span(a, b, c, d, e, f, g, h) {
 		i.push("</select>")
 	}
 	a.html(i.join(""));
-	var n = $("#year"),//m("year"),
-		o = $("#month"),//m("month"),
-		p = $("#day"),//m("day"),
+	var n = m("year"),
+		o = m("month"),
+		p = m("day"),
 		q = a.find("input");
 	o.change(r), n.change(r), a.find("select").change(s), c -= 0, c && (n.val(parseInt(c / 1e4)), o.val(parseInt(c / 100) % 100).change(), p.val(c % 100), q.val(c))
 }
@@ -92,5 +73,3 @@ function select_future(a, b) {
 		d = c.getFullYear();
 	select_date(a, b, d, d + 128)
 };
-
-

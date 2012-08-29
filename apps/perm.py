@@ -37,12 +37,14 @@ class PermissionAPI(API):
         API.__init__(self, col_name=col_name, collection=collection, doc=doc)
     
     def award(self, owner, channel, key, cid=None, **kwargs):
+        ''' 授权 '''
         if key not in PERM_CLASS.keys():
             return (False, 'beyond key')
         value = unicode(key)
         return super(PermissionAPI, self).create(owner=owner, channel=channel, cid=cid, value=value, **kwargs)
     
     def deprive(self, owner=None, channel=None, value=None, cid=None):
+        ''' 取消授权 '''
         kwargs = {}
         if owner:kwargs['owner'] = owner
         if channel:kwargs['channel'] = channel
@@ -52,11 +54,13 @@ class PermissionAPI(API):
         return super(PermissionAPI, self).drops(**kwargs)
     
     def get(self, id):
+        ''' 获取权限 '''
         r = self.one(_id=id)
         if (r[0] and r[1]):return (True, self._output_format(result=r[1]))
         return r
     
     def get_owner_value(self, owner=None, channel=None, cid=None):
+        ''' 获取某人的权限列表 '''
         kwargs = {}
         if owner:kwargs['owner'] = owner
         if channel:kwargs['channel'] = channel
@@ -76,11 +80,13 @@ class PermissionAPI(API):
         return ret_d
     
     def _output_format(self, result=[]):
+        ''' 权限格式化 '''
         if isinstance(result, dict):
             return self._output_map(result)
         return [self._output_map(i) for i in result]
     
     def list(self, owner=None, channel=None, cid=None, key=None):
+        ''' 权限列表 '''
         kwargs = {}
         if owner:kwargs['owner'] = owner
         if channel:kwargs['channel'] = channel
@@ -124,6 +130,16 @@ def addperm(method):
             self.__setattr__('pm', v)
         return method(self, *args, **kwargs)
     return wrapper
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     

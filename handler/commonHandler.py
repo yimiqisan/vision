@@ -18,6 +18,8 @@ from vision.apps.tools import session
 
 
 class RootHandler(BaseHandler):
+    '''根目录，即登陆后的首次展示页面
+    '''
     def get(self):
         if self.current_user:
             self.redirect('/space/')
@@ -25,6 +27,8 @@ class RootHandler(BaseHandler):
             self.render("index.html")
 
 class LoginHandler(BaseHandler):
+    '''登陆处理
+    '''
     @addslash
     @session
     def post(self):
@@ -46,6 +50,8 @@ class LoginHandler(BaseHandler):
             self.render_alert(r[1])
 
 class AjaxLoginHandler(BaseHandler):
+    '''ajax方式登陆处理
+    '''
     @addslash
     @session
     def post(self):
@@ -67,6 +73,8 @@ class AjaxLoginHandler(BaseHandler):
             self.write(json.dumps({'error':r[1]}))
 
 class LogoutHandler(BaseHandler):
+    '''退出登陆
+    '''
     @addslash
     @session
     @authenticated
@@ -75,6 +83,8 @@ class LogoutHandler(BaseHandler):
         self.redirect('/')
 
 class Error404Handler(BaseHandler):
+    '''404错误页面
+    '''
     @addslash
     def get(self):
         self.render_alert(u"该页面不存在")

@@ -16,11 +16,14 @@ from vision.apps.project import Project
 from vision.apps.perm import Permission
 from vision.apps.item import Item
 from vision.apps.collect import Collect
+from vision.apps.volume import Volume
 from vision.apps.reply import Reply
 from vision.apps.tools import session
 
 
 class ProjectNewHandler(BaseHandler):
+    '''新建项目
+    '''
     KEYS = ["title", "description"]
     @addslash
     @session
@@ -66,6 +69,8 @@ class ProjectNewHandler(BaseHandler):
             p._api.award(unicode(member), u'project', 'RELATION', cid=pid)
 
 class ProjectRemoveHandler(BaseHandler):
+    '''删除项目
+    '''
     @addslash
     @session
     @authenticated
@@ -76,6 +81,8 @@ class ProjectRemoveHandler(BaseHandler):
         return self.redirect("/space/project/")
 
 class ProjectEditHandler(BaseHandler):
+    '''编辑项目
+    '''
     @addslash
     @session
     @authenticated
@@ -92,7 +99,34 @@ class ProjectEditHandler(BaseHandler):
         else:
             return self.render_alert(r[1])
 
+class ProjectBuildHandler(BaseHandler):
+    '''新建作品列表
+    '''
+    @addslash
+    @session
+    @authenticated
+    def get(self, pid):
+        uid = self.SESSION['uid']
+        page = int(self.get_argument('page', 1))
+        i = Item()
+        ro = i._api.page(vid=pid, vtype=u'project')
+        olist = [o['refer_id'] for o in ro[1]]
+        v = Volume()
+        r = v._api.page_own(owner=uid, page=page)
+        ilist = []
+        for vi in r[1]:
+            ri = i._api.page(vid=vi['vid'])
+            for j in ri[1]:
+                j['is_paste'] = j['eid'] in olist
+            ilist.extend(ri[1])
+        if r[0]:
+            return self.render("project/build.html", ilist=ilist, pid=pid)
+        else:
+            return self.render_alert(r[1])
+
 class ProjectStickHandler(BaseHandler):
+    '''收藏作品列表
+    '''
     @addslash
     @session
     @authenticated
@@ -103,7 +137,7 @@ class ProjectStickHandler(BaseHandler):
         ro = i._api.page(vid=pid, vtype=u'project')
         olist = [o['refer_id'] for o in ro[1]]
         c = Collect()
-        r = c._api.page(page=page)
+        r = c._api.page(owner=uid, page=page)
         ilist = []
         for ci in r[1]:
             rid = ci['refer_id']
@@ -117,6 +151,8 @@ class ProjectStickHandler(BaseHandler):
             return self.render_alert(r[1])
 
 class ProjectHandler(BaseHandler):
+    '''项目首页
+    '''
     @addslash
     @session
     @authenticated

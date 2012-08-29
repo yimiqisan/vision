@@ -18,6 +18,8 @@ from vision.apps.tools import session
 
 
 class SpaceHandler(BaseHandler):
+    '''空间首页
+    '''
     @addslash
     @session
     @authenticated
@@ -29,6 +31,8 @@ class SpaceHandler(BaseHandler):
         return self.render("space/index.html", vlist=r[1], vinfo=r[2])
 
 class SpacePermHandler(BaseHandler):
+    '''空间权限首页
+    '''
     @addslash
     @session
     @authenticated
@@ -37,6 +41,8 @@ class SpacePermHandler(BaseHandler):
         return self.redirect("/perm/")
 
 class SpaceNewHandler(BaseHandler):
+    '''空间新建页
+    '''
     @addslash
     @session
     @authenticated
@@ -45,6 +51,8 @@ class SpaceNewHandler(BaseHandler):
         return self.redirect("/volume/new/")
 
 class SpaceCollectHandler(BaseHandler):
+    '''空间收藏首页
+    '''
     @addslash
     @session
     @authenticated
@@ -53,6 +61,8 @@ class SpaceCollectHandler(BaseHandler):
         return self.redirect("/collect/")
 
 class SpaceProjectHandler(BaseHandler):
+    '''空间项目首页
+    '''
     @addslash
     @session
     @authenticated

@@ -88,8 +88,10 @@ VOL_PROPERTY_SUB = {
         'ORGANIZATION':[['FMAGAZINE', '杂志'],
             ['FASSOCIATION', '协会'],
             ['FINSTITUTIONS', '院校'],
+            ['AMULTIMEDIA', '多媒体'],
             ['AASSOCIATION', '协会'],
             ['AINSTITUTION', '院校'],
+            ['DMUTILMEDIA', '多媒体'],
             ['DASSOCIATION', '协会'],
             ['DINSTITUTION', '院校'],
             ['HTHEATER', '剧院'],
@@ -173,10 +175,11 @@ class VolumeAPI(API):
         API.__init__(self, col_name=col_name, collection=collection, doc=doc)
     
     def save(self, owner, name, prop, maintype, subtype, **kwargs):
+        ''' 保存作品集 '''
         if kwargs.has_key('male'):
             kwargs['male'] = kwargs['male'] == u'male'
-        if kwargs.has_key('year'):
-            kwargs['year'] = datetime.strptime(kwargs['year'], DATE_FORMAT)
+        if kwargs.has_key('born'):
+            kwargs['born'] = datetime.strptime(kwargs['born'], "%Y%m%d")
         if kwargs.has_key('live'):
             kwargs['live'] = int(kwargs['live'])
         if kwargs.has_key('grade'):
@@ -186,10 +189,11 @@ class VolumeAPI(API):
         return super(VolumeAPI, self).create(owner=owner, name=name, prop=prop, maintype=maintype, subtype=subtype, **kwargs)
         
     def edit(self, id, **kwargs):
+        ''' 编辑作品集 '''
         if kwargs.has_key('male'):
             kwargs['male'] = kwargs['male'] == u'male'
-        if kwargs.has_key('year'):
-            kwargs['year'] = datetime.strptime(kwargs['year'], DATE_FORMAT)
+        if kwargs.has_key('born'):
+            kwargs['born'] = datetime.strptime(kwargs['born'], "%Y%m%d")
         if kwargs.has_key('live'):
             kwargs['live'] = int(kwargs['live'])
         if kwargs.has_key('grade'):
@@ -199,26 +203,28 @@ class VolumeAPI(API):
         return super(VolumeAPI, self).edit(id, **kwargs)
     
     def remove(self, id):
+        ''' 删除某个作品集 '''
         return super(VolumeAPI, self).remove(id)
     
     def _affect(self, cuid, owner, rid):
-        print self.capi.exist(rid)
         if (cuid == owner):
             r = VOLUME_AFFECT_OWN
-        elif self.capi.exist(rid):
+        elif self.capi.exist(owner, rid):
             r = VOLUME_AFFECT_COL
         else:
             r = VOLUME_AFFECT_DEF
         return r
     
     def _output_format(self, result=[], cuid=DEFAULT_CUR_UID):
+        ''' 格式化输出作品集 '''
         now = datetime.now()
-        output_map = lambda i: {'vid':i['_id'], 'added_id':i['added_id'], 'affect':self._affect(cuid, i['owner'], i['_id']), 'logo':i.get('logo', None), 'name':i.get('name', '无名'), 'builder':i['added'].get('builder', None), 'prop':i.get('prop', None), 'prop_cn':get_cn(p=i.get('prop', None)), 'maintype':i.get('maintype', None), 'maintype_cn':get_cn(m=i.get('maintype', None)), 'subtype':i.get('subtype', None), 'subtype_cn':get_cn(s=i.get('subtype', None)), 'live':i.get('live', None), 'male':i.get('male', None), 'male_cn':'男' if i.get('male', None) else '女', 'year':datetime.strftime(i.get('year', datetime.now()), DATE_FORMAT), 'website':i['added'].get('website', None), 'agency':i.get('agency', None), 'grade':i.get('grade', None), 'nexus':i.get('nexus', None), 'intro':i['added'].get('intro', None), 'about':i['added'].get('about', None), 'market':i['added'].get('market', None), 'created':self._escape_created(now, i['created'])}
+        output_map = lambda i: {'vid':i['_id'], 'added_id':i['added_id'], 'affect':self._affect(cuid, i['owner'], i['_id']), 'logo':i.get('logo', None), 'name':i.get('name', '无名'), 'builder':i['added'].get('builder', None), 'prop':i.get('prop', None), 'prop_cn':get_cn(p=i.get('prop', None)), 'maintype':i.get('maintype', None), 'maintype_cn':get_cn(m=i.get('maintype', None)), 'subtype':i.get('subtype', None), 'subtype_cn':get_cn(s=i.get('subtype', None)), 'live':i.get('live', None), 'male':i.get('male', None), 'male_cn':'男' if i.get('male', None) else '女', 'born':datetime.strftime(i.get('born', datetime.now()), "%Y%m%d"), 'website':i['added'].get('website', None), 'agency':i.get('agency', None), 'grade':i.get('grade', None), 'nexus':i.get('nexus', None), 'intro':i['added'].get('intro', None), 'about':i['added'].get('about', None), 'market':i['added'].get('market', None), 'created':self._escape_created(now, i['created'])}
         if isinstance(result, dict):
             return output_map(result)
         return map(output_map, result)
     
     def get(self, id):
+        ''' 获取某个作品集 '''
         r = self.one(_id=id)
         if (r[0] and r[1]):return (True, self._output_format(result=r[1]))
         return r
@@ -241,7 +247,8 @@ class VolumeAPI(API):
         else:
             return {}
     
-    def page_own(self, cuid=DEFAULT_CUR_UID, owner=None, perm=None, name=None, prop=None, live=None, agency=None, tags=[], grade=None, nexus=None, male=None, year_interval=(None, None), page=1, pglen=10, limit=20, order_by='added_id', order=-1):
+    def page_own(self, cuid=DEFAULT_CUR_UID, owner=None, perm=None, name=None, prop=None, live=None, agency=None, tags=[], grade=None, nexus=None, male=None, born_interval=(None, None), page=1, pglen=10, limit=20, order_by='added_id', order=-1):
+        ''' 个人工作空间作品集 '''
         kwargs = {}
         if owner:kwargs['owner']=owner
         if name:kwargs['name']=re.compile('.*'+name+'.*')
@@ -256,7 +263,7 @@ class VolumeAPI(API):
         if grade:kwargs['grade']=grade
         if nexus:kwargs['nexus']=nexus
         if type(male) == type(False):kwargs['male']=male
-        ### year_interval
+        ### born_interval
         kwargs['page']=page
         kwargs['pglen']=pglen
         kwargs['limit']=limit
@@ -271,7 +278,8 @@ class VolumeAPI(API):
         else:
             return (False, r[1])
         
-    def page(self, cuid=DEFAULT_CUR_UID, owner=None, perm=None, created=None, name=None, prop=None, maintype=None, subtype=None, live=None, agency=None, tags=[], grade=None, nexus=None, male=None, year_interval=(None, None), page=1, pglen=10, limit=20, order_by='added_id', order=-1):
+    def page(self, cuid=DEFAULT_CUR_UID, owner=None, perm=None, created=None, name=None, prop=None, maintype=None, subtype=None, live=None, agency=None, tags=[], grade=None, nexus=None, male=None, born_interval=(None, None), page=1, pglen=10, limit=20, order_by='added_id', order=-1):
+        ''' 分页显示作品集 '''
         kwargs = {}
         pmlist = [PERM_CLASS['SUPEROR'], PERM_CLASS['MANAGER']]
         if isinstance(perm, tuple):perm = [perm]
@@ -319,7 +327,7 @@ class VolumeAPI(API):
         if grade:kwargs['grade']=grade
         if nexus:kwargs['nexus']=nexus
         if type(male) == type(False):kwargs['male']=male
-        ### year_interval
+        ### born_interval
         kwargs['page']=page
         kwargs['pglen']=pglen
         kwargs['limit']=limit
@@ -343,9 +351,9 @@ class CollectAPI(API):
         doc = collection.CollectDoc()
         API.__init__(self, col_name=col_name, collection=collection, doc=doc)
     
-    def exist(self, rid):
+    def exist(self, owner, rid):
         try:
-            return self.collection.one({'refer_id': rid}) is not None
+            return self.collection.one({'owner':owner, 'refer_id': rid}) is not None
         except Exception, e:
             logging.info(e)
             return True

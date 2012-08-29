@@ -26,21 +26,26 @@ class Added_id(object):
         self.collection = self.datastore[IdDoc.__collection__]
     
     def incr(self):
+        ''' 计数加1 '''
         self.collection.update({"_id":self.idx},{"$inc":{"id":1}}, upsert=True)
     
     def decr(self):
+        ''' 计数减1 '''
         self.collection.update({"_id":self.idx},{"$inc":{"id":-1}}, upsert=True)
     
     def clear(self):
+        ''' 清空计数 '''
         self.collection.update({"_id":self.idx},{"$set":{"id":0}}, upsert=True)
     
     def count(self):
+        ''' 获取计数 '''
         try:
             return int(self.collection.one({"_id":self.idx})["id"])
         except:
             return 0
     
     def get(self):
+        ''' 累加 && 获取计数 '''
         self.incr()
         return int(self.collection.one({"_id":self.idx})["id"])
 
@@ -62,6 +67,7 @@ class API(object):
             raise Exception
     
     def _escape_created(self, n, c):
+        ''' 时间格式化输出 '''
         e = unicode(n-c)
         if ',' in e:
             a, x = e.split(',', 1)
@@ -83,6 +89,7 @@ class API(object):
         return r
     
     def create(self, **kwargs):
+        ''' 新建 '''
         self.doc['added'] = {}
         for k, v in kwargs.items():
             try:
@@ -107,10 +114,12 @@ class API(object):
         return (True, id)
         
     def remove(self, id):
+        ''' 删除单项 '''
         if not id:return False
         return self.collection.remove(id)
         
     def drops(self, **kwargs):
+        ''' 删除多项 '''
         try:
             self.collection.remove(kwargs)
         except Exception, e:
@@ -119,6 +128,7 @@ class API(object):
         return True
         
     def drop_table(self):
+        ''' 删除整个表格 ！慎用 '''
         self.datastore.drop_collection(self.col_name)
         
     def _edit_added(self, id, **addeds):
@@ -135,6 +145,7 @@ class API(object):
             self.collection.update({"_id":id}, {'$set':{key: dicts}})
     
     def edit(self, id, *args, **kwargs):
+        ''' 编辑 '''
         items=dict(args)
         items.update(kwargs)
         isOverWrite = items.pop('isOverWrite', False)
@@ -163,6 +174,7 @@ class API(object):
         return (True, id)
     
     def extend(self, **kwargs):
+        ''' 下拉 '''
         cursor = kwargs.pop('cursor', None)
         limit = kwargs.pop('limit', 20)
         order = kwargs.pop('order', -1)
@@ -180,6 +192,7 @@ class API(object):
         return (True, objs)
     
     def page(self, **kwargs):
+        ''' 分页显示 '''
         page = kwargs.pop('page', 1)
         pglen = kwargs.pop('pglen', 10)
         limit = kwargs.pop('limit', 20)
@@ -208,6 +221,7 @@ class API(object):
         return (True, objs, info)
     
     def count(self, **kwargs):
+        ''' 统计个数 '''
         try:
             cnt=self.collection.find(kwargs).count()
         except Exception, e:
@@ -215,6 +229,7 @@ class API(object):
         return cnt
     
     def one(self, **kwargs):
+        ''' 获取单项 '''
         try:
             r = self.collection.one(kwargs)
         except Exception, e:
@@ -223,6 +238,7 @@ class API(object):
         return (True, r)
         
     def find(self, **kwargs):
+        ''' 查询多项 '''
         order = kwargs.pop('order', -1)
         order_by = kwargs.pop('order_by', 'added_id')
         try:
@@ -233,6 +249,7 @@ class API(object):
         return (True, r)
     
     def exist(self, key, value):
+        ''' 查询是否存在 '''
         try:
             return self.collection.one({key:value}) is not None
         except Exception, e:

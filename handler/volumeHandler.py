@@ -17,6 +17,8 @@ from vision.apps.perm import addperm
 from vision.apps.tools import session
 
 class VolumeNewHandler(BaseHandler):
+    '''新建作品集
+    '''
     KEYS = ["maintype", "maintype_cn", "prop", "prop_cn", "subtype", "subtype_cn", "logo", "name", "male", "year", "live", "agency", "website", "grade", "nexus", "intro", "about", "builder", "market"]
     @addslash
     @session
@@ -50,6 +52,8 @@ class VolumeNewHandler(BaseHandler):
             return self.render("volume/new.html", **d)
 
 class VolumeRemoveHandler(BaseHandler):
+    '''删除作品集
+    '''
     @addslash
     @session
     @authenticated
@@ -60,6 +64,8 @@ class VolumeRemoveHandler(BaseHandler):
         return self.redirect('/space/')
 
 class VolumeEditHandler(BaseHandler):
+    '''编辑作品集
+    '''
     @addslash
     @session
     @authenticated
@@ -73,6 +79,8 @@ class VolumeEditHandler(BaseHandler):
             return self.render_alert(r[1])
 
 class VolumeHandler(BaseHandler):
+    '''单个作品集展示
+    '''
     @addslash
     @session
     @authenticated
@@ -89,6 +97,8 @@ class VolumeHandler(BaseHandler):
             return self.render_alert(r[1])
 
 class VolumeListHandler(BaseHandler):
+    '''作品集列表
+    '''
     @addslash
     @session
     @authenticated
@@ -115,6 +125,8 @@ class VolumeListHandler(BaseHandler):
         return params
 
 class AjaxVolumeTypeHandler(BaseHandler):
+    '''ajax方式加载作品集分类
+    '''
     @addslash
     @session
     @authenticated

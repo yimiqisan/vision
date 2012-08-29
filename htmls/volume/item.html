@@ -9,18 +9,18 @@
 {% end %}
 {% block body %}
 	<ul class="breadcrumb" style="background:#ededed;">
-		<li><a href="#" title="{{name}}" alt="{{name}}">{{name}}</a></li>
+		<li>{{name}}</li>
 		<li class="pull-right"><a class="btn btn-mini" href="/volume/{{vid}}/edit/">编辑</a></li>
 	</ul>
 	<div class="span12" style="border-bottom:1px solid #eee">
-		<div class="span2"><img src="/image/attach/{{logo}}_100" alt="头像" style="width:100px;height:100px;" /></div>
-		<div class="span8">
-			<p>{{name}} /{{subtype_cn}} 性别：{{male_cn}} 出生日期：{{year}}</p>
+		<div class="span2" style="border-right:1px solid #aaa;"><img src="/image/attach/{{logo}}_100" onerror="this.src='http://placehold.it/100&text=No Pic';" alt="头像" style="width:100px;height:100px;" /></div>
+		<div class="span7">
+			<p>{{name}} /{{subtype_cn}} 性别：{{male_cn}} 出生日期：{{born}}</p>
 			<script>show_pid('live', {{live}}, '国家地区：')</script>
 			<p>所属机构：{{agency}}</p>
 			<p>网址：{{website}}</p>
 		</div>
-		<div>
+		<div class="span2" style="border-left:1px solid #aaa;padding-left:30px;height:100px;">
 			<p>级别：
 				{% for i in xrange(0, grade) %}<i class="icon-star"></i>{% end %}
 				{% for i in xrange(0, 5-grade) %}<i class="icon-star-empty"></i>{% end %}

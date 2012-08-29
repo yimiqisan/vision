@@ -75,6 +75,7 @@ class ReplyAPI(API):
             for at in at_list:c.fire('a_weibo_at', to=at)
     
     def save(self, content, owner=None, tid=None, channel=u'normal', **kwargs):
+        ''' 保存回复 '''
         if tid:
             a = Added_id(tid)
             a.incr()
@@ -86,6 +87,7 @@ class ReplyAPI(API):
         return super(ReplyAPI, self).create(owner=owner, content=content, at_list=at_list, topic=tid, channel=channel, **kwargs)
     
     def remove(self, id):
+        ''' 删除回复 '''
         r = self.get(id)
         if r[0] and r[1] and (r[1]['channel'] == u'reply'):
             a = Added_id(r[1]['tid'])
@@ -102,6 +104,7 @@ class ReplyAPI(API):
         return 0x01
     
     def _output_format(self, result=[], cuid=DEFAULT_CUR_UID):
+        ''' 回复格式化输出 '''
         now = datetime.now()
         output_map = lambda i: {'id':i['_id'], 'added_id':i['added_id'], 'owner':i['owner'], 'perm':self._perm(cuid, i['owner']), 'is_own':(cuid==i['owner'] if i['owner'] else True), 'nick':i['added'].get('nick', '匿名驴友'), 'tid':i.get('topic', None), 'content':i['content'], 'ulogo':i['added'].get('ulogo', None), 'channel':i['channel'], 'count': self._count(i['_id']), 'created':self._escape_created(now, i['created'])}
         if isinstance(result, dict):
@@ -109,11 +112,13 @@ class ReplyAPI(API):
         return map(output_map, result)
     
     def get(self, id):
+        ''' 获取单个回复 '''
         r = self.one(_id=id)
         if (r[0] and r[1]):return (True, self._output_format(result=r[1]))
         return r
     
     def extend(self, cuid=DEFAULT_CUR_UID, owner=None, topic=None, channel=None, at=None, cursor=None, limit=20, order_by='added_id', order=-1):
+        ''' 获取扩展回复输出 '''
         kwargs = {}
         if owner:kwargs['owner']=owner
         if topic:kwargs['topic'] = {'$in':topic} if isinstance(topic, list) else topic
@@ -134,6 +139,7 @@ class ReplyAPI(API):
             return (False, r[1])
     
     def page(self, cuid=DEFAULT_CUR_UID, owner=None, topic=None, channel=None, at=None, page=1, pglen=10, cursor=None, limit=20, order_by='added_id', order=-1):
+        ''' 分页显示回复 '''
         kwargs = {}
         if owner:kwargs['owner']=owner
         if topic:kwargs['topic'] = {'$in':topic} if isinstance(topic, list) else topic
@@ -153,69 +159,3 @@ class ReplyAPI(API):
             return (True, l, r[2])
         else:
             return (False, r[1])
-        
-    def abbr(self, cuid=DEFAULT_CUR_UID, owner=None, topic=None, channel=None, at=None, order_by='added_id', order=-1):
-        kwargs = {}
-        if topic:kwargs['topic'] = {'$in':topic} if isinstance(topic, list) else topic
-        if channel:kwargs['channel']={'$in':channel}
-        c = super(ReplyAPI, self).count(**kwargs)
-        if c == 0:
-            return (False, u'抢沙发啦', False)
-        elif c == 1:
-            rt = self.extend(cuid=cuid, topic=topic, channel=channel, limit=1, order=1)
-            return (rt[1][0]['content'], '点击留言', False)
-        elif c== 2:
-            rt = self.extend(cuid=cuid, topic=topic, channel=channel, limit=2, order=1)
-            return (rt[1][0]['content'], '共2条留言', rt[1][1]['content'])
-        elif c>2:
-            rt = self.extend(cuid=cuid, topic=topic, channel=channel, limit=1, order=1)
-            rb = self.extend(cuid=cuid, topic=topic, channel=channel, limit=1, order=-1)
-            return (rt[1][0]['content'], '共'+str(c)+'条留言', rb[1][0]['content'])
-        else:
-            return (False, u'抢沙发啦', False)
-    
-    def pack(self, cuid=DEFAULT_CUR_UID, owner=None, topic=None, channel=None, at=None, order_by='added_id', order=-1):
-        kwargs = {}
-        if topic:kwargs['topic'] = {'$in':topic} if isinstance(topic, list) else topic
-        if channel:kwargs['channel']={'$in':channel}
-        c = super(ReplyAPI, self).count(**kwargs)
-        if c == 0:
-            return (True, False, False, 0)
-        elif c == 1:
-            rt = self.extend(cuid=cuid, topic=topic, channel=channel, limit=1, order=1)
-            return (True, rt[1][0], False, 0)
-        elif c== 2:
-            rt = self.extend(cuid=cuid, topic=topic, channel=channel, limit=2, order=1)
-            return (True, rt[1][0], rt[1][1], 0)
-        elif c>2:
-            rt = self.extend(cuid=cuid, topic=topic, channel=channel, limit=1, order=1)
-            rb = self.extend(cuid=cuid, topic=topic, channel=channel, limit=1, order=-1)
-            return (True, rt[1][0], rb[1][0], c-2)
-        else:
-            return (False, False, False, 0)
-    
-    def topN(self, cuid=DEFAULT_CUR_UID, owner=None, topic=None, channel=None, at=None, cursor=None, limit=5, order_by='added_id', order=-1):
-        kwargs = {}
-        if owner:kwargs['owner']=owner
-        if topic:kwargs['topic'] = {'$in':topic} if isinstance(topic, list) else topic
-        if at:kwargs['at_list']=at
-        if channel:kwargs['channel']={'$in':channel}
-        if cursor:kwargs['cursor']=cursor
-        c = super(ReplyAPI, self).count(**kwargs)
-        left = c-limit
-        kwargs['limit']=limit
-        kwargs['order_by']=order_by
-        kwargs['order']=order
-        r = super(ReplyAPI, self).extend(**kwargs)
-        if r[0]:
-            kw = {'result':r[1]}
-            if cuid:kw['cuid']=cuid
-            l = self._output_format(**kw)
-            l.reverse()
-            if left>0:
-                added_id = min(l[0]['added_id'], l[-1]['added_id']) if len(l)!=0 else -1
-            else:
-                added_id = -1
-            return (True, l, added_id, left)
-        else:
-            return (False, r[1], -1, 0)

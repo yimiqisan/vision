@@ -124,11 +124,11 @@ var Reply = {
     },
     
     submit: function(id){
-        if (!$.cookie("uid")) {
+/*        if (!$.cookie("uid")) {
             $('#login').modal();
             return false;
         }
-        var e = $('#'+id+' .replyform');
+*/        var e = $('#'+id+' .replyform');
         e.live("submit", function() {
             Reply.insert(e, id.replace('m-', ''));
             return false;

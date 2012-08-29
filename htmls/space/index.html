@@ -73,7 +73,7 @@
 		{% for v in vlist %}
 		<li class="span3">
 			<div class="thumbnail overmenu-group">
-				<a href="/volume/{{ v['vid'] }}/"><img src="/image/attach/{{ v.get('logo', None) }}_300" style="width:260px;height:180px;" alt=""></a>
+				<a href="/volume/{{ v['vid'] }}/"><img src="/image/attach/{{ v.get('logo', None) }}_300" onerror="this.src='http://placehold.it/260x180&text=No Cover';" style="width:260px;height:180px;" alt=""></a>
 				<ul class="overmenu" bot=0 >
 					<li><a href="/volume/{{ v['vid'] }}/">查看</a></li>
 					<li><a href="/volume/{{ v['vid'] }}/edit/">编辑</a></li>

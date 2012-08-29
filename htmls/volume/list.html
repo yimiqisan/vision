@@ -101,9 +101,9 @@
 							</li>
 							<li class="divider-vertical"></li>
 							<li>
-								<form class="navbar-search" action="/volume/{{subtype}}/" method="get">
-									<input type="text" name="word" class="search-query span2" placeholder="搜索">
-									<input type="submit" class="btn" value="搜" />
+								<form class="form-inline" style="margin-bottom:0px;" action="/volume/{{subtype}}/" method="get">
+									<input type="text" name="word" class="input-medium search-query" style="margin-top:5px;" placeholder="搜索">
+									<input type="submit" class="btn" style="margin-top:5px;" value="搜" />
 								</form>
 							</li>
 						</ul>
@@ -116,7 +116,7 @@
 			{% for v in vlist %}
 			<li class="span3">
 				<div class="thumbnail overmenu-group">
-					<a href="/volume/{{ v['vid'] }}/"><img src="/image/attach/{{ v.get('logo', None) }}_300" style="width:260px;height:180px;" alt=""></a>
+					<a href="/volume/{{ v['vid'] }}/"><img src="/image/attach/{{ v.get('logo', None) }}_300" onerror="this.src='http://placehold.it/260x180&text=No Cover';" style="width:260px;height:180px;" alt=""></a>
 					<ul class="overmenu" bot=0>
 						{% if verify(perm, 0x01) %}
 							<li><a href="/volume/{{ v['vid'] }}/edit/">编辑</a></li>

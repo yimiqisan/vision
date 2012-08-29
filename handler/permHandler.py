@@ -19,6 +19,8 @@ from vision.apps.tools import session
 
 
 class PermHandler(BaseHandler):
+    '''权限首页
+    '''
     @addslash
     @session
     @authenticated
@@ -34,6 +36,8 @@ class PermHandler(BaseHandler):
             return self.render("perm/index.html", slist=r[1], sinfo=r[2])
 
 class PermNewHandler(BaseHandler):
+    '''新建账户
+    '''
     PARAMS={'email':'设置邮箱，可能帮您找回失散多年的密码',
             'password':'请填写密码',
             'pm':'请选择权限',
@@ -143,6 +147,8 @@ class PermNewHandler(BaseHandler):
             p._api.award(uid, u'site', key.upper())
 
 class PermEditHandler(BaseHandler):
+    '''账户编辑
+    '''
     @addslash
     @session
     @authenticated
@@ -156,6 +162,8 @@ class PermEditHandler(BaseHandler):
             return self.render_alert(r[1])
 
 class PermRemoveHandler(BaseHandler):
+    '''删除账户
+    '''
     @addslash
     @session
     @authenticated
@@ -166,6 +174,8 @@ class PermRemoveHandler(BaseHandler):
         return self.redirect('/space/perm/')
 
 class PermCpwdHandler(BaseHandler):
+    '''修改密码
+    '''
     @addslash
     @session
     @authenticated
@@ -203,6 +213,8 @@ class PermCpwdHandler(BaseHandler):
             self.redirect('/space/')
         
 class AjaxStaffListHandler(BaseHandler):
+    '''ajax方式获取账户列表
+    '''
     @addslash
     @session
     @authenticated

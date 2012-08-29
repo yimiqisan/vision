@@ -26,15 +26,19 @@
 					yhui.iNote.insertPic('PIC', data, '');
 				},
 				onQueueComplete : function (queueData) {
+					$('.thumwell').addClass('well');
 					dragsort.makeListSortable(document.getElementById("thumbnails"));
 					$("#thumbnails input[type=radio]:first").attr("checked", true);
 					$('#image').modal('hide');
 				},
 				onError			: function (event, queueID, fileObj){alert("文件:" + fileObj.name + " 上传失败");}
 			});
-			$('.censor').on('censorn', function(){
+			
+			$('.censor, .preview').on('censorn', function(){
+				var $that = $(this);
 				slist = ToolMan.junkdrawer().inspectListOrder('thumbnails');
 				if (slist.length == 0) {
+					$that.attr('switch', 'off');
 					alert('请上传作品');
 				}
 				for (var i=0; i<slist.length; i++) {
@@ -85,7 +89,7 @@
 		<div class="span8" style="border-left:1px solid #eee; width:670px;">
 			<form class="form-horizontal" method="post" action="/item/{{ vtype }}/{{ vid }}/new/">
 				{% block infos %}{% end %}
-				<div class="span8 well" style="margin-left:10px;">
+				<div class="span8 thumwell" style="margin-left:10px;">
 					<ul id="thumbnails" class="thumbnails"></ul>
 				</div>
 				<div style="clear:both;"></div>

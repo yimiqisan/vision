@@ -31,13 +31,16 @@ class Pstore(object):
             return None
     
     def put(self, data, **kwargs):
+        ''' 保存图片 '''
         return self.fs.put(data, **kwargs)
     
     def get_by_id(self, id):
+        ''' 获取图片 '''
         if not isinstance(id, ObjectId):id=ObjectId(id)
         return self.fs.get(id)
     
     def remove(self, fn):
+        ''' 删除图片 '''
         try:
             id = self.fs.get_version(filename=fn)._id
             self.fs.delete(id)
@@ -46,18 +49,21 @@ class Pstore(object):
         return True
     
     def get_version(self, filename=None, version=-1, **kwargs):
+        ''' 根据版本号获取图片 '''
         try:
             return (True, self.fs.get_version(filename=filename, **kwargs).read())
         except Exception, e:
             return (False, e)
         
     def get_last_version(self, filename=None, **kwargs):
+        ''' 获取扮作新版本的图片 '''
         try:
             return (True, self.fs.get_last_version(filename=filename, **kwargs).read())
         except Exception, e:
             return (False, e)
     
     def list(self):
+        ''' 获取图片列表 '''
         return self.fs.list()
     
     

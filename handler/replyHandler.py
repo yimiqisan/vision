@@ -16,6 +16,8 @@ from datetime import datetime
 
 
 class AjaxReplyHandler(BaseHandler):
+    '''ajax方式显示回复
+    '''
     CHANNEL = u'reply'
     @session
     def get(self):
@@ -63,6 +65,8 @@ class AjaxReplyHandler(BaseHandler):
             return None
 
 class AjaxNewReplyHandler(BaseHandler):
+    '''ajax方式新建回复
+    '''
     CHANNEL = u'reply'
     @session
     def get(self):
@@ -111,6 +115,8 @@ class AjaxNewReplyHandler(BaseHandler):
             return None
 
 class AjaxRemoveHandler(BaseHandler):
+    '''ajax方式删除
+    '''
     @session
     def post(self):
         rly = Reply()

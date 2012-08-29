@@ -14,7 +14,8 @@ from vision.apps.tools import session
 
 
 class AvatarHandler(BaseHandler):
-    #@authenticated
+    '''头像图片显示处理
+    '''
     def get(self, fn=None):
         if not fn:return
         v = self.get_argument('v', None)
@@ -24,7 +25,8 @@ class AvatarHandler(BaseHandler):
         self.write(p.display(fn, **kwargs))
 
 class AttachHandler(BaseHandler):
-    #@authenticated
+    '''图片显示处理
+    '''
     def get(self, fn=None):
         if not fn:return
         v = self.get_argument('v', None)
@@ -35,7 +37,8 @@ class AttachHandler(BaseHandler):
         self.write(d)
 
 class UploadImageHandler(BaseHandler):
-    #@authenticated
+    '''图片上传
+    '''
     def get(self):
         pid = self.get_argument("pid", None)
         self.render('upload_image.html', pid=pid)
@@ -49,7 +52,8 @@ class UploadImageHandler(BaseHandler):
         self.redirect('/image/upload?pid='+r)
     
 class AjaxImageHandler(BaseHandler):
-    #@authenticated
+    '''ajax方式显示图片
+    '''
     @session
     def post(self):
         uid = self.get_argument('uid', None)
@@ -59,7 +63,8 @@ class AjaxImageHandler(BaseHandler):
         return self.write(r)
 
 class AjaxImageDeleteHandler(BaseHandler):
-    #@authenticated
+    '''ajax方式删除图片
+    '''
     @session
     def post(self):
         uid = self.SESSION['uid']
@@ -69,6 +74,7 @@ class AjaxImageDeleteHandler(BaseHandler):
         return self.write({'ret':'ok'})
 
 class AjaxImageCheckHandler(BaseHandler):
-    #@authenticated
+    '''ajax方式检测图片
+    '''
     def post(self):
         return True
