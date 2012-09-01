@@ -12,7 +12,7 @@ from imageHandler import UploadImageHandler, AvatarHandler, AttachHandler, AjaxI
 from spaceHandler import SpaceHandler, SpacePermHandler, SpaceNewHandler, SpaceCollectHandler, SpaceProjectHandler
 from permHandler import PermHandler, PermNewHandler, PermRemoveHandler, PermEditHandler, PermCpwdHandler, AjaxStaffListHandler
 from itemHandler import ItemNewHandler, ItemPreviewHandler, ItemRemoveHandler, ItemEditHandler, ItemHandler, AjaxItemHandler, AjaxItemPasteHandler
-from volumeHandler import VolumeHandler, VolumeNewHandler, VolumeRemoveHandler, VolumeEditHandler, VolumeHandler, VolumeListHandler, AjaxVolumeTypeHandler
+from volumeHandler import VolumeHandler, VolumeNewHandler, VolumeRemoveHandler, VolumeEditHandler, VolumeHandler, VolumeListHandler, VolumeOldHandler, AjaxVolumeTypeHandler
 from collectHandler import CollectHandler, CollectRemoveHandler, CollectItemHandler, AjaxCollectAddHandler, AjaxCollectDelHandler, CollectListHandler
 from projectHandler import ProjectNewHandler, ProjectRemoveHandler, ProjectEditHandler, ProjectBuildHandler, ProjectStickHandler, ProjectHandler
 from replyHandler import AjaxReplyHandler, AjaxNewReplyHandler, AjaxRemoveHandler
