@@ -6,7 +6,7 @@
 
 {% block static %}
 	<script language="javascript" src="{{ static_url('js/jquery.uploadify.min.js') }}" type="text/javascript"></script>
-	<script language="javascript" src="{{ static_url('js/jquery.live.js') }}" type="text/javascript"></script>
+	<script language="javascript" src="{{ static_url('js/jquery.city.js') }}" type="text/javascript"></script>
 	<script src="{{ static_url('js/vision.js') }}" type="text/javascript"></script>
 	<script src="{{ static_url('js/jquery.date.js') }}" type="text/javascript"></script>
 	<script language="javascript" type="text/javascript">
@@ -131,7 +131,7 @@
 				<div class="control-group">
 					<label class="control-label" for="live">国家地区:</label>
 					<div class="controls">
-						<script>select_pid("live", {% if live %}{{ live }}{% else %}1{% end %})</script>
+						<script>select_pid("live", {% if live %}{{ live }}{% else %}'0x1b'{% end %})</script>
 					</div>
 					<p class="help-inline">请选择国家地区</p>
 				</div>

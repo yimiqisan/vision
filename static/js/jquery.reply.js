@@ -10,9 +10,6 @@
         if (this.options["parent"]) {
             this.$parent = $(this.options["parent"])
         }
-//        this.options.toggle && this.toggle()
-        
-//        this.$element = $(content).delegate('[data-dismiss="reply"]', 'click.dismiss.reply', $.proxy(this.hide, this))
     }
 
     Reply.prototype = {
@@ -25,12 +22,10 @@
         transition: function ( method, startEvent, completeEvent ) {
             var that = this,
             complete = function () {
-                //if (startEvent == 'show') that.reset()
                 that.$element.trigger(completeEvent)
             }
             this.$element.trigger(startEvent)[method]('in')
             complete()
-//            $.support.transition && this.$element.hasClass('reply') ? this.$element.one($.support.transition.end, complete) : complete()
         },
         
         show: function () {
@@ -50,7 +45,7 @@
             Reply.prototype.insert(id.replace('sub-', ''));
         },
         insert: function (id) {
-            var tarea = $('#tarea-'+id).val()
+            var tarea = $('#tarea-'+id).val();
             if (tarea == ""){return false;}
             var args = {'to': id, 'content': tarea};
             $.postJSON("/a/reply/new/", "POST", args, function(response) {
@@ -63,7 +58,6 @@
                 $(node).insertAfter($("#ins-"+id));
                 node.slideDown(300);
                 $('#tarea-'+id).val("").select();
-//                disabled.enable();
             });
         },
         at: function ( e ) {
@@ -79,8 +73,9 @@
         return this.each(function () {
             var $this = $(this), data = $this.data('reply'), options = $.extend({}, $.fn.reply.defaults, $this.data(), typeof option == 'object' && option)
             if (!data) $this.data('reply', (data = new Reply(this, options)))
-            if (typeof option == 'string') data[option]()
-            else if (options.show) data.extend()
+            data.extend();
+//            if (typeof option == 'string') data[option]()
+//            else if (options.show) data.extend()
         })
     }
 
@@ -102,13 +97,7 @@
                 $(that).addClass('activing');
             }
         });
-/*        $(that).find('textarea').one('blur', function(){
-            if ($(that).hasClass('activing')) {
-                $(that).removeClass('activing');
-            }
-        });
-*/    }
-
+    }
     /* REPLY DATA-API */
     $(function () {
         $('body').find('.reply-submit').each(toggleSubmit);

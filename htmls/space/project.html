@@ -7,25 +7,30 @@
 {% block static %}
 	<script language="javascript" type="text/javascript">
 		$(document).ready(function() {
-			$('#nav-album').addClass("active");
 			$('.reply').on('extendn', function () {
 				if ($(this).val()=='-1'){return false;}
-				var id = $(this).attr('id');
-				var args = {'id': id.replace("inp-",""), 'cursor': $(this).val(), 'limit': '2'};
-				$.postJSON("/a/reply/", "GET", args, function(response) {
-					if (response.error){
-						return alert(response.error);
-					}
-					htmls = response.htmls;
-					for (var i=0; i<htmls.length; i++) {
-						$(htmls[i]).insertAfter($("#"+id));
-					}
-					$(this).val(response.cursor);
-					
-					var h = $(this).closest('.overmenu-group').height();
-					var bottom = h - 310;
-					$(this).closest('.overmenu').animate({'bottom':bottom}, 'fast');
-				})
+				var id = $(this).attr('id')
+				, $rpl = $(this).parent()
+				, isHas = $rpl.find('.reply-item').length;
+				if (isHas) {
+					$rpl.find('.reply-submit').toggle();
+       				$rpl.find('.reply-item').each(function(a, b){
+						$(this).toggle()
+					});
+				}else{
+					var args = {'id': id.replace("inp-",""), 'cursor': $(this).val(), 'limit': '2'};
+						$.postJSON("/a/reply/", "GET", args, function(response) {
+							if (response.error){
+								return alert(response.error);
+							}
+							htmls = response.htmls;
+							for (var i=0; i<htmls.length; i++) {
+								$(htmls[i]).insertAfter($("#"+id));
+							}
+							$(this).val(response.cursor);
+							$("#"+id).parent().find('.reply-submit').show()
+						})
+				}
 			});
 		})
 	</script>
@@ -92,7 +97,7 @@
 			<div class="thumbnail overmenu-group">
 				<a href="/item/{{ w['eid'] }}/"><img src="/image/attach/{{ w['logo'] }}_300" style="width:260px;height:180px;" alt=""></a>
 				<div class="caption">
-					<br/><br/><br/><br/><br/><br/><br/><br/>
+					<br/><br/><br/><br/><br/><br/>
 				</div>
 				<ul class="overmenu" bot=25 >
 					<li><a href="/item/{{ w['eid'] }}/">查看</a></li>
@@ -102,16 +107,13 @@
 
 				<div class="caption reply-group" id="m-{{ w['eid'] }}" style="border-top:1px solid #eee;margin-bottom:5px;padding:1px;">
 					<div class="pull-right reply-url" id="ext-{{w['eid']}}"><a href="#inp-{{w['eid']}}" data-toggle="reply-extend">评论({{w['cnt']}})</a></div>
-					
-					<a onclick="Reply.toggle(this);return false;" id="r-{{ w['eid'] }}" class="wb_reply">回复</a>
-					
 					<input type="hidden" id="inp-{{w['eid']}}" value="0" class="reply"/>
 					{% for reply in rl %}
 						{% module Template("util/reply.html", reply=reply) %}
 					{% end %}
 					<input type="hidden" id="ins-{{w['eid']}}"/>
 					<div class="clear"></div>
-					<div class="reply-submit">
+					<div class="reply-submit hide">
 						<a class="photo30 pull-left" href="#"><img width="30" height="30" alt="" src="/image/avatar/{{ ulogo }}_100" onerror="this.src='/static/img/default_avatar.gif';" ></a>
 						<textarea id="tarea-{{w['eid']}}" class="reply-content" rows=1 cols=30></textarea>
 						<div class="clear"></div>

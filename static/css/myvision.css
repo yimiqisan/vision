@@ -193,8 +193,6 @@
   z-index: 2050;
 }
 
-
-
 .navbar .brand {
 display: block;
 float: left;
@@ -230,3 +228,17 @@ text-shadow: 0 1px 0 white;
 .navbar-vision .user_log {
     display:block;
 }
+
+.dropdown-menu .ok, .dropdown-menu .cancel {
+    display:block;
+    float:left;
+    margin:0 20px;
+}
+
+
+
+
+
+
+
+

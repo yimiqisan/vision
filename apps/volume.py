@@ -181,7 +181,7 @@ class VolumeAPI(API):
         if kwargs.has_key('born'):
             kwargs['born'] = datetime.strptime(kwargs['born'], "%Y%m%d")
         if kwargs.has_key('live'):
-            kwargs['live'] = int(kwargs['live'])
+            kwargs['live'] = eval(kwargs['live'])
         if kwargs.has_key('grade'):
             kwargs['grade'] = int(kwargs['grade'])
         if kwargs.has_key('nexus'):
@@ -195,7 +195,7 @@ class VolumeAPI(API):
         if kwargs.has_key('born'):
             kwargs['born'] = datetime.strptime(kwargs['born'], "%Y%m%d")
         if kwargs.has_key('live'):
-            kwargs['live'] = int(kwargs['live'])
+            kwargs['live'] = eval(kwargs['live'])
         if kwargs.has_key('grade'):
             kwargs['grade'] = int(kwargs['grade'])
         if kwargs.has_key('nexus'):

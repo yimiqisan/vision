@@ -8,11 +8,18 @@
 		<script src="{{ static_url('js/jquery.own.js') }}" type="text/javascript"></script>
 		<script language="javascript" type="text/javascript">
 			$(document).ready(function() {
-				$('.dropdown').hover(function(){
-					$(this).addClass('open');
-				},function(){
-					$('.dropdown').removeClass('open');
-				})
+				$(".dropdown, .dropright").each(function(){
+					var that = $(this);
+					that.hoverDelay({
+						outDuring: 100,
+						hoverEvent: function(){
+							that.addClass('open');
+						},
+						outEvent: function(){
+							that.removeClass('open');
+						}
+					});
+				});
 			})
 		</script>
 		<script language="javascript" src="{{ static_url('js/jquery.live.js') }}" type="text/javascript"></script>
@@ -22,7 +29,7 @@
 	</head>
 	<body data-spy="scroll" data-target=".subnav" data-offset="50" style="padding-top:0px;">
 		
-	<div class="navbar-vision">
+	<div class="navbar-vision" style="width:1150px;">
 		
 		<div style="height:24px;background:white;">
 			<a class="brand" href="/volume/"><img src="{{ static_url('img/logo.png') }}" width="80"></a>
@@ -51,7 +58,7 @@
 			{% end %}
 		</div>
 		
-		<div class="navbar">
+		<div class="navbar" style="margin-bottom:40px;">
 			<div class="navbar-inner">
 				<div class="container container-vision">
 					<div class="nav-collapse">
@@ -152,7 +159,9 @@
 			<p class="pull-right"><a href="">回到顶部</a></p>
 		</footer>
 		</div>
-		<script type="text/javascript" src="{{ static_url('js/vision.js') }}"></script>
+		<script type="text/javascript" src="{{ static_url('js/bootstrap.js') }}"></script>
+		<script type="text/javascript" src="{{ static_url('js/bootstrap-dropdown.js') }}"></script>
+		<script type="text/javascript" src="{{ static_url('js/bootstrap-delay.js') }}"></script>
 		
 		
 	</div>
