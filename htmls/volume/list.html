@@ -32,7 +32,9 @@
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">日期 <b class="caret"></b></a>
 								<ul class="dropdown-menu">
 									<li><a href="/volume/{{subtype}}/?dtime=day&{{build_params(params)}}">今天</a></li>
+									<li class="divider"></li>
 									<li><a href="/volume/{{subtype}}/?dtime=week&{{build_params(params)}}">本周</a></li>
+									<li class="divider"></li>
 									<li><a href="/volume/{{subtype}}/?dtime=month&{{build_params(params)}}">本月</a></li>
 									<li class="divider"></li>
 									<li><a href="/volume/{{subtype}}/?dtime=all&{{build_params(params)}}">全部</a></li>
@@ -56,13 +58,16 @@
 										<span class="star-group">{% for i in xrange(0, 5) %}<i class="star icon-star-empty"></i>{% end %}</span>
 										<input type="hidden" name="grade" class="star-value" value="0">
 									</a></li>
+									<li class="divider"></li>
 									<li><a>关系:
 										<span class="star-group">{% for i in xrange(0, 5) %}<i class="star icon-star-empty"></i>{% end %}</span>
 										<input type="hidden" name="nexus" class="star-value" value="0">
 									</a></li>
+									<li class="divider"></li>
 									<li><a href="#">
 										性别：男：<input type="radio" checked="checked" name="Sex" value="male" />&nbsp;&nbsp;&nbsp;&nbsp;女：<input type="radio" name="Sex" value="female" />
 									</a></li>
+									<li class="divider"></li>
 									<li><a href="#">
 										年代<select style="width:160px;">
 											<option value ="">当代</option>
@@ -84,24 +89,37 @@
 										<a href="#" class="dropright-toggle" data-toggle="dropright">个人 <b class="pull-right rcaret"></b></a>
 										<ul class="dropright-menu">
 											<li><a href='/volume/fdesigner/?{{build_params(params)}}'>设计师</a></li>
+											<li class="divider"></li>
 											<li><a href="/volume/fphotographer/?{{build_params(params)}}">摄影师</a></li>
+											<li class="divider"></li>
 											<li><a href="/volume/fstylists/?{{build_params(params)}}">造型师</a></li>
+											<li class="divider"></li>
 											<li><a href="/volume/fmakeup/?{{build_params(params)}}">化妆师</a></li>
+											<li class="divider"></li>
 											<li><a href="/volume/fmodel/?{{build_params(params)}}">模特</a></li>
+											<li class="divider"></li>
 											<li><a href="/volume/fbloger/?{{build_params(params)}}">博主</a></li>
+											<li class="divider"></li>
 											<li><a href="/volume/fartist/?{{build_params(params)}}">艺术家</a></li>
+											<li class="divider"></li>
 											<li><a href="/volume/hperformer/?{{build_params(params)}}">表演者</a></li>
+											<li class="divider"></li>
 											<li><a href="/volume/bmediapeople/?{{build_params(params)}}">媒体人</a></li>
 										</ul>
 									</li>
+									<li class="divider"></li>
 									<li class="dropright">
 										<a href="#" class="dropright-toggle" data-toggle="dropright">机构 <b class="pull-right rcaret"></b></a>
 										<ul class="dropright-menu">
 											<li><a href='/volume/magazine/?{{build_params(params)}}'>杂志</a></li>
+											<li class="divider"></li>
 											<li><a href="/volume/association/?{{build_params(params)}}">协会</a></li>
+											<li class="divider"></li>
 											<li><a href="/volume/institutions/?{{build_params(params)}}">院校</a></li>
+											<li class="divider"></li>
 										</ul>
 									</li>
+									<li class="divider"></li>
 									<li><a href="/volume/show/?{{build_params(params)}}">展会</a></li>
 								</ul>
 							</li>
@@ -117,7 +135,6 @@
 				</div>
 			</div>
 		</div>
-		
 		<ul class="thumbnails">
 			{% for v in vlist %}
 			<li class="span3">
