@@ -12,7 +12,7 @@
 		<li>{{name}}</li>
 		<li class="pull-right"><a class="btn btn-mini" href="/volume/{{vid}}/edit/">编辑</a></li>
 	</ul>
-	<div class="span12" style="border-bottom:1px solid #eee">
+	<div class="span10" style="border-bottom:1px solid #eee">
 		<div class="span2" style="border-right:1px solid #aaa;"><img src="/image/attach/{{logo}}_100" onerror="this.src='http://placehold.it/100&text=No Pic';" alt="头像" style="width:100px;height:100px;" /></div>
 		<div class="span7">
 			<p>{{name}} /{{subtype_cn}} 性别：{{male_cn}} 出生日期：{{born}}</p>
@@ -37,7 +37,7 @@
 		<h3>相关机构</h3><hr/>
 		<p>{{about}}</p>
 	</div>
-	<div class="span9">
+	<div class="span8">
 		<a class="btn btn-large" href="/item/{{prop.lower()}}/{{vid}}/new/">新建作品</a>
 		<ul class="thumbnails">
 			{% for w in wlist %}

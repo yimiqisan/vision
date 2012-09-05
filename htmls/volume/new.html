@@ -37,12 +37,13 @@
 	<link rel="stylesheet" type="text/css" href="{{ static_url('css/datepicker.css') }}"/>
 {% end %}
 {% block body %}
-	<div class="span12">
-		<br/><h3 class="pull-left">新建</h3><a class="btn pull-right" style="margin-right:10px;" onclick="return backconfirm(this);" href="/space/">返回工作室</a>
+	<div class="span10" style="margin-left:0px;width:1028px;">
+		<h3 class="pull-left" style="padding-left:10px;">新建</h3>
+		<a class="btn pull-right" style="margin-right:20px;margin-top:15px;" onclick="return backconfirm(this);" href="/space/">返回工作室</a>
 		<div style="clear:both;"></div>
 		<hr/>
 		<form class="form-horizontal" method="post" action="/volume/new/">
-			<div class="span11 row3">
+			<div class="span10 row3" style="padding:20px;">
 				<div class="control-group">
 					<label class="control-label" for="maintype">类别</label>
 					<div class="controls">
@@ -74,7 +75,7 @@
 			<div style="clear:both;"></div>
 			<hr/>
 			
-			<div class="span2">
+			<div class="span2" style="padding-top:20px;padding-left:20px;">
 				<div id="poster-disp">
 					{% if logo %}
 						<span><input type="hidden" name="logo" value="{{ logo }}"/><img width=100 height=100 src="/image/attach/{{ logo }}_100"></span>
@@ -85,7 +86,7 @@
 				<div id="poster">头像上传</div>
 			</div>
 			
-			<div class="span9">
+			<div class="span8" style="padding-top:20px;border-left:1px solid black;">
 				<div class="control-group">
 					<label class="control-label" for="name">{% if prop=='PERSONAL' %}姓名{% else %}名称{% end %}</label>
 					<div class="controls">
@@ -169,7 +170,7 @@
 						<p class="help-inline">请选择关系</p>
 					</div>
 				</div>
-				<hr/>
+				<hr style="margin:20px 0px;"/>
 				<div class="control-group {% if prop!='PERSONAL' %}hide{% end %}">
 					<label class="control-label" for="intro">简介</label>
 					<div class="controls">
@@ -196,10 +197,10 @@
 				<input type="hidden" name="vid" value="{% if vid %}{{ vid }}{% end %}">
 			</div>
 			<div style="clear:both;"></div>
-			<div class="span11">
+			<div class="span10 pull-right">
 				<div class="form-actions">
-					<input type="submit" class="btn btn-primary censor" value="确定" />
-					<a class="btn" href="/space/" onclick="return backconfirm(this);">取消</a>
+					<input type="submit" class="btn btn-primary censor pull-right" value="确定" />
+					<a class="btn pull-right" href="/space/" onclick="return backconfirm(this);">取消</a>
 				</div>
 			</div>
 		</form>

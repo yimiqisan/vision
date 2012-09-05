@@ -6,11 +6,11 @@
 
 {% block static %}{% end %}
 {% block body %}
-	<div class="span12" style="border-bottom:1px solid #eee">
+	<div class="span10" style="width:988px;padding:20px;margin-left:0px;border-bottom:1px solid black;">
 		<div class="span2"><img src="/image/attach/{{ ulogo }}_300" alt="头像" style="width:100px;height:100px;" onerror="this.src='/static/img/default_avatar.gif';"/></div>
-		<div class="span8">
+		<div class="span7">
 			<h1>{{current_user}} / {{list2txt(perm)}}</h1>
 		</div>
 	</div>
-	<div class="span12">{% block bodyright %}{% end %}</div>
+	<div class="span10" >{% block bodyright %}{% end %}</div>
 {% end %}

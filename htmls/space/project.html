@@ -37,23 +37,10 @@
 	<link href="{{ static_url('css/reply.css') }}" rel="stylesheet" />
 {% end %}
 {% block bodyleft %}
-	<br/>
-	<div class=""><a href="/space/">我建立的</a></div><hr class=""/>
-	<div class=""><a href="/space/new/">新建</a></div><hr class=""/>
-	<div class=""><a href="/space/collect/">收藏</a></div><hr class=""/>
-	<div>项目<a class="btn btn-success pull-right" href="/project/new/" style="margin-right:20px;">新建项目</a></div><br/>
-	<div class="tabbable tabs-left pull-right" style="max-height:400px;overflow-y:scroll;">
-		<ul class="nav nav-tabs pull-right">
-			{% for i in xrange(0, len(plist)) %}
-				{% if project['pid'] and project['pid'] == plist[i]['pid'] %}
-					<li class="active pull-left"><a href="#" title="{{ plist[i]['title'] }}">{{ abstract(plist[i]['title'], 30) }}</a></li>
-				{% else %}
-					<li><a href="/project/{{ plist[i]['pid'] }}/" title="{{ plist[i]['title'] }}">{{ abstract(plist[i]['title'], 30) }}</a></li>
-				{% end %}
-			{% end %}
-		</ul>
-		<div class="tab-content"></div>
-	</div>
+	<div class="inner-box"><a href="/space/">我建立的</a></div><hr/>
+	<div class="inner-box"><a href="/space/new/">新建</a></div><hr class=""/>
+	<div class="inner-box"><a href="/space/collect/">收藏</a></div><hr class=""/>
+	<div class="inner-box active">项目</div>
 {% end %}
 
 {% block bodyright %}

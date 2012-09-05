@@ -58,7 +58,7 @@
 {% end %}
 
 {% block bodyright %}
-<div class="span3" style="width:199px;">
+<div class="span3" style="width:120px;padding:10px;">
 	<div class="control-group">
 		<label class="control-label" for="ulogo"></label>
 		<div class="controls">
@@ -72,12 +72,11 @@
 	</div>
 </div>
 
-<div class="span9" style="border-left:1px solid #eee">
-	<br/>
+<div class="span8" style="border-left:1px solid black;width:720px;padding:10px;">
 		<h3 class="pull-left" style="margin-left:10px;">{% if pid %}编辑信息{% else %}新建账户{% end %}</h3>
 		<a class="btn pull-right" href="{% if verify(perm, [0x01, 0x02]) %}/space/perm/{% else %}/space/{% end %}" onclick="return backconfirm(this);" style="margin-right:10px;">返回</a>
 		<div style="clear:both;"></div>
-	<hr/>
+	
 	<form class="form-horizontal" action="/perm/new/" method="POST">
 		<div class="control-group">
 			<label class="control-label" for="email"><span style="color:red;">*</span>邮箱：</label>

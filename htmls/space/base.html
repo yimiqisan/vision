@@ -5,15 +5,14 @@
 {% end %}
 
 {% block body %}
-	<ul class="breadcrumb" style="background:#ededed;">
-		<li><a href="#" title="{{current_user}}" alt="{{current_user}}">{{current_user}}</a></li>
-	</ul>
-	<div class="span12" style="border-bottom:1px solid #eee">
+	<div class="span10" style="padding:20px;margin-left:0px;">
 		<div class="span2"><img src="/image/attach/{{ ulogo }}_100" alt="头像" style="width:100px;height:100px;" onerror="this.src='/static/img/default_avatar.gif';"/></div>
-		<div class="span8">
+		<div class="span7">
 			<h1>{{current_user}} / {{list2txt(perm)}}</h1>
 		</div>
 	</div>
-	<div class="span3" style="width:219px;">{% block bodyleft %}{% end %}</div>
-	<div class="span9" style="border-left:1px solid #eee">{% block bodyright %}{% end %}</div>
+	<div style="border-top:1px solid black;float:left;padding-right:26px;padding-top:20px;">
+		<div class="span3 border left-nav" style="width:220px;">{% block bodyleft %}{% end %}</div>
+		<div class="span8" style="width:720px;">{% block bodyright %}{% end %}</div>
+	</div>
 {% end %}
