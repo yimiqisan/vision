@@ -47,11 +47,24 @@ hr {
 }
 a, .dropdown a {color:black;}
 a:hover {
-color: black;
-text-decoration: underline;
+    color: black;
+    text-decoration: underline;
 }
 .navbar .nav > li > a {
     color: black;
+}
+.dropdown-menu li .select {
+    text-decoration: none;
+    color: white;
+    background-color: black;
+    background-color: black;
+    background-image: -moz-linear-gradient(top, black, black);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(black), to(black));
+    background-image: -webkit-linear-gradient(top, black, black);
+    background-image: -o-linear-gradient(top, black, black);
+    background-image: linear-gradient(to bottom, black, black);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff000000', endColorstr='#ff000000', GradientType=0);
 }
 input[type="text"], input[type="password"] {
     border:1px solid black;
@@ -168,10 +181,14 @@ button.btn, input[type="submit"].btn {
     background-color: white;
     border-bottom: 1px solid black;
 }
-
+.form-inline .search-query {
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+}
 .pagination {
-	margin-left:60px;
-	margin-right:60px;
+	margin-left:0px;
+	margin-right:0px;
 	border:1px solid black;
 	background:white;
 	border-radius:0px;
@@ -198,4 +215,15 @@ button.btn, input[type="submit"].btn {
 	background-color: white;
 	border: 0px solid black;
 	border-left-width: 0;
+}
+.breadcrumb {
+    padding: 5px 15px 15px 15px;
+    margin: 0 0 20px;
+    background-color:white;
+    border-bottom:1px solid black;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+}
+.breadcrumb .btn {
 }

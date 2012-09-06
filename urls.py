@@ -32,7 +32,6 @@ handlers = [(r"/", RootHandler),
             (r"/volume/(.{32})/edit/", VolumeEditHandler),
             (r"/volume/(.{32})/", VolumeHandler),
             (r"/volume/?(.*)/", VolumeListHandler),
-            (r"/old/volume/?(.*)/", VolumeOldHandler),
             (r"/a/volume/type/", AjaxVolumeTypeHandler),
             
             (r"/collect/", CollectHandler),

@@ -15,52 +15,112 @@
 
 {% block bodyright %}
 	<div class="navbar">
-		<div class="navbar-inner">
+		<div class="navbar-inner" style="">
 			<div class="container">
 				<div class="nav-collapse">
 					<ul class="nav pull-right">
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">日期 <b class="caret"></b></a>
+						<li class="dropdown" style="">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								<i style="background-image:url({{ static_url('img/calendar.png') }});background-position:24px 100px;" ></i>
+								日期 <b class="caret"></b></a>
 							<ul class="dropdown-menu">
-								<li><a href="#">今天</a></li>
-								<li><a href="#">本周</a></li>
-								<li><a href="#">本月</a></li>
+								<li><a href="/volume/{{subtype}}/?dtime=day&{{build_params(params)}}">今天</a></li>
 								<li class="divider"></li>
-								<li class="nav-header">全部</li>
+								<li><a href="/volume/{{subtype}}/?dtime=week&{{build_params(params)}}">本周</a></li>
+								<li class="divider"></li>
+								<li><a href="/volume/{{subtype}}/?dtime=month&{{build_params(params)}}">本月</a></li>
+								<li class="divider"></li>
+								<li><a href="/volume/{{subtype}}/?dtime=all&{{build_params(params)}}">全部</a></li>
 							</ul>
 						</li>
-						<li class="divider-vertical"></li>
-						<li class="dropdown">
+						<li class="divider-vertical" style=""></li>
+						<li class="dropdown" style="">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">国家 <b class="caret"></b></a>
 							<ul class="dropdown-menu">
-								<li><a href="#">国家</a></li>
-								<li><a href="#">城市</a></li>
+								<li><script>select_pid("live", 1)</script></li>
+								<li class="divider"></li>
+								<li class="ok"><a href="">确定</a></li>
+								<li class="cancel"><a href="">取消</a></li>
 							</ul>
 						</li>
-						<li class="divider-vertical"></li>
-						<li class="dropdown">
+						<li class="divider-vertical" style=""></li>
+						<li class="dropdown" style="">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">标签 <b class="caret"></b></a>
 							<ul class="dropdown-menu">
-								<li><a href="#">级别</a></li>
-								<li><a href="#">关系</a></li>
-								<li><a href="#">性别</a></li>
-								<li><a href="#">年代</a></li>
-								<li><a href="#">按姓名A~Z排序</a></li>
+								<li><a>级别:
+									<span class="star-group">{% for i in xrange(0, 5) %}<i class="star icon-star-empty"></i>{% end %}</span>
+									<input type="hidden" name="grade" class="star-value" value="0">
+								</a></li>
+								<li class="divider"></li>
+								<li><a>关系:
+									<span class="star-group">{% for i in xrange(0, 5) %}<i class="star icon-star-empty"></i>{% end %}</span>
+									<input type="hidden" name="nexus" class="star-value" value="0">
+								</a></li>
+								<li class="divider"></li>
+								<li><a href="#">
+									性别：男：<input type="radio" checked="checked" name="Sex" value="male" />&nbsp;&nbsp;&nbsp;&nbsp;女：<input type="radio" name="Sex" value="female" />
+								</a></li>
+								<li class="divider"></li>
+								<li><a href="#">
+									年代<select style="width:160px;">
+										<option value ="">当代</option>
+										<option value ="">90~00年代</option>
+										<option value="">80~90年代</option>
+										<option value="">70~80年代</option>
+									</select>
+								</a></li>
+								<li class="divider"></li>
+								<li class="ok"><a href="">确定</a></li>
+								<li class="cancel"><a href="">取消</a></li>
 							</ul>
 						</li>
-						<li class="divider-vertical"></li>
-						<li class="dropdown">
+						<li class="divider-vertical" style=""></li>
+						<li class="dropdown" style="">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">属性 <b class="caret"></b></a>
 							<ul class="dropdown-menu">
-								<li><a href="#">个人</a></li>
-								<li><a href="#">机构</a></li>
-								<li><a href="#">展会</a></li>
+								<li class="dropright">
+									<a href="#" class="dropright-toggle" data-toggle="dropright">个人 <b class="pull-right rcaret"></b></a>
+									<ul class="dropright-menu">
+										<li><a href='/volume/fdesigner/?{{build_params(params)}}'>设计师</a></li>
+										<li class="divider"></li>
+										<li><a href="/volume/fphotographer/?{{build_params(params)}}">摄影师</a></li>
+										<li class="divider"></li>
+										<li><a href="/volume/fstylists/?{{build_params(params)}}">造型师</a></li>
+										<li class="divider"></li>
+										<li><a href="/volume/fmakeup/?{{build_params(params)}}">化妆师</a></li>
+										<li class="divider"></li>
+										<li><a href="/volume/fmodel/?{{build_params(params)}}">模特</a></li>
+										<li class="divider"></li>
+										<li><a href="/volume/fbloger/?{{build_params(params)}}">博主</a></li>
+										<li class="divider"></li>
+										<li><a href="/volume/fartist/?{{build_params(params)}}">艺术家</a></li>
+										<li class="divider"></li>
+										<li><a href="/volume/hperformer/?{{build_params(params)}}">表演者</a></li>
+										<li class="divider"></li>
+										<li><a href="/volume/bmediapeople/?{{build_params(params)}}">媒体人</a></li>
+									</ul>
+								</li>
+								<li class="divider"></li>
+								<li class="dropright">
+									<a href="#" class="dropright-toggle" data-toggle="dropright">机构 <b class="pull-right rcaret"></b></a>
+									<ul class="dropright-menu">
+										<li><a href='/volume/magazine/?{{build_params(params)}}'>杂志</a></li>
+										<li class="divider"></li>
+										<li><a href="/volume/association/?{{build_params(params)}}">协会</a></li>
+										<li class="divider"></li>
+										<li><a href="/volume/institutions/?{{build_params(params)}}">院校</a></li>
+										<li class="divider"></li>
+									</ul>
+								</li>
+								<li class="divider"></li>
+								<li><a href="/volume/show/?{{build_params(params)}}">展会</a></li>
 							</ul>
 						</li>
 						<li class="divider-vertical"></li>
 						<li>
-							<form class="navbar-search" action="">
-								<input type="text" class="search-query span2" placeholder="搜索">
+							<form class="form-inline" style="margin-bottom:0px;" action="/volume/{{subtype}}/" method="get">
+								<input type="text" name="word" class="input-medium search-query" style="margin-top:5px;" placeholder="搜索">
+								<button class="btn btn-small" type="submit"><i class="icon-search"></i></button>
 							</form>
 						</li>
 					</ul>

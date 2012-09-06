@@ -28,7 +28,15 @@ class CollectHandler(BaseHandler):
         page = int(self.get_argument('page', 1))
         c = Collect()
         r = c._api.page(owner=uid, page=page, limit=15)
-        return self.render("space/collect.html", vlist=r[1], vinfo=r[2])
+        if r[0]:
+            params = self._d_params()
+            return self.render("space/collect.html", vlist=r[1], vinfo=r[2], params=params)
+        else:
+            return self.render_alert(r[1])
+    
+    def _d_params(self, params={'abc':123}):
+        return params
+
 
 class CollectRemoveHandler(BaseHandler):
     '''取消收藏

@@ -8,15 +8,14 @@
 	<script language="javascript" src="{{ static_url('js/jquery.live.js') }}" type="text/javascript"></script>
 {% end %}
 {% block body %}
-	<ul class="breadcrumb" style="background:#ededed;">
+	<ul class="breadcrumb" style="">
 		<li><a href="#" title="{{vinfo['name']}}" alt="{{vinfo['name']}}">{{vinfo['name']}}</a></li>
-		{% if not isPreview %}
-			<li class="pull-right"><a href="/volume/{{vinfo['vid']}}/" class="btn btn-mini">返回</a></li>
-		{% end %}
+		{% if not isPreview %}<li class="pull-right"><a href="/volume/{{vinfo['vid']}}/" class="btn btn-mini">返回</a></li>{% end %}
 	</ul>
-	<div class="span12" style="border-bottom:1px solid #eee">
-		<div class="span2"><img src="/image/avatar/{{ vinfo['logo'] }}_100" alt="头像" style="width:100px;height:100px;" onerror="this.src='/static/img/default_avatar.gif';" /></div>
-		<div class="span8">
+
+	<div class="span10" style="border-bottom:1px solid black;width:1028px;margin-left:0px;margin-bottom:20px;padding-bottom:15px;">
+		<div class="span2" style="border-right:1px solid black;"><img src="/image/avatar/{{ vinfo['logo'] }}_100" alt="头像" style="width:100px;height:100px;" onerror="this.src='/static/img/default_avatar.gif';" /></div>
+		<div class="span6" style="">
 			<p>{{vinfo['name']}} /{{vinfo['subtype_cn']}} 性别：{{vinfo['male_cn']}} 出生日期：{{vinfo['born']}}年</p>
 			<script>show_pid('live', {{vinfo['live']}}, '国家地区：')</script>
 			<p>所属机构：{{vinfo['agency']}}</p>
@@ -33,13 +32,13 @@
 			</p>
 		</div>
 	</div>
-	<div class="span3">
-		<br/><h3>简介</h3><hr/>
-		<p>{{vinfo['intro']}}</p>
-		<h3>相关机构</h3><hr/>
-		<p>{{vinfo['about']}}</p>
+	<div class="span3" style="width:219px;border-top:1px solid black;border-right:1px solid black;margin-left:0px;padding-left:5px;padding-right:5px;">
+		<h3 style="padding-left:10px;margin-top:0px;margin-bottom:0px;">简介</h3><hr/>
+		<p style="padding:10px;min-height:200px;">{{vinfo['intro']}}</p>
+		<hr/><h3 style="padding-left:10px;margin-top:0px;margin-bottom:0px;">相关机构</h3><hr/>
+		<p style="padding:10px;min-height:200px;">{{vinfo['about']}}</p>
 	</div>
-	<div class="span9">
+	<div class="span8" style="width:740px;">
 		{% for w in works %}
 		<div class="thumbnail">
 			<img src="/image/attach/{{ w[0] }}" alt="">

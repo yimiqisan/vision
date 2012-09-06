@@ -124,31 +124,6 @@ class VolumeListHandler(BaseHandler):
     def _d_params(self, params={'abc':123}):
         return params
 
-class VolumeOldHandler(BaseHandler):
-    @addslash
-    @session
-    @authenticated
-    @addperm
-    def get(self, subtype):
-        uid = self.SESSION['uid']
-        page = int(self.get_argument('page', 1))
-        prop = self.get_argument('prop', None)
-        dtime = self.get_argument('dtime', None)
-        word = self.get_argument('word', None)
-        if subtype == u'show':
-            prop=u'SHOW'
-            subtype = ''
-        v = volume.Volume()
-        r = v._api.page(cuid=uid, owner=uid, perm=self.pm, created=dtime, prop=prop, name=word, subtype=subtype.upper(), page=page)
-        if r[0]:
-            params = self._d_params()
-            return self.render("volume/list_old.html", vlist=r[1], vinfo=r[2], subtype=subtype, params=params)
-        else:
-            return self.render_alert(r[1])
-    
-    def _d_params(self, params={'abc':123}):
-        return params
-
 class AjaxVolumeTypeHandler(BaseHandler):
     '''ajax方式加载作品集分类
     '''

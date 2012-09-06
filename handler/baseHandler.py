@@ -40,6 +40,7 @@ class BaseHandler(RequestHandler):
         kwargs['ulogo'] = self.SESSION['ulogo']
         kwargs['perm'] = self.SESSION['perm']
         kwargs['warning'] = kwargs.get('warning', None)
+        kwargs['subtype'] = kwargs.get('subtype', '')
         super(BaseHandler, self).render(template_name, **kwargs)
     
     @session

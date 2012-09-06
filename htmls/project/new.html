@@ -32,12 +32,11 @@
 	</script>
 {% end %}
 {% block body %}
+	<ul class="breadcrumb" style="">
+		<li>新建</li>
+	</ul>
 
-	<div class="span12">
-		<br/>
-		<h3 class="pull-left">新建</h3>
-		<a href="/space/project/" class="btn pull-right hide" style="margin-right:5px;" onclick="return backconfirm(this);">返回</a>
-		<div style="clear:both;"></div><hr/>
+	<div class="span10">
 		<form class="form-horizontal" method="POST" action="/project/new/">
 			<div class="control-group">
 				<label class="control-label" for="title">名称</label>

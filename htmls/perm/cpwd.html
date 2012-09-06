@@ -7,11 +7,10 @@
 {% block static %}{% end %}
 
 {% block bodyright %}
-	<br/>
-		<h3 class="pull-left">修改密码</h3>
-		<a class="btn pull-right" href="{% if verify(perm, [0x01, 0x02]) %}/space/perm/{% else %}/space/{% end %}" onclick="return backconfirm(this);" style="margin-right:10px;">返回</a>
-		<div style="clear:both;"></div>
-	<hr/>
+	<ul class="breadcrumb" style="padding-bottom:5px;">
+		<li><h5 class="pull-left" style="font-size:20px;padding-left:10px;">修改密码</h5></li>
+		<a class="btn pull-right" href="{% if verify(perm, [0x01, 0x02]) %}/space/perm/{% else %}/space/{% end %}" onclick="return backconfirm(this);">返回</a>
+	</ul>
 	<form class="form-horizontal" action="/perm/{{ pid }}/cpwd/" method="POST">
 		<div class="control-group">
 			<label class="control-label" for="verifypwd"><span style="color:red;">*</span>{% if verify(perm[0], [0x01, 0x02]) %}管理密码：{% else %}旧的密码：{% end %}</label>
@@ -38,12 +37,12 @@
 				<p class="hide help-inline">请输入重复新密码</p>
 			</div>
 		</div>
-		
 		<input type="hidden" name="pid" value="{% if pid %}{{ pid }}{% end %}">
-		<div class="form-actions">
-			<input type="submit" class="btn btn-primary censor" value="确定" />
-			<a class="btn pull-right" href="{% if verify(perm, [0x01, 0x02]) %}/space/perm/{% else %}/space/{% end %}" onclick="return backconfirm(this);" style="margin-right:10px;">取消</a>
+		<div class="span10" style="margin-top:10px;margin-left:0px;width:1028px;height:30px;float:left;border-top:1px solid black;">
+			<input type="submit" class="btn btn-primary censor pull-right" style="border:0px;" value="确定" />
+			<a class="btn pull-right" href="{% if verify(perm, [0x01, 0x02]) %}/space/perm/{% else %}/space/{% end %}" onclick="return backconfirm(this);" style="border-top:0px;border-bottom:0px;">取消</a>
 		</div>
+
 	</form>
 	<script src="{{ static_url('js/bootstrap-checksubmit.js') }}" type="text/javascript"></script>
 {% end %}
