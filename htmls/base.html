@@ -32,14 +32,16 @@
 		
 	<div class="navbar-vision" style="width:1030px;">
 		
-		<div style="height:24px;background:white;">
+		<div style="height:30px;background:white;">
 			<a class="brand" href="/volume/"><img src="{{ static_url('img/logo.png') }}" width="80"></a>
 			{% if current_user %}
-			<div style="width:940px;">
-				<ul class="nav user_log pull-right">
+			<div style="width:1029px;height:30px;border-right:1px solid black;">
+				<a href="/logout/" class="pull-right" style="height:20px;border-left:1px solid black;padding:5px 20px;">退出</a>
+				<ul class="nav user_log pull-right" style="height:20px;padding:5px;border-left:1px solid black;padding:5px 20px;top:23px;left:-64px;">
 				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" role="menu" data-toggle="dropdown">
-						<img src="/image/attach/{{ ulogo }}_300" style="width:24px;height:24px;" width=24 height=24 onerror="this.src='/static/img/default_avatar.gif';" />&nbsp;{{ current_user }}<b class="caret"></b>
+					<a href="#" class="dropdown-toggle pull-right" role="menu" data-toggle="dropdown">
+						<img src="/image/attach/{{ ulogo }}_300" style="width:24px;height:24px;" width=24 height=24 onerror="this.src='/static/img/default_avatar.gif';" />&nbsp;{{ current_user }}
+						<span class="half half_top"><span class="half_in">&#9670;</span>&#9670;</span>
 					</a>
 					<ul class="nav-list dropdown-menu">
 						<li><a href="/space/"><i class="icon-home"></i>&nbsp;&nbsp;&nbsp;&nbsp;个人工作空间</a></li>
@@ -50,8 +52,6 @@
 							<li><a href="/perm/{{uid}}/edit/"><i class="icon-user"></i>&nbsp;&nbsp;&nbsp;&nbsp;修改个人信息</a></li>
 							<li><a href="/perm/{{uid}}/cpwd/"><i class="icon-repeat"></i>&nbsp;&nbsp;&nbsp;&nbsp;修改个人密码</a></li>
 						{% end %}
-						<li class="divider"></li>
-						<li><a href="/logout/"><i class="icon-off"></i>&nbsp;&nbsp;&nbsp;&nbsp;退出</a></li>
 					</ul>
 				</li>
 				</ul>
@@ -64,9 +64,9 @@
 				<div class="container container-vision">
 					<div class="nav-collapse">
 					{% if current_user %}
-						<ul class="nav nav-vision">
+						<ul class="nav nav-vision" style="margin-top:5px;margin-bottom:5px;">
 							<li id="nav-fashion" class="dropdown" style="">
-								<a href="/volume/fashion/" class="dropdown-toggle" data-toggle="dropdown">时尚<b class="caret"></b></a>
+								<a href="/volume/fashion/" style="padding-top:5px;padding-bottom:5px;font-weight:bold;font-size:18px;" class="dropdown-toggle" data-toggle="dropdown">时尚</a>
 								<ul class="dropdown-menu parallel-menu">
 									<li><a class="{% if subtype == 'fdesigner' %}select{% end %}" href="/volume/fdesigner/">设计师</a></li><li>/</li>
 									<li><a class="{% if subtype == 'fphotographer' %}select{% end %}" href="/volume/fphotographer/">摄影师</a></li><li>/</li>
@@ -82,7 +82,7 @@
 								</ul>
 							</li>
 							<li id="nav-art" class="dropdown" style="">
-								<a href="/volume/art/" class="dropdown-toggle" data-toggle="dropdown">艺术<b class="caret"></b></a>
+								<a href="/volume/art/" style="padding-top:5px;padding-bottom:5px;font-weight:bold;font-size:18px;" class="dropdown-toggle" data-toggle="dropdown">艺术</a>
 								<ul class="dropdown-menu parallel-menu">
 									<li><a class="{% if subtype == 'apainting' %}select{% end %}" href="/volume/apainting/">绘画</a></li><li>/</li>
 									<li><a class="{% if subtype == 'aequipment' %}select{% end %}" href="/volume/aequipment/">装置</a></li><li>/</li>
@@ -95,7 +95,7 @@
 								</ul>
 							</li>
 							<li id="nav-design" class="dropdown" style="">
-								<a href="/volume/design/" class="dropdown-toggle" data-toggle="dropdown">设计<b class="caret"></b></a>
+								<a href="/volume/design/" style="padding-top:5px;padding-bottom:5px;font-weight:bold;font-size:18px;" class="dropdown-toggle" data-toggle="dropdown">设计</a>
 								<ul class="dropdown-menu parallel-menu">
 									<li><a class="{% if subtype == 'dbuilding' %}select{% end %}" href="/volume/dbuilding/">建筑</a></li><li>/</li>
 									<li><a class="{% if subtype == 'dindoor' %}select{% end %}" href="/volume/dindoor/">室内</a></li><li>/</li>
@@ -108,7 +108,7 @@
 								</ul>
 							</li>
 							<li id="nav-human" class="dropdown" style="">
-								<a href="/volume/human/" class="dropdown-toggle" data-toggle="dropdown">人文<b class="caret"></b></a>
+								<a href="/volume/human/" style="padding-top:5px;padding-bottom:5px;font-weight:bold;font-size:18px;" class="dropdown-toggle" data-toggle="dropdown">人文</a>
 								<ul class="dropdown-menu parallel-menu">
 									<li><a class="{% if subtype == 'hperformer' %}select{% end %}" href="/volume/hperformer/">表演者</a></li><li>/</li>
 									<li><a class="{% if subtype == 'htheater' %}select{% end %}" href="/volume/htheater/">剧院</a></li><li>/</li>
@@ -116,29 +116,28 @@
 								</ul>
 							</li>
 							<li id="nav-brand" class="dropdown" style="">
-								<a href="/volume/brand/" class="dropdown-toggle" data-toggle="dropdown">品牌<b class="caret"></b></a>
+								<a href="/volume/brand/" style="padding-top:5px;padding-bottom:5px;font-weight:bold;font-size:18px;" class="dropdown-toggle" data-toggle="dropdown">品牌</a>
 								<ul class="dropdown-menu parallel-menu">
 									<li><a class="{% if subtype == 'bmediapeople' %}select{% end %}" href="/volume/bmediapeople/">媒体人</a></li><li>/</li>
 									<li><a class="{% if subtype == 'bcompany' %}select{% end %}" href="/volume/bcompany/">公司</a></li>
 								</ul>
 							</li>
 							<li id="nav-project" class="dropdown">
-								<a href="/space/project/">项目</a>
+								<a href="/space/project/" style="padding-top:5px;padding-bottom:5px;font-weight:bold;font-size:18px;">项目</a>
 							</li>
 						</ul>
 					{% else %}
 					<div style="width:940px;padding-left:20px;">
 						<ul class="nav">
-							<li><a class="brand">资源库系统</a></li>
+							<li><a class="brand" style="font-size:16px;font-weight:bold;">资源库系统</a></li>
 						</ul>
 						<ul class="nav user_log pull-right">
-							<li class="divider-vertical"></li>
 							<li>
 								<form action="/login/" method="post" class="form-inline login" style="margin:0;">
-									<input name="email" type="text" class="input-small" placeholder="Email" style="margin:5px 0 3px 0;">
-									<input name="password" type="password" class="input-small" placeholder="密码" style="margin:5px 0 3px 0;">
-									<label class="checkbox" style="color:#999;"><input type="checkbox"> 记住我</label>
-									<button type="submit" class="btn" style="margin:5px 0 3px 0;">登录</button>
+									用户名 <input name="email" type="text" class="input-small" placeholder="Email" style="margin:5px 20px 3px 0;">
+									密码 <input name="password" type="password" class="input-small" placeholder="密码" style="margin:5px 20px 3px 0;">
+									<label class="checkbox" style="color:#999;margin-right:10px;"><input type="checkbox"> 记住我</label>
+									<button type="submit" class="btn" style="margin:5px 40px 3px 0;">登录</button>
 								</form>
 							</li>
 						</ul>

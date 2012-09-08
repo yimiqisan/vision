@@ -86,7 +86,14 @@ def cntDict(handler, l, **kwargs):
 
 def abstract(handler, c, n=100):
     import re
-    s = re.sub(r'</?\w+[^>]*>','',c)
+    try:
+        s = re.sub(r'</?\w+[^>]*>','',c)
+    except:
+        if c:
+            c = c.encode('utf-8')
+            s = re.sub(r'</?\w+[^>]*>','',c)
+        else:
+            return c
     s = s.replace(' ', '')
     if (len(s) > n):
         return s[:n-3] + '...'

@@ -80,7 +80,7 @@
 					{% if logo %}
 						<span><input type="hidden" name="logo" value="{{ logo }}"/><img width=100 height=100 src="/image/attach/{{ logo }}_100"></span>
 					{% else %}
-						<img src="http://placehold.it/100&text=No Pic" style="width:100px;height:100px;"/>
+						<img src="{{ static_url("img/blank_100.gif") }}" style="width:100px;height:100px;"/>
 					{% end %}
 				</div><br/>
 				<div id="poster">头像上传</div>

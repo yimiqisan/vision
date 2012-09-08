@@ -16,7 +16,7 @@ Overmenu.prototype = {
         , om = $this.find('.overmenu')
         , b = -om.height()-10
         , top = $this.height()+10;
-        om.css({'display':'block','top':top}).animate({'top':183}, 'fast');
+        om.css({'display':'block','top':top}).animate({'top':179}, 'fast');
     }
     , outmenu: function ( e ) {
         var $this = $(this)

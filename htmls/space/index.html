@@ -14,12 +14,12 @@
 
 {% block bodyright %}
 	<div class="navbar">
-		<div class="navbar-inner">
+		<div class="navbar-inner" style="border:1px solid black;">
 			<div class="container">
 				<div class="nav-collapse">
-					<ul class="nav pull-right">
+					<ul class="nav pull-right" style="margin-top:5px;margin-bottom:5px;">
 						<li class="dropdown" style="">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">日期 <b class="caret"></b></a>
+							<a href="#" class="dropdown-toggle" style="padding-top:5px;padding-bottom:5px;" data-toggle="dropdown"><i style="background-image:url({{ static_url('img/calendar.png') }});background-position:24px 100px;" ></i>日期 <span class="half half_top"><span class="half_in">&#9670;</span>&#9670;</span></a>
 							<ul class="dropdown-menu">
 								<li><a href="#">今天</a></li>
 								<li><a href="#">本周</a></li>
@@ -28,17 +28,15 @@
 								<li class="nav-header">全部</li>
 							</ul>
 						</li>
-						<li class="divider-vertical" style=""></li>
 						<li class="dropdown" style="">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">国家 <b class="caret"></b></a>
+							<a href="#" class="dropdown-toggle" style="padding-top:5px;padding-bottom:5px;" data-toggle="dropdown">国家 <span class="half half_top"><span class="half_in">&#9670;</span>&#9670;</span></a>
 							<ul class="dropdown-menu">
 								<li><a href="#">国家</a></li>
 								<li><a href="#">城市</a></li>
 							</ul>
 						</li>
-						<li class="divider-vertical" style=""></li>
 						<li class="dropdown" style="">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">标签 <b class="caret"></b></a>
+							<a href="#" class="dropdown-toggle" style="padding-top:5px;padding-bottom:5px;" data-toggle="dropdown">标签 <span class="half half_top"><span class="half_in">&#9670;</span>&#9670;</span></a>
 							<ul class="dropdown-menu">
 								<li><a href="#">级别</a></li>
 								<li><a href="#">关系</a></li>
@@ -47,21 +45,19 @@
 								<li><a href="#">按姓名A~Z排序</a></li>
 							</ul>
 						</li>
-						<li class="divider-vertical" style=""></li>
 						<li class="dropdown" style="">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">属性 <b class="caret"></b></a>
+							<a href="#" class="dropdown-toggle" style="padding-top:5px;padding-bottom:5px;" data-toggle="dropdown">属性 <span class="half half_top"><span class="half_in">&#9670;</span>&#9670;</span></a>
 							<ul class="dropdown-menu">
 								<li><a href="#">个人</a></li>
 								<li><a href="#">机构</a></li>
 								<li><a href="#">展会</a></li>
 							</ul>
 						</li>
-						<li class="divider-vertical" style=""></li>
 						<li>
-						   	<form class="form-inline" style="margin-bottom:0px;" action="/volume//" method="get">
-						   		<input type="text" name="word" class="input-medium search-query" style="margin-top:5px;" placeholder="搜索">
-						   		<button class="btn btn-small" type="submit"><i class="icon-search"></i></button>
-						   	</form>
+							<form class="form-inline" style="font-weight:bold;font-size:18px;margin-bottom:0px;padding-left:20px;border-left:1px solid black;" action="/volume/{{subtype}}/" method="get">
+								<input type="text" name="word" class="input-medium search-query" style="margin-top:2px;" placeholder="搜索">
+								<button class="btn btn-small" style="height:25px;margin-top:2px;" type="submit"><i class="icon-search"></i></button>
+							</form>
 						</li>
 					</ul>
 				</div>
@@ -73,7 +69,7 @@
 		{% for v in vlist %}
 		<li class="span3">
 			<div class="thumbnail overmenu-group">
-				<a href="/volume/{{ v['vid'] }}/"><img src="/image/attach/{{ v.get('logo', None) }}_300" onerror="this.src='http://placehold.it/260x180&text=No Cover';" style="width:260px;height:180px;" alt=""></a>
+				<a href="/volume/{{ v['vid'] }}/"><img src="/image/attach/{{ v.get('logo', None) }}_300" onerror="this.src='{{ static_url("img/blank_260x180.gif") }}';" style="width:260px;height:180px;" alt=""></a>
 				<ul class="overmenu" bot=0 >
 					<li><a href="/volume/{{ v['vid'] }}/">查看</a></li>
 					<li><a href="/volume/{{ v['vid'] }}/edit/">编辑</a></li>

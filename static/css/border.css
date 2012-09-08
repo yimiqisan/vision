@@ -5,6 +5,8 @@
     width: 220px;
 }
 .dropdown-menu {
+    top:23px;
+    left:-64px;
     border: 1px solid black;
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
@@ -15,6 +17,17 @@
     -webkit-background-clip: padding-box;
     -moz-background-clip: padding;
     background-clip: padding-box;
+}
+.navbar .nav > li > .dropdown-menu::before{
+    position: absolute;
+    top: -7px;
+    left: 9px;
+    display: inline-block;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid black;
+    border-left: 7px solid transparent;
+    border-bottom-color: rgba(0, 0, 0, 1.0);
+    content: '';
 }
 .nav-list > li > a, .nav-list .nav-header {
     margin-left: 10px;
@@ -261,3 +274,28 @@ button.btn, input[type="submit"].btn {
     -moz-border-radius: 0;
     border-radius: 0;
 }
+.navbar .nav li.dropdown.open > .dropdown-toggle, .navbar .nav li.dropdown.active > .dropdown-toggle, .navbar .nav li.dropdown.open.active > .dropdown-toggle {
+background-color: white;
+color: black;
+}
+.navbar .pull-right > li > .dropdown-menu::before, .navbar .nav > li > .dropdown-menu.pull-right::before {
+    right: 12px;
+    left: auto;
+}
+
+.nav-collapse .dropdown{
+    border-left: 1px solid black;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+.half{display:inline-block; font:10px/17px '宋体';}
+.half_in{height:6px; border-bottom:3px solid white; _border-bottom-width:2px; background-color:white; position:absolute; overflow:hidden;}
+:root .half_in{height:5px\0;}	/*IE 9*/
+.half_bot .half_in, .half_top .half_in,.half_bot{color:black;}
+
+input[type="search"] .uneditable-input {
+height: 15px;
+}
+
+
+

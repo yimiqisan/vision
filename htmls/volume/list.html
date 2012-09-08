@@ -26,11 +26,11 @@
 		<div class="navbar-inner" style="border-left:0px;border-top:0px;border-right:0px;">
 			<div class="container">
 				<div class="nav-collapse">
-					<ul class="nav pull-right">
+					<ul class="nav pull-right" style="margin-top:5px;margin-bottom:5px;">
 						<li class="dropdown" style="">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<a href="#" class="dropdown-toggle" style="padding-top:5px;padding-bottom:5px;" data-toggle="dropdown">
 								<i style="background-image:url({{ static_url('img/calendar.png') }});background-position:24px 100px;" ></i>
-								日期 <b class="caret"></b></a>
+								日期 <span class="half half_top"><span class="half_in">&#9670;</span>&#9670;</span></a>
 							<ul class="dropdown-menu">
 								<li><a href="/volume/{{subtype}}/?dtime=day&{{build_params(params)}}">今天</a></li>
 								<li class="divider"></li>
@@ -41,9 +41,8 @@
 								<li><a href="/volume/{{subtype}}/?dtime=all&{{build_params(params)}}">全部</a></li>
 							</ul>
 						</li>
-						<li class="divider-vertical" style=""></li>
 						<li class="dropdown" style="">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">国家 <b class="caret"></b></a>
+							<a href="#" class="dropdown-toggle" style="padding-top:5px;padding-bottom:5px;" data-toggle="dropdown">国家 <span class="half half_top"><span class="half_in">&#9670;</span>&#9670;</span></a>
 							<ul class="dropdown-menu">
 								<li><script>select_pid("live", 1)</script></li>
 								<li class="divider"></li>
@@ -51,9 +50,8 @@
 								<li class="cancel"><a href="">取消</a></li>
 							</ul>
 						</li>
-						<li class="divider-vertical" style=""></li>
 						<li class="dropdown" style="">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">标签 <b class="caret"></b></a>
+							<a href="#" class="dropdown-toggle" style="padding-top:5px;padding-bottom:5px;" data-toggle="dropdown">标签 <span class="half half_top"><span class="half_in">&#9670;</span>&#9670;</span></a>
 							<ul class="dropdown-menu">
 								<li><a>级别:
 									<span class="star-group">{% for i in xrange(0, 5) %}<i class="star icon-star-empty"></i>{% end %}</span>
@@ -82,9 +80,8 @@
 								<li class="cancel"><a href="">取消</a></li>
 							</ul>
 						</li>
-						<li class="divider-vertical" style=""></li>
 						<li class="dropdown" style="">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">属性 <b class="caret"></b></a>
+							<a href="#" class="dropdown-toggle" style="padding-top:5px;padding-bottom:5px;" data-toggle="dropdown">属性 <span class="half half_top"><span class="half_in">&#9670;</span>&#9670;</span></a>
 							<ul class="dropdown-menu">
 								<li class="dropright">
 									<a href="#" class="dropright-toggle" data-toggle="dropright">个人 <b class="pull-right rcaret"></b></a>
@@ -124,11 +121,10 @@
 								<li><a href="/volume/show/?{{build_params(params)}}">展会</a></li>
 							</ul>
 						</li>
-						<li class="divider-vertical"></li>
 						<li>
-							<form class="form-inline" style="margin-bottom:0px;" action="/volume/{{subtype}}/" method="get">
-								<input type="text" name="word" class="input-medium search-query" style="margin-top:5px;" placeholder="搜索">
-								<button class="btn btn-small" type="submit"><i class="icon-search"></i></button>
+							<form class="form-inline" style="font-weight:bold;font-size:18px;margin-bottom:0px;padding-left:20px;border-left:1px solid black;" action="/volume/{{subtype}}/" method="get">
+								<input type="text" name="word" class="input-medium search-query" style="margin-top:2px;" placeholder="搜索">
+								<button class="btn btn-small" style="height:25px;margin-top:2px;" type="submit"><i class="icon-search"></i></button>
 							</form>
 						</li>
 					</ul>
@@ -142,7 +138,7 @@
 			{% for v in vlist %}
 			<li class="span3">
 				<div class="thumbnail overmenu-group">
-					<a href="/volume/{{ v['vid'] }}/"><img src="/image/attach/{{ v.get('logo', None) }}_300" onerror="this.src='http://placehold.it/260x180&text=No Cover';" style="width:260px;height:180px;" alt=""></a>
+					<a href="/volume/{{ v['vid'] }}/"><img src="/image/attach/{{ v.get('logo', None) }}_300" onerror="this.src='{{ static_url("img/blank_260x180.gif") }}';" style="width:260px;height:180px;" alt=""></a>
 					<ul class="overmenu" bot=0>
 						{% if verify(perm, 0x01) %}
 							<li><a href="/volume/{{ v['vid'] }}/edit/">编辑</a></li>
@@ -166,11 +162,11 @@
 							<li><a href="/volume/{{ v['vid'] }}/">查看</a></li>
 						{% end %}
 					</ul>
-					<div class="caption" style="height:80px;">
-						<h4>{{ v['name'] }} / {{ v['subtype_cn'] }}</h4></br>
-						<p>{{ v['intro'] }}</p>
+					<div class="caption" style="height:107px;">
+						<h4>{{ v['name'] }} / {{ v['subtype_cn'] }}</h4>
+						<p>{{ abstract(v['intro'], 44) }}</p>
 					</div>
-					<div class="caption">
+					<div class="caption" style="border-top:1px solid black;padding:3px 9px;">
 						{% for i in xrange(0, v['grade']) %}<i class="icon-star"></i>{% end %}
 						{% for i in xrange(0, 5-v['grade']) %}<i class="icon-star-empty"></i>{% end %}
 					</div>
