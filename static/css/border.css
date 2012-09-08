@@ -149,6 +149,7 @@ button.btn, input[type="submit"].btn {
 	background:white;
 	border-radius:0px;
 	box-shadow:0;
+	padding:0px;
 }
 .nav-vision .dropdown, .nav-vision .dropright {
 	border-left:1px solid black;
@@ -226,4 +227,37 @@ button.btn, input[type="submit"].btn {
     border-radius: 0px;
 }
 .breadcrumb .btn {
+}
+.thumwell {
+    background-color:white;
+    border: 0px solid black;
+    border-color: black;
+    border-bottom-color: black;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+}
+.nav-tabs > li > a:hover {
+    border-color: black;
+}
+.nav > li > a:hover {
+    text-decoration: none;
+    background-color: white;
+}
+.nav-tabs > .active > a, .nav-tabs > .active > a:hover {
+    color: black;
+    background-color: white;
+    border: 1px solid black;
+    border-bottom: 0px solid black;
+    border-bottom-color: black;
+    cursor: default;
+}
+.nav-tabs > li > a {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    line-height: 20px;
+    border: 1px solid black;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
 }
