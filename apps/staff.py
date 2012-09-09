@@ -154,7 +154,7 @@ class StaffAPI(API):
         if (r[0] and r[1]):return (True, self._output_format(result=r[1]))
         return r
     
-    def page(self, cuid=DEFAULT_CUR_UID, belong=None, level=None, page=1, pglen=10, cursor=None, limit=20, order_by='added_id', order=-1):
+    def page(self, cuid=DEFAULT_CUR_UID, belong=None, level=None, page=1, pglen=5, cursor=None, limit=20, order_by='added_id', order=-1):
         ''' 分页显示用户信息 '''
         kwargs = {}
         if belong:kwargs['belong']=belong

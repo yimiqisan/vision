@@ -194,7 +194,7 @@ class API(object):
     def page(self, **kwargs):
         ''' 分页显示 '''
         page = kwargs.pop('page', 1)
-        pglen = kwargs.pop('pglen', 10)
+        pglen = kwargs.pop('pglen', 5)
         limit = kwargs.pop('limit', 20)
         start = (page-1)*limit
         order_by = kwargs.pop('order_by', 'added_id')

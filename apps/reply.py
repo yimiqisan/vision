@@ -138,7 +138,7 @@ class ReplyAPI(API):
         else:
             return (False, r[1])
     
-    def page(self, cuid=DEFAULT_CUR_UID, owner=None, topic=None, channel=None, at=None, page=1, pglen=10, cursor=None, limit=20, order_by='added_id', order=-1):
+    def page(self, cuid=DEFAULT_CUR_UID, owner=None, topic=None, channel=None, at=None, page=1, pglen=5, cursor=None, limit=20, order_by='added_id', order=-1):
         ''' 分页显示回复 '''
         kwargs = {}
         if owner:kwargs['owner']=owner

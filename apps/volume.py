@@ -247,7 +247,7 @@ class VolumeAPI(API):
         else:
             return {}
     
-    def page_own(self, cuid=DEFAULT_CUR_UID, owner=None, perm=None, name=None, prop=None, live=None, agency=None, tags=[], grade=None, nexus=None, male=None, born_interval=(None, None), page=1, pglen=10, limit=20, order_by='added_id', order=-1):
+    def page_own(self, cuid=DEFAULT_CUR_UID, owner=None, perm=None, name=None, prop=None, live=None, agency=None, tags=[], grade=None, nexus=None, male=None, born_interval=(None, None), page=1, pglen=5, limit=20, order_by='added_id', order=-1):
         ''' 个人工作空间作品集 '''
         kwargs = {}
         if owner:kwargs['owner']=owner
@@ -278,7 +278,7 @@ class VolumeAPI(API):
         else:
             return (False, r[1])
         
-    def page(self, cuid=DEFAULT_CUR_UID, owner=None, perm=None, created=None, name=None, prop=None, maintype=None, subtype=None, live=None, agency=None, tags=[], grade=None, nexus=None, male=None, born_interval=(None, None), page=1, pglen=10, limit=20, order_by='added_id', order=-1):
+    def page(self, cuid=DEFAULT_CUR_UID, owner=None, perm=None, created=None, name=None, prop=None, maintype=None, subtype=None, live=None, agency=None, tags=[], grade=None, nexus=None, male=None, born_interval=(None, None), page=1, pglen=5, limit=20, order_by='added_id', order=-1):
         ''' 分页显示作品集 '''
         kwargs = {}
         pmlist = [PERM_CLASS['SUPEROR'], PERM_CLASS['MANAGER']]

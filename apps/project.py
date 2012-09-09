@@ -66,7 +66,7 @@ class ProjectAPI(API):
         if (r[0] and r[1]):return (True, self._output_format(result=r[1], cuid=cuid))
         return r
     
-    def page(self, cuid=DEFAULT_CUR_UID, owner=None, page=1, pglen=10, cursor=None, limit=20, order_by='added_id', order=-1):
+    def page(self, cuid=DEFAULT_CUR_UID, owner=None, page=1, pglen=5, cursor=None, limit=20, order_by='added_id', order=-1):
         ''' 分页显示项目 '''
         kwargs = {}
         if owner:kwargs['owner']=owner

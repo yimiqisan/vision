@@ -118,11 +118,14 @@ class VolumeListHandler(BaseHandler):
         r = v._api.page(cuid=uid, owner=uid, perm=self.pm, created=dtime, prop=prop, name=word, subtype=subtype.upper(), page=page)
         if r[0]:
             params = self._d_params()
-            return self.render("volume/list.html", vlist=r[1], vinfo=r[2], subtype=subtype, params=params)
+            return self.render("volume/list.html", vlist=r[1], vinfo=r[2], subtype=subtype, params=json.dumps(params))
         else:
             return self.render_alert(r[1])
     
-    def _d_params(self, params={'abc':123}):
+    def _d_params(self):
+        params = {}
+        for k in self.request.arguments.keys():
+            params[k] = self.get_argument(k)
         return params
 
 class AjaxVolumeTypeHandler(BaseHandler):

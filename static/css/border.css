@@ -223,10 +223,27 @@ button.btn, input[type="submit"].btn {
 .pagination li:last-child {
 	float:right;
 }
+.pagination ul > li > a, .pagination ul > li > span {
+    background-color: white;
+    border: 0px solid black;
+}
+.pagination ul > li:first-child > a, .pagination ul > li:first-child > span {
+    border-left-width: 0px;
+}
+.pagination ul > li > a:hover, .pagination ul > .active > a, .pagination ul > .active > span {
+    color:black;
+    background-color: white;
+}
 .pagination a, .pagination span {
 	background-color: white;
-	border: 0px solid black;
+	border: 0px solid white;
 	border-left-width: 0;
+}
+.page_center {
+    margin-left:200px;
+}
+#volume_list .page_center {
+    margin-left:300px;
 }
 .breadcrumb {
     padding: 5px 15px 15px 15px;
@@ -262,6 +279,10 @@ button.btn, input[type="submit"].btn {
     border-bottom: 0px solid black;
     border-bottom-color: black;
     cursor: default;
+}
+#project_tabs > .active > a, #project_tabs > .active > a:hover {
+    color: white;
+    background-color: black;
 }
 .nav-tabs > li > a {
     padding-top: 8px;
@@ -353,4 +374,16 @@ border-radius: 0px;
     margin-left:0px;
 }
 
+.nav-tabs > li > a {
+    border-bottom: 0px solid black;
+}
+.nav-tabs .open .dropdown-toggle, .nav-pills .open .dropdown-toggle, .nav > li.dropdown.open.active > a:hover {
+    color: black;
+    background-color: white;
+    border-color: black;
+}
 
+#project_tabs .dropdown-menu, #project_tabs .dropright-menu {
+    top: 94%;
+    left: -80px;
+}

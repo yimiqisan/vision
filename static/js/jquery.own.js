@@ -31,6 +31,21 @@ jQuery.fn.enable = function(opt_enable) {
     return this;
 };
 
+(function($){
+    $.getUrlParam = function(name)
+    {
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r!=null) return unescape(r[2]); return null; 
+    }
+    $.hasUrlParam = function(name)
+    {
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r!=null) return true; return false; 
+    }
+})(jQuery);
+
 function delItem(e) {
     var mid = $(e).attr('id').replace('d-', 'm-');
     var $p = $("#"+mid);
