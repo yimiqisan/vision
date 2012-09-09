@@ -6,7 +6,7 @@
 }
 .dropdown-menu {
     top:23px;
-    left:-64px;
+    left:-22px;
     border: 1px solid black;
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
@@ -34,9 +34,6 @@
     margin-right: 10px;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
-
-
-
 
 
 
@@ -212,6 +209,7 @@ button.btn, input[type="submit"].btn {
 	border-radius:0px;
 	-webkit-box-shadow:0px;
 	box-shadow:0px;
+	position:relative;
 }
 .pagination li:first-child a, .pagination li:first-child span {
 	border-left-width: 0px;
@@ -297,5 +295,62 @@ input[type="search"] .uneditable-input {
 height: 15px;
 }
 
+.nav-tabs > .active > a, .nav-tabs > .active {
+color: white;
+background-color: black;
+border-bottom: 0px solid white;
+cursor: default;
+}
+.nav-tabs > li > a, .nav-pills > li > a {
+margin: 0px 5px;
+}
+
+.btn-group > .btn:hover, .btn-group > .btn:focus, .btn-group > .btn:active, .btn-group > .btn.active {
+z-index: 1400;
+}
+.btn-group > .btn:first-child {
+-webkit-border-radius: 0px;
+-moz-border-radius: 0px;
+border-radius: 0px;
+}
+
+#live .locate {
+    display:inline;
+}
+#live .locate span {
+    margin-left:5px;
+}
+#show_live .locate {
+    padding:2px;
+    border-bottom:1px solid black;
+}
+#show_live select[name='country'], #show_live select[name='city'] {
+    margin-top:5px;
+    margin-bottom:5px;
+    width:160px;
+    height:25px;
+}
+
+.dropdown-menu .nohover > a:hover, .dropdown-menu .nohover > a:focus {
+    text-decoration: none;
+    color: black;
+    background-color: white;
+    background-image: -moz-linear-gradient(top, white, white);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(white), to(white));
+    background-image: -webkit-linear-gradient(top, white, white);
+    background-image: -o-linear-gradient(top, white, white);
+    background-image: linear-gradient(to bottom, white, white);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#00000000', GradientType=0);
+}
+.dropdown-menu .ok, .dropdown-menu .cancel {
+    width:auto;
+    display:block;
+    float:left;
+    margin:0;
+}
+.dropdown-menu .cancel a {
+    margin-left:0px;
+}
 
 

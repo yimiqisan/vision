@@ -13,3 +13,23 @@
 	</ul>
 </div>
 
+<div class="pagination" style="position:relative;">
+	<div style="float:left;">
+		<ul><li>
+			<a {% if pagination['has_pre'] %}href="{{url}}?page={{pagination['pre_page']}}&{{param}}"{% end %}><i class="icon-arrow-left"></i>&nbsp;&nbsp;上一页</a>
+		</li></ul>
+	</div>
+	<div style="float:left;padding:auto 0;width:200px;">
+		<ul>
+			<li><a>1</a></li>
+			<li><a>2</a></li>
+			<li><a>3</a></li>
+			<li><a>4</a></li>
+		</ul>
+	</div>
+	<div style="float:right;">
+		<ul><li>
+			<a {% if pagination['has_next'] %}href="{{url}}?page={{pagination['next_page']}}&{{param}}"{% end %}>下一页&nbsp;&nbsp;<i class="icon-arrow-right"></i></a>
+		</li></ul>
+	</div>
+</div>

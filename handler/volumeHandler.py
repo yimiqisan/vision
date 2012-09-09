@@ -28,6 +28,7 @@ class VolumeNewHandler(BaseHandler):
         d = {}
         for n in self.KEYS:d[n] = None
         d['vid'] = None
+        d['born'] = 0
         return self.render("volume/new.html", **d)
     
     @addslash

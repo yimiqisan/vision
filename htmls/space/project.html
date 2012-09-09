@@ -12,6 +12,7 @@
 				var id = $(this).attr('id')
 				, $rpl = $(this).parent()
 				, isHas = $rpl.find('.reply-item').length;
+//				alert($rpl.find('.reply-submit').hasClass('hide'))
 				if (isHas) {
 					$rpl.find('.reply-submit').toggle();
        				$rpl.find('.reply-item').each(function(a, b){
@@ -37,41 +38,42 @@
 	<link href="{{ static_url('css/reply.css') }}" rel="stylesheet" />
 {% end %}
 {% block bodyleft %}
-	<div class="inner-box"><a href="/space/">我建立的</a></div><hr/>
-	<div class="inner-box"><a href="/space/collect/">收藏</a></div><hr class=""/>
-	<div class="inner-box active">项目</div><hr class=""/>
-	<div class="inner-box"><a href="/project/new/">新建项目</a></div>
+	<div class="inner-box"><a href="/space/" style="font-weight:bold;">我建立的</a></div><hr/>
+	<div class="inner-box"><a href="/space/collect/" style="font-weight:bold;">我收藏的</a></div><hr class=""/>
+	<div class="inner-box active" style="font-weight:bold;">项目</div><hr class=""/>
+	<div class="inner-box"><a href="/project/new/"><i class="icon-plus"></i>新建</a></div>
 {% end %}
 
 {% block bodyright %}
 	{% if len(plist) > 0 %}
-	<ul class="nav nav-tabs" style="display:block;max-width:700px;height:50px;overflow-x:hidden;">
-		{% if len(plist)>0 %}<li><a href="/project/{{plist[per_index(project['pid'], plist)]['pid']}}/"><i class="icon-backward"></i></a></li>{% end %}
+	<ul class="nav nav-tabs" style="display:block;max-width:720px;height:50px;border-bottom:1px solid black;height:auto;margin-bottom:5px;">
+		{% if len(plist)>0 %}<a class="pull-left" style="padding:8px 2px;" href="/project/{{plist[per_index(project['pid'], plist)]['pid']}}/"><i class="icon-backward"></i></a>{% end %}
 		{% for i in xrange(0, len(flist(project['pid'], plist))) %}
 			{% if project['pid'] and project['pid'] == plist[i]['pid'] %}
-				<li class="active pull-left"><a href="#" title="{{plist[i]['title']}}">{{ abstract(plist[i]['title'], 16) }}</a></li>
+				<li class="active pull-left" style="border-bottom:1px solid black;"><a href="#" title="{{plist[i]['title']}}">{{ abstract(plist[i]['title'], 16) }}</a></li>
 			{% else %}
 				<li><a href="/project/{{ plist[i]['pid'] }}/" title="{{plist[i]['title']}}">{{ abstract(plist[i]['title'], 8) }}</a></li>
 			{% end %}
 		{% end %}
-		{% if len(plist)>0 %}<li><a href="/project/{{plist[next_index(project['pid'], plist)]['pid']}}/"><i class="icon-forward"></i></a></li>{% end %}
-	</ul>
-	{% end %}
-	<div class="well">
-	{% if len(plist) > 0 %}
-		<h3 class="pull-left"><bold style="display:inline;">名称：</bold>{{ abstract(project['title'], 58) }}</h3>
-		<div class="btn-group pull-right" style="margin:5px 5px 0 0;">
-			<button class="btn dropdown-toggle" data-toggle="dropdown">项目操作<span class="caret"></span></button>
-			<ul class="dropdown-menu">
+		{% if len(plist)>0 %}<a class="pull-left" style="padding:8px 2px;" href="/project/{{plist[next_index(project['pid'], plist)]['pid']}}/"><i class="icon-forward"></i></a>{% end %}
+		<div class="pull-right" style="pull">
+		<li class="btn-group">
+			<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="font-weight:bold;">项目操作&nbsp;&nbsp;<span class="half half_top"><span class="half_in">&#9670;</span>&#9670;</span></a>
+			<ul class="dropdown-menu" style="min-width:180px;padding:0px;">
 				{% if verify(project['pm'], [0x20, 0x21]) %}<li><a href="/project/{{ project['pid'] }}/edit/">编辑项目</a></li>{% end %}
 				{% if verify(project['pm'], [0x20, 0x21]) %}<li><a href="/item/project/{{ project['pid'] }}/new/">新建作品</a></li>{% end %}
 				{% if verify(project['pm'], [0x20, 0x21]) %}<li><a href="/project/{{ project['pid'] }}/build/">从创建的粘贴</a></li>{% end %}
 				{% if verify(project['pm'], [0x20, 0x21]) %}<li><a href="/project/{{ project['pid'] }}/stick/">从收藏的粘贴</a></li>{% end %}
 				{% if verify(project['pm'], [0x20, 0x21]) %}<li class="divider"></li><li><a href="/project/{{ project['pid'] }}/remove/" onclick="return delconfirm(this);">删除项目</a></li>{% end %}
 			</ul>
-		</div>
-		
-		<div style="clear:both;"></div><br/>
+		</li>
+		<div>
+	</ul>
+	{% end %}
+	<div style="border:1px solid black;padding:10px;">
+	{% if len(plist) > 0 %}
+		<h3 class="pull-left"><bold style="display:inline;">名称：</bold>{{ abstract(project['title'], 50) }}</h3>
+		<div style="clear:both;"></div>
 		<div><p><blod style="font-weight: bold;font-size:16px;">描述：</blod>{{ project['description'] }}</p></div>
 	{% else %}
 		<h2>还没有项目</h2>

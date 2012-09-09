@@ -24,11 +24,13 @@ class SpaceHandler(BaseHandler):
     @session
     @authenticated
     def get(self):
+        perm = self.SESSION['perm']
+        if perm[0][0] == 0x01:return self.redirect('/space/perm/')
         uid = self.SESSION['uid']
         page = int(self.get_argument('page', 1))
         v = Volume()
         r = v._api.page_own(owner=uid, page=page, limit=15)
-        return self.render("space/index.html", vlist=r[1], vinfo=r[2])
+        return self.render("space/index.html", vlist=r[1], vinfo=r[2], params={})
 
 class SpacePermHandler(BaseHandler):
     '''空间权限首页
@@ -47,6 +49,8 @@ class SpaceNewHandler(BaseHandler):
     @session
     @authenticated
     def get(self):
+        perm = self.SESSION['perm']
+        if perm[0][0] == 0x01:return self.redirect('/space/perm/')
         uid = self.SESSION['uid']
         return self.redirect("/volume/new/")
 
@@ -57,6 +61,8 @@ class SpaceCollectHandler(BaseHandler):
     @session
     @authenticated
     def get(self):
+        perm = self.SESSION['perm']
+        if perm[0][0] == 0x01:return self.redirect('/space/perm/')
         uid = self.SESSION['uid']
         return self.redirect("/collect/")
 
@@ -67,6 +73,8 @@ class SpaceProjectHandler(BaseHandler):
     @session
     @authenticated
     def get(self):
+        perm = self.SESSION['perm']
+        if perm[0][0] == 0x01:return self.redirect('/space/perm/')
         uid = self.SESSION['uid']
         return self.redirect("/project/")
 

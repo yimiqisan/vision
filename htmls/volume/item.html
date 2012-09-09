@@ -8,19 +8,19 @@
 	<script language="javascript" src="{{ static_url('js/jquery.city.js') }}" type="text/javascript"></script>
 {% end %}
 {% block body %}
-	<ul class="breadcrumb" style="">
-		<li></li>
-		<li class="pull-right"><a class="btn btn-mini" href="/volume/{{vid}}/edit/">编辑</a></li>
+	<ul class="breadcrumb" style="padding:0px;height:40px;">
+		<li><p style="font-size:16px;font-weight:bold;height:40px;padding:10px 10px 10px 20px;">{{name}}</p></li>
+		<li class="pull-right" style="border-left:1px solid black;"><a class="btn btn-mini" style="border:0px;height:20px;font-size:16px;padding:10px;" href="/volume/{{vid}}/edit/">编辑</a></li>
 	</ul>
 	<div class="span10" style="border-bottom:1px solid black;width:1028px;margin-left:0px;margin-bottom:20px;padding-bottom:15px;">
-		<div class="span2" style="border-right:1px solid black;"><img src="/image/attach/{{logo}}_100" onerror="this.src='http://placehold.it/100&text=No Pic';" alt="头像" style="width:100px;height:100px;" /></div>
-		<div class="span6">
-			<p>{{name}} /{{subtype_cn}} 性别：{{male_cn}} 出生日期：{{born}}</p>
+		<div class="span2" style="width:120px;margin-left:20px;border-right:1px solid black;"><img src="/image/attach/{{logo}}_100" onerror="this.src='http://placehold.it/100&text=No Pic';" alt="头像" style="width:100px;height:100px;" /></div>
+		<div class="span7">
+			<p style="font-weight:bold;">{{name}}&nbsp;/&nbsp;{{subtype_cn}} 性别：{{male_cn}} 出生日期：{{born}}</p>
 			<script>show_pid('live', {{live}}, '国家地区：')</script>
-			<p>所属机构：{{agency}}</p>
-			<p>网址：{{website}}</p>
+			<p style="font-weight:bold;">所属机构：{{agency}}</p>
+			<p style="font-weight:bold;">网址：{{website}}</p>
 		</div>
-		<div>
+		<div class="span2" style="width:120px;border-left:1px solid black;height:80px;padding:10px;">
 			<p>级别：
 				{% for i in xrange(0, grade) %}<i class="icon-star"></i>{% end %}
 				{% for i in xrange(0, 5-grade) %}<i class="icon-star-empty"></i>{% end %}
@@ -32,25 +32,26 @@
 		</div>
 	</div>
 	<div class="span3" style="width:219px;border-top:1px solid black;border-right:1px solid black;margin-left:0px;padding-left:5px;padding-right:5px;">
-		<h3 style="padding-left:10px;margin-top:0px;margin-bottom:0px;">简介</h3><hr/>
+		<h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">简介</h3><hr/>
 		<p style="padding:10px;min-height:200px;">{{intro}}</p>
-		<hr/><h3 style="padding-left:10px;margin-top:0px;margin-bottom:0px;">相关机构</h3><hr/>
+		<hr/><h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">相关机构</h3><hr/>
 		<p style="padding:10px;min-height:200px;">{{about}}</p>
 	</div>
 	<div class="span8" style="width:740px;">
-		<a class="btn btn-large" href="/item/{{prop.lower()}}/{{vid}}/new/">新建作品</a>
+		<a class="btn btn-large" style="border-bottom:0px;font-weight:bold;font-size:18px;" href="/item/{{prop.lower()}}/{{vid}}/new/"><i class="icon-plus"></i>&nbsp;&nbsp;新建</a>
+		<hr/>
 		<ul class="thumbnails" style="margin-top:10px;">
 			{% for w in wlist %}
 			<li class="span3">
 				<div class="thumbnail overmenu-group">
 					<a href="/item/{{w['eid']}}"><img src="/image/attach/{{ w['logo'] }}_300" style="width:260px;height:180px;" alt=""></a>
-					<div class="caption">
+					<div class="caption" style="height:107px;">
 						{% if w['vtype'] == u'personal' %}
 							<h4>{{w['name']}}</h4></br>
-							<p>{{w['client']}}</p>
+							<p>{{ abstract(w['client'], 44) }}</p>
 						{% else %}
 							<h4>{{w['title']}}</h4></br>
-							<p>{{w['content']}}</p>
+							<p>{{ abstract(w['content'], 44) }}</p>
 						{% end %}
 					</div>
 					<ul class="overmenu" bot=0 >

@@ -16,7 +16,7 @@
 				uploader		: '/a/image',
 				checkExisting	: '/a/image/check',
 				width			: '100',
-				buttonText		: '上传头像',
+				buttonText		: '{% if logo %}编辑图片{% else %}上传图片{% end %}',
 				cancelImage		: '{{ static_url("img/uploadify-cancel.png") }}',
 				auto			: true,
 				fileObjName		: 'upload',
@@ -37,11 +37,11 @@
 	<link rel="stylesheet" type="text/css" href="{{ static_url('css/datepicker.css') }}"/>
 {% end %}
 {% block body %}
+	<ul class="breadcrumb" style="padding:0px;height:40px;">
+		<li><p style="font-size:16px;font-weight:bold;height:40px;padding:10px 10px 10px 20px;">{% if vid %}编辑{% else %}新建{% end %}</p></li>
+		<li class="pull-right" style="border-left:1px solid black;"><a class="btn btn-mini" style="border:0px;height:20px;font-size:16px;padding:10px;" onclick="return backconfirm(this);" href="/space/">返回工作室</a></li>
+	</ul>
 	<div class="span10" style="margin-left:0px;width:1028px;">
-		<h3 class="pull-left" style="padding-left:10px;">新建</h3>
-		<a class="btn pull-right" style="margin-right:20px;margin-top:15px;" onclick="return backconfirm(this);" href="/space/">返回工作室</a>
-		<div style="clear:both;"></div>
-		<hr/>
 		<form class="form-horizontal" method="post" action="/volume/new/">
 			<div class="span10 row3" style="padding:20px;">
 				<div class="control-group">
@@ -86,7 +86,7 @@
 				<div id="poster">头像上传</div>
 			</div>
 			
-			<div class="span8" style="padding-top:20px;border-left:1px solid black;">
+			<div class="span8" style="padding-top:20px;">
 				<div class="control-group">
 					<label class="control-label" for="name">{% if prop=='PERSONAL' %}姓名{% else %}名称{% end %}</label>
 					<div class="controls">
@@ -125,14 +125,14 @@
 				<div class="control-group">
 					<label class="control-label" for="born">{% if prop=='PERSONAL' %}出生日期{% else %}创建时间{% end %}</label>
 					<div class="controls">
-						<script>select_birthday('born')</script>
+						<script>select_birthday('born', {{ born }})</script>
 						<p class="help-inline">请选择{% if prop=='PERSONAL' %}出生日期{% else %}创建时间{% end %}</p>
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="live">国家地区:</label>
 					<div class="controls">
-						<script>select_pid("live", {% if live %}{{ live }}{% else %}'0x1b'{% end %})</script>
+						<script>select_pid("live", {% if live %}{{ live }}{% else %}'0x0'{% end %})</script>
 					</div>
 					<p class="help-inline">请选择国家地区</p>
 				</div>
@@ -201,7 +201,7 @@
 
 			</div>
 			<div class="span10" style="margin-top:10px;margin-left:0px;width:1028px;height:30px;float:left;border-top:1px solid black;">
-				<input type="submit" class="btn btn-primary censor pull-right" style="border:0px;" value="确定" />
+				<input type="submit" class="btn btn-primary censor pull-right" style="border:0px;font-weight:bold;" value="确定" />
 				<a class="btn pull-right" href="/space/" onclick="return backconfirm(this);" style="border-top:0px;border-bottom:0px;">取消</a>
 			</div>
 

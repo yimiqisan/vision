@@ -4,12 +4,34 @@
 	<title>vision</title>
 {% end %}
 
-{% block static %}{% end %}
+{% block static %}
+	<script language="javascript" type="text/javascript">
+		function onClickCountry (e) {
+			var $ul = e.closest('ul')
+			, params = $('#params').val()
+			, inps = $ul.find('input');
+			inps.each(function(e, i) {
+				key = $(i).attr('name');
+				value = $(i).val();
+				params = params + '&' + key + '=' + value;
+			})
+		}
+		function onClickTag (e) {
+			var $ul = e.closest('ul')
+			, params = $('#params').val()
+			, inps = $ul.find('input');
+			inps.each(function(e, i) {
+				key = $(i).attr('name');
+				value = $(i).val();
+				params = params + '&' + key + '=' + value;
+			})
+		}
+	</script>
+{% end %}
 {% block bodyleft %}
-	<div class="inner-box "><a href="/space/">我建立的</div><hr/>
-	<div class="inner-box active">收藏</div><hr/>
-	<div class="inner-box"><a href="/space/project/">项目</a></div>
-
+	<div class="inner-box "><a href="/space/" style="font-weight:bold;">我建立的</div><hr/>
+	<div class="inner-box active" style="font-weight:bold;">我收藏的</div><hr/>
+	<div class="inner-box"><a href="/space/project/" style="font-weight:bold;">项目</a></div>
 {% end %}
 
 {% block bodyright %}
@@ -18,39 +40,76 @@
 			<div class="container">
 				<div class="nav-collapse">
 					<ul class="nav pull-right" style="margin-top:5px;margin-bottom:5px;">
-						<li class="dropdown" style="">
+						<input id="params" type="hidden" value="{{build_params(params)}}">
+						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" style="padding-top:5px;padding-bottom:5px;" data-toggle="dropdown"><i style="background-image:url({{ static_url('img/calendar.png') }});background-position:24px 100px;" ></i>日期 <span class="half half_top"><span class="half_in">&#9670;</span>&#9670;</span></a>
-							<ul class="dropdown-menu">
-								<li><a href="#">今天</a></li>
-								<li><a href="#">本周</a></li>
-								<li><a href="#">本月</a></li>
-								<li class="divider"></li>
-								<li class="nav-header">全部</li>
+							<ul class="dropdown-menu" style="padding:0px;">
+								<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href="/volume/{{subtype}}/?dtime=all&{{build_params(params)}}">全部</a></li>
+								<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href="/volume/{{subtype}}/?dtime=day&{{build_params(params)}}">今天</a></li>
+								<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href="/volume/{{subtype}}/?dtime=week&{{build_params(params)}}">本周</a></li>
+								<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href="/volume/{{subtype}}/?dtime=month&{{build_params(params)}}">本月</a></li>
 							</ul>
 						</li>
-						<li class="dropdown" style="">
+						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" style="padding-top:5px;padding-bottom:5px;" data-toggle="dropdown">国家 <span class="half half_top"><span class="half_in">&#9670;</span>&#9670;</span></a>
-							<ul class="dropdown-menu">
-								<li><a href="#">国家</a></li>
-								<li><a href="#">城市</a></li>
+							<ul class="dropdown-menu" style="padding:0px;">
+								<li style=""><script>select_pid("show_live", '0x0')</script></li>
+								<li class="ok"><a onclick="onClickCountry($(this)); return false;" style="padding:5px 27px;">确定</a></li>
+								<li class="cancel" style="border-left:1px solid black;"><a style="padding:5px 27px 5px 26px;">取消</a></li>
 							</ul>
 						</li>
-						<li class="dropdown" style="">
+						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" style="padding-top:5px;padding-bottom:5px;" data-toggle="dropdown">标签 <span class="half half_top"><span class="half_in">&#9670;</span>&#9670;</span></a>
-							<ul class="dropdown-menu">
-								<li><a href="#">级别</a></li>
-								<li><a href="#">关系</a></li>
-								<li><a href="#">性别</a></li>
-								<li><a href="#">年代</a></li>
-								<li><a href="#">按姓名A~Z排序</a></li>
+							<ul class="dropdown-menu" style="padding:0px;width:180px;">
+								<li class="nohover" style="border-bottom:1px solid black;"><a style="padding:5px 20px;">级别:
+									<span class="star-group" style="padding:5px 20px;">{% for i in xrange(0, 5) %}<i class="star icon-star-empty"></i>{% end %}</span>
+									<input type="hidden" name="grade" class="star-value" value="0">
+								</a></li>
+								<li class="nohover" style="border-bottom:1px solid black;"><a style="padding:5px 20px;">关系:
+									<span class="star-group" style="padding:5px 20px;">{% for i in xrange(0, 5) %}<i class="star icon-star-empty"></i>{% end %}</span>
+									<input type="hidden" name="nexus" class="star-value" value="0">
+								</a></li>
+								<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;">
+									性别：男&nbsp;<input type="radio" name="Sex" value="male" />&nbsp;女&nbsp;<input type="radio" name="Sex" value="female" />&nbsp;无&nbsp;<input type="radio" name="Sex" value="none" checked="checked"/>
+								</a></li>
+								<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;">
+									年代：<select style="width:100px;height:25px;margin-bottom:0px;">
+										<option value ="">当代</option>
+										<option value ="">90~00年代</option>
+										<option value="">80~90年代</option>
+										<option value="">70~80年代</option>
+									</select>
+								</a></li>
+								<li class="ok"><a onclick="onClickTag($(this));return false;" style="padding:5px 31px;">确定</a></li>
+								<li class="cancel" style="border-left:1px solid black;"><a style="padding:5px 31px 5px 30px;">取消</a></li>
 							</ul>
 						</li>
-						<li class="dropdown" style="">
+						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" style="padding-top:5px;padding-bottom:5px;" data-toggle="dropdown">属性 <span class="half half_top"><span class="half_in">&#9670;</span>&#9670;</span></a>
-							<ul class="dropdown-menu">
-								<li><a href="#">个人</a></li>
-								<li><a href="#">机构</a></li>
-								<li><a href="#">展会</a></li>
+							<ul class="dropdown-menu" style="padding:0px;">
+								<li style="border-bottom:1px solid black;" class="dropright">
+									<a href="#" style="padding:5px 20px;" class="dropright-toggle" data-toggle="dropright">个人 <b class="pull-right rcaret"></b></a>
+									<ul class="dropright-menu" style="padding:0px;">
+										<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href='/volume/fdesigner/?{{build_params(params)}}'>设计师</a></li>
+										<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href="/volume/fphotographer/?{{build_params(params)}}">摄影师</a></li>
+										<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href="/volume/fstylists/?{{build_params(params)}}">造型师</a></li>
+										<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href="/volume/fmakeup/?{{build_params(params)}}">化妆师</a></li>
+										<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href="/volume/fmodel/?{{build_params(params)}}">模特</a></li>
+										<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href="/volume/fbloger/?{{build_params(params)}}">博主</a></li>
+										<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href="/volume/fartist/?{{build_params(params)}}">艺术家</a></li>
+										<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href="/volume/hperformer/?{{build_params(params)}}">表演者</a></li>
+										<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href="/volume/bmediapeople/?{{build_params(params)}}">媒体人</a></li>
+									</ul>
+								</li>
+								<li style="border-bottom:1px solid black;" class="dropright">
+									<a href="#" class="dropright-toggle" style="padding-top:5px;padding-bottom:5px;" data-toggle="dropright">机构 <b class="pull-right rcaret"></b></a>
+									<ul class="dropright-menu" style="padding:0px;">
+										<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href='/volume/magazine/?{{build_params(params)}}'>杂志</a></li>
+										<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href="/volume/association/?{{build_params(params)}}">协会</a></li>
+										<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href="/volume/institutions/?{{build_params(params)}}">院校</a></li>
+									</ul>
+								</li>
+								<li><a style="padding:5px 20px;" href="/volume/show/?{{build_params(params)}}">展会</a></li>
 							</ul>
 						</li>
 						<li>
@@ -65,7 +124,7 @@
 		</div>
 	</div>
 	
-	<ul class="thumbnails">
+	<ul class="thumbnails" style="min-height:300px;">
 		{% for v in vlist %}
 		<li class="span3">
 			<div class="thumbnail overmenu-group">
@@ -75,14 +134,15 @@
 					<li><a href="/collect/{{ v['cid'] }}/remove/" onclick="return delconfirm(this);">取消收藏</a></li>
 					<li><a href="">loading...</a></li>
 				</ul>
-				<div class="caption" style="height:110px;">
-					<h4>{{ v['name'] }} / {{ v['subtype_cn'] }}</h4></br>
+				<div class="caption" style="height:107px;">
+					<h4>{{ v['name'] }} / {{ v['subtype_cn'] }}</h4>
 					<p>{{ v['intro'] }}</p>
 				</div>
 			</div>
 		</li>
 		{% end %}
 	</ul>
+	<script src="{{ static_url('js/bootstrap-star.js') }}" type="text/javascript"></script>
 	<script src="{{ static_url('js/bootstrap-overmenu.js') }}" type="text/javascript"></script>
 	{% module Template("util/pagination.html", pagination=vinfo, url='/volume/', param='') %}
 {% end %}

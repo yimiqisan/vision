@@ -14,7 +14,7 @@
 				uploader		: '/a/image',
 				checkExisting	: '/a/image/check',
 				width			: '100',
-				buttonText		: '上传头像',
+				buttonText		: '{% if logo %}编辑头像{% else %}上传头像{% end %}',
 				cancelImage		: '{{ static_url("img/uploadify-cancel.png") }}',
 				auto			: true,
 				fileObjName		: 'upload',
