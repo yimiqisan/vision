@@ -81,7 +81,7 @@
 		<div class="control-group">
 			<label class="control-label" for="email"><span style="color:red;">*</span>邮箱：</label>
 			<div class="controls">
-				<input onblur="on_mail_blur(this);" id="email" name="email" value="{% if email %}{{ email }}{% end %}" {% if pid and not verify(perm, 0x01) %}disabled{% end %}/>
+				<input onblur="on_mail_blur(this);" id="email" name="email"  style="border:1px solid black;padding:4px 6px;" value="{% if email %}{{ email }}{% end %}" {% if pid and not verify(perm, 0x01) %}disabled{% end %}/>
 				<p class="hide help-inline">请输入邮箱</p>
 			</div>
 		</div>
@@ -130,7 +130,7 @@
 		<div class="control-group">
 			<label class="control-label" for="nick">用户名：</label>
 			<div class="controls">
-				<input id="nick" name="nick" value="{% if nick %}{{ nick }}{% end %}"/>
+				<input id="nick" name="nick" style="border:1px solid black;padding:4px 6px;" value="{% if nick %}{{ nick }}{% end %}"/>
 			</div>
 		</div>
 		<div class="control-group">

@@ -181,7 +181,7 @@ class VolumeAPI(API):
         if kwargs.has_key('born'):
             kwargs['born'] = datetime.strptime(kwargs['born'], "%Y%m%d")
         if kwargs.has_key('live'):
-            kwargs['live'] = eval(kwargs['live'])
+            kwargs['live'] = kwargs['live']
         if kwargs.has_key('grade'):
             kwargs['grade'] = int(kwargs['grade'])
         if kwargs.has_key('nexus'):
@@ -195,7 +195,7 @@ class VolumeAPI(API):
         if kwargs.has_key('born'):
             kwargs['born'] = datetime.strptime(kwargs['born'], "%Y%m%d")
         if kwargs.has_key('live'):
-            kwargs['live'] = eval(kwargs['live'])
+            kwargs['live'] = kwargs['live']
         if kwargs.has_key('grade'):
             kwargs['grade'] = int(kwargs['grade'])
         if kwargs.has_key('nexus'):
@@ -218,7 +218,7 @@ class VolumeAPI(API):
     def _output_format(self, result=[], cuid=DEFAULT_CUR_UID):
         ''' 格式化输出作品集 '''
         now = datetime.now()
-        output_map = lambda i: {'vid':i['_id'], 'added_id':i['added_id'], 'affect':self._affect(cuid, i['owner'], i['_id']), 'logo':i.get('logo', None), 'name':i.get('name', '无名'), 'builder':i['added'].get('builder', None), 'prop':i.get('prop', None), 'prop_cn':get_cn(p=i.get('prop', None)), 'maintype':i.get('maintype', None), 'maintype_cn':get_cn(m=i.get('maintype', None)), 'subtype':i.get('subtype', None), 'subtype_cn':get_cn(s=i.get('subtype', None)), 'live':i.get('live', None), 'male':i.get('male', None), 'male_cn':'男' if i.get('male', None) else '女', 'born':datetime.strftime(i.get('born', datetime.now()), "%Y%m%d"), 'website':i['added'].get('website', None), 'agency':i.get('agency', None), 'grade':i.get('grade', None), 'nexus':i.get('nexus', None), 'intro':i['added'].get('intro', None), 'about':i['added'].get('about', None), 'market':i['added'].get('market', None), 'created':self._escape_created(now, i['created'])}
+        output_map = lambda i: {'vid':i['_id'], 'added_id':i['added_id'], 'affect':self._affect(cuid, i['owner'], i['_id']), 'logo':i.get('logo', None), 'name':i.get('name', '无名'), 'builder':i['added'].get('builder', None), 'prop':i.get('prop', None), 'prop_cn':get_cn(p=i.get('prop', None)), 'maintype':i.get('maintype', None), 'maintype_cn':get_cn(m=i.get('maintype', None)), 'subtype':i.get('subtype', None), 'subtype_cn':get_cn(s=i.get('subtype', None)), 'live':i.get('live', '0x0'), 'male':i.get('male', None), 'male_cn':'男' if i.get('male', None) else '女', 'born':datetime.strftime(i.get('born', datetime.now()), "%Y%m%d"), 'website':i['added'].get('website', None), 'agency':i.get('agency', None), 'grade':i.get('grade', None), 'nexus':i.get('nexus', None), 'intro':i['added'].get('intro', None), 'about':i['added'].get('about', None), 'market':i['added'].get('market', None), 'created':self._escape_created(now, i['created'])}
         if isinstance(result, dict):
             return output_map(result)
         return map(output_map, result)
@@ -258,7 +258,7 @@ class VolumeAPI(API):
                 kwargs['prop']={'$all':prop}
             elif prop.upper() in prop_list:
                 kwargs['prop']=prop
-        if live:kwargs['live']=live
+        if live:kwargs['live']=int(live)
         if agency:kwargs['agency']=agency
         if grade:kwargs['grade']=grade
         if nexus:kwargs['nexus']=nexus
@@ -278,7 +278,7 @@ class VolumeAPI(API):
         else:
             return (False, r[1])
         
-    def page(self, cuid=DEFAULT_CUR_UID, owner=None, perm=None, created=None, name=None, prop=None, maintype=None, subtype=None, live=None, agency=None, tags=[], grade=None, nexus=None, male=None, born_interval=(None, None), page=1, pglen=5, limit=20, order_by='added_id', order=-1):
+    def page(self, cuid=DEFAULT_CUR_UID, owner=None, perm=None, created=None, name=None, prop=None, maintype=None, subtype=None, live=None, agency=None, tags=[], grade=None, nexus=None, male=None, born_tuple=(None, None), page=1, pglen=5, limit=20, order_by='added_id', order=-1):
         ''' 分页显示作品集 '''
         kwargs = {}
         pmlist = [PERM_CLASS['SUPEROR'], PERM_CLASS['MANAGER']]
@@ -322,14 +322,20 @@ class VolumeAPI(API):
                 kwargs['prop']={'$all':prop}
             elif prop.upper() in prop_list:
                 kwargs['prop']=prop
-        if live:kwargs['live']=live
+        if live and (live!='0x0'):kwargs['live']=live
         if agency:kwargs['agency']=agency
-        if grade:kwargs['grade']=grade
-        if nexus:kwargs['nexus']=nexus
-        if type(male) == type(False):kwargs['male']=male
+        if grade and int(grade):kwargs['grade']=int(grade)
+        if nexus and int(nexus):kwargs['nexus']=int(nexus)
+        if male in ['male', 'female']:kwargs['male']=(male==u'male')
         if not subtype:
             kwargs = {'$or':[{'owner':owner}, kwargs]}
-        ### born_interval
+        if born_tuple:
+            sd, ed = born_tuple
+            sd = 1900+int(sd)
+            ed = 1900+int(ed)
+            start_d = datetime(year=sd, month=1, day=1)
+            end_d = datetime(year=ed, month=1, day=1)
+            kwargs['born']={'$gt': start_d, '$lt': end_d}
         kwargs['page']=page
         kwargs['pglen']=pglen
         kwargs['limit']=limit

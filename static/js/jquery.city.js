@@ -17,8 +17,8 @@ function _(a,b){
     d.find("select").change(function(){var b=this,c=b.value;c!="0"&&d.find("input[name="+a+"]").val(c),$(b).blur()}),
     j(e,g,option_city,i);
     if (b) {
-	    var o = b.toString(16);
-	    o in COUNTRY_DICT ? k(b) : $.inArray(o, COUNTRY2CITY[b]) && l(b)
+        b = '0x'+b.toString(16);
+	    b in COUNTRY_DICT ? k(b) : $.inArray(b, COUNTRY2CITY[b]) && l(b)
     }
 }
  function _show(a, b, c){

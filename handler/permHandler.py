@@ -31,6 +31,8 @@ class PermHandler(BaseHandler):
         if perm[0][0] == 0x02:kwargs['level'] = u'editor'
         page = self.get_argument('page', 1)
         s = Staff()
+        kwargs['order_by'] = 'email'
+        kwargs['order'] = 1
         r = s._api.page(page=page, **kwargs)
         if r[0]:
             return self.render("perm/index.html", slist=r[1], sinfo=r[2])

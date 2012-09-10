@@ -33,12 +33,20 @@
 		function onClickOK (e) {
 			var $ul = e.closest('ul')
 			, params = $.parseJSON($('#params').val())
-			, inps = $ul.find('input');
+			, inps = $ul.find('input')
+			, sel = $ul.find('input[type=radio]:checked');
 			inps.each(function(e, i) {
 				var key = $(i).attr('name')
 				, value = $(i).val();
 				params[key] = value;
 			})
+			if (sel.val()) {
+				params['sex'] = sel.val();
+			}
+			period = $ul.find('[name=period]');
+			if (period.val()) {
+				params['period'] = period.val();
+			}
 			url = window.location.href
 			url = url.substr(0, $.inArray('?', url))
 			window.location.href = url + '?' + $.param(params);
@@ -83,14 +91,20 @@
 									<input type="hidden" name="nexus" class="star-value" value="0">
 								</a></li>
 								<li class="nohover" style="border-bottom:1px solid black;"><a style="padding:5px 20px;">
-									性别：男&nbsp;<input type="radio" name="Sex" value="male" />&nbsp;女&nbsp;<input type="radio" name="Sex" value="female" />&nbsp;无&nbsp;<input type="radio" name="Sex" value="none" checked="checked"/>
+									性别：男&nbsp;<input type="radio" name="sex" value="male" />&nbsp;女&nbsp;<input type="radio" name="sex" value="female" />&nbsp;无&nbsp;<input type="radio" name="sex" value="none" checked="checked"/>
 								</a></li>
 								<li class="nohover" style="border-bottom:1px solid black;"><a style="padding:5px 20px;">
-									年代：<select style="width:100px;height:25px;margin-bottom:0px;">
+									年代：<select name="period" style="width:100px;height:25px;margin-bottom:0px;">
 										<option value ="">当代</option>
-										<option value ="">90~00年代</option>
-										<option value="">80~90年代</option>
-										<option value="">70~80年代</option>
+										<option value ="90-00">90~00年代</option>
+										<option value="80-90">80~90年代</option>
+										<option value="70-80">70~80年代</option>
+										<option value="60-70">60~70年代</option>
+										<option value="50-60">50~60年代</option>
+										<option value="40-50">40~50年代</option>
+										<option value="30-40">30~40年代</option>
+										<option value="20-30">20~30年代</option>
+										<option value="10-20">10~20年代</option>
 									</select>
 								</a></li>
 								<li class="ok"><a onclick="onClickOK($(this));return false;" style="padding:5px 31px;">确定</a></li>
@@ -116,7 +130,7 @@
 								</li>
 								<li style="border-bottom:1px solid black;" class="dropright">
 									<a href="#" class="dropright-toggle" style="padding-top:5px;padding-bottom:5px;" data-toggle="dropright">机构 <b class="pull-right rcaret"></b></a>
-									<ul class="dropright-menu" style="padding:0px;">
+									<ul class="dropright-menu" style="padding:0px;top:30px;">
 										<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" onclick="onClickRedirect('/volume/magazine/')">杂志</a></li>
 										<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" onclick="onClickRedirect('/volume/association/')">协会</a></li>
 										<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" onclick="onClickRedirect('/volume/institutions/')">院校</a></li>

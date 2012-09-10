@@ -105,7 +105,7 @@ class VolumeDoc(Document):
             'prop':     IS(u'PERSONAL', u'ORGANIZATION', u'SHOW'),
             'maintype': IS(u'FASHION', u'ART', u'DESIGN', u'HUMAN', u'BRAND'),
             'subtype':  unicode,
-            'live':     int,
+            'live':     unicode,
             'agency':   unicode,
             'tags':     list,
             'grade':    int,

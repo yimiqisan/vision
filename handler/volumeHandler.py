@@ -98,6 +98,7 @@ class VolumeHandler(BaseHandler):
             return self.render_alert(r[1])
 
 class VolumeListHandler(BaseHandler):
+    PARAMS = ['']
     '''作品集列表
     '''
     @addslash
@@ -109,13 +110,18 @@ class VolumeListHandler(BaseHandler):
         page = int(self.get_argument('page', 1))
         prop = self.get_argument('prop', None)
         dtime = self.get_argument('dtime', None)
+        live = self.get_argument('show_live', None)
+        grade = self.get_argument('grade', None)
+        nexus = self.get_argument('nexus', None)
+        sex = self.get_argument('sex', None)
+        period = self.get_argument('period', None)
+        period_tuple = period.split('-') if period else None
         word = self.get_argument('word', None)
-        # loading ...
         if subtype == u'show':
             prop=u'SHOW'
             subtype = ''
         v = volume.Volume()
-        r = v._api.page(cuid=uid, owner=uid, perm=self.pm, created=dtime, prop=prop, name=word, subtype=subtype.upper(), page=page)
+        r = v._api.page(cuid=uid, owner=uid, perm=self.pm, created=dtime, prop=prop, name=word, subtype=subtype.upper(), live=live, grade=grade, nexus=nexus, male=sex, born_tuple=period_tuple, page=page)
         if r[0]:
             params = self._d_params()
             return self.render("volume/list.html", vlist=r[1], vinfo=r[2], subtype=subtype, params=json.dumps(params))
