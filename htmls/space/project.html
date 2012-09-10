@@ -73,7 +73,7 @@
 	{% if len(plist) > 0 %}
 		<h4 class="pull-left" style="margin:0px;"><bold style="display:inline;">名称：</bold></h4><p style="font-size:16px;">{{ abstract(project['title'], 50) }}</p>
 		<div style="clear:both;"></div>
-		<h4 class="pull-left" style="margin:0px;"><blod style="font-weight: bold;font-size:16px;">描述：</blod></h4><p style="font-size:16px;">{{ project['description'] }}</p>
+		<h4 class="pull-left" style="margin:0px;"><blod style="display:inline;">描述：</blod></h4><p style="font-size:16px;">{{ project['description'] }}</p>
 	{% else %}
 		<h2>还没有项目</h2>
 	{% end %}
