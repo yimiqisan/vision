@@ -6,10 +6,10 @@
 
 {% block static %}{% end %}
 {% block body %}
-	<ul class="breadcrumb" style="background:#ededed;">
-		<li><a href="#" title="{{vinfo['title']}}" alt="{{vinfo['title']}}">{{vinfo['title']}}</a></li>
+	<ul class="breadcrumb" style="padding:0px;height:40px;">
+		<li><p style="font-size:16px;font-weight:bold;height:40px;padding:10px 10px 10px 20px;">{{vinfo['title']}}</p></li>
 		{% if not isPreview %}
-			<li class="pull-right"><a href="/project/{{vinfo['pid']}}/" class="btn btn-mini">返回</a></li>
+			<li class="pull-right" style="border-left:1px solid black;"><a class="btn btn-mini" style="border:0px;height:20px;font-size:16px;padding:10px;" href="/project/{{vinfo['pid']}}/">返回</a></li>
 		{% end %}
 	</ul>
 	<div class="span12" style="border-bottom:1px solid #eee">

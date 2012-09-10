@@ -51,7 +51,7 @@ class ProjectAPI(API):
     
     def _perm(self, uid, pid):
         return self.p._api.get_owner_value(uid, u'project', cid=pid)
-    
+        
     def _output_format(self, result=[], cuid=DEFAULT_CUR_UID):
         ''' 项目格式化输出 '''
         now = datetime.now()

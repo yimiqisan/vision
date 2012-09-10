@@ -173,12 +173,17 @@ class ProjectHandler(BaseHandler):
         else:
             return self.render_alert(r[1])
     
+    @session
     def _f_proj(self, plist):
+        perm = self.SESSION['perm']
         rlist = []
         for p in plist:
             flag = False
             for m in p['pm']:
                 if m[0] in [0x20, 0x21]:
+                    flag = True
+            for m in perm:
+                if m == PERM_CLASS['MANAGER']:
                     flag = True
             if flag:rlist.append(p)
         return rlist

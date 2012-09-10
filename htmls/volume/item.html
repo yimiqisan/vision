@@ -13,7 +13,7 @@
 		<li class="pull-right" style="border-left:1px solid black;"><a class="btn btn-mini" style="border:0px;height:20px;font-size:16px;padding:10px;" href="/volume/{{vid}}/edit/">编辑</a></li>
 	</ul>
 	<div class="span10" style="border-bottom:1px solid black;width:1028px;margin-left:0px;margin-bottom:20px;padding-bottom:15px;">
-		<div class="span2" style="width:120px;margin-left:20px;border-right:1px solid black;"><img src="/image/attach/{{logo}}_100" onerror="this.src='http://placehold.it/100&text=No Pic';" alt="头像" style="width:100px;height:100px;" /></div>
+		<div class="span2" style="width:120px;margin-left:20px;border-right:1px solid black;"><img src="/image/attach/{{logo}}_100" onerror="this.src='{{ static_url("img/blank_100.gif") }}';" alt="头像" style="width:100px;height:100px;" /></div>
 		<div class="span7">
 			<p style="font-weight:bold;">{{name}}&nbsp;/&nbsp;{{subtype_cn}} 性别：{{male_cn}} 出生日期：{{born}}</p>
 			<script>show_pid('live', {{live}}, '国家地区：')</script>

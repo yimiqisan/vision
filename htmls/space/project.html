@@ -71,9 +71,9 @@
 	{% end %}
 	<div style="border:1px solid black;padding:10px;margin-bottom:10px;">
 	{% if len(plist) > 0 %}
-		<h3 class="pull-left" style="margin:0px;"><bold style="display:inline;">名称：</bold>{{ abstract(project['title'], 50) }}</h3>
+		<h4 class="pull-left" style="margin:0px;"><bold style="display:inline;">名称：</bold></h4><p style="font-size:16px;">{{ abstract(project['title'], 50) }}</p>
 		<div style="clear:both;"></div>
-		<div><p style="margin:0px;"><blod style="font-weight: bold;font-size:16px;">描述：</blod>{{ project['description'] }}</p></div>
+		<h4 class="pull-left" style="margin:0px;"><blod style="font-weight: bold;font-size:16px;">描述：</blod></h4><p style="font-size:16px;">{{ project['description'] }}</p>
 	{% else %}
 		<h2>还没有项目</h2>
 	{% end %}
@@ -84,17 +84,15 @@
 		<li class="span3">
 			<div class="thumbnail overmenu-group">
 				<a href="/item/{{ w['eid'] }}/"><img src="/image/attach/{{ w['logo'] }}_300" style="width:260px;height:180px;" alt=""></a>
-				<div class="caption">
-					<br/><br/><br/><br/><br/><br/>
-				</div>
+				<div class="caption" style="height:107px;"></div>
 				<ul class="overmenu" bot=25 >
 					<li><a href="/item/{{ w['eid'] }}/">查看</a></li>
 					<li><a href="/item/{{ w['eid'] }}/edit/">编辑</a></li>
 					<li><a href="/item/{{ w['eid'] }}/remove/" onclick="return delconfirm(this);">删除</a></li>
 				</ul>
 
-				<div class="caption reply-group" id="m-{{ w['eid'] }}" style="border-top:1px solid #eee;margin-bottom:5px;padding:1px;">
-					<div class="pull-right reply-url" id="ext-{{w['eid']}}"><a href="#inp-{{w['eid']}}" data-toggle="reply-extend">评论({{w['cnt']}})</a></div>
+				<div class="caption reply-group" id="m-{{ w['eid'] }}" style="border-top:1px solid black;margin-bottom:5px;padding:1px;">
+					<div class="pull-right reply-url" id="ext-{{w['eid']}}" style="border:0px;background:white;"><a href="#inp-{{w['eid']}}" data-toggle="reply-extend" style="color:black;background:white;">评论({{w['cnt']}})</a></div>
 					<input type="hidden" id="inp-{{w['eid']}}" value="0" class="reply"/>
 					{% for reply in rl %}
 						{% module Template("util/reply.html", reply=reply) %}
