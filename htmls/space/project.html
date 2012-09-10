@@ -60,11 +60,11 @@
 		<li class="pull-right dropdown">
 			<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="font-weight:bold;margin-right:0px;">项目操作&nbsp;&nbsp;<span class="half half_top"><span class="half_in">&#9670;</span>&#9670;</span></a>
 			<ul class="dropdown-menu" style="min-width:180px;padding:0px;">
-				{% if verify(project['pm'], [0x20, 0x21]) %}<li><a href="/project/{{ project['pid'] }}/edit/">编辑项目</a></li>{% end %}
-				{% if verify(project['pm'], [0x20, 0x21]) %}<li><a href="/item/project/{{ project['pid'] }}/new/">新建作品</a></li>{% end %}
-				{% if verify(project['pm'], [0x20, 0x21]) %}<li><a href="/project/{{ project['pid'] }}/build/">从创建的粘贴</a></li>{% end %}
-				{% if verify(project['pm'], [0x20, 0x21]) %}<li><a href="/project/{{ project['pid'] }}/stick/">从收藏的粘贴</a></li>{% end %}
-				{% if verify(project['pm'], [0x20, 0x21]) %}<li class="divider"></li><li><a href="/project/{{ project['pid'] }}/remove/" onclick="return delconfirm(this);">删除项目</a></li>{% end %}
+				{% if verify(perm, 0x02) or verify(project['pm'], [0x20, 0x21]) %}<li><a href="/project/{{ project['pid'] }}/edit/">编辑项目</a></li>{% end %}
+				{% if verify(perm, 0x02) or verify(project['pm'], [0x20, 0x21]) %}<li><a href="/item/project/{{ project['pid'] }}/new/">新建作品</a></li>{% end %}
+				{% if verify(perm, 0x02) or verify(project['pm'], [0x20, 0x21]) %}<li><a href="/project/{{ project['pid'] }}/build/">从创建的粘贴</a></li>{% end %}
+				{% if verify(perm, 0x02) or verify(project['pm'], [0x20, 0x21]) %}<li><a href="/project/{{ project['pid'] }}/stick/">从收藏的粘贴</a></li>{% end %}
+				{% if verify(perm, 0x02) or verify(project['pm'], [0x20, 0x21]) %}<li class="divider"></li><li><a href="/project/{{ project['pid'] }}/remove/" onclick="return delconfirm(this);">删除项目</a></li>{% end %}
 			</ul>
 		</li>
 	</ul>
