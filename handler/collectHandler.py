@@ -12,6 +12,7 @@ from tornado.web import addslash, authenticated
 
 from baseHandler import BaseHandler
 from vision.apps.collect import Collect
+from vision.apps.volume import Volume
 from vision.apps.item import Item
 from vision.apps.perm import addperm
 from vision.apps.tools import session
@@ -26,8 +27,18 @@ class CollectHandler(BaseHandler):
     def get(self):
         uid = self.SESSION['uid']
         page = int(self.get_argument('page', 1))
-        c = Collect()
-        r = c._api.page(owner=uid, page=page, limit=15)
+        dtime = self.get_argument('dtime', None)
+        live = self.get_argument('show_live', None)
+        grade = self.get_argument('grade', None)
+        nexus = self.get_argument('nexus', None)
+        sex = self.get_argument('sex', None)
+        period = self.get_argument('period', None)
+        period_tuple = period.split('-') if period else None
+        word = self.get_argument('word', None)        
+        v = Volume()
+        r = v._api.page_own(cuid=uid, atte=uid, created=dtime, prop=prop, name=word, subtype=subtype.upper(), live=live, grade=grade, nexus=nexus, male=sex, born_tuple=period_tuple, page=page, limit=15)
+#        c = Collect()
+#        r = c._api.page(owner=uid, page=page, limit=15)
         if r[0]:
             params = self._d_params()
             return self.render("space/collect.html", vlist=r[1], vinfo=r[2], params=params)
@@ -46,8 +57,10 @@ class CollectRemoveHandler(BaseHandler):
     @authenticated
     def get(self, id):
         uid = self.SESSION['uid']
-        c = Collect()
-        r = c._api.remove(id)
+        v = Volume()
+        r = v._api.forget(id, uid)
+#        c = Collect()
+#        r = c._api.remove(id)
         return self.redirect('/collect/')
 
 class CollectItemHandler(BaseHandler):
@@ -58,12 +71,14 @@ class CollectItemHandler(BaseHandler):
     @authenticated
     def get(self, cid):
         uid = self.SESSION['uid']
-        c = Collect()
-        r = c._api.get(cid)
+#        c = Collect()
+#        r = c._api.get(cid)
+        v = Volume()
+        r = v._api.get(cid)
         if r[0]:
             page = int(self.get_argument('page', 1))
             i = Item()
-            ri = i._api.page(page=page, vid=r[1]['refer_id'])
+            ri = i._api.page(page=page, vid=r[1]['vid'])
             return self.render("collect/item.html", wlist=ri[1], winfo=ri[2], **r[1])
         else:
             return self.render_alert(r[1])
@@ -76,8 +91,10 @@ class AjaxCollectAddHandler(BaseHandler):
     @authenticated
     def post(self, rid):
         uid = self.SESSION['uid']
-        c = Collect()
-        r = c._api.save(uid, rid)
+        v = Volume()
+        r = v._api.attention(rid, uid)
+#        c = Collect()
+#        r = c._api.save(uid, rid)
         return self.write({})
 
 class AjaxCollectDelHandler(BaseHandler):

@@ -113,6 +113,7 @@ class VolumeDoc(Document):
             'male':     bool,
             'born':     datetime,
             'created':  datetime,
+            'atte_list':list,
             'added':    dict,
             'added_id': int,
     }

@@ -21,17 +21,18 @@
 	</script>
 {% end %}
 {% block body %}
-	<div class="span12">
-		<br/>
-		<h3 class="pull-left">从收藏粘贴作品</h3>
-		<a href="/space/project/" class="btn pull-right hide" style="margin-right:5px;" onclick="return backconfirm(this);">返回</a>
-		<div style="clear:both;"></div><hr/>
+	<ul class="breadcrumb" style="padding:0px;height:40px;">
+		<li><p style="font-size:16px;font-weight:bold;height:40px;padding:10px 10px 10px 20px;">从收藏粘贴作品</p></li>
+		<li class="pull-right" style="border-left:1px solid black;"><a class="btn btn-mini" style="border:0px;height:20px;font-size:16px;padding:10px;" onclick="return backconfirm(this);" href="/space/project/">返回</a></li>
+	</ul>
+
+	<div class="span10">
 		<ul class="thumbnails">
 			{% for i in ilist %}
 			<li class="span3">
 				<div class="thumbnail overmenu-group">
 					<a href="/item/{{i['eid']}}"><img src="/image/attach/{{i['logo'] }}_300" style="width:260px;height:180px;" alt=""></a>
-					<div class="caption">
+					<div class="caption" style="height:107px;">
 						{% if i['vtype'] == u'personal' %}
 							<h4>{{i['name']}}</h4></br>
 							<p>{{i['client']}}</p>
@@ -48,8 +49,6 @@
 						{% else %}
 							<li><a href="#" onclick="toggle_paste('{{ i["eid"] }}', this);return false;" >粘贴</a></li>
 						{% end %}
-						<li><a href="">loading...</a></li>
-						<li><a href="">loading...</a></li>
 					</ul>
 				</div>
 			</li>

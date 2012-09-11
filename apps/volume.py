@@ -171,7 +171,6 @@ class VolumeAPI(API):
         col_name = VolumeDoc.__collection__
         collection = datastore[col_name]
         doc = collection.VolumeDoc()
-        self.capi = CollectAPI()
         API.__init__(self, col_name=col_name, collection=collection, doc=doc)
     
     def save(self, owner, name, prop, maintype, subtype, **kwargs):
@@ -206,10 +205,10 @@ class VolumeAPI(API):
         ''' 删除某个作品集 '''
         return super(VolumeAPI, self).remove(id)
     
-    def _affect(self, cuid, owner, rid):
+    def _affect(self, cuid, owner, atte_list):
         if (cuid == owner):
             r = VOLUME_AFFECT_OWN
-        elif self.capi.exist(owner, rid):
+        elif cuid in atte_list:
             r = VOLUME_AFFECT_COL
         else:
             r = VOLUME_AFFECT_DEF
@@ -218,7 +217,7 @@ class VolumeAPI(API):
     def _output_format(self, result=[], cuid=DEFAULT_CUR_UID):
         ''' 格式化输出作品集 '''
         now = datetime.now()
-        output_map = lambda i: {'vid':i['_id'], 'added_id':i['added_id'], 'affect':self._affect(cuid, i['owner'], i['_id']), 'logo':i.get('logo', None), 'name':i.get('name', '无名'), 'builder':i['added'].get('builder', None), 'prop':i.get('prop', None), 'prop_cn':get_cn(p=i.get('prop', None)), 'maintype':i.get('maintype', None), 'maintype_cn':get_cn(m=i.get('maintype', None)), 'subtype':i.get('subtype', None), 'subtype_cn':get_cn(s=i.get('subtype', None)), 'live':i.get('live', '0x0'), 'male':i.get('male', None), 'male_cn':'男' if i.get('male', None) else '女', 'born':datetime.strftime(i.get('born', datetime.now()), "%Y%m%d"), 'website':i['added'].get('website', None), 'agency':i.get('agency', None), 'grade':i.get('grade', None), 'nexus':i.get('nexus', None), 'intro':i['added'].get('intro', None), 'about':i['added'].get('about', None), 'market':i['added'].get('market', None), 'created':self._escape_created(now, i['created'])}
+        output_map = lambda i: {'vid':i['_id'], 'added_id':i['added_id'], 'affect':self._affect(cuid, i['owner'], i.get('atte_list', [])), 'logo':i.get('logo', None), 'name':i.get('name', '无名'), 'builder':i['added'].get('builder', None), 'prop':i.get('prop', None), 'prop_cn':get_cn(p=i.get('prop', None)), 'maintype':i.get('maintype', None), 'maintype_cn':get_cn(m=i.get('maintype', None)), 'subtype':i.get('subtype', None), 'subtype_cn':get_cn(s=i.get('subtype', None)), 'live':i.get('live', '0x0'), 'male':i.get('male', None), 'male_cn':'男' if i.get('male', None) else '女', 'born':datetime.strftime(i.get('born', datetime.now()), "%Y%m%d"), 'website':i['added'].get('website', None), 'agency':i.get('agency', None), 'grade':i.get('grade', None), 'nexus':i.get('nexus', None), 'intro':i['added'].get('intro', None), 'about':i['added'].get('about', None), 'market':i['added'].get('market', None), 'atte_list':i.get('atte_list', []), 'created':self._escape_created(now, i['created'])}
         if isinstance(result, dict):
             return output_map(result)
         return map(output_map, result)
@@ -226,8 +225,10 @@ class VolumeAPI(API):
     def get(self, id):
         ''' 获取某个作品集 '''
         r = self.one(_id=id)
-        if (r[0] and r[1]):return (True, self._output_format(result=r[1]))
-        return r
+        if (r[0] and r[1]):
+            return (True, self._output_format(result=r[1]))
+        else:
+            return (False, r)
     
     def _deal_created(self, dtime):
         if dtime == 'day':
@@ -247,7 +248,19 @@ class VolumeAPI(API):
         else:
             return {}
     
-    def page_own(self, cuid=DEFAULT_CUR_UID, owner=None, perm=None, name=None, prop=None, live=None, agency=None, tags=[], grade=None, nexus=None, male=None, born_interval=(None, None), page=1, pglen=5, limit=20, order_by='added_id', order=-1):
+    def attention(self, id, owner):
+        return super(VolumeAPI, self).edit(id, atte_list=owner)
+    
+    def forget(self, id, owner):
+        r = self.get(id)
+        if r[0]:
+            atte_list = r[1]['atte_list']
+            if owner in atte_list:
+                atte_list.remove(owner)
+            return super(VolumeAPI, self).edit(id, atte_list=atte_list, isOverWrite=True)
+        return False
+    
+    def page_own(self, cuid=DEFAULT_CUR_UID, owner=None, perm=None, created=None, name=None, prop=None, maintype=None, subtype=None, live=None, agency=None, tags=[], grade=None, nexus=None, male=None, born_tuple=(None, None), page=1, atte=None, pglen=5, limit=20, order_by='added_id', order=-1):
         ''' 个人工作空间作品集 '''
         kwargs = {}
         if owner:kwargs['owner']=owner
@@ -258,12 +271,19 @@ class VolumeAPI(API):
                 kwargs['prop']={'$all':prop}
             elif prop.upper() in prop_list:
                 kwargs['prop']=prop
-        if live:kwargs['live']=int(live)
+        if live:kwargs['live']=live
         if agency:kwargs['agency']=agency
         if grade:kwargs['grade']=grade
         if nexus:kwargs['nexus']=nexus
-        if type(male) == type(False):kwargs['male']=male
-        ### born_interval
+        if male in ['male', 'female']:kwargs['male']=(male==u'male')
+        if born_tuple:
+            sd, ed = born_tuple
+            sd = 1900+int(sd)
+            ed = 1900+int(ed)
+            start_d = datetime(year=sd, month=1, day=1)
+            end_d = datetime(year=ed, month=1, day=1)
+            kwargs['born']={'$gt': start_d, '$lt': end_d}
+        if atte:kwargs['atte_list']=atte
         kwargs['page']=page
         kwargs['pglen']=pglen
         kwargs['limit']=limit
@@ -327,8 +347,6 @@ class VolumeAPI(API):
         if grade and int(grade):kwargs['grade']=int(grade)
         if nexus and int(nexus):kwargs['nexus']=int(nexus)
         if male in ['male', 'female']:kwargs['male']=(male==u'male')
-        if not subtype:
-            kwargs = {'$or':[{'owner':owner}, kwargs]}
         if born_tuple:
             sd, ed = born_tuple
             sd = 1900+int(sd)
@@ -336,6 +354,8 @@ class VolumeAPI(API):
             start_d = datetime(year=sd, month=1, day=1)
             end_d = datetime(year=ed, month=1, day=1)
             kwargs['born']={'$gt': start_d, '$lt': end_d}
+        if not subtype and not name and not live and not grade and not nexus and not male  and not born_tuple:
+            kwargs = {'$or':[{'owner':owner}, kwargs]}
         kwargs['page']=page
         kwargs['pglen']=pglen
         kwargs['limit']=limit

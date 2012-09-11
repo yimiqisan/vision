@@ -29,6 +29,7 @@
 					$('.thumwell').addClass('well');
 					dragsort.makeListSortable(document.getElementById("thumbnails"));
 					$("#thumbnails input[type=radio]:first").attr("checked", true);
+					$('#poster_queue').html('');
 					$('#image').modal('hide');
 				},
 				onError			: function (event, queueID, fileObj){alert("文件:" + fileObj.name + " 上传失败");}
@@ -84,7 +85,7 @@
 			<div class="span1" style="width:120px;float:left;border:1px solid black;">
 				<div class="">
 					<h4 style="color:white;background:black;margin-top:0px;margin-bottom:0px;padding:5px;text-align:center;">工具条</h4><br/>
-					<a class="btn btn-large btn-warning" style="width:60px;margin-left:15px;font-size:21px;line-height:120%;padding:10px;" data-toggle="modal" href="#image" title="添加图片">添加图片</a><br/><br/>
+					<a class="btn btn-large btn-warning" style="width:60px;margin-left:20px;font-size:21px;line-height:120%;padding:10px;" data-toggle="modal" href="#image" title="添加图片">添加图片</a><br/><br/>
 					<input type="submit" style="font-size:21px;width:120px;border-bottom:0px;border-left:0px;border-right:0px;" class="btn btn-success preview pull-left" value="预览" />
 					<a class="btn btn-large btn-success" style="display:none;">添加链接</a>
 				</div>

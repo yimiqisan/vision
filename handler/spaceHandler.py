@@ -7,7 +7,7 @@ Created by 刘 智勇 on 2012-07-14.
 Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 """
 
-
+import json
 from tornado.web import addslash, authenticated
 
 from baseHandler import BaseHandler
@@ -23,14 +23,36 @@ class SpaceHandler(BaseHandler):
     @addslash
     @session
     @authenticated
-    def get(self):
+    def get(self, subtype):
         perm = self.SESSION['perm']
         if perm[0][0] == 0x01:return self.redirect('/space/perm/')
         uid = self.SESSION['uid']
         page = int(self.get_argument('page', 1))
+        prop = self.get_argument('prop', None)
+        dtime = self.get_argument('dtime', None)
+        live = self.get_argument('show_live', None)
+        grade = self.get_argument('grade', None)
+        nexus = self.get_argument('nexus', None)
+        sex = self.get_argument('sex', None)
+        period = self.get_argument('period', None)
+        period_tuple = period.split('-') if period else None
+        word = self.get_argument('word', None)
+        if subtype == u'show':
+            prop=u'SHOW'
+            subtype = ''
         v = Volume()
-        r = v._api.page_own(owner=uid, page=page, limit=15)
-        return self.render("space/index.html", vlist=r[1], vinfo=r[2], params={})
+        r = v._api.page_own(cuid=uid, owner=uid, created=dtime, prop=prop, name=word, subtype=subtype.upper(), live=live, grade=grade, nexus=nexus, male=sex, born_tuple=period_tuple, page=page, limit=15)
+        if r[0]:
+            params = self._d_params()
+            return self.render("space/index.html", vlist=r[1], vinfo=r[2], subtype=subtype, params=json.dumps(params), f=params)
+        else:
+            return self.render_alert(r[1])
+    
+    def _d_params(self):
+        params = {}
+        for k in self.request.arguments.keys():
+            params[k] = self.get_argument(k)
+        return params
 
 class SpacePermHandler(BaseHandler):
     '''空间权限首页

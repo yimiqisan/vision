@@ -136,11 +136,13 @@ class ProjectStickHandler(BaseHandler):
         i = Item()
         ro = i._api.page(vid=pid, vtype=u'project')
         olist = [o['refer_id'] for o in ro[1]]
-        c = Collect()
-        r = c._api.page(owner=uid, page=page)
+#        c = Collect()
+#        r = c._api.page(owner=uid, page=page)
+        v = Volume()
+        r = v._api.page_own(atte=uid)
         ilist = []
         for ci in r[1]:
-            rid = ci['refer_id']
+            rid = ci['vid']
             ri = i._api.page(vid=rid)
             for j in ri[1]:
                 j['is_paste'] = j['eid'] in olist

@@ -6,25 +6,45 @@
 
 {% block static %}
 	<script language="javascript" type="text/javascript">
-		function onClickCountry (e) {
-			var $ul = e.closest('ul')
-			, params = $('#params').val()
-			, inps = $ul.find('input');
-			inps.each(function(e, i) {
-				key = $(i).attr('name');
-				value = $(i).val();
-				params = params + '&' + key + '=' + value;
-			})
+		function onClickRedirect (url) {
+			var params = $.parseJSON($('#params').val());
+			host = window.location.host;
+			window.location.href = 'http://' + host + url + '?' + $.param(params);
 		}
-		function onClickTag (e) {
+		function onClickHref (k, v) {
+			var params = $.parseJSON($('#params').val());
+			params[k] = v
+			url = window.location.href
+			url = url.substr(0, $.inArray('?', url))
+			window.location.href = url + '?' + $.param(params);
+		}
+		function onClickOK (e) {
 			var $ul = e.closest('ul')
-			, params = $('#params').val()
-			, inps = $ul.find('input');
+			, params = $.parseJSON($('#params').val())
+			, inps = $ul.find('input')
+			, sel = $ul.find('input[type=radio]:checked');
 			inps.each(function(e, i) {
-				key = $(i).attr('name');
-				value = $(i).val();
-				params = params + '&' + key + '=' + value;
+				var key = $(i).attr('name')
+				, value = $(i).val();
+				params[key] = value;
 			})
+			if (sel.val()) {
+				params['sex'] = sel.val();
+			}
+			period = $ul.find('[name=period]');
+			if (period.val()) {
+				params['period'] = period.val();
+			}
+			url = window.location.href
+			url = url.substr(0, $.inArray('?', url))
+			window.location.href = url + '?' + $.param(params);
+		}
+		function onClickSearch (e) {
+			var params = $.parseJSON($('#params').val());
+			params['word'] = $('input[name="word"]').val();
+			url = window.location.href
+			url = url.substr(0, $.inArray('?', url))
+			window.location.href = url + '?' + $.param(params);
 		}
 	</script>
 {% end %}
@@ -41,91 +61,100 @@
 			<div class="container">
 				<div class="nav-collapse">
 					<ul class="nav pull-right" style="margin-top:5px;margin-bottom:5px;">
-						<input id="params" type="hidden" value="{{build_params(params)}}">
+						<input id="params" type="hidden" value="{{params}}">
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" style="padding-top:5px;padding-bottom:5px;" data-toggle="dropdown"><i style="background-image:url({{ static_url('img/calendar.png') }});background-position:24px 100px;" ></i>日期 <span class="half half_top"><span class="half_in">&#9670;</span>&#9670;</span></a>
+							<a href="#" class="dropdown-toggle" style="padding:5px;" data-toggle="dropdown">
+								<img src="{{ static_url('img/calendar.png') }}">
+								日期 <span class="half half_top"><span class="half_in">&#9670;</span>&#9670;</span></a>
 							<ul class="dropdown-menu" style="padding:0px;">
-								<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href="/volume/{{subtype}}/?dtime=all&{{build_params(params)}}">全部</a></li>
-								<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href="/volume/{{subtype}}/?dtime=day&{{build_params(params)}}">今天</a></li>
-								<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href="/volume/{{subtype}}/?dtime=week&{{build_params(params)}}">本周</a></li>
-								<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href="/volume/{{subtype}}/?dtime=month&{{build_params(params)}}">本月</a></li>
+								<li style="border-bottom:1px solid black;"><a class="{% if f.get('dtime', '')==u'all' %}active{% end %}" style="padding:5px 20px;" onclick="onClickHref('dtime', 'all')">全部</a></li>
+								<li style="border-bottom:1px solid black;"><a class="{% if f.get('dtime', '')==u'day' %}active{% end %}" style="padding:5px 20px;" onclick="onClickHref('dtime', 'day')">今天</a></li>
+								<li style="border-bottom:1px solid black;"><a class="{% if f.get('dtime', '')==u'week' %}active{% end %}" style="padding:5px 20px;" onclick="onClickHref('dtime', 'week')">本周</a></li>
+								<li style="border-bottom:1px solid black;"><a class="{% if f.get('dtime', '')==u'month' %}active{% end %}" style="padding:5px 20px;" onclick="onClickHref('dtime', 'month')">本月</a></li>
 							</ul>
 						</li>
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" style="padding-top:5px;padding-bottom:5px;" data-toggle="dropdown">国家 <span class="half half_top"><span class="half_in">&#9670;</span>&#9670;</span></a>
+							<a href="#" class="dropdown-toggle" style="padding:5px;" data-toggle="dropdown">
+								<img src="{{ static_url('img/worldmap.png') }}">
+								国家 <span class="half half_top"><span class="half_in">&#9670;</span>&#9670;</span></a>
 							<ul class="dropdown-menu" style="padding:0px;">
-								<li style=""><script>select_pid("show_live", '0x0')</script></li>
-								<li class="ok"><a onclick="onClickCountry($(this)); return false;" style="padding:5px 27px;">确定</a></li>
+								<li style=""><script>select_pid("show_live",  {{ f.get('show_live', '0x0') }})</script></li>
+								<li class="ok"><a onclick="onClickOK($(this)); return false;" style="padding:5px 27px;">确定</a></li>
 								<li class="cancel" style="border-left:1px solid black;"><a style="padding:5px 27px 5px 26px;">取消</a></li>
 							</ul>
 						</li>
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" style="padding-top:5px;padding-bottom:5px;" data-toggle="dropdown">标签 <span class="half half_top"><span class="half_in">&#9670;</span>&#9670;</span></a>
+							<a href="#" class="dropdown-toggle" style="padding:5px;" data-toggle="dropdown">
+								<img src="{{ static_url('img/tag.png') }}">
+								标签 <span class="half half_top"><span class="half_in">&#9670;</span>&#9670;</span></a>
 							<ul class="dropdown-menu" style="padding:0px;width:180px;">
 								<li class="nohover" style="border-bottom:1px solid black;"><a style="padding:5px 20px;">级别:
 									<span class="star-group" style="padding:5px 20px;">{% for i in xrange(0, 5) %}<i class="star icon-star-empty"></i>{% end %}</span>
-									<input type="hidden" name="grade" class="star-value" value="0">
+									<input type="hidden" name="grade" class="star-value" value="{{ f.get('grade', 0) }}">
 								</a></li>
 								<li class="nohover" style="border-bottom:1px solid black;"><a style="padding:5px 20px;">关系:
 									<span class="star-group" style="padding:5px 20px;">{% for i in xrange(0, 5) %}<i class="star icon-star-empty"></i>{% end %}</span>
-									<input type="hidden" name="nexus" class="star-value" value="0">
+									<input type="hidden" name="nexus" class="star-value" value="{{ f.get('nexus', 0) }}">
 								</a></li>
-								<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;">
-									性别：男&nbsp;<input type="radio" name="Sex" value="male" />&nbsp;女&nbsp;<input type="radio" name="Sex" value="female" />&nbsp;无&nbsp;<input type="radio" name="Sex" value="none" checked="checked"/>
+								<li class="nohover" style="border-bottom:1px solid black;"><a style="padding:5px 20px;">
+									性别：男&nbsp;<input type="radio" name="sex" value="male" {% if f.get('sex', 'none')=='male' %}checked="checked"{% end %} />&nbsp;女&nbsp;<input type="radio" name="sex" value="female" {% if f.get('sex', 'none')=='female' %}checked="checked"{% end %} />&nbsp;无&nbsp;<input type="radio" name="sex" value="none" {% if f.get('sex', 'none')=='none' %}checked="checked"{% end %}/>
 								</a></li>
-								<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;">
-									年代：<select style="width:100px;height:25px;margin-bottom:0px;">
+								<li class="nohover" style="border-bottom:1px solid black;"><a style="padding:5px 20px;">
+									年代：<select name="period" style="width:100px;height:25px;margin-bottom:0px;">
 										<option value ="">当代</option>
-										<option value ="">90~00年代</option>
-										<option value="">80~90年代</option>
-										<option value="">70~80年代</option>
+										<option value ="90-00" {% if f.get('period', '')=='90-00' %}selected{% end %}>90~00年代</option>
+										<option value="80-90" {% if f.get('period', '')=='80-90' %}selected{% end %}>80~90年代</option>
+										<option value="70-80" {% if f.get('period', '')=='70-80' %}selected{% end %}>70~80年代</option>
+										<option value="60-70" {% if f.get('period', '')=='60-70' %}selected{% end %}>60~70年代</option>
+										<option value="50-60" {% if f.get('period', '')=='50-60' %}selected{% end %}>50~60年代</option>
+										<option value="40-50" {% if f.get('period', '')=='40-50' %}selected{% end %}>40~50年代</option>
+										<option value="30-40" {% if f.get('period', '')=='30-40' %}selected{% end %}>30~40年代</option>
+										<option value="20-30" {% if f.get('period', '')=='20-30' %}selected{% end %}>20~30年代</option>
+										<option value="10-20" {% if f.get('period', '')=='10-20' %}selected{% end %}>10~20年代</option>
 									</select>
 								</a></li>
-								<li class="ok"><a onclick="onClickTag($(this));return false;" style="padding:5px 31px;">确定</a></li>
+								<li class="ok"><a onclick="onClickOK($(this));return false;" style="padding:5px 31px;">确定</a></li>
 								<li class="cancel" style="border-left:1px solid black;"><a style="padding:5px 31px 5px 30px;">取消</a></li>
 							</ul>
 						</li>
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" style="padding-top:5px;padding-bottom:5px;" data-toggle="dropdown">属性 <span class="half half_top"><span class="half_in">&#9670;</span>&#9670;</span></a>
+							<a href="#" class="dropdown-toggle" style="padding:5px 10px;" data-toggle="dropdown">属性 <span class="half half_top"><span class="half_in">&#9670;</span>&#9670;</span></a>
 							<ul class="dropdown-menu" style="padding:0px;">
 								<li style="border-bottom:1px solid black;" class="dropright">
 									<a href="#" style="padding:5px 20px;" class="dropright-toggle" data-toggle="dropright">个人 <b class="pull-right rcaret"></b></a>
 									<ul class="dropright-menu" style="padding:0px;">
-										<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href='/volume/fdesigner/?{{build_params(params)}}'>设计师</a></li>
-										<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href="/volume/fphotographer/?{{build_params(params)}}">摄影师</a></li>
-										<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href="/volume/fstylists/?{{build_params(params)}}">造型师</a></li>
-										<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href="/volume/fmakeup/?{{build_params(params)}}">化妆师</a></li>
-										<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href="/volume/fmodel/?{{build_params(params)}}">模特</a></li>
-										<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href="/volume/fbloger/?{{build_params(params)}}">博主</a></li>
-										<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href="/volume/fartist/?{{build_params(params)}}">艺术家</a></li>
-										<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href="/volume/hperformer/?{{build_params(params)}}">表演者</a></li>
-										<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href="/volume/bmediapeople/?{{build_params(params)}}">媒体人</a></li>
+										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'fdesigner' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('/volume/fdesigner/')">设计师</a></li>
+										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'fphotographer' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('/volume/fphotographer/')">摄影师</a></li>
+										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'fstylists' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('/volume/fstylists/')">造型师</a></li>
+										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'fmakeup' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('/volume/fmakeup/')">化妆师</a></li>
+										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'fmodel' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('/volume/fmodel/')">模特</a></li>
+										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'fbloger' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('/volume/fbloger/')">博主</a></li>
+										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'fartist' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('/volume/fartist/')">艺术家</a></li>
+										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'hperformer' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('/volume/hperformer/')">表演者</a></li>
+										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'bmediapeople' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('/volume/bmediapeople/')">媒体人</a></li>
 									</ul>
 								</li>
 								<li style="border-bottom:1px solid black;" class="dropright">
 									<a href="#" class="dropright-toggle" style="padding-top:5px;padding-bottom:5px;" data-toggle="dropright">机构 <b class="pull-right rcaret"></b></a>
-									<ul class="dropright-menu" style="padding:0px;">
-										<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href='/volume/magazine/?{{build_params(params)}}'>杂志</a></li>
-										<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href="/volume/association/?{{build_params(params)}}">协会</a></li>
-										<li style="border-bottom:1px solid black;"><a style="padding:5px 20px;" href="/volume/institutions/?{{build_params(params)}}">院校</a></li>
+									<ul class="dropright-menu" style="padding:0px;top:30px;">
+										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'magazine' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('/volume/magazine/')">杂志</a></li>
+										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'association' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('/volume/association/')">协会</a></li>
+										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'institutions' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('/volume/institutions/')">院校</a></li>
 									</ul>
 								</li>
-								<li><a style="padding:5px 20px;" href="/volume/show/?{{build_params(params)}}">展会</a></li>
+								<li><a class="{% if subtype == 'show' %}select{% end %}" style="padding:5px 20px;"  onclick="onClickRedirect('/volume/show/')">展会</a></li>
 							</ul>
 						</li>
 						<li>
 							<form class="form-inline" style="font-weight:bold;font-size:18px;margin-bottom:0px;padding-left:20px;border-left:1px solid black;" action="/volume/{{subtype}}/" method="get">
 								<input type="text" name="word" class="input-medium search-query" style="margin-top:2px;" placeholder="搜索">
-								<button class="btn btn-small" style="height:25px;margin-top:2px;" type="submit"><i class="icon-search"></i></button>
-							</form>
+								<a class="btn btn-small" style="height:18px;margin-top:2px;" onclick="onClickSearch(this)"><i class="icon-search"></i></a>							</form>
 						</li>
 					</ul>
 				</div>
 			</div>
 		</div>
 	</div>
-
-
 
 
 	<ul class="thumbnails" style="min-height:300px;">
