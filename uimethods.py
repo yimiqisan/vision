@@ -151,10 +151,7 @@ def next_index(handler, pid, l):
         start = 0
     if end > cnt:
         end = cnt
-    if (cnt-idx)<3:
-        return min(4, cnt-1)
-    else:
-        return min(3, idx+1)
+    return min(5, idx+1)
 
 def build_params(handler, params):
     l = []
@@ -164,10 +161,10 @@ def build_params(handler, params):
     return '&'.join(l)
 
 if __name__ == '__main__':
-    #l = [{'pid':'a'}, {'pid':'b'}, {'pid':'c'}, {'pid':'d'}, {'pid':'e'}, {'pid':'f'}, {'pid':'g'}, {'pid':'h'}, {'pid':'i'}]
-    #print next_index('handler', 'a', l)
-    parms = {}#{'day':'today', 'people':'lzy', 'place':'bj'}
-    print build_params('handler', parms)
+    l = [{'pid':'a'}, {'pid':'b'}, {'pid':'c'}, {'pid':'d'}, {'pid':'e'}, {'pid':'f'}, {'pid':'g'}, {'pid':'h'}, {'pid':'i'}]
+    print next_index('handler', 'a', l)
+    #parms = {}{'day':'today', 'people':'lzy', 'place':'bj'}
+    #print build_params('handler', parms)
 
 
 

@@ -24,9 +24,10 @@ class CollectHandler(BaseHandler):
     @addslash
     @session
     @authenticated
-    def get(self):
+    def get(self, subtype):
         uid = self.SESSION['uid']
         page = int(self.get_argument('page', 1))
+        prop = self.get_argument('prop', None)
         dtime = self.get_argument('dtime', None)
         live = self.get_argument('show_live', None)
         grade = self.get_argument('grade', None)
@@ -34,20 +35,25 @@ class CollectHandler(BaseHandler):
         sex = self.get_argument('sex', None)
         period = self.get_argument('period', None)
         period_tuple = period.split('-') if period else None
-        word = self.get_argument('word', None)        
+        word = self.get_argument('word', None)
+        if subtype == u'show':
+            prop=u'SHOW'
+            subtype = ''
         v = Volume()
         r = v._api.page_own(cuid=uid, atte=uid, created=dtime, prop=prop, name=word, subtype=subtype.upper(), live=live, grade=grade, nexus=nexus, male=sex, born_tuple=period_tuple, page=page, limit=15)
 #        c = Collect()
 #        r = c._api.page(owner=uid, page=page, limit=15)
         if r[0]:
             params = self._d_params()
-            return self.render("space/collect.html", vlist=r[1], vinfo=r[2], params=params)
+            return self.render("space/collect.html", vlist=r[1], vinfo=r[2], subtype=subtype, params=json.dumps(params), f=params)
         else:
             return self.render_alert(r[1])
     
-    def _d_params(self, params={'abc':123}):
+    def _d_params(self):
+        params = {}
+        for k in self.request.arguments.keys():
+            params[k] = self.get_argument(k)
         return params
-
 
 class CollectRemoveHandler(BaseHandler):
     '''取消收藏

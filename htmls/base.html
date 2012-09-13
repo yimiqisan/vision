@@ -48,7 +48,7 @@
 							<li><a href="/space/" style="margin:0px;padding:5px 20px;">个人工作空间</a></li>
 						{% end %}
 						{% if verify(perm, [0x01, 0x02]) %}
-							<li><a href="/space/perm/" style="margin:0px;padding:5px 20px;">账户管理</a></li>
+							<li><a href="/perm/" style="margin:0px;padding:5px 20px;">账户管理</a></li>
 						{% end %}
 						{% if not verify(perm, 0x01) %}
 							<li><a href="/perm/{{uid}}/edit/" style="margin:0px;padding:5px 20px;">修改个人信息</a></li>
@@ -125,7 +125,7 @@
 								</ul>
 							</li>
 							<li id="nav-project" class="dropdown">
-								<a href="/space/project/" style="padding-top:5px;padding-bottom:5px;font-weight:bold;font-size:18px;">项目</a>
+								<a href="/project/" style="padding-top:5px;padding-bottom:5px;font-weight:bold;font-size:18px;">项目</a>
 							</li>
 						</ul>
 					{% else %}
@@ -161,8 +161,7 @@
 			<p class="pull-right"><a href="">回到顶部</a></p>
 		</footer>
 		</div>
-		<script type="text/javascript" src="{{ static_url('js/bootstrap.js') }}"></script>
-		<script type="text/javascript" src="{{ static_url('js/bootstrap-dropdown.js') }}"></script>
+		<script type="text/javascript" src="{{ static_url('js/bootstrap.min.js') }}"></script>
 		<script type="text/javascript" src="{{ static_url('js/bootstrap-delay.js') }}"></script>
 		
 		

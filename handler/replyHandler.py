@@ -11,6 +11,7 @@ from tornado.web import addslash, authenticated
 
 from baseHandler import BaseHandler
 from vision.apps.reply import Reply
+from vision.apps.staff import Staff
 from vision.apps.tools import session
 from datetime import datetime
 
@@ -30,6 +31,7 @@ class AjaxReplyHandler(BaseHandler):
         if r[0]:
             htmls = []
             for i in r[1]:
+                i['info'] = self._oinfo(i['owner'])
                 htmls.append(self.render_string("util/reply.html", reply=i, uid=uid))
             return self.write(json.dumps({'htmls':htmls, 'info':r[1], 'cursor': r[2]}))
         else:
@@ -59,10 +61,17 @@ class AjaxReplyHandler(BaseHandler):
         kwargs = {'nick':nick}
         r = rly._api.save(c, owner=uid, tid=to, channel=self.CHANNEL, **kwargs)
         if r[0]:
-            kwargs.update({'id':r[1], 'content':c, 'owner': uid, 'is_own':True, 'tid': to, 'created':'刚刚', 'ulogo':ulogo})
+            kwargs.update({'id':r[1], 'content':c, 'owner': uid, 'info':self._oinfo(uid), 'is_own':True, 'tid': to, 'created':'刚刚', 'ulogo':ulogo})
             return kwargs
         else:
             return None
+
+    def _oinfo(self, owner):
+        s = Staff()
+        r = s._api.get(owner)
+        if r[0]:
+            return r[1]['job'] if r[1]['job'] else '管理员'
+        return 'none'
 
 class AjaxNewReplyHandler(BaseHandler):
     '''ajax方式新建回复
@@ -109,11 +118,18 @@ class AjaxNewReplyHandler(BaseHandler):
         kwargs = {'nick':nick, 'ulogo':ulogo}
         r = rly._api.save(c, owner=uid, tid=to, channel=self.CHANNEL, **kwargs)
         if r[0]:
-            kwargs.update({'id':r[1], 'content':c, 'owner': uid, 'is_own':True, 'tid': to, 'created':'刚刚', 'ulogo':ulogo})
+            kwargs.update({'id':r[1], 'content':c, 'owner': uid, 'info':self._oinfo(uid), 'is_own':True, 'tid': to, 'created':'刚刚', 'ulogo':ulogo})
             return kwargs
         else:
             return None
-
+    
+    def _oinfo(self, owner):
+        s = Staff()
+        r = s._api.get(owner)
+        if r[0]:
+            return r[1]['job'] if r[1]['job'] else '管理员'
+        return 'none'
+    
 class AjaxRemoveHandler(BaseHandler):
     '''ajax方式删除
     '''

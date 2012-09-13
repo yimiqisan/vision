@@ -227,7 +227,7 @@ class AjaxStaffListHandler(BaseHandler):
         rp = p._api.list(channel=u'project', cid=cid)
         rlist = [i['owner'] for i in rp]
         s = Staff()
-        r = s._api.page()
+        r = s._api.page(level=u'editor')
         l = []
         for i in r[1]:
             if i['pid'] != uid:

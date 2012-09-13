@@ -1,8 +1,8 @@
 <div class="reply-item" id="m-{{ reply['id'] }}">
-	<a class="photo30" href="#"><img width="30" height="30" title="{{ reply['nick'] }}" alt="{{ reply['nick'] }}" src="/image/avatar/{{ reply['ulogo'] }}_100" onerror="this.src='/static/img/default_avatar.gif';"></a>
+	<a class="photo30" rel="popover" data-content="{{ reply['info'] }}" data-original-title="{{ reply['nick'] }}"><img width="30" height="30" title="{{ reply['nick'] }}" alt="{{ reply['nick'] }}" src="/image/avatar/{{ reply['ulogo'] }}_100" onerror="this.src='/static/img/default_avatar.gif';"></a>
 	<div class="content">
 		{% if reply['is_own'] %}<span class="pull-right" style="width:15px"><a class="close" onclick="delItem(this);return false;" href="#" id="d-{{ reply['id'] }}" alt="删除">&times;</a></span>{% end %}
-		<span class="author me"><a title="{{ reply['nick'] }}" alt="{{ reply['nick'] }}" href="" class="lively-user">
+		<span class="author me"><a title="{{ reply['nick'] }}" rel="popover" data-content="{{ reply['info'] }}" data-original-title="{{ reply['nick'] }}" alt="{{ reply['nick'] }}" class="lively-user">
 			{{ reply['nick'] }}</a>：{{ reply['content'] }}
 			<a href="" onclick="Reply.reply(this);return false;" href="#" id="r-{{ reply['id'] }}" nick="{{ reply['nick'] }}" to="{{ reply['tid'] }}">回复</a>
 		</span>

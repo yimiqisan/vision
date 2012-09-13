@@ -30,6 +30,7 @@
 							}
 							$(this).val(response.cursor);
 							$("#"+id).parent().find('.reply-submit').show()
+							$("a[rel=popover]").popover({'trigger':'hover'});
 						})
 				}
 			});
@@ -39,7 +40,7 @@
 {% end %}
 {% block bodyleft %}
 	<div class="inner-box"><a href="/space/" style="font-weight:bold;">我建立的</a></div><hr/>
-	<div class="inner-box"><a href="/space/collect/" style="font-weight:bold;">我收藏的</a></div><hr class=""/>
+	<div class="inner-box"><a href="/collect/" style="font-weight:bold;">我收藏的</a></div><hr class=""/>
 	<div class="inner-box active" style="font-weight:bold;">项目</div><hr class=""/>
 	<div class="inner-box"><a href="/project/new/"><i class="icon-plus"></i>新建</a></div>
 {% end %}
@@ -48,11 +49,11 @@
 	{% if len(plist) > 0 %}
 	<ul id="project_tabs" class="nav nav-tabs" style="display:block;max-width:720px;height:50px;border-bottom:1px solid black;height:auto;margin-bottom:5px;">
 		{% if len(plist)>0 %}<a class="pull-left" style="padding:8px 2px;" href="/project/{{plist[per_index(project['pid'], plist)]['pid']}}/"><i class="icon-backward"></i></a>{% end %}
-		{% for i in xrange(0, len(flist(project['pid'], plist))) %}
-			{% if project['pid'] and project['pid'] == plist[i]['pid'] %}
-				<li class="active pull-left" style="border-bottom:1px solid black;"><a href="#" title="{{plist[i]['title']}}">{{ abstract(plist[i]['title'], 14) }}</a></li>
+		{% for p in flist(project['pid'], plist) %}
+			{% if project['pid'] and project['pid'] == p['pid'] %}
+				<li class="active pull-left" style="border-bottom:1px solid black;"><a href="#" title="{{p['title']}}">{{ abstract(p['title'], 14) }}</a></li>
 			{% else %}
-				<li><a href="/project/{{ plist[i]['pid'] }}/" title="{{plist[i]['title']}}">{{ abstract(plist[i]['title'], 8) }}</a></li>
+				<li><a href="/project/{{ p['pid'] }}/" title="{{p['title']}}">{{ abstract(p['title'], 8) }}</a></li>
 			{% end %}
 		{% end %}
 		{% if len(plist)>0 %}<a class="pull-left" style="padding:8px 2px;" href="/project/{{plist[next_index(project['pid'], plist)]['pid']}}/"><i class="icon-forward"></i></a>{% end %}
@@ -85,7 +86,7 @@
 			<div class="thumbnail overmenu-group">
 				<a href="/item/{{ w['eid'] }}/"><img src="/image/attach/{{ w['logo'] }}_300" style="width:260px;height:180px;" alt=""></a>
 				<div class="caption" style="height:107px;"></div>
-				<ul class="overmenu" bot=25 >
+				<ul class="overmenu" bot=25>
 					<li><a href="/item/{{ w['eid'] }}/">查看</a></li>
 					<li><a href="/item/{{ w['eid'] }}/edit/">编辑</a></li>
 					<li><a href="/item/{{ w['eid'] }}/remove/" onclick="return delconfirm(this);">删除</a></li>
