@@ -100,7 +100,7 @@ def abstract(handler, c, n=100):
     else:
         return s[:n]
 
-def flist(handler, pid, l):
+def _locate(pid, l):
     cnt = len(l)
     if cnt == 0:return []
     idx = 0
@@ -117,41 +117,19 @@ def flist(handler, pid, l):
         end = cnt
     if end - start < 5:
         start = max(0, end-5)
+    return start, end, idx
+
+def flist(handler, pid, l):
+    start, end, idx = _locate(pid, l)
     return l[start:end]
 
 def per_index(handler, pid, l):
-    cnt = len(l)
-    idx = 0
-    for i in xrange(0, cnt+1):
-        if l[i]['pid'] == pid:
-            idx = i
-            break
-    start = idx-2
-    end = idx+3
-    if start<0:
-        end -= start
-        start = 0
-    if end > cnt:
-        end = cnt
-    if end - start < 5:
-        start = max(0, end-5)
+    start, end, idx = _locate(pid, l)
     return max(start, idx-1)
 
 def next_index(handler, pid, l):
-    cnt = len(l)
-    idx = 0
-    for i in xrange(0, cnt+1):
-        if l[i]['pid'] == pid:
-            idx = i
-            break
-    start = idx-2
-    end = idx+3
-    if start<0:
-        end -= start
-        start = 0
-    if end > cnt:
-        end = cnt
-    return min(5, idx+1)
+    start, end, idx = _locate(pid, l)
+    return min(end-1, idx+1)
 
 def build_params(handler, params):
     l = []
