@@ -45,11 +45,13 @@ Star.prototype = {
         this.reset(group);
         return false;
     }
-    , click: function ( index, group ) {
+    , click: function ( index, group, e) {
         var i = index + 1;
         this.bright(group, i);
         this.set(group, i);
         this.reset(group);
+        e.preventDefault();
+        e.stopPropagation();
         return false;
     }
 }
@@ -77,12 +79,10 @@ $.fn.star.Constructor = Star
                 },function(){
                     Star.prototype.out(index, $group);
                 })
-                $this.click(function(){
-                    Star.prototype.click(index, $group);
+                $this.click(function(e){
+                    Star.prototype.click(index, $group, e);
                 })
             })
         })
     })
 }( window.jQuery );
-
-

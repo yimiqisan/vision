@@ -15,6 +15,7 @@ import uimethods
 settings = dict(
         template_path=os.path.join(os.path.dirname(__file__), "htmls"),
         static_path=os.path.join(os.path.dirname(__file__), "static"),
+        slide_path=os.path.join(os.path.dirname(__file__), "static/img"),
         cookie_secret="61oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=",
         login_url="/",
         autoescape="xhtml_escape",

@@ -33,12 +33,14 @@
 		function onClickOK (e) {
 			var $ul = e.closest('ul')
 			, params = $.parseJSON($('#params').val())
-			, inps = $ul.find('input')
+			, inps = $ul.find('input[type=hidden]')
 			, sel = $ul.find('input[type=radio]:checked');
 			inps.each(function(e, i) {
 				var key = $(i).attr('name')
 				, value = $(i).val();
-				params[key] = value;
+				if ((value != '0')&&(value != '0x0')){
+					params[key] = value;
+				}
 			})
 			if (sel.val()) {
 				params['sex'] = sel.val();
@@ -53,10 +55,28 @@
 		}
 		function onClickSearch (e) {
 			var params = $.parseJSON($('#params').val());
+			if (! $('input[name="word"]').val()) {
+				return
+			}
 			params['word'] = $('input[name="word"]').val();
 			url = window.location.href
 			url = url.substr(0, $.inArray('?', url))
 			window.location.href = url + '?' + $.param(params);
+		}
+		function onCancel (e, i) {
+			if (i == '1') {
+				$('input[name=show_live]').val('0x0');
+			} else if (i == '2') {
+				$('.star-group').each(function(){
+					var $group = $(this);
+					$group.find('.star:lt(5)').each(function(idx, el){
+            			$(el).removeClass('icon-star').addClass('icon-star-empty');
+        			})
+					$group.next('.star-value').val('0');
+				})
+				$('.sex-none').attr("checked", true);
+				$("[name=period]").attr('value','');
+			}
 		}
 	</script>
 {% end %}
@@ -85,7 +105,7 @@
 							<ul class="dropdown-menu" style="padding:0px;">
 								<li style=""><script>select_pid("show_live",  {{ f.get('show_live', '0x0') }})</script></li>
 								<li class="ok"><a onclick="onClickOK($(this)); return false;" style="padding:5px 27px;">确定</a></li>
-								<li class="cancel" style="border-left:1px solid black;"><a style="padding:5px 27px 5px 26px;">取消</a></li>
+								<li class="cancel" style="border-left:1px solid black;"><a style="padding:5px 27px 5px 26px;" onclick="onCancel($(this), 1);return false;">取消</a></li>
 							</ul>
 						</li>
 						<li class="dropdown">
@@ -102,7 +122,7 @@
 									<input type="hidden" name="nexus" class="star-value" value="{{ f.get('nexus', 0) }}">
 								</a></li>
 								<li class="nohover" style="border-bottom:1px solid black;"><a style="padding:5px 20px;">
-									性别：男&nbsp;<input type="radio" name="sex" value="male" {% if f.get('sex', 'none')=='male' %}checked="checked"{% end %} />&nbsp;女&nbsp;<input type="radio" name="sex" value="female" {% if f.get('sex', 'none')=='female' %}checked="checked"{% end %} />&nbsp;无&nbsp;<input type="radio" name="sex" value="none" {% if f.get('sex', 'none')=='none' %}checked="checked"{% end %}/>
+									性别：男&nbsp;<input type="radio" name="sex" value="male" {% if f.get('sex', 'none')=='male' %}checked="checked"{% end %} />&nbsp;女&nbsp;<input type="radio" name="sex" value="female" {% if f.get('sex', 'none')=='female' %}checked="checked"{% end %} />&nbsp;无&nbsp;<input type="radio" class="sex-none" name="sex" value="" {% if f.get('sex', 'none')=='none' %}checked="checked"{% end %}/>
 								</a></li>
 								<li class="nohover" style="border-bottom:1px solid black;"><a style="padding:5px 20px;">
 									年代：<select name="period" style="width:100px;height:25px;margin-bottom:0px;">
@@ -119,7 +139,7 @@
 									</select>
 								</a></li>
 								<li class="ok"><a onclick="onClickOK($(this));return false;" style="padding:5px 31px;">确定</a></li>
-								<li class="cancel" style="border-left:1px solid black;"><a style="padding:5px 31px 5px 30px;">取消</a></li>
+								<li class="cancel" style="border-left:1px solid black;"><a style="padding:5px 31px 5px 30px;" onclick="onCancel($(this), 2);return false;">取消</a></li>
 							</ul>
 						</li>
 						<li class="dropdown">
@@ -170,28 +190,25 @@
 					<ul class="overmenu" bot=0>
 						{% if verify(perm, 0x01) %}
 							<li><a href="/volume/{{ v['vid'] }}/edit/">编辑</a></li>
-							<li><a href="/volume/{{ v['vid'] }}/">查看</a></li>
 							<li><a href="/volume/{{ v['vid'] }}/remove/" onclick="return delconfirm(this);">删除</a></li>
 						{% elif verify(perm, 0x02) %}
 							<li><a href="/volume/{{ v['vid'] }}/edit/">编辑</a></li>
 							{% if affect(v['affect'], 0x02) %}
 								<li><a>已收藏</a></li>
 							{% elif affect(v['affect'], 0x01) %}
-								<li><a href="/volume/{{ v['vid'] }}/">查看</a></li>
 							{% else %}
 								<li><a href="#" onclick="add_select('{{ v["vid"] }}', this);return false;" >收藏</a></li>
 							{% end %}
 							<li><a href="/volume/{{ v['vid'] }}/remove/" onclick="return delconfirm(this);">删除</a></li>
 						{% else %}
-							<li><a href="/volume/{{ v['vid'] }}/edit/">编辑</a></li>
-							{% if affect(v['affect'], 0x02) %}
-								<li><a>已收藏</a></li>
-							{% elif affect(v['affect'], 0x01) %}
+							{% if affect(v['affect'], 0x01) %}
+								<li><a href="/volume/{{ v['vid'] }}/edit/">编辑</a></li>
 								<li><a href="/volume/{{ v['vid'] }}/remove/" onclick="return delconfirm(this);">删除</a></li>
+							{% elif affect(v['affect'], 0x02) %}
+								<li><a>已收藏</a></li>
 							{% else %}
 								<li><a href="#" onclick="add_select('{{ v["vid"] }}', this);return false;" >收藏</a></li>
 							{% end %}
-							<li><a href="/volume/{{ v['vid'] }}/">查看</a></li>
 						{% end %}
 					</ul>
 					<div class="caption" style="height:107px;">

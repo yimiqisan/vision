@@ -21,12 +21,14 @@
 		function onClickOK (e) {
 			var $ul = e.closest('ul')
 			, params = $.parseJSON($('#params').val())
-			, inps = $ul.find('input')
+			, inps = $ul.find('input[type=hidden]')
 			, sel = $ul.find('input[type=radio]:checked');
 			inps.each(function(e, i) {
 				var key = $(i).attr('name')
 				, value = $(i).val();
-				params[key] = value;
+				if ((value != '0')&&(value != '0x0')){
+					params[key] = value;
+				}
 			})
 			if (sel.val()) {
 				params['sex'] = sel.val();
@@ -41,10 +43,28 @@
 		}
 		function onClickSearch (e) {
 			var params = $.parseJSON($('#params').val());
+			if (! $('input[name="word"]').val()) {
+				return
+			}
 			params['word'] = $('input[name="word"]').val();
 			url = window.location.href
 			url = url.substr(0, $.inArray('?', url))
 			window.location.href = url + '?' + $.param(params);
+		}
+		function onCancel (e, i) {
+			if (i == '1') {
+				$('input[name=live]').val('0x0');
+			} else if (i == '2') {
+				$('.star-group').each(function(){
+					var $group = $(this);
+					$group.find('.star:lt(5)').each(function(idx, el){
+            			$(el).removeClass('icon-star').addClass('icon-star-empty');
+        			})
+					$group.next('.star-value').val('0');
+				})
+				$('.sex-none').attr("checked", true);
+				$("[name=period]").attr('value','');
+			}
 		}
 	</script>
 {% end %}
@@ -79,7 +99,7 @@
 							<ul class="dropdown-menu" style="padding:0px;">
 								<li style=""><script>select_pid("show_live",  {{ f.get('show_live', '0x0') }})</script></li>
 								<li class="ok"><a onclick="onClickOK($(this)); return false;" style="padding:5px 27px;">确定</a></li>
-								<li class="cancel" style="border-left:1px solid black;"><a style="padding:5px 27px 5px 26px;">取消</a></li>
+								<li class="cancel" style="border-left:1px solid black;"><a style="padding:5px 27px 5px 26px;" onclick="onCancel($(this), 2);return false;">取消</a></li>
 							</ul>
 						</li>
 						<li class="dropdown">
@@ -113,7 +133,7 @@
 									</select>
 								</a></li>
 								<li class="ok"><a onclick="onClickOK($(this));return false;" style="padding:5px 31px;">确定</a></li>
-								<li class="cancel" style="border-left:1px solid black;"><a style="padding:5px 31px 5px 30px;">取消</a></li>
+								<li class="cancel" style="border-left:1px solid black;"><a style="padding:5px 31px 5px 30px;" onclick="onCancel($(this), 2);return false;">取消</a></li>
 							</ul>
 						</li>
 						<li class="dropdown">
@@ -162,7 +182,6 @@
 			<div class="thumbnail overmenu-group">
 				<a href="/collect/{{ v['vid'] }}/"><img src="/image/attach/{{ v.get('logo', None) }}_300" onerror="this.src='{{ static_url("img/blank_260x180.gif") }}';" style="width:260px;height:180px;" alt=""></a>
 				<ul class="overmenu" bot=0 >
-					<li><a href="/collect/{{ v['vid'] }}/">查看</a></li>
 					<li><a href="/collect/{{ v['vid'] }}/remove/" onclick="return delconfirm(this);">取消收藏</a></li>
 				</ul>
 				<div class="caption" style="height:107px;">

@@ -5,6 +5,7 @@
 {% end %}
 
 {% block static %}
+	<script src="{{ static_url('js/jquery.masonry.min.js') }}" type="text/javascript"></script>
 	<script language="javascript" type="text/javascript">
 		$(document).ready(function() {
 			$('.reply').on('extendn', function () {
@@ -18,8 +19,9 @@
        				$rpl.find('.reply-item').each(function(a, b){
 						$(this).toggle()
 					});
+					$('#falls').masonry({itemSelector: '.item',columnWidth: 10});
 				}else{
-					var args = {'id': id.replace("inp-",""), 'cursor': $(this).val(), 'limit': '2'};
+					var args = {'id': id.replace("inp-",""), 'cursor': $(this).val()};
 						$.postJSON("/a/reply/", "GET", args, function(response) {
 							if (response.error){
 								return alert(response.error);
@@ -31,6 +33,7 @@
 							$(this).val(response.cursor);
 							$("#"+id).parent().find('.reply-submit').show()
 							$("a[rel=popover]").popover({'trigger':'hover'});
+							$('#falls').masonry({itemSelector: '.item',columnWidth: 10});
 						})
 				}
 			});
@@ -80,20 +83,19 @@
 	{% end %}
 	</div>
 	
-	<ul class="thumbnails">
+	<ul id="falls" class="thumbnails" style="min-height:300px;">
 		{% for w in works %}
-		<li class="span3">
+		<li class="span3 item">
 			<div class="thumbnail overmenu-group">
 				<a href="/item/{{ w['eid'] }}/"><img src="/image/attach/{{ w['logo'] }}_300" style="width:260px;height:180px;" alt=""></a>
 				<div class="caption" style="height:107px;"></div>
-				<ul class="overmenu" bot=25>
-					<li><a href="/item/{{ w['eid'] }}/">查看</a></li>
+				<ul class="overmenu">
 					<li><a href="/item/{{ w['eid'] }}/edit/">编辑</a></li>
 					<li><a href="/item/{{ w['eid'] }}/remove/" onclick="return delconfirm(this);">删除</a></li>
 				</ul>
 
 				<div class="caption reply-group" id="m-{{ w['eid'] }}" style="border-top:1px solid black;margin-bottom:5px;padding:1px;">
-					<div class="pull-right reply-url" id="ext-{{w['eid']}}" style="border:0px;background:white;"><a href="#inp-{{w['eid']}}" data-toggle="reply-extend" style="color:black;background:white;">评论({{w['cnt']}})</a></div>
+					<div class="pull-right reply-url" id="ext-{{w['eid']}}" style="border:0px;background:white;"><a href="#inp-{{w['eid']}}" data-toggle="reply-extend" style="color:black;background:white;">评论(<b>{{w['cnt']}}</b>)</a></div>
 					<input type="hidden" id="inp-{{w['eid']}}" value="0" class="reply"/>
 					{% for reply in rl %}
 						{% module Template("util/reply.html", reply=reply) %}

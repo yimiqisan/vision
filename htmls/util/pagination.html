@@ -9,7 +9,7 @@
 			<li></li>
 			{% for p in pagination['page_list'] %}
 				{% if pagination['page']==p %}
-					<li class="active"><a href="#">{{p}}</a></li>
+					<li class="active"><a href="#" style="background:#ccc;border-bottom:2px solid #ccc;">{{p}}</a></li>
 				{% else %}
 					<li><a href="{{url}}?page={{p}}&{{param}}">{{p}}</a></li>
 				{% end %}

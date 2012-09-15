@@ -7,8 +7,9 @@ Created by 刘 智勇 on 2012-06-20.
 Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 """
 
+import os
 import json
-from tornado.web import addslash, authenticated
+from tornado.web import addslash, authenticated, StaticFileHandler
 
 from baseHandler import BaseHandler
 from vision.config import PERM_CLASS
@@ -88,3 +89,11 @@ class Error404Handler(BaseHandler):
     @addslash
     def get(self):
         self.render_alert(u"该页面不存在")
+
+class AjaxSlideHandler(BaseHandler):
+    def get(self):
+        slide_path = self.settings.get('slide_path')+'/slide'
+        flist = os.listdir(slide_path) 
+        self.write(json.dumps(flist))
+        #self.write(json.dumps({'error':r[1]}))
+

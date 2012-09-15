@@ -13,6 +13,7 @@ handlers = [(r"/", RootHandler),
             (r"/login/", LoginHandler),
             (r"/a/login/", AjaxLoginHandler),
             (r"/logout/", LogoutHandler),
+            (r"/a/slide/", AjaxSlideHandler),
             
             (r"/space/perm/", SpacePermHandler),
             (r"/space/new/", SpaceNewHandler),

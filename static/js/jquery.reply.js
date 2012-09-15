@@ -58,6 +58,8 @@
                 $(node).insertAfter($("#ins-"+id));
                 node.slideDown(300);
                 $('#tarea-'+id).val("").select();
+                var num = parseInt($('#ext-'+id+' b').text());
+                $('#ext-'+id+' b').text(num+1);
             });
         },
         at: function ( e ) {

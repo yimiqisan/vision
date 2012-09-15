@@ -8,7 +8,15 @@
 	<script type="text/javascript" src="{{ static_url('js/jquery.clogin.js') }}"></script>
 	<script language="javascript" type="text/javascript">
 		$(document).ready(function() {
-			$('.carousel').carousel({interval: 2000});
+			$.postJSON('/a/slide/', "GET", {}, function(response) {
+					if (response.error){
+		  				return alert(response.error);
+					}
+					for (r in response) {
+						$('#myCarousel .carousel-inner').append('<div class="item"><img src={{ static_url("img/slide/'+response[r]+'") }} width="1024" height="768" alt=""><div class="carousel-caption hide"></div></div>');
+					}
+					$('.carousel').carousel({interval: 10000});
+				});
 			$('.login  [type=submit]').on('loginn', function(){
 				var $this = $(this)
 				, form = $this.closest('form')
@@ -28,23 +36,9 @@
 	</script>
 {% end %}
 {% block body %}
-	<div class="span10">
+	<div class="span10" style="width:1024px;height:768px;margin-left:3px;">
 		<div id="myCarousel" class="carousel slide">
 			<div class="carousel-inner">
-				<div class="item">
-					<img src="http://pica.nipic.com/2007-12-31/2007123114275324_2.jpg" alt="">
-					<div class="carousel-caption">
-						<h4>标题</h4>
-						<p>简介</p>
-					</div>
-				</div>
-				<div class="item">
-					<img src="http://www.gogojz.com/blog/ewebeditor/UploadFile/200613114361340.jpg" alt="">
-					<div class="carousel-caption">
-						<h4>标题</h4>
-						<p>简介</p>
-					</div>
-				</div>
             </div>
 			<a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>
 			<a class="right carousel-control" href="#myCarousel" data-slide="next">›</a>

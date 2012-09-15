@@ -87,13 +87,14 @@ class VolumeHandler(BaseHandler):
     @authenticated
     def get(self, vid):
         uid = self.SESSION['uid']
+        back = self.request.headers.get('Referer', None)
         v = volume.Volume()
         r = v._api.get(vid)
         if r[0]:
             page = int(self.get_argument('page', 1))
             i = Item()
             ri = i._api.page(page=page, vid=vid)
-            return self.render("volume/item.html", wlist=ri[1], winfo=ri[2], **r[1])
+            return self.render("volume/item.html", back=back, wlist=ri[1], winfo=ri[2], **r[1])
         else:
             return self.render_alert(r[1])
 

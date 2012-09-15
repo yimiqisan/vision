@@ -81,7 +81,7 @@
 		<div class="control-group">
 			<label class="control-label" for="email"><span style="color:red;">*</span>邮箱：</label>
 			<div class="controls">
-				<input onblur="on_mail_blur(this);" id="email" name="email"  style="border:1px solid black;padding:4px 6px;" value="{% if email %}{{ email }}{% end %}" {% if pid and not verify(perm, 0x01) %}disabled{% end %}/>
+				<input onblur="on_mail_blur(this);" id="email" name="email"  style="border:1px solid black;padding:4px 6px;" value="{% if email %}{{ email }}{% end %}" {% if pid and not verify(perm, [0x01, 0x02]) %}disabled{% end %}/>
 				<p class="hide help-inline">请输入邮箱</p>
 			</div>
 		</div>
@@ -97,7 +97,7 @@
 		<div class="control-group">
 			<label class="control-label" for="pm"><span style="color:red;">*</span>权限：</label>
 			<div class="controls">
-				<select type="text" id="pm" name="pm" onchange="on_perm_change(this);return false;" {% if pid and not verify(perm, [0x01]) %}disabled{% end %}>
+				<select type="text" id="pm" name="pm" onchange="on_perm_change(this);return false;" {% if pid and not verify(perm, [0x01, 0x02]) %}disabled{% end %}>
 					{% if level == 'editor' %}
 						<option value="EDITOR">编辑</option>
 						{% if verify(perm, 0x01) %}<option value="MANAGER">管理员</option>{% end %}

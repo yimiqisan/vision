@@ -15,12 +15,15 @@ Overmenu.prototype = {
         var $this = $(this)
         , om = $this.find('.overmenu')
         , b = -om.height()-10
-        , top = $this.height()+10;
-        om.css({'display':'block','top':top}).animate({'top':179}, 'fast');
+        , num = om.find('li').length
+        , top = $this.height()+10
+        , end = 179+(3-num)*39;
+        om.css({'display':'block','top':top}).animate({'top':end}, 'fast');
     }
     , outmenu: function ( e ) {
         var $this = $(this)
         , om = $this.find('.overmenu')
+        , num = om.find('li').length
         , top = $this.height()+10;
         om.animate({'top':top}, 'fast');
     }

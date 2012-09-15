@@ -69,7 +69,7 @@ class AjaxReplyHandler(BaseHandler):
     def _oinfo(self, owner):
         s = Staff()
         r = s._api.get(owner)
-        if r[0]:
+        if r[0] and r[1]:
             return r[1]['job'] if r[1]['job'] else '管理员'
         return 'none'
 
@@ -126,7 +126,7 @@ class AjaxNewReplyHandler(BaseHandler):
     def _oinfo(self, owner):
         s = Staff()
         r = s._api.get(owner)
-        if r[0]:
+        if r[0] and r[1]:
             return r[1]['job'] if r[1]['job'] else '管理员'
         return 'none'
     

@@ -7,7 +7,7 @@ Created by 刘 智勇 on 2012-06-13.
 Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 """
 
-from commonHandler import RootHandler, LoginHandler, AjaxLoginHandler, LogoutHandler, Error404Handler
+from commonHandler import RootHandler, LoginHandler, AjaxLoginHandler, LogoutHandler, Error404Handler, AjaxSlideHandler
 from imageHandler import UploadImageHandler, AvatarHandler, AttachHandler, AjaxImageHandler, AjaxImageDeleteHandler, AjaxImageCheckHandler
 from spaceHandler import SpaceHandler, SpacePermHandler, SpaceNewHandler, SpaceCollectHandler, SpaceProjectHandler
 from permHandler import PermHandler, PermNewHandler, PermRemoveHandler, PermEditHandler, PermCpwdHandler, AjaxStaffListHandler

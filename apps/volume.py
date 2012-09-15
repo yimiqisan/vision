@@ -43,6 +43,7 @@ VOL_TYPES_SUB = {
             ['ASCULPTURE', '雕塑'],
             ['AIMAGE', '影像'],
             ['AMULTIMEDIA', '多媒体'],
+            ['AMAGAZINE', '杂志'],
             ['AASSOCIATION', '协会'],
             ['AINSTITUTION', '院校'],
             ['ASHOW', '展会']],
@@ -51,14 +52,17 @@ VOL_TYPES_SUB = {
             ['DPRODUCT', '产品'],
             ['DFLAT', '平面'],
             ['DMUTILMEDIA', '多媒体'],
+            ['DMAGAZINE', '杂志'],
             ['DASSOCIATION', '协会'],
             ['DINSTITUTION', '院校'],
             ['DSHOW', '展会']],
         'HUMAN':[['HPERFORMER', '表演者'],
             ['HTHEATER', '剧院'],
-            ['HMUSEUM', '博物馆']],
+            ['HMUSEUM', '博物馆'],
+            ['HSHOW', '展会']],
         'BRAND':[['BMEDIAPEOPLE', '媒体人'],
-            ['BCOMPANY', '公司']]
+            ['BCOMPANY', '公司'],
+            ['BSHOW', '展会']]
 }
 
 VOL_PROPERTY_MAIN = [
@@ -81,17 +85,19 @@ VOL_PROPERTY_SUB = {
             ['AEQUIPMENT', '装置'],
             ['ASCULPTURE', '雕塑'],
             ['AIMAGE', '影像'],
+            ['AMULTIMEDIA', '多媒体'],
             ['DBUILDING', '建筑'],
             ['DINDOOR', '室内'],
             ['DPRODUCT', '产品'],
-            ['DFLAT', '平面']],
+            ['DFLAT', '平面'],
+            ['DMUTILMEDIA', '多媒体']],
         'ORGANIZATION':[['FMAGAZINE', '杂志'],
             ['FASSOCIATION', '协会'],
             ['FINSTITUTIONS', '院校'],
-            ['AMULTIMEDIA', '多媒体'],
+            ['AMAGAZINE', '杂志'],
             ['AASSOCIATION', '协会'],
             ['AINSTITUTION', '院校'],
-            ['DMUTILMEDIA', '多媒体'],
+            ['DMAGAZINE', '杂志'],
             ['DASSOCIATION', '协会'],
             ['DINSTITUTION', '院校'],
             ['HTHEATER', '剧院'],
@@ -99,7 +105,9 @@ VOL_PROPERTY_SUB = {
             ['BCOMPANY', '公司']],
         'SHOW':[['FSHOW', '展会'],
             ['ASHOW', '展会'],
-            ['DSHOW', '展会']]
+            ['DSHOW', '展会'],
+            ['HSHOW', '展会'],
+            ['BSHOW', '展会']]
 }
 
 VOLUME_AFFECT_OWN = 0x01
