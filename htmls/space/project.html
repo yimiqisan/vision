@@ -6,6 +6,7 @@
 
 {% block static %}
 	<script src="{{ static_url('js/jquery.masonry.min.js') }}" type="text/javascript"></script>
+	<script src="{{ static_url('js/jquery.dragsort.js') }}" type="text/javascript"></script>
 	<script language="javascript" type="text/javascript">
 		$(document).ready(function() {
 			$('.reply').on('extendn', function () {
@@ -37,7 +38,24 @@
 						})
 				}
 			});
+			
+			junkdrawer.restoreListOrder("falls")
+			dragsort.makeListSortable(document.getElementById("falls"), saveOrder)
 		})
+		function saveOrder(item) {
+			var group = item.toolManDragGroup
+			var list = group.element.parentNode
+			var id = list.getAttribute("id")
+			if (id == null) return
+			group.register('dragend', function() {
+				ToolMan.cookies().set("list-" + id, 
+						junkdrawer.serializeList(list), 365)
+			})
+		}
+		
+		var dragsort = ToolMan.dragsort()
+		var junkdrawer = ToolMan.junkdrawer()
+
 	</script>
 	<link href="{{ static_url('css/reply.css') }}" rel="stylesheet" />
 {% end %}
@@ -120,3 +138,4 @@
 	<script src="{{ static_url('js/jquery.reply.js') }}" type="text/javascript"></script>
 	{% module Template("util/pagination.html", pagination=pinfo, url='/project/'+pid, param='') %}
 {% end %}
+

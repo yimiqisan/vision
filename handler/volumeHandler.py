@@ -60,9 +60,13 @@ class VolumeRemoveHandler(BaseHandler):
     @authenticated
     def get(self, id):
         uid = self.SESSION['uid']
+        back = self.request.headers.get('Referer', None)
         v = volume.Volume()
         r = v._api.remove(id)
-        return self.redirect('/space/')
+        if back:
+            return self.redirect(back)
+        else:
+            return self.redirect('/')
 
 class VolumeEditHandler(BaseHandler):
     '''编辑作品集

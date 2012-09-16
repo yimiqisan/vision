@@ -40,6 +40,8 @@
 				, value = $(i).val();
 				if ((value != '0')&&(value != '0x0')){
 					params[key] = value;
+				}else{
+					delete params[key];
 				}
 			})
 			if (sel.val()) {
