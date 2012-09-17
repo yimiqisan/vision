@@ -11,7 +11,7 @@
 	<ul class="breadcrumb" style="padding:0px;height:40px;">
 		<li><p style="font-size:16px;font-weight:bold;height:40px;padding:10px 10px 10px 20px;">{{name}}</p></li>
 		<li class="pull-right" style="border-left:1px solid black;">
-			<a class="btn btn-mini" style="border:0px;height:20px;font-size:16px;padding:10px;" href="{% if back %}{{ back }}{% else %}/volume/{% end %}">返回</a>
+			<a class="btn btn-mini" style="border:0px;height:20px;font-size:16px;padding:10px;" href="{% if back and 'item' not in back %}{{ back }}{% else %}/volume/{% end %}">返回</a>
 		</li>
 	</ul>
 	<div class="span10" style="border-bottom:1px solid black;width:1028px;margin-left:0px;margin-bottom:20px;padding-bottom:15px;">

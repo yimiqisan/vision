@@ -33,7 +33,7 @@ VOL_TYPES_SUB = {
             ['FMAKEUP', '化妆师'],
             ['FMODEL', '模特'],
             ['FBLOGER', '博主'],
-            ['FARTIST', '艺术家'],
+#            ['FARTIST', '艺术家'],
             ['FMAGAZINE', '杂志'],
             ['FASSOCIATION', '协会'],
             ['FINSTITUTIONS', '院校'],
@@ -78,7 +78,7 @@ VOL_PROPERTY_SUB = {
             ['FMAKEUP', '化妆师'],
             ['FMODEL', '模特'],
             ['FBLOGER', '博主'],
-            ['FARTIST', '艺术家'],
+#            ['FARTIST', '艺术家'],
             ['HPERFORMER', '表演者'],
             ['BMEDIAPEOPLE', '媒体人'],
             ['APAINTING', '绘画'],
@@ -362,7 +362,7 @@ class VolumeAPI(API):
             start_d = datetime(year=sd, month=1, day=1)
             end_d = datetime(year=ed, month=1, day=1)
             kwargs['born']={'$gt': start_d, '$lt': end_d}
-        if not subtype and not name and not live and not grade and not nexus and not male  and not born_tuple:
+        if not created and not subtype and not name and not live and not grade and not nexus and not male and not born_tuple:
             kwargs = {'$or':[{'owner':owner}, kwargs]}
         kwargs['page']=page
         kwargs['pglen']=pglen

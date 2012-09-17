@@ -34,10 +34,14 @@
 			})
 			if (sel.val()) {
 				params['sex'] = sel.val();
+			}else{
+				delete params['sex'];
 			}
 			period = $ul.find('[name=period]');
 			if (period.val()) {
 				params['period'] = period.val();
+			}else{
+				delete params['period'];
 			}
 			url = window.location.href
 			url = url.substr(0, $.inArray('?', url))
@@ -64,9 +68,11 @@
         			})
 					$group.next('.star-value').val('0');
 				})
+				$('.sex-ml').attr("checked", false);
 				$('.sex-none').attr("checked", true);
 				$("[name=period]").attr('value','');
 			}
+			onClickOK(e);
 		}
 	</script>
 {% end %}
@@ -118,11 +124,13 @@
 									<input type="hidden" name="nexus" class="star-value" value="{{ f.get('nexus', 0) }}">
 								</a></li>
 								<li class="nohover" style="border-bottom:1px solid black;"><a style="padding:5px 20px;">
-									性别：男&nbsp;<input type="radio" name="sex" value="male" {% if f.get('sex', 'none')=='male' %}checked="checked"{% end %} />&nbsp;女&nbsp;<input type="radio" name="sex" value="female" {% if f.get('sex', 'none')=='female' %}checked="checked"{% end %} />&nbsp;无&nbsp;<input type="radio" name="sex" value="none" {% if f.get('sex', 'none')=='none' %}checked="checked"{% end %}/>
+									性别：男&nbsp;<input type="radio" class="sex-ml" name="sex" value="male" {% if f.get('sex', 'none')=='male' %}checked="checked"{% end %} />
+									&nbsp;女&nbsp;<input type="radio" class="sex-ml" name="sex" value="female" {% if f.get('sex', 'none')=='female' %}checked="checked"{% end %} />
+									&nbsp;无&nbsp;<input type="radio" class="sex-none" name="sex" value="none" {% if f.get('sex', 'none')=='none' %}checked="checked"{% end %}/>
 								</a></li>
 								<li class="nohover" style="border-bottom:1px solid black;"><a style="padding:5px 20px;">
 									年代：<select name="period" style="width:100px;height:25px;margin-bottom:0px;">
-										<option value ="">当代</option>
+										<option value =""></option>
 										<option value ="90-00" {% if f.get('period', '')=='90-00' %}selected{% end %}>90~00年代</option>
 										<option value="80-90" {% if f.get('period', '')=='80-90' %}selected{% end %}>80~90年代</option>
 										<option value="70-80" {% if f.get('period', '')=='70-80' %}selected{% end %}>70~80年代</option>
@@ -150,7 +158,6 @@
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'fmakeup' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('/collect/fmakeup/')">化妆师</a></li>
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'fmodel' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('/collect/fmodel/')">模特</a></li>
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'fbloger' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('/collect/fbloger/')">博主</a></li>
-										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'fartist' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('/collect/fartist/')">艺术家</a></li>
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'hperformer' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('/collect/hperformer/')">表演者</a></li>
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'bmediapeople' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('/collect/bmediapeople/')">媒体人</a></li>
 									</ul>

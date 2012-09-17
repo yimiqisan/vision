@@ -132,8 +132,11 @@ class ItemRemoveHandler(BaseHandler):
     @authenticated
     def get(self, id):
         uid = self.SESSION['uid']
+        refer = self.get_argument('refer', None)
         e = Item()
         r = e._api.remove(id)
+        if refer:
+            return self.redirect(refer)
         if r[0]:
             return self.redirect('/volume/'+r[2]+'/')
         return self.render_alert(r[1])

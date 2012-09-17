@@ -39,8 +39,8 @@
 				}
 			});
 			
-			junkdrawer.restoreListOrder("falls")
-			dragsort.makeListSortable(document.getElementById("falls"), saveOrder)
+			//junkdrawer.restoreListOrder("falls")
+			//dragsort.makeListSortable(document.getElementById("falls"), saveOrder)
 		})
 		function saveOrder(item) {
 			var group = item.toolManDragGroup
@@ -109,7 +109,7 @@
 				<div class="caption" style="height:107px;"></div>
 				<ul class="overmenu">
 					<li><a href="/item/{{ w['eid'] }}/edit/">编辑</a></li>
-					<li><a href="/item/{{ w['eid'] }}/remove/" onclick="return delconfirm(this);">删除</a></li>
+					<li><a href="/item/{{ w['eid'] }}/remove/?refer=/project/{{project['pid']}}/" onclick="return delconfirm(this);">删除</a></li>
 				</ul>
 
 				<div class="caption reply-group" id="m-{{ w['eid'] }}" style="border-top:1px solid black;margin-bottom:5px;padding:1px;">
