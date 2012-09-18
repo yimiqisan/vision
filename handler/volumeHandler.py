@@ -29,6 +29,9 @@ class VolumeNewHandler(BaseHandler):
         for n in self.KEYS:d[n] = None
         d['vid'] = None
         d['born'] = 0
+        back = self._get_back()
+        d['back'] = back
+        d['vback'] = back
         return self.render("volume/new.html", **d)
     
     @addslash
@@ -37,6 +40,7 @@ class VolumeNewHandler(BaseHandler):
     def post(self):
         uid = self.SESSION['uid']
         vid = self.get_argument('vid', None)
+        back = self.get_argument('back', None)
         d = {}
         for n in self.KEYS:
             d[n] = self.get_argument(n, None)
@@ -47,11 +51,22 @@ class VolumeNewHandler(BaseHandler):
             r = v._api.save(uid, **d)
             vid = r[1]
         if r[0]:
-            return self.redirect('/volume/'+vid+'/')
+            return self.redirect('/volume/'+vid+'/?vback='+back)
         else:
-            d.update({'vid':vid, 'warning':r[1]})
+            d.update({'vid':vid, 'warning':r[1], 'back':back})
             return self.render("volume/new.html", **d)
-
+    
+    def _get_back(self):
+        back = self.request.headers.get('Referer', None)
+        if 'new' in back:
+            return '/volume/'
+        elif 'edit' in back:
+            return '/volume/'
+        elif 'item' in back:
+            return '/volume/'
+        else:
+            return back
+    
 class VolumeRemoveHandler(BaseHandler):
     '''删除作品集
     '''
@@ -79,9 +94,21 @@ class VolumeEditHandler(BaseHandler):
         v = volume.Volume()
         r = v._api.get(vid)
         if r[0]:
-            return self.render("volume/new.html", **r[1])
+            back = self._get_back()
+            return self.render("volume/new.html", back=back, vback=back, **r[1])
         else:
             return self.render_alert(r[1])
+    
+    def _get_back(self):
+        back = self.request.headers.get('Referer', None)
+        if 'new' in back:
+            return '/volume/'
+        elif 'edit' in back:
+            return '/volume/'
+        elif 'item' in back:
+            return '/volume/'
+        else:
+            return back
 
 class VolumeHandler(BaseHandler):
     '''单个作品集展示
@@ -91,16 +118,28 @@ class VolumeHandler(BaseHandler):
     @authenticated
     def get(self, vid):
         uid = self.SESSION['uid']
-        back = self.request.headers.get('Referer', None)
         v = volume.Volume()
         r = v._api.get(vid)
         if r[0]:
             page = int(self.get_argument('page', 1))
             i = Item()
             ri = i._api.page(page=page, vid=vid)
-            return self.render("volume/item.html", back=back, wlist=ri[1], winfo=ri[2], **r[1])
+            return self.render("volume/item.html", back=self._get_back(), wlist=ri[1], winfo=ri[2], **r[1])
         else:
             return self.render_alert(r[1])
+    
+    def _get_back(self):
+        back = self.get_argument('vback', None)
+        if back:return back
+        back = self.request.headers.get('Referer', None)
+        if 'new' in back:
+            return '/volume/'
+        elif 'edit' in back:
+            return '/volume/'
+        elif 'item' in back:
+            return '/volume/'
+        else:
+            return back
 
 class VolumeListHandler(BaseHandler):
     PARAMS = ['']

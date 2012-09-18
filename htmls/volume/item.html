@@ -11,7 +11,7 @@
 	<ul class="breadcrumb" style="padding:0px;height:40px;">
 		<li><p style="font-size:16px;font-weight:bold;height:40px;padding:10px 10px 10px 20px;">{{name}}</p></li>
 		<li class="pull-right" style="border-left:1px solid black;">
-			<a class="btn btn-mini" style="border:0px;height:20px;font-size:16px;padding:10px;" href="{% if back and 'item' not in back %}{{ back }}{% else %}/volume/{% end %}">返回</a>
+			<a class="btn btn-mini" style="border:0px;height:20px;font-size:16px;padding:10px;" href="{{ back }}">返回</a>
 		</li>
 	</ul>
 	<div class="span10" style="border-bottom:1px solid black;width:1028px;margin-left:0px;margin-bottom:20px;padding-bottom:15px;">
@@ -46,7 +46,7 @@
 			{% for w in wlist %}
 			<li class="span3">
 				<div class="thumbnail overmenu-group">
-					<a href="/item/{{w['eid']}}"><img src="/image/attach/{{ w['logo'] }}_300" style="width:260px;height:180px;" alt=""></a>
+					<a href="/item/{{w['eid']}}/?vback={{back}}"><img src="/image/attach/{{ w['logo'] }}_300" style="width:260px;height:180px;" alt=""></a>
 					<div class="caption" style="height:107px;">
 						{% if w['vtype'] == u'personal' %}
 							<h4>{{w['name']}}</h4></br>

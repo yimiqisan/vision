@@ -272,6 +272,20 @@ class VolumeAPI(API):
         ''' 个人工作空间作品集 '''
         kwargs = {}
         if owner:kwargs['owner']=owner
+        if subtype:
+            mtype_l = ['FASHION', 'ART', 'DESIGN', 'HUMAN', 'BRAND']
+            subkey = _get_mtype(subtype)
+            if subtype in mtype_l:
+                kwargs['maintype']=subtype
+            elif subtype == 'INSTITUTIONS':
+                kwargs['subtype']={'$in': [u'FINSTITUTIONS', u'AINSTITUTION', u'DINSTITUTION']}
+            elif subtype == 'ASSOCIATION':
+                kwargs['subtype']={'$in': [u'FASSOCIATION', u'AASSOCIATION', u'DASSOCIATION']}
+            elif subtype == 'MAGAZINE':
+                kwargs['subtype']={'$in': [u'FMAGAZINE']}
+            else:
+                kwargs['subtype']=subtype
+        if created:kwargs.update(self._deal_created(created))
         if name:kwargs['name']=re.compile('.*'+name+'.*')
         if prop:
             prop_list = [u'PERSONAL', u'ORGANIZATION', u'SHOW']
@@ -279,10 +293,10 @@ class VolumeAPI(API):
                 kwargs['prop']={'$all':prop}
             elif prop.upper() in prop_list:
                 kwargs['prop']=prop
-        if live:kwargs['live']=live
+        if live and (live!='0x0'):kwargs['live']=re.compile('.*'+live+'.*')
         if agency:kwargs['agency']=agency
-        if grade:kwargs['grade']=grade
-        if nexus:kwargs['nexus']=nexus
+        if grade and int(grade):kwargs['grade']=int(grade)
+        if nexus and int(nexus):kwargs['nexus']=int(nexus)
         if male in ['male', 'female']:kwargs['male']=(male==u'male')
         if born_tuple:
             sd, ed = born_tuple
@@ -350,7 +364,7 @@ class VolumeAPI(API):
                 kwargs['prop']={'$all':prop}
             elif prop.upper() in prop_list:
                 kwargs['prop']=prop
-        if live and (live!='0x0'):kwargs['live']=live
+        if live and (live!='0x0'):kwargs['live']=re.compile('.*'+live+'.*')
         if agency:kwargs['agency']=agency
         if grade and int(grade):kwargs['grade']=int(grade)
         if nexus and int(nexus):kwargs['nexus']=int(nexus)
@@ -362,7 +376,7 @@ class VolumeAPI(API):
             start_d = datetime(year=sd, month=1, day=1)
             end_d = datetime(year=ed, month=1, day=1)
             kwargs['born']={'$gt': start_d, '$lt': end_d}
-        if not created and not subtype and not name and not live and not grade and not nexus and not male and not born_tuple:
+        if not created and not subtype and not prop and not name and not live and not grade and not nexus and not male and not born_tuple:
             kwargs = {'$or':[{'owner':owner}, kwargs]}
         kwargs['page']=page
         kwargs['pglen']=pglen

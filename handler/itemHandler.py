@@ -167,6 +167,7 @@ class ItemHandler(BaseHandler):
     def get(self, eid):
         uid = self.SESSION['uid']
         back = self.request.headers.get('Referer', None)
+        vback = self.get_argument('vback', None)
         e = Item()
         r = e._api.get(eid)
         if r[0]:
@@ -182,7 +183,7 @@ class ItemHandler(BaseHandler):
             vinfo = rv[1] if rv[0] and rv[1] else {}
             r[1].update({'isPreview': False})
             vdict = r[1]
-            return self.render(html, back=back, vinfo=vinfo, **vdict)
+            return self.render(html, back=back, vback=vback, vinfo=vinfo, **vdict)
         else:
             return self.render_alert(r[1])
 

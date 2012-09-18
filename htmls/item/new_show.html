@@ -4,7 +4,7 @@
 	<div class="control-group">
 		<label class="control-label" for="title">标题</label>
 		<div class="controls">
-			<input type="text" class="input-xlarge" name="title" id="title"/>
+			<input type="text" class="input-xlarge" name="title" id="title" value="{% if title %}{{ title }}{% end %}"/>
 			<p class="help-inline">请输入作品标题</p>
 		</div>
 	</div>
@@ -12,7 +12,7 @@
 	<div class="control-group">
 		<label class="control-label" for="content">正文</label>
 		<div class="controls">
-			<textarea class="input-xlarge" id="content" rows="3" name="content"></textarea>
+			<textarea class="input-xlarge" id="content" rows="3" name="content">{% if content %}{{ content }}{% end %}</textarea>
 			<p class="help-inline">请输入正文</p>
 		</div>
 	</div>

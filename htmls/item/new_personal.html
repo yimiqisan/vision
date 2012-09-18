@@ -1,26 +1,50 @@
 {% extends new_base.html %}
+{% block static-add %}
+	<script language="javascript" type="text/javascript">
+	/*
+				var c = new Date,
+			d = c.getFullYear();
+			select_span("year", '00000000', d, d - 128);
+			function select_span(b, c, d, e) {
+				var a = $("#year");
+				var i = [], j, l = d > e ? -1 : 1;
+				if (d != e) {
+					j = d, i.push('<option value=""></option>');
+					for (; j != e; j += l) i.push('<option value="' + j + '">' + j + "</option>");
+				}
+				a.html(i.join(""));
+				var n = $("#year");
+				c -= 0, c && (n.val(parseInt(c / 1e4)), o.val(parseInt(c / 100) % 100).change())
+			}
+
+	*/
+	</script>
+{% end %}
+
 {% block infos %}
 	<div class="control-group">
 		<label class="control-label" for="name">作品名称</label>
 		<div class="controls">
-			<input type="text" class="input-xlarge" name="name" id="name"/>
+			<input type="text" class="input-xlarge" name="name" id="name" value="{% if name %}{{ name }}{% end %}"/>
 			<p class="help-inline">请输入作品名称</p>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label" for="client">客户</label>
 		<div class="controls">
-			<input type="text" class="input-xlarge" name="client" id="client"/>
+			<input type="text" class="input-xlarge" name="client" id="client" value="{% if client %}{{ client }}{% end %}"/>
 			<p class="help-inline">请输入客户</p>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label" for="year">创作年份</label>
 		<div class="controls">
-			<select type="text" class="input-xlarge" name="year" id="year">
-				<option></option>
-				<option>1988</option>
-			</select>
+			<select id="year" name="year"></select>
+			<script>
+				var c = new Date,
+				d = c.getFullYear();
+				select_span("year", {{year}}, d, d - 128);
+			</script>
 			<p class="help-inline">请选择年份</p>
 		</div>
 	</div>

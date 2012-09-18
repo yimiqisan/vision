@@ -60,7 +60,7 @@ class ItemAPI(API):
     def _output_format(self, result=[], cuid=DEFAULT_CUR_UID):
         ''' 作品格式化输出 '''
         now = datetime.now()
-        output_map = lambda i: {'eid':i['_id'], 'refer_id':i['added'].get('refer_id', None), 'logo':i.get('logo', None), 'vid':i.get('vid', None), 'vtype':i.get('vtype', None), 'added_id':i['added_id'], 'owner':i['owner'], 'is_own':(cuid==i['owner'] if i['owner'] else True), 'works':i['works'], 'cnt':self.rpl._api._count(i['_id']), 'created':self._escape_created(now, i['created']), 'name':i['added'].get('name', None), 'client':i['added'].get('client', None), 'title':i['added'].get('title', None), 'content':i['added'].get('content', None)}
+        output_map = lambda i: {'eid':i['_id'], 'refer_id':i['added'].get('refer_id', None), 'logo':i.get('logo', None), 'vid':i.get('vid', None), 'vtype':i.get('vtype', None), 'added_id':i['added_id'], 'owner':i['owner'], 'is_own':(cuid==i['owner'] if i['owner'] else True), 'works':i['works'], 'cnt':self.rpl._api._count(i['_id']), 'created':self._escape_created(now, i['created']), 'name':i['added'].get('name', None), 'client':i['added'].get('client', None), 'title':i['added'].get('title', None), 'content':i['added'].get('content', None), 'year':i['added'].get('year', None)}
         if isinstance(result, dict):
             return output_map(result)
         return map(output_map, result)

@@ -126,7 +126,7 @@
 								<li class="nohover" style="border-bottom:1px solid black;"><a style="padding:5px 20px;">
 									性别：男&nbsp;<input type="radio" class="sex-ml" name="sex" value="male" {% if f.get('sex', 'none')=='male' %}checked="checked"{% end %} />
 									&nbsp;女&nbsp;<input type="radio" class="sex-ml" name="sex" value="female" {% if f.get('sex', 'none')=='female' %}checked="checked"{% end %} />
-									&nbsp;无&nbsp;<input type="radio" class="sex-none" name="sex" value="none" {% if f.get('sex', 'none')=='none' %}checked="checked"{% end %}/>
+									&nbsp;无&nbsp;<input type="radio" class="sex-none" name="sex" value="" {% if f.get('sex', 'none')=='none' %}checked="checked"{% end %}/>
 								</a></li>
 								<li class="nohover" style="border-bottom:1px solid black;"><a style="padding:5px 20px;">
 									年代：<select name="period" style="width:100px;height:25px;margin-bottom:0px;">

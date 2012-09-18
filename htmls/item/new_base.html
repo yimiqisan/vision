@@ -64,26 +64,22 @@
 					$('#'+slist[i]+' input[name=cover]').val(j);
 				}
 			})
-			yhui.iNote.init('{{ eid }}');
-			
-			
-			var c = new Date,
-			d = c.getFullYear();
-			select_span("year", '00000000', d, d - 128);
-			function select_span(b, c, d, e) {
-				var a = $("#year");
-				var i = [], j, l = d > e ? -1 : 1;
-				if (d != e) {
-					j = d, i.push('<option value=""></option>');
-					for (; j != e; j += l) i.push('<option value="' + j + '">' + j + "</option>");
-				}
-				a.html(i.join(""));
-				var n = $("#year");
-				c -= 0, c && (n.val(parseInt(c / 1e4)), o.val(parseInt(c / 100) % 100).change())
-			}
+			yhui.iNote.init('{{ eid }}');			
 			
 		})
 		
+		function select_span(b, c, d, e) {
+			var a = $("#year");
+			var i = [], j, l = d > e ? -1 : 1;
+			if (d != e) {
+				j = d, i.push('<option value=""></option>');
+				for (; j != e; j += l) i.push('<option value="' + j + '">' + j + "</option>");
+			}
+			a.html(i.join(""));
+			var n = $("#year");
+			c -= 0, c && (n.val(parseInt(c / 1e4)), n.val(parseInt(c / 100) % 100).change())
+		}
+
 		var coordinates = ToolMan.coordinates()
 		var dragsort = ToolMan.dragsort()
 		
