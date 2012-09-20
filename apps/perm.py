@@ -50,7 +50,6 @@ class PermissionAPI(API):
         if channel:kwargs['channel'] = channel
         if value:kwargs['value'] = value
         if cid:kwargs['cid'] = cid
-        print kwargs
         return super(PermissionAPI, self).drops(**kwargs)
     
     def get(self, id):

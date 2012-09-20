@@ -116,12 +116,15 @@ class PermNewHandler(BaseHandler):
     @addperm
     def _edit(self, id):
         uid = self.SESSION['uid']
+        perm = self.SESSION['perm']
         l = self.ARGS
         kwargs = {}
         if self.pm[0] in [0x01, 0x02]:l.extend(self.PARAMS.keys())
         for k in l:
             o = self.get_argument(k, None)
             if o:kwargs[k]=o
+        email = self.get_argument('email', None)
+        if email:kwargs['email']=email
         pm = self.get_argument('pm', None)
         if pm == u'MANAGER':
             kwargs['level'] = u'manager'
@@ -227,7 +230,7 @@ class AjaxStaffListHandler(BaseHandler):
         rp = p._api.list(channel=u'project', cid=cid)
         rlist = [i['owner'] for i in rp]
         s = Staff()
-        r = s._api.page(level=u'editor')
+        r = s._api.page(level=u'editor', order_by='email', order=1)
         l = []
         for i in r[1]:
             if i['pid'] != uid:

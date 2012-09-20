@@ -169,9 +169,9 @@ class ProjectHandler(BaseHandler):
             rp = p._api.get(pid, cuid=uid)
             if rp[0]: project=rp[1]
             e = Item()
-            re = e._api.page(vid=pid, page=page, limit=20)
+            re = e._api.page(vid=pid, page=page, limit=10000)
             works= re[1] if re[0] and re[1] and pid else []
-            return self.render("space/project.html", plist=plist, pinfo=self.page_info(page, 5, len(plist), 15), works=works, project=project, pid=pid if pid else '', rl=[])
+            return self.render("space/project.html", plist=plist, pinfo=self.page_info(page, 5, len(works), 15), works=works, project=project, pid=pid if pid else '', rl=[])
         else:
             return self.render_alert(r[1])
     

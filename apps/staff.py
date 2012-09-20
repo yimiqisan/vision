@@ -73,7 +73,6 @@ class Staff(object):
             p = Permission()
             info = c[1]
             info['pm'] = p._api.get_owner_value(info['_id'], u'site')
-            print info['pm']
             self.info = info
             return (True, info)
         self.info = None
@@ -143,7 +142,7 @@ class StaffAPI(API):
     def _output_format(self, result=[], cuid=DEFAULT_CUR_UID):
         ''' 格式化输出用户信息 '''
         now = datetime.now()
-        output_map = lambda i: {'pid':i['_id'], 'added_id':i['added_id'], 'pm':self._perm(i['_id']), 'email':i.get('email', None), 'password':None, 'belong':i['belong'], 'job':i['added'].get('job', ''), 'discribe':i['added'].get('discribe', ''), 'is_own':(cuid==i['belong'] if i['belong'] else True), 'nick':i['nick'] if i['nick'] else i.get('email', None), 'level':i['level'], 'avatar':i.get('avatar', None), 'male':i['added'].get('male', None), 'created':self._escape_created(now, i['created'])}
+        output_map = lambda i: {'pid':i['_id'], 'added_id':i['added_id'], 'pm':self._perm(i['_id']), 'email':i.get('email', None), 'password':None, 'belong':i['belong'], 'job':i['added'].get('job', ''), 'discribe':i['added'].get('discribe', ''), 'is_own':(cuid==i['belong'] if i['belong'] else True), 'nick':i['nick'] if i['nick'] and '@' not in i['nick'] else i.get('email', None), 'level':i['level'], 'avatar':i.get('avatar', None), 'male':i['added'].get('male', None), 'created':self._escape_created(now, i['created'])}
         if isinstance(result, dict):
             return output_map(result)
         return map(output_map, result)

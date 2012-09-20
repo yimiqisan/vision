@@ -11,7 +11,7 @@
 		<li><h5 class="pull-left" style="font-size:20px;padding-left:10px;">修改密码</h5></li>
 		<a class="btn pull-right" href="{% if verify(perm, [0x01, 0x02]) %}/space/perm/{% else %}/space/{% end %}" onclick="return backconfirm(this);">返回</a>
 	</ul>
-	<form class="form-horizontal" action="/perm/{{ pid }}/cpwd/" method="POST">
+	<form class="form-horizontal" action="/perm/{{ pid }}/cpwd/" method="POST" autocomplete="off">
 		<div class="control-group">
 			<label class="control-label" for="verifypwd"><span style="color:red;">*</span>{% if verify(perm[0], [0x01, 0x02]) %}管理密码：{% else %}旧的密码：{% end %}</label>
 			<div class="controls">
@@ -20,7 +20,7 @@
 				{% else %}
 					<input type="password" id="oldpwd" name="oldpwd" value=""/>
 				{% end %}
-				<p class="hide help-inline">{% if verify(perm[0], [0x01, 0x02]) %}请输入管理密码：{% else %}请输入旧的密码：{% end %}</p>
+				<p class="hide help-inline">{% if verify(perm[0], [0x01, 0x02]) %}请输入管理密码{% else %}请输入旧的密码 {% end %}</p>
 			</div>
 		</div>
 		<div class="control-group">
