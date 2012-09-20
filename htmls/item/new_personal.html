@@ -43,7 +43,7 @@
 			<script>
 				var c = new Date,
 				d = c.getFullYear();
-				select_span("year", {{year}}, d, d - 128);
+				select_span("year", {% if year %}{{year}}{% else %}000000{% end %}, d, d - 128);
 			</script>
 			<p class="help-inline">请选择年份</p>
 		</div>
