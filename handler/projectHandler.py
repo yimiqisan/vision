@@ -120,9 +120,26 @@ class ProjectBuildHandler(BaseHandler):
                 j['is_paste'] = j['eid'] in olist
             ilist.extend(ri[1])
         if r[0]:
-            return self.render("project/build.html", ilist=ilist, pid=pid)
+            return self.render("project/build.html", ilist=ilist, pinfo=self.page_info(page, 5, len(ilist), 20), pid=pid)
         else:
             return self.render_alert(r[1])
+
+    def page_info(self, page, pglen, cnt, limit):
+        info = {}
+        total_page = cnt/limit
+        if (cnt%limit) != 0:total_page+=1
+        info['total_page'] = total_page
+        info['has_pre'] = (page>1)
+        info['start_page'] = 1
+        info['pre_page'] = max(1, page-1)
+        info['page'] = page
+        info['page_list'] = range(max(1, min(page-4, total_page-pglen+1)), min(max(page+1+pglen/2, pglen+1), total_page+1))
+        info['has_eps'] = (total_page>max(page+1+pglen/2, pglen+1)>pglen)
+        info['has_next'] = (page<total_page)
+        info['next_page'] = min(page+1, total_page)
+        info['end_page'] = total_page
+        return info
+
 
 class ProjectStickHandler(BaseHandler):
     '''收藏作品列表
@@ -148,9 +165,25 @@ class ProjectStickHandler(BaseHandler):
                 j['is_paste'] = j['eid'] in olist
             ilist.extend(ri[1])
         if r[0]:
-            return self.render("project/stick.html", ilist=ilist, pid=pid)
+            return self.render("project/stick.html", ilist=ilist, pinfo=self.page_info(page, 5, len(ilist), 20), pid=pid)
         else:
             return self.render_alert(r[1])
+    
+    def page_info(self, page, pglen, cnt, limit):
+        info = {}
+        total_page = cnt/limit
+        if (cnt%limit) != 0:total_page+=1
+        info['total_page'] = total_page
+        info['has_pre'] = (page>1)
+        info['start_page'] = 1
+        info['pre_page'] = max(1, page-1)
+        info['page'] = page
+        info['page_list'] = range(max(1, min(page-4, total_page-pglen+1)), min(max(page+1+pglen/2, pglen+1), total_page+1))
+        info['has_eps'] = (total_page>max(page+1+pglen/2, pglen+1)>pglen)
+        info['has_next'] = (page<total_page)
+        info['next_page'] = min(page+1, total_page)
+        info['end_page'] = total_page
+        return info
 
 class ProjectHandler(BaseHandler):
     '''项目首页
@@ -162,14 +195,14 @@ class ProjectHandler(BaseHandler):
         uid = self.SESSION['uid']
         page = int(self.get_argument('page', 1))
         p = Project()
-        r = p._api.page(cuid=uid)
+        r = p._api.page(cuid=uid, limit=10000)
         if r[0]:
             plist = self._f_proj(r[1])
             if not pid:pid = plist[0]['pid'] if len(plist)>0 else None
             rp = p._api.get(pid, cuid=uid)
             if rp[0]: project=rp[1]
             e = Item()
-            re = e._api.page(vid=pid, page=page, limit=10000)
+            re = e._api.page(vid=pid, page=page, limit=20)
             works= re[1] if re[0] and re[1] and pid else []
             return self.render("space/project.html", plist=plist, pinfo=self.page_info(page, 5, len(works), 15), works=works, project=project, pid=pid if pid else '', rl=[])
         else:

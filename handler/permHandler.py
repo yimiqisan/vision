@@ -73,7 +73,7 @@ class PermNewHandler(BaseHandler):
         if uid == pid:
             s = Staff()
             s.whois('_id', uid)
-            self.SESSION['nick']=s.nick if s.nick else s.email
+            self.SESSION['nick']=s.nick if s.nick and '@' not in s.nick else s.email
             self.SESSION['ulogo']=s.avatar
         if r[0]:
             self._set_perm(r[1])

@@ -43,7 +43,7 @@ class LoginHandler(BaseHandler):
         if r[0]:
             uid = r[1]['_id']
             self.SESSION['uid']=uid
-            self.SESSION['nick']=r[1]['nick'] if r[1]['nick'] else r[1]['email']
+            self.SESSION['nick']=r[1]['nick'] if r[1]['nick'] and '@' not in r[1]['nick'] else r[1].get('email', None)
             self.SESSION['ulogo']=r[1].get('avatar', None)
             self.SESSION['perm']=r[1]['pm']
             self.redirect('/')
@@ -66,7 +66,7 @@ class AjaxLoginHandler(BaseHandler):
         if r[0]:
             uid = r[1]['_id']
             self.SESSION['uid']=uid
-            self.SESSION['nick']=r[1]['nick'] if r[1]['nick'] else r[1]['email']
+            self.SESSION['nick']=r[1]['nick'] if r[1]['nick'] and '@' not in r[1]['nick'] else r[1].get('email', None)
             self.SESSION['ulogo']=r[1].get('avatar', None)
             self.SESSION['perm']=r[1]['pm']
             self.redirect('/')

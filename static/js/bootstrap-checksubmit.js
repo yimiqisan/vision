@@ -29,6 +29,9 @@ Check.prototype = {
             var g = $(this).closest('.control-group')
             , n = g.find('label').attr('for')
             , c = g.find('[name='+n+']');
+            
+            alert(n);
+            
             g.removeClass('error');
             if (g.hasClass('hide')) { return true; }
             if (c.attr('type') == 'checkbox'){

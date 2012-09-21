@@ -29,7 +29,7 @@ class ItemNewHandler(BaseHandler):
         tp = tp.lower()
         if tp in VTYPE_LIST:
             html = "item/new_"+tp+".html"
-            return self.render(html, vid=vid, vtype=tp, eid='')
+            return self.render(html, vid=vid, vtype=tp, eid='', title='', content='', year='')
         return self.render_alert("url error")
     
     @addslash

@@ -13,7 +13,7 @@
 	</ul>
 	<form class="form-horizontal" action="/perm/{{ pid }}/cpwd/" method="POST" autocomplete="off">
 		<div class="control-group">
-			<label class="control-label" for="verifypwd"><span style="color:red;">*</span>{% if verify(perm[0], [0x01, 0x02]) %}管理密码：{% else %}旧的密码：{% end %}</label>
+			<label class="control-label" for="{% if verify(perm[0], [0x01, 0x02]) %}verifypwd{% else %}oldpwd{% end %}"><span style="color:red;">*</span>{% if verify(perm[0], [0x01, 0x02]) %}管理密码：{% else %}旧的密码：{% end %}</label>
 			<div class="controls">
 				{% if verify(perm[0], [0x01, 0x02]) %}
 					<input type="password" id="verifypwd" name="verifypwd" value=""/>
