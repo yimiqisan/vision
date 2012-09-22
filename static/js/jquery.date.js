@@ -51,7 +51,7 @@ function select_span(a, b, c, d, e, f, g, h) {
 		for (j = 0; j < 24; ++j) i.push('<option value="' + j + '">' + zfill(j, 2) + "</option>");
 		i.push("</select>:"), i.push('<select id="' + b + '_minute" class="' + b + '_minute date_minute" name="' + b + '_minute">');
 		for (j = 0; j < 60; j += 5) i.push('<option value="' + j + '">' + zfill(j, 2) + "</option>");
-		i.push("</select>")
+		i.push("</select>");
 	}
 	a.html(i.join(""));
 	var n = m("year"),

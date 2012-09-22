@@ -41,6 +41,7 @@ class Pstore(object):
     
     def remove(self, fn):
         ''' 删除图片 '''
+        return True
         try:
             id = self.fs.get_version(filename=fn)._id
             self.fs.delete(id)

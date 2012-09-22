@@ -40,7 +40,7 @@ class VolumeNewHandler(BaseHandler):
     def post(self):
         uid = self.SESSION['uid']
         vid = self.get_argument('vid', None)
-        back = self.get_argument('back', None)
+        back = self.get_argument('back', '')
         d = {}
         for n in self.KEYS:
             d[n] = self.get_argument(n, None)
@@ -57,7 +57,7 @@ class VolumeNewHandler(BaseHandler):
             return self.render("volume/new.html", **d)
     
     def _get_back(self):
-        back = self.request.headers.get('Referer', None)
+        back = self.request.headers.get('Referer', '')
         if 'new' in back:
             return '/volume/'
         elif 'edit' in back:
@@ -75,7 +75,7 @@ class VolumeRemoveHandler(BaseHandler):
     @authenticated
     def get(self, id):
         uid = self.SESSION['uid']
-        back = self.request.headers.get('Referer', None)
+        back = self.request.headers.get('Referer', '')
         v = volume.Volume()
         r = v._api.remove(id)
         if back:
@@ -100,7 +100,7 @@ class VolumeEditHandler(BaseHandler):
             return self.render_alert(r[1])
     
     def _get_back(self):
-        back = self.request.headers.get('Referer', None)
+        back = self.request.headers.get('Referer', '')
         if 'new' in back:
             return '/volume/'
         elif 'edit' in back:
@@ -129,9 +129,9 @@ class VolumeHandler(BaseHandler):
             return self.render_alert(r[1])
     
     def _get_back(self):
-        back = self.get_argument('vback', None)
+        back = self.get_argument('vback', '')
         if back:return back
-        back = self.request.headers.get('Referer', None)
+        back = self.request.headers.get('Referer', '')
         if 'new' in back:
             return '/volume/'
         elif 'edit' in back:
