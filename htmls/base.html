@@ -14,7 +14,7 @@
 				}else{
 					$('.navi-browser').hide();
 				}
-				$(".dropdown, .dropright").each(function(){
+				$(".drophover, .dropright").each(function(){
 					var that = $(this);
 					that.hoverDelay({
 						outDuring: 100,
@@ -44,14 +44,14 @@
 	<div class="navbar-vision" style="width:1030px;">
 		
 		<div style="height:30px;background:white;">
-			<a class="brand" href="/volume/"><img src="{{ static_url('img/logo.png') }}" width="80"></a>
+			<a class="brand" href="/volume/"><img src="{{ static_url('img/logo.png') }}" width="80" style="width:80px;"></a>
 			{% if current_user %}
 			<div style="width:1029px;height:30px;border-right:1px solid black;">
 				<div class="alert navi-browser" style="display:none;float:left;margin:0px 0px 0px 100px;padding:4px 15px;width:460px;"><strong>友情提示：</strong>为了更好的服务您的工作，推荐使用
 					chrome 浏览器&nbsp;&nbsp;<a target="_blank" href="http://www.google.cn/intl/zh-CN/chrome/browser/?installdataindex=chinabookmarkext&brand=CHUP">下载地址</a></div>
 				<a href="/logout/" class="pull-right" style="height:20px;border-left:1px solid black;padding:5px 20px;">退出</a>
 				<ul class="nav user_log pull-right" style="height:20px;min-width:90px;border-left:0px solid black;padding:5px 20px;top:23px;">
-				<li class="dropdown">
+				<li class="dropdown drophover">
 					<a href="#" class="dropdown-toggle dropdown-toggle-head" role="menu" data-toggle="dropdown">
 						<img src="/image/attach/{{ ulogo }}_300" style="width:24px;height:24px;" width=24 height=24 onerror="this.src='/static/img/default_avatar.gif';" />&nbsp;{{ current_user }}
 						<span class="half half_top"><span class="half_in">&#9670;</span>&#9670;</span>
@@ -83,7 +83,7 @@
 					<div class="nav-collapse">
 					{% if current_user %}
 						<ul class="nav nav-vision" style="margin-top:5px;margin-bottom:5px;">
-							<li id="nav-fashion" class="dropdown" style="">
+							<li id="nav-fashion" class="dropdown drophover" style="">
 								<a href="/volume/fashion/" style="padding-top:5px;padding-bottom:5px;font-weight:bold;font-size:18px;" class="dropdown-toggle" data-toggle="dropdown">时尚</a>
 								<ul class="dropdown-menu parallel-menu">
 									<li><a class="{% if subtype == 'fdesigner' %}select{% end %}" href="/volume/fdesigner/">设计师</a></li><li>/</li>
@@ -98,7 +98,7 @@
 									<li><a class="{% if subtype == 'fshow' %}select{% end %}" href="/volume/fshow/">展会</a></li>
 								</ul>
 							</li>
-							<li id="nav-art" class="dropdown" style="">
+							<li id="nav-art" class="dropdown drophover" style="">
 								<a href="/volume/art/" style="padding-top:5px;padding-bottom:5px;font-weight:bold;font-size:18px;" class="dropdown-toggle" data-toggle="dropdown">艺术</a>
 								<ul class="dropdown-menu parallel-menu">
 									<li><a class="{% if subtype == 'apainting' %}select{% end %}" href="/volume/apainting/">绘画</a></li><li>/</li>
@@ -112,7 +112,7 @@
 									<li><a class="{% if subtype == 'ashow' %}select{% end %}" href="/volume/ashow/">展会</a></li>
 								</ul>
 							</li>
-							<li id="nav-design" class="dropdown" style="">
+							<li id="nav-design" class="dropdown drophover" style="">
 								<a href="/volume/design/" style="padding-top:5px;padding-bottom:5px;font-weight:bold;font-size:18px;" class="dropdown-toggle" data-toggle="dropdown">设计</a>
 								<ul class="dropdown-menu parallel-menu">
 									<li><a class="{% if subtype == 'dbuilding' %}select{% end %}" href="/volume/dbuilding/">建筑</a></li><li>/</li>
@@ -126,7 +126,7 @@
 									<li><a class="{% if subtype == 'dshow' %}select{% end %}" href="/volume/dshow/">展会</a></li>
 								</ul>
 							</li>
-							<li id="nav-human" class="dropdown" style="">
+							<li id="nav-human" class="dropdown drophover" style="">
 								<a href="/volume/human/" style="padding-top:5px;padding-bottom:5px;font-weight:bold;font-size:18px;" class="dropdown-toggle" data-toggle="dropdown">人文</a>
 								<ul class="dropdown-menu parallel-menu">
 									<li><a class="{% if subtype == 'hperformer' %}select{% end %}" href="/volume/hperformer/">表演者</a></li><li>/</li>
@@ -135,7 +135,7 @@
 									<li><a class="{% if subtype == 'hshow' %}select{% end %}" href="/volume/hshow/">展会</a></li>
 								</ul>
 							</li>
-							<li id="nav-brand" class="dropdown" style="">
+							<li id="nav-brand" class="dropdown drophover" style="">
 								<a href="/volume/brand/" style="padding-top:5px;padding-bottom:5px;font-weight:bold;font-size:18px;" class="dropdown-toggle" data-toggle="dropdown">品牌</a>
 								<ul class="dropdown-menu parallel-menu">
 									<li><a class="{% if subtype == 'bmediapeople' %}select{% end %}" href="/volume/bmediapeople/">媒体人</a></li><li>/</li>
@@ -143,7 +143,7 @@
 									<li><a class="{% if subtype == 'bshow' %}select{% end %}" href="/volume/bshow/">展会</a></li>
 								</ul>
 							</li>
-							<li id="nav-project" class="dropdown">
+							<li id="nav-project" class="dropdown drophover">
 								<a href="/project/" style="padding-top:5px;padding-bottom:5px;font-weight:bold;font-size:18px;">项目</a>
 							</li>
 						</ul>

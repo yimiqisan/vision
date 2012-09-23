@@ -15,7 +15,7 @@
 				if (response.error){
     				return alert(response.error);
 				}
-				$(e).text('已粘贴');
+				$(e).parent().html('<a>已粘贴</a>');
 			});
 		}
 	</script>
