@@ -111,7 +111,7 @@
 								<img src="{{ static_url('img/worldmap.png') }}">
 								国家 <span class="half half_top"><span class="half_in">&#9670;</span>&#9670;</span></a>
 							<ul class="dropdown-menu" style="padding:0px;">
-								<li style=""><script>select_pid("show_live",  {{ f.get('show_live', '0x0') }})</script></li>
+								<li style=""><script>select_pid("show_live",  "{{ f.get('show_live', '0x0') }}")</script></li>
 								<li class="ok"><a onclick="onClickOK($(this)); return false;" style="padding:5px 27px;">确定</a></li>
 								<li class="cancel" style="border-left:1px solid black;"><a style="padding:5px 27px 5px 26px;" onclick="onCancel($(this), 1);return false;">取消</a></li>
 							</ul>
@@ -235,6 +235,6 @@
 		<script src="{{ static_url('js/bootstrap-star.js') }}" type="text/javascript"></script>
 		<script src="{{ static_url('js/bootstrap-overmenu.js') }}" type="text/javascript"></script>
 		<script src="{{ static_url('js/bootstrap-dropright.js') }}" type="text/javascript"></script>
-		<div id="volume_list">{% module Template("util/pagination.html", pagination=vinfo, url='/volume/', param='') %}</div>
+		<div id="volume_list">{% module Template("util/pagination.html", pagination=vinfo, url=vurl, param=vparams) %}</div>
 	</div>
 {% end %}

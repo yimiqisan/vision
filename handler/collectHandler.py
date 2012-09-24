@@ -45,7 +45,7 @@ class CollectHandler(BaseHandler):
 #        r = c._api.page(owner=uid, page=page, limit=15)
         if r[0]:
             params = self._d_params()
-            return self.render("space/collect.html", vlist=r[1], vinfo=r[2], subtype=subtype, params=json.dumps(params), f=params)
+            return self.render("space/collect.html", vlist=r[1], vinfo=r[2], subtype=subtype, params=json.dumps(params), f=params, vurl='/collect/'+subtype+'/', vparams=self._build_params(params))
         else:
             return self.render_alert(r[1])
     
@@ -54,6 +54,13 @@ class CollectHandler(BaseHandler):
         for k in self.request.arguments.keys():
             params[k] = self.get_argument(k)
         return params
+    
+    def _build_params(self, params):
+        l = []
+        for k, v in params.items():
+            s = str(k)+'='+str(v)
+            l.append(s)
+        return '&'.join(l)
 
 class CollectRemoveHandler(BaseHandler):
     '''取消收藏

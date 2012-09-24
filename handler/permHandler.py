@@ -162,7 +162,7 @@ class PermEditHandler(BaseHandler):
         s = Staff()
         r = s._api.get(sid)
         if r[0]:
-            return self.render("perm/new.html", **r[1])
+            return self.render("perm/new.html", isself=(sid==uid), **r[1])
         else:
             return self.render_alert(r[1])
 

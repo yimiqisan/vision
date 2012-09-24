@@ -10,6 +10,7 @@ Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 import json
 from tornado.web import addslash, authenticated
 
+from vision.config import ADMIN
 from baseHandler import BaseHandler
 from vision.apps import volume
 from vision.apps.item import Item
@@ -151,6 +152,8 @@ class VolumeListHandler(BaseHandler):
     @addperm
     def get(self, subtype):
         uid = self.SESSION['uid']
+        if ADMIN['admin'][-1] == uid:
+            self.redirect('/perm/')
         page = int(self.get_argument('page', 1))
         prop = self.get_argument('prop', None)
         dtime = self.get_argument('dtime', None)
@@ -168,7 +171,7 @@ class VolumeListHandler(BaseHandler):
         r = v._api.page(cuid=uid, owner=uid, perm=self.pm, created=dtime, prop=prop, name=word, subtype=subtype.upper(), live=live, grade=grade, nexus=nexus, male=sex, born_tuple=period_tuple, page=page)
         if r[0]:
             params = self._d_params()
-            return self.render("volume/list.html", vlist=r[1], vinfo=r[2], subtype=subtype, params=json.dumps(params), f=params)
+            return self.render("volume/list.html", vlist=r[1], vinfo=r[2], subtype=subtype, params=json.dumps(params), f=params, vurl='/volume/'+subtype+'/', vparams=self._build_params(params))
         else:
             return self.render_alert(r[1])
     
@@ -177,7 +180,15 @@ class VolumeListHandler(BaseHandler):
         for k in self.request.arguments.keys():
             params[k] = self.get_argument(k)
         return params
+    
+    def _build_params(self, params):
+        l = []
+        for k, v in params.items():
+            s = str(k)+'='+str(v)
+            l.append(s)
+        return '&'.join(l)
 
+    
 class AjaxVolumeTypeHandler(BaseHandler):
     '''ajax方式加载作品集分类
     '''

@@ -1,5 +1,5 @@
 function _(a,b){
-    function l(a){k(1),g.val(a).change()}
+    function l(a, b){k(b),g.val(a).change()}
     function k(a){e.val(a).change()}
     function j(a, b, c, d) {
 	    a.change(function() {
@@ -17,8 +17,8 @@ function _(a,b){
     d.find("select").change(function(){var b=this,c=b.value;c!="0"&&d.find("input[name="+a+"]").val(c),$(b).blur()}),
     j(e,g,option_city,i);
     if (b) {
-        b = '0x'+b.toString(16);
-	    b in COUNTRY_DICT ? k(b) : $.inArray(b, COUNTRY2CITY[b]) && l(b)
+        m = '0x'+parseInt(b/(16*16)).toString(16);
+	    b in COUNTRY_DICT ? k(b) : $.inArray(b, COUNTRY2CITY[m])+1 && l(b, m)
     }
 }
  function _show(a, b, c){

@@ -33,7 +33,7 @@
 			</p>
 		</div>
 	</div>
-	<div class="span3" style="width:219px;border-top:1px solid black;border-right:1px solid black;margin-left:0px;padding-left:5px;padding-right:5px;">
+	<div class="span3" style="width:219px;border-top:1px solid black;border-right:1px solid black;border-bottom:1px solid black;margin-left:0px;padding-left:5px;padding-right:5px;">
 		<h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">简介</h3><hr/>
 		<p style="padding:10px;min-height:200px;">{{intro}}</p>
 		<hr/><h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">相关机构</h3><hr/>
@@ -57,7 +57,7 @@
 						{% end %}
 					</div>
 					<ul class="overmenu" bot=0 >
-						<li><a href="/item/{{ w['eid'] }}/edit/">编辑</a></li>
+						<li><a href="/item/{{ w['eid'] }}/edit/?vback={{back}}">编辑</a></li>
 						<li><a href="/item/{{ w['eid'] }}/remove/" onclick="return delconfirm(this);">删除</a></li>
 					</ul>
 				</div>

@@ -108,11 +108,12 @@ class ProjectBuildHandler(BaseHandler):
     def get(self, pid):
         uid = self.SESSION['uid']
         page = int(self.get_argument('page', 1))
+        back = self.request.headers.get('Referer', None)
         i = Item()
         ro = i._api.page(vid=pid, vtype=u'project')
         olist = [o['refer_id'] for o in ro[1]]
         v = Volume()
-        r = v._api.page_own(owner=uid, page=page)
+        r = v._api.page_own(owner=uid, limit=1000)
         ilist = []
         for vi in r[1]:
             ri = i._api.page(vid=vi['vid'])
@@ -120,7 +121,7 @@ class ProjectBuildHandler(BaseHandler):
                 j['is_paste'] = j['eid'] in olist
             ilist.extend(ri[1])
         if r[0]:
-            return self.render("project/build.html", ilist=ilist, pinfo=self.page_info(page, 5, len(ilist), 20), pid=pid)
+            return self.render("project/build.html", ilist=ilist, back=back, pinfo=self.page_info(page, 5, len(ilist), 20), pid=pid)
         else:
             return self.render_alert(r[1])
 
@@ -150,13 +151,14 @@ class ProjectStickHandler(BaseHandler):
     def get(self, pid):
         uid = self.SESSION['uid']
         page = int(self.get_argument('page', 1))
+        back = self.request.headers.get('Referer', None)
         i = Item()
         ro = i._api.page(vid=pid, vtype=u'project')
         olist = [o['refer_id'] for o in ro[1]]
 #        c = Collect()
 #        r = c._api.page(owner=uid, page=page)
         v = Volume()
-        r = v._api.page_own(atte=uid)
+        r = v._api.page_own(atte=uid, limit=1000)
         ilist = []
         for ci in r[1]:
             rid = ci['vid']
@@ -165,7 +167,7 @@ class ProjectStickHandler(BaseHandler):
                 j['is_paste'] = j['eid'] in olist
             ilist.extend(ri[1])
         if r[0]:
-            return self.render("project/stick.html", ilist=ilist, pinfo=self.page_info(page, 5, len(ilist), 20), pid=pid)
+            return self.render("project/stick.html", ilist=ilist, back=back, pinfo=self.page_info(page, 5, len(ilist), 20), pid=pid)
         else:
             return self.render_alert(r[1])
     

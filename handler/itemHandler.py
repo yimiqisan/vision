@@ -149,13 +149,14 @@ class ItemEditHandler(BaseHandler):
     @authenticated
     def get(self, id):
         uid = self.SESSION['uid']
+        vback = self.get_argument('vback', None)
         e = Item()
         r = e._api.get(id)
         if r[0] and r[1]:
             tp = r[1]['vtype']
             if tp in VTYPE_LIST:
                 html = "item/new_"+tp+".html"
-                return self.render(html, **r[1])
+                return self.render(html, vback=vback, **r[1])
         return self.render_alert(r[1])
 
 class ItemHandler(BaseHandler):
