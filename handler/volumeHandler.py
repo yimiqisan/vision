@@ -30,9 +30,6 @@ class VolumeNewHandler(BaseHandler):
         for n in self.KEYS:d[n] = None
         d['vid'] = None
         d['born'] = 0
-        back = self._get_back()
-        d['back'] = back
-        d['vback'] = back
         return self.render("volume/new.html", **d)
     
     @addslash
@@ -41,7 +38,6 @@ class VolumeNewHandler(BaseHandler):
     def post(self):
         uid = self.SESSION['uid']
         vid = self.get_argument('vid', None)
-        back = self.get_argument('back', '')
         d = {}
         for n in self.KEYS:
             d[n] = self.get_argument(n, None)
@@ -52,22 +48,11 @@ class VolumeNewHandler(BaseHandler):
             r = v._api.save(uid, **d)
             vid = r[1]
         if r[0]:
-            return self.redirect('/volume/'+vid+'/?vback='+back)
+            return self.redirect('/volume/'+vid+'/')
         else:
-            d.update({'vid':vid, 'warning':r[1], 'back':back})
+            d.update({'vid':vid, 'warning':r[1]})
             return self.render("volume/new.html", **d)
-    
-    def _get_back(self):
-        back = self.request.headers.get('Referer', '')
-        if 'new' in back:
-            return '/volume/'
-        elif 'edit' in back:
-            return '/volume/'
-        elif 'item' in back:
-            return '/volume/'
-        else:
-            return back
-    
+        
 class VolumeRemoveHandler(BaseHandler):
     '''删除作品集
     '''
@@ -76,14 +61,10 @@ class VolumeRemoveHandler(BaseHandler):
     @authenticated
     def get(self, id):
         uid = self.SESSION['uid']
-        back = self.request.headers.get('Referer', '')
         v = volume.Volume()
         r = v._api.remove(id)
-        if back:
-            return self.redirect(back)
-        else:
-            return self.redirect('/')
-
+        return self.redirect(BSTACK.pop())
+    
 class VolumeEditHandler(BaseHandler):
     '''编辑作品集
     '''
@@ -95,21 +76,9 @@ class VolumeEditHandler(BaseHandler):
         v = volume.Volume()
         r = v._api.get(vid)
         if r[0]:
-            back = self._get_back()
-            return self.render("volume/new.html", back=back, vback=back, **r[1])
+            return self.render("volume/new.html", back=self.SESSION['BSTACK'][0], **r[1])
         else:
             return self.render_alert(r[1])
-    
-    def _get_back(self):
-        back = self.request.headers.get('Referer', '')
-        if 'new' in back:
-            return '/volume/'
-        elif 'edit' in back:
-            return '/volume/'
-        elif 'item' in back:
-            return '/volume/'
-        else:
-            return back
 
 class VolumeHandler(BaseHandler):
     '''单个作品集展示
@@ -119,31 +88,22 @@ class VolumeHandler(BaseHandler):
     @authenticated
     def get(self, vid):
         uid = self.SESSION['uid']
+        url = '/volume/'+vid+'/'
+        if url not in self.SESSION['BSTACK']:
+            bstack = self.SESSION['BSTACK']
+            bstack.append(url)
+            self.SESSION['BSTACK'] = bstack
         v = volume.Volume()
         r = v._api.get(vid)
         if r[0]:
             page = int(self.get_argument('page', 1))
             i = Item()
             ri = i._api.page(page=page, vid=vid)
-            return self.render("volume/item.html", back=self._get_back(), wlist=ri[1], winfo=ri[2], **r[1])
+            return self.render("volume/item.html", back=self.SESSION['BSTACK'][0], wlist=ri[1], winfo=ri[2], **r[1])
         else:
             return self.render_alert(r[1])
-    
-    def _get_back(self):
-        back = self.get_argument('vback', '')
-        if back:return back
-        back = self.request.headers.get('Referer', '')
-        if 'new' in back:
-            return '/volume/'
-        elif 'edit' in back:
-            return '/volume/'
-        elif 'item' in back:
-            return '/volume/'
-        else:
-            return back
 
 class VolumeListHandler(BaseHandler):
-    PARAMS = ['']
     '''作品集列表
     '''
     @addslash
@@ -152,6 +112,7 @@ class VolumeListHandler(BaseHandler):
     @addperm
     def get(self, subtype):
         uid = self.SESSION['uid']
+        self.SESSION['BSTACK'] = ['/volume/'+subtype+'/'] if subtype else ['/volume/']
         if ADMIN['admin'][-1] == uid:
             self.redirect('/perm/')
         page = int(self.get_argument('page', 1))
@@ -164,9 +125,11 @@ class VolumeListHandler(BaseHandler):
         period = self.get_argument('period', None)
         period_tuple = period.split('-') if period else None
         word = self.get_argument('word', None)
+        href = self.get_argument('href', None)
         if subtype == u'show':
             prop=u'SHOW'
             subtype = ''
+        if href:subtype = volume.relation(subtype, href)
         v = volume.Volume()
         r = v._api.page(cuid=uid, owner=uid, perm=self.pm, created=dtime, prop=prop, name=word, subtype=subtype.upper(), live=live, grade=grade, nexus=nexus, male=sex, born_tuple=period_tuple, page=page)
         if r[0]:
@@ -187,7 +150,7 @@ class VolumeListHandler(BaseHandler):
             s = str(k)+'='+str(v)
             l.append(s)
         return '&'.join(l)
-
+    
     
 class AjaxVolumeTypeHandler(BaseHandler):
     '''ajax方式加载作品集分类
@@ -209,6 +172,3 @@ class AjaxVolumeTypeHandler(BaseHandler):
         else:
             options = {}
         return self.write(json.dumps(options))
-
-
-

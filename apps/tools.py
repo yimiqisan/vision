@@ -153,6 +153,7 @@ def session(method):
         if (not sid)or(sid != session_data.sid):
             session_instance.save_session(session_data)
             self.set_secure_cookie("session_id", session_data.sid, 1)
+        #print session_data.data['BSTACK']
         self.__setattr__("SESSION", session_data)
         return method(self, *args, **kwargs)
     return wrapper

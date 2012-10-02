@@ -10,9 +10,10 @@ Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 import json
 from tornado.web import addslash, authenticated
 
+from vision.config import BSTACK
 from baseHandler import BaseHandler
 from vision.apps.collect import Collect
-from vision.apps.volume import Volume
+from vision.apps import volume
 from vision.apps.item import Item
 from vision.apps.perm import addperm
 from vision.apps.tools import session
@@ -26,6 +27,8 @@ class CollectHandler(BaseHandler):
     @authenticated
     def get(self, subtype):
         uid = self.SESSION['uid']
+        self.SESSION['BSTACK'] = ['/collect/'+subtype+'/'] if subtype else ['/collect/']
+        print self.SESSION['BSTACK']
         page = int(self.get_argument('page', 1))
         prop = self.get_argument('prop', None)
         dtime = self.get_argument('dtime', None)
@@ -36,13 +39,13 @@ class CollectHandler(BaseHandler):
         period = self.get_argument('period', None)
         period_tuple = period.split('-') if period else None
         word = self.get_argument('word', None)
+        href = self.get_argument('href', None)
         if subtype == u'show':
             prop=u'SHOW'
             subtype = ''
-        v = Volume()
+        if href:subtype = volume.relation(subtype, href)
+        v = volume.Volume()
         r = v._api.page_own(cuid=uid, atte=uid, created=dtime, prop=prop, name=word, subtype=subtype.upper(), live=live, grade=grade, nexus=nexus, male=sex, born_tuple=period_tuple, page=page, limit=15)
-#        c = Collect()
-#        r = c._api.page(owner=uid, page=page, limit=15)
         if r[0]:
             params = self._d_params()
             return self.render("space/collect.html", vlist=r[1], vinfo=r[2], subtype=subtype, params=json.dumps(params), f=params, vurl='/collect/'+subtype+'/', vparams=self._build_params(params))
@@ -70,10 +73,8 @@ class CollectRemoveHandler(BaseHandler):
     @authenticated
     def get(self, id):
         uid = self.SESSION['uid']
-        v = Volume()
+        v = volume.Volume()
         r = v._api.forget(id, uid)
-#        c = Collect()
-#        r = c._api.remove(id)
         return self.redirect('/collect/')
 
 class CollectItemHandler(BaseHandler):
@@ -84,9 +85,10 @@ class CollectItemHandler(BaseHandler):
     @authenticated
     def get(self, cid):
         uid = self.SESSION['uid']
-#        c = Collect()
-#        r = c._api.get(cid)
-        v = Volume()
+        bstack = self.SESSION['BSTACK']
+        bstack.append('/collect/'+cid+'/')
+        self.SESSION['BSTACK'] = bstack
+        v = volume.Volume()
         r = v._api.get(cid)
         if r[0]:
             page = int(self.get_argument('page', 1))
@@ -104,10 +106,8 @@ class AjaxCollectAddHandler(BaseHandler):
     @authenticated
     def post(self, rid):
         uid = self.SESSION['uid']
-        v = Volume()
+        v = volume.Volume()
         r = v._api.attention(rid, uid)
-#        c = Collect()
-#        r = c._api.save(uid, rid)
         return self.write({})
 
 class AjaxCollectDelHandler(BaseHandler):
@@ -121,21 +121,3 @@ class AjaxCollectDelHandler(BaseHandler):
         v = volume.Volume()
         r = v._api.remove(id)
         return self.redirect('/space/')
-
-class CollectListHandler(BaseHandler):
-    '''收藏列表
-    '''
-    @addslash
-    @session
-    @authenticated
-    @addperm
-    def get(selfe):
-        uid = self.SESSION['uid']
-        page = int(self.get_argument('page', 1))
-        prop = self.get_argument('prop', None)
-        word = self.get_argument('word', None)
-        v = volume.Volume()
-        r = v._api.page(cuid=uid, owner=uid, perm=self.pm, prop=prop, name=word, subtype=subtype.upper(), page=page)
-        return self.render("volume/list.html", vlist=r[1], vinfo=r[2], subtype=subtype)
-
-

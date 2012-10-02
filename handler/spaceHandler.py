@@ -12,7 +12,7 @@ from tornado.web import addslash, authenticated
 
 from baseHandler import BaseHandler
 from vision.apps.staff import Staff
-from vision.apps.volume import Volume
+from vision.apps import volume
 from vision.apps.perm import Permission
 from vision.apps.tools import session
 
@@ -25,6 +25,7 @@ class SpaceHandler(BaseHandler):
     @authenticated
     def get(self, subtype):
         perm = self.SESSION['perm']
+        self.SESSION['BSTACK'] = ['/space/'+subtype+'/']
         if perm[0][0] == 0x01:return self.redirect('/space/perm/')
         uid = self.SESSION['uid']
         page = int(self.get_argument('page', 1))
@@ -37,10 +38,12 @@ class SpaceHandler(BaseHandler):
         period = self.get_argument('period', None)
         period_tuple = period.split('-') if period else None
         word = self.get_argument('word', None)
+        href = self.get_argument('href', None)
         if subtype == u'show':
             prop=u'SHOW'
             subtype = ''
-        v = Volume()
+        if href:subtype = volume.relation(subtype, href)
+        v = volume.Volume()
         r = v._api.page_own(cuid=uid, owner=uid, created=dtime, prop=prop, name=word, subtype=subtype.upper(), live=live, grade=grade, nexus=nexus, male=sex, born_tuple=period_tuple, page=page, limit=15)
         if r[0]:
             params = self._d_params()

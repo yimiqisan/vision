@@ -13,6 +13,6 @@ from spaceHandler import SpaceHandler, SpacePermHandler, SpaceNewHandler, SpaceC
 from permHandler import PermHandler, PermNewHandler, PermRemoveHandler, PermEditHandler, PermCpwdHandler, AjaxStaffListHandler
 from itemHandler import ItemNewHandler, ItemPreviewHandler, ItemRemoveHandler, ItemEditHandler, ItemHandler, AjaxItemHandler, AjaxItemPasteHandler
 from volumeHandler import VolumeHandler, VolumeNewHandler, VolumeRemoveHandler, VolumeEditHandler, VolumeHandler, VolumeListHandler, AjaxVolumeTypeHandler
-from collectHandler import CollectHandler, CollectRemoveHandler, CollectItemHandler, AjaxCollectAddHandler, AjaxCollectDelHandler, CollectListHandler
+from collectHandler import CollectHandler, CollectRemoveHandler, CollectItemHandler, AjaxCollectAddHandler, AjaxCollectDelHandler
 from projectHandler import ProjectNewHandler, ProjectRemoveHandler, ProjectEditHandler, ProjectBuildHandler, ProjectStickHandler, ProjectHandler
 from replyHandler import AjaxReplyHandler, AjaxNewReplyHandler, AjaxRemoveHandler

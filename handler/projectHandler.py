@@ -10,7 +10,7 @@ Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 
 from tornado.web import addslash, authenticated
 
-from config import PERM_CLASS
+from config import PERM_CLASS, BSTACK
 from baseHandler import BaseHandler
 from vision.apps.project import Project
 from vision.apps.perm import Permission
@@ -107,8 +107,8 @@ class ProjectBuildHandler(BaseHandler):
     @authenticated
     def get(self, pid):
         uid = self.SESSION['uid']
+        BSTACK.append('/project/'+pid+'/build/')
         page = int(self.get_argument('page', 1))
-        back = self.request.headers.get('Referer', None)
         i = Item()
         ro = i._api.page(vid=pid, vtype=u'project')
         olist = [o['refer_id'] for o in ro[1]]
@@ -121,7 +121,7 @@ class ProjectBuildHandler(BaseHandler):
                 j['is_paste'] = j['eid'] in olist
             ilist.extend(ri[1])
         if r[0]:
-            return self.render("project/build.html", ilist=ilist, back=back, pinfo=self.page_info(page, 5, len(ilist), 20), pid=pid)
+            return self.render("project/build.html", ilist=ilist, back=BSTACK[0], pinfo=self.page_info(page, 5, len(ilist), 20), pid=pid)
         else:
             return self.render_alert(r[1])
 
@@ -150,13 +150,12 @@ class ProjectStickHandler(BaseHandler):
     @authenticated
     def get(self, pid):
         uid = self.SESSION['uid']
+        BSTACK.append('/project/'+pid+'/stick/')
         page = int(self.get_argument('page', 1))
         back = self.request.headers.get('Referer', None)
         i = Item()
         ro = i._api.page(vid=pid, vtype=u'project')
         olist = [o['refer_id'] for o in ro[1]]
-#        c = Collect()
-#        r = c._api.page(owner=uid, page=page)
         v = Volume()
         r = v._api.page_own(atte=uid, limit=1000)
         ilist = []
@@ -167,7 +166,7 @@ class ProjectStickHandler(BaseHandler):
                 j['is_paste'] = j['eid'] in olist
             ilist.extend(ri[1])
         if r[0]:
-            return self.render("project/stick.html", ilist=ilist, back=back, pinfo=self.page_info(page, 5, len(ilist), 20), pid=pid)
+            return self.render("project/stick.html", ilist=ilist, back=BSTACK[0], pinfo=self.page_info(page, 5, len(ilist), 20), pid=pid)
         else:
             return self.render_alert(r[1])
     
@@ -195,6 +194,8 @@ class ProjectHandler(BaseHandler):
     @authenticated
     def get(self, pid):
         uid = self.SESSION['uid']
+        BSTACK = ['/project/'+pid+'/'] if pid else ['/project/']
+        print BSTACK
         page = int(self.get_argument('page', 1))
         p = Project()
         r = p._api.page(cuid=uid, limit=10000)

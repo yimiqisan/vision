@@ -15,8 +15,8 @@
 					return alert(response.error);
 				}
 				$(response).each(function() {
-					var i = $(this)[0], t = $(this)[1], s = $(this)[2];
-					if (s) {
+					var t = $(this)[0], i = $(this)[1]
+					if (i) {
 						$("#members").append("<option value=" + i + " selected='selected'>" + t + "</option>");
 					}else{
 						$("#members").append("<option value=" + i + ">" + t + "</option>");

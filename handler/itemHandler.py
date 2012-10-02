@@ -11,6 +11,7 @@ import json
 
 from tornado.web import addslash, authenticated
 
+from vision.config import BSTACK
 from baseHandler import BaseHandler
 from vision.apps.project import Project
 from vision.apps.volume import Volume
@@ -149,14 +150,13 @@ class ItemEditHandler(BaseHandler):
     @authenticated
     def get(self, id):
         uid = self.SESSION['uid']
-        vback = self.get_argument('vback', None)
         e = Item()
         r = e._api.get(id)
         if r[0] and r[1]:
             tp = r[1]['vtype']
             if tp in VTYPE_LIST:
                 html = "item/new_"+tp+".html"
-                return self.render(html, vback=vback, **r[1])
+                return self.render(html, **r[1])
         return self.render_alert(r[1])
 
 class ItemHandler(BaseHandler):
@@ -167,8 +167,6 @@ class ItemHandler(BaseHandler):
     @authenticated
     def get(self, eid):
         uid = self.SESSION['uid']
-        back = self.request.headers.get('Referer', None)
-        vback = self.get_argument('vback', None)
         e = Item()
         r = e._api.get(eid)
         if r[0]:
@@ -184,7 +182,7 @@ class ItemHandler(BaseHandler):
             vinfo = rv[1] if rv[0] and rv[1] else {}
             r[1].update({'isPreview': False})
             vdict = r[1]
-            return self.render(html, back=back, vback=vback, vinfo=vinfo, **vdict)
+            return self.render(html, back=self.SESSION['BSTACK'].pop(), vinfo=vinfo, **vdict)
         else:
             return self.render_alert(r[1])
 

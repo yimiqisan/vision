@@ -128,6 +128,18 @@ def _get_perm_key(value):
             return k
     return None
 
+def relation(subtype, href):
+    subtype = subtype.upper()
+    href = href.upper()
+    if href == 'SHOW':
+        return subtype
+    if not subtype or (subtype == href):
+        return href
+    elif (subtype in VOL_TYPES_SUB.keys()) and (subtype[0] == href[0]):
+        return href
+    else:
+        return 'norelation'
+
 def get_sub(t=None, p=None):
     if (t is None) and (p is None):
         return []

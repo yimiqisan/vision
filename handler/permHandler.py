@@ -56,6 +56,7 @@ class PermNewHandler(BaseHandler):
         d = {'pid':None}
         for n in l:d[n] = None
         d['pm'] = PERM_CLASS['NORMAL']
+        d['isself'] = False
         return self.render("perm/new.html", **d)
     
     @addslash
@@ -230,10 +231,11 @@ class AjaxStaffListHandler(BaseHandler):
         rp = p._api.list(channel=u'project', cid=cid)
         rlist = [i['owner'] for i in rp]
         s = Staff()
-        r = s._api.page(level=u'editor', order_by='email', order=1)
+        r = s._api.page(level=u'editor')
         l = []
         for i in r[1]:
             if i['pid'] != uid:
-                l.append((i['pid'], i['nick'], i['pid'] in rlist))
+                l.append((i['nick'], i['pid'] in rlist))
+                l.sort()
         return self.write(json.dumps(l))
     

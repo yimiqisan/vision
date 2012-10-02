@@ -4,9 +4,7 @@
 	<title>vision</title>
 {% end %}
 
-{% block static %}
-	<script language="javascript" src="{{ static_url('js/jquery.live.js') }}" type="text/javascript"></script>
-{% end %}
+{% block static %}{% end %}
 {% block body %}
 	<ul class="breadcrumb" style="padding:0px;height:40px;">
 		<li><p style="font-size:16px;font-weight:bold;height:40px;padding:10px 10px 10px 20px;">{{name}}</p></li>
@@ -38,7 +36,7 @@
 		<p style="padding:10px;min-height:200px;">{{about}}</p>
 	</div>
 	<div class="span8" style="width:740px;">
-		<ul class="thumbnails">
+		<ul class="thumbnails" style="min-height:460px;">
 			{% for w in wlist %}
 			<li class="span3">
 				<div class="thumbnail">

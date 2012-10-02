@@ -12,13 +12,23 @@
 	<ul class="breadcrumb" style="padding:0px;height:40px;">
 		<li><p style="font-size:16px;font-weight:bold;height:40px;padding:10px 10px 10px 20px;">{{vinfo['name']}}</p></li>
 		<li class="pull-right" style="border-left:1px solid black;">
-			<a class="btn btn-mini" style="border:0px;height:20px;font-size:16px;padding:10px;" href="{% if back %}{{ back }}?vback={{vback}}{% else %}/volume/{% end %}">返回</a>
+			<a class="btn btn-mini" style="border:0px;height:20px;font-size:16px;padding:10px;" href="{% if back %}{{ back }}{% else %}/volume/{% end %}">返回</a>
 		</li>
 	</ul>
 	<div class="span10" style="border-bottom:1px solid black;width:1028px;margin-left:0px;margin-bottom:20px;padding-bottom:15px;">
 		<div class="span2" style="width:120px;margin-left:20px;border-right:1px solid black;"><img src="/image/attach/{{vinfo['logo']}}_100" onerror="this.src='{{ static_url("img/blank_100.gif") }}';" alt="头像" style="width:100px;height:100px;" /></div>
 		<div class="span7">
-			<p style="font-weight:bold;">{{vinfo['name']}}&nbsp;/&nbsp;{{vinfo['subtype_cn']}} 性别：{{vinfo['male_cn']}} 出生日期：{{vinfo['born']}}</p>
+			<p style="font-weight:bold;">
+				{{vinfo['name']}}&nbsp;/&nbsp;{{vinfo['subtype_cn']}}
+				{% if vinfo['prop'] == 'PERSONAL' %}
+				 	性别：{{vinfo['male_cn']}}
+				 	出生日期：{{vinfo['born']}}
+				{% else %}
+					负责人 {{vinfo['builder']}}
+					创立日期：{{vinfo['born']}}
+				{% end %}
+			</p>
+
 			<p style="font-weight:bold;"><script>show_pid('live', {{vinfo["live"]}}, '国家地区：')</script></p>
 			<p style="font-weight:bold;">所属机构：{{vinfo['agency']}}</p>
 			<p style="font-weight:bold;">网址：{{vinfo['website']}}</p>

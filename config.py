@@ -26,6 +26,8 @@ settings = dict(
 
 ADMIN = {'admin': ('admin', u'57138d461d7343c685c15e9e6d3bd9ef')}
 
+BSTACK = []
+
 DATE_FORMAT = "%Y-%m-%d"
 
 PERM_CLASS = {

@@ -94,7 +94,7 @@
 		<li><h3 style="margin-top:0px;margin-bottom:0px;">新建</h3></li>
 	</ul>
 	<div class="span10" style="margin-left:0px;width:1020px;">
-		<form class="form-horizontal" method="post" action="/item/{{ vtype }}/{{ vid }}/new/?vback={{vback}}">
+		<form class="form-horizontal" method="post" action="/item/{{ vtype }}/{{ vid }}/new/">
 			<div class="span1" style="width:120px;float:left;border:1px solid black;">
 				<div class="">
 					<h4 style="color:white;background:black;margin-top:0px;margin-bottom:0px;padding:5px;text-align:center;">工具条</h4><br/>
@@ -115,7 +115,7 @@
 			</div>
 			<div class="span10" style="margin-top:10px;margin-left:0px;width:1028px;height:30px;float:left;border-top:1px solid black;">
 				<input type="submit" class="btn btn-primary censor pull-right" style="border:0px;font-weight:bold;" value="确定" />
-				<a href="/{% if vtype == u'project' %}project{% else %}volume{% end %}/{{ vid }}/?vback={{vback}}" class="btn pull-right" style="border-top:0px;border-bottom:0px;" onclick="return backconfirm(this);">取消</a>
+				<a href="/{% if vtype == u'project' %}project{% else %}volume{% end %}/{{ vid }}/" class="btn pull-right" style="border-top:0px;border-bottom:0px;" onclick="return backconfirm(this);">取消</a>
 			</div>
 		</form>
 	</div>

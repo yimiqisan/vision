@@ -39,10 +39,10 @@
 {% block body %}
 	<ul class="breadcrumb" style="padding:0px;height:40px;">
 		<li><p style="font-size:16px;font-weight:bold;height:40px;padding:10px 10px 10px 20px;">{% if vid %}编辑{% else %}新建{% end %}</p></li>
-		<li class="pull-right" style="border-left:1px solid black;"><a class="btn btn-mini" style="border:0px;height:20px;font-size:16px;padding:10px;" onclick="return backconfirm(this);" href="{{back}}?vback={{vback}}">返回</a></li>
+		<li class="pull-right" style="border-left:1px solid black;"><a class="btn btn-mini" style="border:0px;height:20px;font-size:16px;padding:10px;" onclick="return backconfirm(this);" href="{{back}}">返回</a></li>
 	</ul>
 	<div class="span10" style="margin-left:0px;width:1028px;">
-		<form class="form-horizontal" method="post" action="/volume/new/?back={{vback}}">
+		<form class="form-horizontal" method="post" action="/volume/new/">
 			<div class="span10 row3" style="padding:20px;">
 				<div class="control-group">
 					<label class="control-label" for="maintype">类别</label>
@@ -202,7 +202,7 @@
 			</div>
 			<div class="span10" style="margin-top:10px;margin-left:0px;width:1028px;height:30px;float:left;border-top:1px solid black;">
 				<input type="submit" class="btn btn-primary censor pull-right" style="border:0px;font-weight:bold;" value="确定" />
-				<a class="btn pull-right" href="{{back}}?vback={{vback}}" onclick="return backconfirm(this);" style="border-top:0px;border-bottom:0px;">取消</a>
+				<a class="btn pull-right" href="{{back}}" onclick="return backconfirm(this);" style="border-top:0px;border-bottom:0px;">取消</a>
 			</div>
 
 		</form>
