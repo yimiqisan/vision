@@ -30,6 +30,7 @@ class VolumeNewHandler(BaseHandler):
         for n in self.KEYS:d[n] = None
         d['vid'] = None
         d['born'] = 0
+        d['back'] = self.SESSION['BSTACK'][-1]
         return self.render("volume/new.html", **d)
     
     @addslash

@@ -9,6 +9,9 @@ Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 
 from md5 import md5
 import json
+#import sys
+#reload(sys)
+#sys.setdefaultencoding('utf8')
 from tornado.web import addslash, authenticated
 
 from baseHandler import BaseHandler
@@ -235,7 +238,78 @@ class AjaxStaffListHandler(BaseHandler):
         l = []
         for i in r[1]:
             if i['pid'] != uid:
-                l.append((i['nick'], i['pid'] in rlist))
-                l.sort()
+                l.append((i['nick'][0], i['nick'], i['pid'] in rlist))
+        l = self.cnsort(l)
+        l = [(i[1], i[2]) for i in l]
         return self.write(json.dumps(l))
+    
+    def _init_py(self):
+        self.dic_py = dict()
+        py_f = self.settings.get('static_path')+'/js/py.txt'
+        f_py = open(py_f,"r")
+        content_py = f_py.read()
+        lines_py = content_py.split('\n')
+        n=len(lines_py)
+        for i in range(0,n-1):
+            word_py, mean_py = lines_py[i].split('\t', 1)
+            self.dic_py[word_py]=mean_py
+        f_py.close()
+    
+    def cnsort(self, nline):
+        self._init_py()
+        n = len(nline)
+        l = [k[0][0] for k in nline]
+        lines="\n".join(l)
+        for i in range(1, n):
+            tmp = nline[i]
+            j = i
+            while j > 0 and self.comp_char(nline[j-1][0][0], tmp[0][0]):
+                nline[j] = nline[j-1]
+                j -= 1
+            nline[j] = tmp
+        return nline
+
+    def comp_char(self, A, B):
+        try:
+            charA = A.decode("utf-8")
+        except:
+            charA = A
+        try:
+            charB = B.decode("utf-8")
+        except:
+            charB = B
+        n=min(len(charA),len(charB))
+        i=0
+        while i < n:
+            dd=self.comp_char_PY(charA[i],charB[i])
+            if dd == -1:
+                i=i+1
+                if i==n:
+                    dd=len(charA)>len(charB)
+            else:
+                break
+        return dd
+    
+    def comp_char_PY(self, A, B):
+        if A==B:
+            return -1
+        pyA=self.searchdict(self.dic_py,A)
+        pyB=self.searchdict(self.dic_py,B)
+        if pyA > pyB:
+            return 1
+        elif pyA < pyB:
+            return 0
+        else:
+            return -1
+
+    def searchdict(self, dic, uchar):
+        if isinstance(uchar, str):
+            uchar = unicode(uchar,'utf-8')
+        if uchar >= u'\u4e00' and uchar<=u'\u9fa5':
+            value=dic.get(uchar.encode('utf-8'))
+            if value == None:
+                value = '*'
+        else:
+            value = uchar
+        return value
     
