@@ -29,11 +29,10 @@
 				},
 				onQueueComplete : function (queueData) {
 					$('.thumwell').addClass('well');
-					dragsort.makeListSortable(document.getElementById("thumbnails"));
+					dragsort.makeListSortable(document.getElementById("thumbnails"), setHandle);
 					$("#thumbnails input[type=radio]:first").attr("checked", true);
 					$('#poster_queue').html('');
 					$('#image').modal('hide');
-					
 					
 					KindEditor.create('.inplace', {
 						resizeType : 0,
@@ -64,10 +63,8 @@
 					$('#'+slist[i]+' input[name=cover]').val(j);
 				}
 			})
-			yhui.iNote.init('{{ eid }}');			
-			
+			yhui.iNote.init('{{ eid }}');
 		})
-		
 		
 		function select_span(b, c, d, e) {
 			var a = $("#year");

@@ -739,10 +739,27 @@ var ESCAPE = 27
 var ENTER = 13
 var TAB = 9
 
+function setHandle(item) {
+	item.toolManDragGroup.setHandle(findHandle(item))
+}
+
+function findHandle(item) {
+	var children = item.getElementsByTagName("div")
+	for (var i = 0; i < children.length; i++) {
+		var child = children[i]
+
+		if (child.getAttribute("class") == null) continue
+
+		if (child.getAttribute("class").indexOf("handle") >= 0)
+			return child
+	}
+	return item
+}
+
 function drag_join(name, isDoubleClick) {
 	var view = document.getElementById(name + "View")
 	view.editor = document.getElementById(name + "Edit")
-
+    
 	var showEditor = function(event) {
 		event = fixEvent(event)
 
@@ -768,7 +785,7 @@ function drag_join(name, isDoubleClick) {
 		editor.focus()
 		return false
 	}
-
+    
 	if (isDoubleClick) {
 		view.ondblclick = showEditor
 	} else {

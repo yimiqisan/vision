@@ -46,7 +46,7 @@
                         n('PIC', response.works[w][0], response.works[w][1]);
                     }
                     $('input[name="cover"]').eq(j-1).attr('checked', 'checked');
-                    dragsort.makeListSortable(document.getElementById("thumbnails"));
+                    dragsort.makeListSortable(document.getElementById("thumbnails"), setHandle);
                 });
                 KindEditor.create('.inplace', {
 					resizeType : 0,
@@ -142,6 +142,7 @@
             var pic_num = $("#thumbnails li").length+1;
             var pic_name = "图:"+pic_num;
             z = b('<li id="pic'+pic_num+'" itemid="pic'+pic_num+'" class="span8 box" style="cursor:move;width:720px;padding:5px;"><div class="thumbnail" style="min-height:200px;"><div style="float:left;width:30px;"><input type="radio" name="cover" value="'+pic_num+'" onclick="yhui.iNote.cover(this);" style="float:left;margin:5px;">'+pic_name+'</div><div style="float:left; clear:right;margin-right:10px;"><img src="/image/attach/'+v+'" alt="" title="" style="width:200px;height:200px;margin-bottom:5px;" width="200" height="200"><input name="'+pic_num+'PIC" type="hidden" value="'+v+'" /></div><div id="'+pic_num+'View" class="" style="display:none;"></div><textarea id="'+pic_num+'Edit" name="'+pic_num+'Edit" class="inplace" style="width:454px;height:90px;">'+w+'</textarea><a class="close" rel="'+pic_num+'" href="#" onclick="yhui.iNote.delPic(this);return false;">×</a></div></li>');
+        //    z = b('<li id="pic'+pic_num+'" itemid="pic'+pic_num+'" class="span8 box" style="cursor:move;width:720px;padding:5px;"><div class="thumbnail" style="min-height:200px;"><div style="float:left;width:30px;"><input type="radio" name="cover" value="'+pic_num+'" onclick="yhui.iNote.cover(this);" style="float:left;margin:5px;">'+pic_name+'</div><div style="float:left; clear:right;margin-right:10px;"><img src="/image/attach/'+v+'" alt="" title="" style="width:200px;height:200px;margin-bottom:5px;" width="200" height="200"><input name="'+pic_num+'PIC" type="hidden" value="'+v+'" /></div><div id="'+pic_num+'View" class="">'+w+'</div><a class="close" rel="'+pic_num+'" href="#" onclick="yhui.iNote.delPic(this);return false;">×</a></div></li><textarea id="'+pic_num+'Edit" name="'+pic_num+'Edit" class="inplace" style="width:454px;height:90px;display:none;">'+w+'</textarea>');
             b('#thumbnails').append(z);
             drag_join(pic_num);
             return pic_name;

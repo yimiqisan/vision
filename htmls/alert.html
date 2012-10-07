@@ -1,1 +1,250 @@
 alert:{{ alert }}
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN">
+<!-- Copyright (c) 2005 Tim Taylor Consulting (see LICENSE.txt) -->
+<html lang="en-US">
+<head>
+<title>test</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
+
+<link rel="stylesheet" type="text/css" href="http://tool-man.org/examples/common/common.css"/>
+<link rel="stylesheet" type="text/css" href="http://tool-man.org/examples/common/lists.css"/>
+
+<style type="text/css"><!--
+/* TODO: this CSS is in need of major cleanup */
+.slideshow {
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+.slide {
+	position: relative;
+	float: left;
+	width: 172px;
+	margin-bottom: 10px;
+	margin-right: 10px;
+}
+
+.slide div.thumb {
+	background: #fff;
+	width: 170px;
+	height: 120px;
+	border: 1px solid #000;
+	font-size: 5px;
+	font-family: "Times New Roman", serif;
+	overflow: hidden;
+}
+
+.slide .view {
+	padding: 2px 2px;
+	margin: 2px 0px;
+	cursor: text;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #ccc;
+	background-color: #eee;
+	height: 1em;
+}
+.view:hover {
+	background-color: #ffffcc;
+}
+.view, .inplace, #list5 input {
+	font-size: 14px;
+	font-family: sans-serif;
+}
+
+.inplace {
+	position: absolute;
+	visibility: hidden;
+	z-index: 10000;
+}
+#slideEditors input.inplace {
+	width: 12em;
+	max-width: 12em;
+	margin-left: 1px;
+}
+#slideEditors input.inplace, #slideshow .view {
+	text-align: center;
+}
+
+#list1 li:hover {
+	background-color: #eee;
+}
+#listExamples input.inplace {
+	width: 120px;
+	max-width: 120px;
+}
+
+.handle {
+	cursor: move;
+}
+</style>
+
+<script language="JavaScript" type="text/javascript" src="http://tool-man.org/source/org/tool-man/core.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://tool-man.org/source/org/tool-man/events.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://tool-man.org/source/org/tool-man/css.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://tool-man.org/source/org/tool-man/coordinates.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://tool-man.org/source/org/tool-man/drag.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://tool-man.org/source/org/tool-man/dragsort.js"></script>
+
+<script language="JavaScript">
+var ESCAPE = 27
+var ENTER = 13
+var TAB = 9
+
+var coordinates = ToolMan.coordinates()
+var dragsort = ToolMan.dragsort()
+
+window.onload = function() {
+	// TODO: this API sucks
+	join("one")
+	join("two")
+	join("three")
+	join("four")
+
+	dragsort.makeListSortable(document.getElementById("slideshow"), setHandle)
+}
+
+function setHandle(item) {
+	item.toolManDragGroup.setHandle(findHandle(item))
+}
+
+function findHandle(item) {
+	var children = item.getElementsByTagName("div")
+	for (var i = 0; i < children.length; i++) {
+		var child = children[i]
+
+		if (child.getAttribute("class") == null) continue
+
+		if (child.getAttribute("class").indexOf("handle") >= 0)
+			return child
+	}
+	return item
+}
+
+function join(name, isDoubleClick) {
+	var view = document.getElementById(name + "View")
+	view.editor = document.getElementById(name + "Edit")
+
+	var showEditor = function(event) {
+		event = fixEvent(event)
+
+		var view = this
+		var editor = view.editor
+
+		if (!editor) return true
+
+		if (editor.currentView != null) {
+			editor.blur()
+		}
+		editor.currentView = view
+
+		var topLeft = coordinates.topLeftOffset(view)
+		topLeft.reposition(editor)
+		if (editor.nodeName == 'TEXTAREA') {
+			editor.style['width'] = view.offsetWidth + "px"
+			editor.style['height'] = view.offsetHeight + "px"
+		}
+		editor.value = view.innerHTML
+		editor.style['visibility'] = 'visible'
+		view.style['visibility'] = 'hidden'
+		editor.focus()
+		return false
+	}
+
+	if (isDoubleClick) {
+		view.ondblclick = showEditor
+	} else {
+		view.onclick = showEditor
+	}
+
+	view.editor.onblur = function(event) {
+		event = fixEvent(event)
+
+		var editor = event.target
+		var view = editor.currentView
+
+		if (!editor.abandonChanges) view.innerHTML = editor.value
+		editor.abandonChanges = false
+		editor.style['visibility'] = 'hidden'
+		editor.value = '' // fixes firefox 1.0 bug
+		view.style['visibility'] = 'visible'
+		editor.currentView = null
+
+		return true
+	}
+	
+	view.editor.onkeydown = function(event) {
+		event = fixEvent(event)
+		
+		var editor = event.target
+		if (event.keyCode == TAB) {
+			editor.blur()
+			return false
+		}
+	}
+
+	view.editor.onkeyup = function(event) {
+		event = fixEvent(event)
+
+		var editor = event.target
+		if (event.keyCode == ESCAPE) {
+			editor.abandonChanges = true
+			editor.blur()
+			return false
+		} else if (event.keyCode == TAB) {
+			return false
+		} else {
+			return true
+		}
+	}
+
+	// TODO: this method is duplicated elsewhere
+	function fixEvent(event) {
+		if (!event) event = window.event
+		if (event.target) {
+			if (event.target.nodeType == 3) event.target = event.target.parentNode
+		} else if (event.srcElement) {
+			event.target = event.srcElement
+		}
+
+		return event
+	}
+}
+</script>
+
+</head>
+<body>
+
+<table><tr><td>
+<ul id="slideshow" class="slideshow">
+	<li class="slide">
+		<div class="thumb handle"><img src="http://tool-man.org/examples/slideshow/1.png"/></div>
+		<div id="oneView" class="view">Slide 1</div>
+	</li>
+	<input id="oneEdit" name="oneEdit" class="inplace"/>
+
+	<li class="slide">
+		<div class="thumb handle"><img src="http://tool-man.org/examples/slideshow/2.png"/></div>
+		<div id="twoView" class="view">Slide 2</div>
+	</li>
+	<input id="twoEdit" name="oneEdit" class="inplace"/>
+
+	<li class="slide">
+		<div class="thumb handle"><img src="http://tool-man.org/examples/slideshow/3.png"/></div>
+		<div id="threeView" class="view">Slide 3</div>
+	</li>
+	<input id="threeEdit" name="oneEdit" class="inplace"/>
+
+	<li class="slide">
+		<div class="thumb handle"><img src="http://tool-man.org/examples/slideshow/4.png"/></div>
+		<div id="fourView" class="view">Slide 4</div>
+	</li>
+	<input id="fourEdit" name="oneEdit" class="inplace"/>
+</ul>
+</td></tr></table>
+
+</body>
+</html>
