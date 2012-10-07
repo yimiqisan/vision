@@ -57,7 +57,6 @@
 						'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
 						'insertunorderedlist']//, '|', 'emoticons', 'image', 'link']
 				});
-
             }
         };
         function j(x, z) {

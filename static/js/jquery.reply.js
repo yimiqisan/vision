@@ -45,7 +45,7 @@
             Reply.prototype.insert(id.replace('sub-', ''));
         },
         insert: function (id) {
-            var tarea = $('#tarea-'+id).val();
+            var tarea = $('#'+id+'Edit').val();
             if (tarea == ""){return false;}
             var args = {'to': id, 'content': tarea};
             $.postJSON("/a/reply/new/", "POST", args, function(response) {
@@ -57,7 +57,7 @@
                 node.hide();
                 $(node).insertAfter($("#ins-"+id));
                 node.slideDown(300);
-                $('#tarea-'+id).val("").select();
+                $('#'+id+'Edit').val("").select();
                 var num = parseInt($('#ext-'+id+' b').text());
                 $('#ext-'+id+' b').text(num+1);
             });
