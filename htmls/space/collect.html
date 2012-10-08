@@ -196,8 +196,8 @@
 					<li><a href="/collect/{{ v['vid'] }}/remove/" onclick="return delconfirm(this);">取消收藏</a></li>
 				</ul>
 				<div class="caption" style="height:107px;">
-					<h4>{{ v['name'] }} / {{ v['subtype_cn'] }}</h4>
-					<p>{{ v['intro'] }}</p>
+					<h4>{{ abstract(v['name'], 9) }} / {{ v['subtype_cn'] }}</h4>
+					<p>{{ abstract(v['intro'], 44) }}</p>
 				</div>
 			</div>
 		</li>

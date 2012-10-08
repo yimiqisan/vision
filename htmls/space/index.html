@@ -197,8 +197,8 @@
 					<li><a href="/volume/{{ v['vid'] }}/remove/" onclick="return delconfirm(this);">删除</a></li>
 				</ul>
 				<div class="caption" style="height:107px;">
-					<h4>{{ v['name'] }} / {{ v['subtype_cn'] }}</h4>
-					<p>{{ v['intro'] }}</p>
+					<h4>{{ abstract(v['name'], 9) }} / {{ v['subtype_cn'] }}</h4>
+					<p>{{ abstract(v['intro'], 44) }}</p>
 				</div>
 			</div>
 		</li>

@@ -64,7 +64,7 @@ class VolumeRemoveHandler(BaseHandler):
         uid = self.SESSION['uid']
         v = volume.Volume()
         r = v._api.remove(id)
-        return self.redirect(BSTACK.pop())
+        return self.redirect(self.SESSION['BSTACK'].pop())
     
 class VolumeEditHandler(BaseHandler):
     '''编辑作品集
