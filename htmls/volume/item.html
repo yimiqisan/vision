@@ -19,17 +19,20 @@
 		<div class="span7">
 			<p style="font-weight:bold;">
 				{{name}}&nbsp;/&nbsp;{{subtype_cn}}
+			</p>
+			<p style="font-weight:bold;">	
 				{% if prop == 'PERSONAL' %}
-				 	性别：{{male_cn}}
+				 	性别：{{male_cn}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				 	出生日期：{{born}}
 				{% else %}
-					负责人 {{builder}}
+					负责人 {{builder}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					创立日期：{{born}}
 				{% end %}
 			</p>
 			<script>show_pid('live', {{live}}, '国家地区：')</script>
-			<p style="font-weight:bold;">所属机构：{{agency}}</p>
-			<p style="font-weight:bold;">网址：{{website}}</p>
+			<p style="font-weight:bold;">
+				所属机构：{{agency}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;网址：{{website}}
+			</p>
 		</div>
 		<div class="span2" style="width:120px;border-left:1px solid black;height:80px;padding:10px;">
 			<p>级别：
@@ -43,10 +46,10 @@
 		</div>
 	</div>
 	<div class="span3" style="width:219px;border-top:1px solid black;border-right:1px solid black;border-bottom:1px solid black;margin-left:0px;padding-left:5px;padding-right:5px;">
-		<h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">简介</h3><hr/>
-		<p style="padding:10px;min-height:200px;">{{intro}}</p>
-		<hr/><h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">相关机构</h3><hr/>
-		<p style="padding:10px;min-height:200px;">{{about}}</p>
+		<h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">{% if prop == 'PERSONAL' %}简介{% else %}相关机构{% end %}</h3><hr/>
+		<p style="padding:10px;min-height:200px;">{% if prop == 'PERSONAL' %}{{intro}}{% else %}{{about}}{% end %}</p>
+		<hr/><h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">{% if prop == 'PERSONAL' %}相关机构{% else %}市场投放{% end %}</h3><hr/>
+		<p style="padding:10px;min-height:200px;">{% if prop == 'PERSONAL' %}{{about}}{% else %}{{market}}{% end %}</p>
 	</div>
 	<div class="span8" style="width:740px;">
 		<a class="btn btn-large" style="border-bottom:0px;font-weight:bold;font-size:18px;" href="/item/{{prop.lower()}}/{{vid}}/new/"><i class="icon-plus"></i>&nbsp;&nbsp;新建</a>

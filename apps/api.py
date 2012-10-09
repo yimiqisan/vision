@@ -254,6 +254,7 @@ class API(object):
             return self.collection.one({key:value}) is not None
         except Exception, e:
             logging.info(e)
-            raise Exception
+            #raise Exception
+            return True
 
 
