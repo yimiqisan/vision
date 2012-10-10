@@ -4,7 +4,7 @@
 		{% if reply['is_own'] %}<span class="pull-right" style="width:15px"><a class="close" onclick="delItem(this);return false;" href="#" id="d-{{ reply['id'] }}" alt="删除">&times;</a></span>{% end %}
 		<span class="author me"><a title="{{ reply['nick'] }}" rel="popover" data-content="{{ reply['info'] }}" data-original-title="{{ reply['nick'] }}" alt="{{ reply['nick'] }}" class="lively-user">
 			{{ reply['nick'] }}</a>：{{ reply['content'] }}
-			<a href="" onclick="Reply.reply(this);return false;" href="#" id="r-{{ reply['id'] }}" nick="{{ reply['nick'] }}" to="{{ reply['tid'] }}">回复</a>
+			<a href="" onclick="Reply.reply(this);return false;" style="color:gray;" id="r-{{ reply['id'] }}" nick="{{ reply['nick'] }}" to="{{ reply['tid'] }}">回复</a>
 		</span>
 	</div>
 	<span class="time">{{ reply['created'] }}</span>
