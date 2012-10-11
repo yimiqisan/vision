@@ -238,9 +238,9 @@ class AjaxStaffListHandler(BaseHandler):
         l = []
         for i in r[1]:
             if i['pid'] != uid:
-                l.append((i['nick'][0], i['nick'], i['pid'] in rlist))
+                l.append((i['nick'][0], i['pid'], i['nick'], i['pid'] in rlist))
         l = self.cnsort(l)
-        l = [(i[1], i[2]) for i in l]
+        l = [(i[1], i[2], i[3]) for i in l]
         return self.write(json.dumps(l))
     
     def _init_py(self):

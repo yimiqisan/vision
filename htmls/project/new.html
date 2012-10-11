@@ -15,11 +15,11 @@
 					return alert(response.error);
 				}
 				$(response).each(function() {
-					var t = $(this)[0], i = $(this)[1]
+					var t = $(this)[1], i = $(this)[2], j = $(this)[0]
 					if (i) {
-						$("#members").append("<option value=" + i + " selected='selected'>" + t + "</option>");
+						$("#members").append("<option value=" + j + " selected='selected'>" + t + "</option>");
 					}else{
-						$("#members").append("<option value=" + i + ">" + t + "</option>");
+						$("#members").append("<option value=" + j + ">" + t + "</option>");
 					}
 				});
 			});
