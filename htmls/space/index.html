@@ -191,7 +191,9 @@
 		{% for v in vlist %}
 		<li class="span3">
 			<div class="thumbnail overmenu-group">
-				<a href="/volume/{{ v['vid'] }}/"><img src="/image/attach/{{ v.get('logo', None) }}_300" onerror="this.src='{{ static_url("img/blank_260x180.gif") }}';" style="display:block;height:180px;margin:0 auto;" alt=""></a>
+				<a href="/volume/{{ v['vid'] }}/" style="width:220px;height:180px;position:relative;overflow:hidden;display:block;">
+					<img src="/image/attach/{{ v.get('logo', None) }}_300" onerror="this.src='{{ static_url("img/blank_260x180.gif") }}';" style="display:block;width:220px;margin:0 auto;" alt="">
+				</a>
 				<ul class="overmenu" bot=0 >
 					<li><a href="/volume/{{ v['vid'] }}/edit/">编辑</a></li>
 					<li><a href="/volume/{{ v['vid'] }}/remove/" onclick="return delconfirm(this);">删除</a></li>

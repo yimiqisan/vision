@@ -131,6 +131,19 @@ class StaffAPI(API):
             return None
         return nick
     
+    def edit(self, id, **kwargs):
+        rp = self.get(id)
+        if not rp[0] or not rp[1]:
+            return (False, '该用户不存在')
+        nick = kwargs.get('nick', None)
+        if nick and nick != rp[1].get('nick', None):
+            r = self.is_nick_exist(nick)
+            if r:return (False, '名号已被占用')
+        email = kwargs.get('email', None)
+        if email and email != rp[1].get('email', None):
+            if self.is_email_exist(email):return (False, '邮箱已被占用')
+        return super(StaffAPI, self).edit(id, **kwargs)
+    
     def remove(self, id):
         ''' 删除账号 '''
         r = self.get(id)

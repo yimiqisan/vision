@@ -89,7 +89,10 @@ class PermNewHandler(BaseHandler):
             l = self.PARAMS.keys() + self.ARGS
             d = {'pid':None, 'pm':PERM_CLASS['NORMAL'], 'warning': r[1]}
             for n in l:d[n] = None
-            return self.render('perm/new.html', **d)
+            s = Staff()
+            rp = s._api.get(pid)
+            rp[1]['isself'] = uid == pid
+            return self.render('perm/new.html', **rp[1])
     
     @session
     def _save(self):

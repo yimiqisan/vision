@@ -85,6 +85,7 @@ class ItemPreviewHandler(BaseHandler):
     @authenticated
     def post(self, tp, vid):
         uid = self.SESSION['uid']
+        eid = self.get_argument('eid', None)
         logo, works = self.get_works_list()
         infos = self.get_info_dict(tp)
         if tp == u'project':
@@ -96,7 +97,7 @@ class ItemPreviewHandler(BaseHandler):
             rv = v._api.get(vid)
             html = "item/index.html"
         vinfo = rv[1] if rv[0] and rv[1] else {}
-        vdict = {'vid':vid, 'vtype':tp, 'works':works, 'isPreview': True}
+        vdict = {'vid':vid, 'vtype':tp, 'works':works, 'isPreview': True, 'back':'/item/'+eid+'/edit/'}
         return self.render(html, vinfo=vinfo, **vdict)
     
     def get_works_list(self):

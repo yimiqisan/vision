@@ -37,6 +37,7 @@ VOL_TYPES_SUB = {
             ['FMAGAZINE', '杂志'],
             ['FASSOCIATION', '协会'],
             ['FINSTITUTIONS', '院校'],
+            ['FMUSEUM', '博物馆'],
             ['FSHOW', '展会']],
         'ART':[['APAINTING', '绘画'],
             ['AEQUIPMENT', '装置'],
@@ -46,6 +47,7 @@ VOL_TYPES_SUB = {
             ['AMAGAZINE', '杂志'],
             ['AASSOCIATION', '协会'],
             ['AINSTITUTION', '院校'],
+            ['AMUSEUM', '博物馆'],
             ['ASHOW', '展会']],
         'DESIGN':[['DBUILDING', '建筑'],
             ['DINDOOR', '室内'],
@@ -55,6 +57,7 @@ VOL_TYPES_SUB = {
             ['DMAGAZINE', '杂志'],
             ['DASSOCIATION', '协会'],
             ['DINSTITUTION', '院校'],
+            ['DMUSEUM', '博物馆'],
             ['DSHOW', '展会']],
         'HUMAN':[['HPERFORMER', '表演者'],
             ['HTHEATER', '剧院'],
@@ -62,6 +65,7 @@ VOL_TYPES_SUB = {
             ['HSHOW', '展会']],
         'BRAND':[['BMEDIAPEOPLE', '媒体人'],
             ['BCOMPANY', '公司'],
+            ['BMUSEUM', '博物馆'],
             ['BSHOW', '展会']]
 }
 
@@ -94,14 +98,18 @@ VOL_PROPERTY_SUB = {
         'ORGANIZATION':[['FMAGAZINE', '杂志'],
             ['FASSOCIATION', '协会'],
             ['FINSTITUTIONS', '院校'],
+            ['FMUSEUM', '博物馆'],
             ['AMAGAZINE', '杂志'],
             ['AASSOCIATION', '协会'],
             ['AINSTITUTION', '院校'],
+            ['AMUSEUM', '博物馆'],
             ['DMAGAZINE', '杂志'],
             ['DASSOCIATION', '协会'],
             ['DINSTITUTION', '院校'],
+            ['DMUSEUM', '博物馆'],
             ['HTHEATER', '剧院'],
             ['HMUSEUM', '博物馆'],
+            ['BMUSEUM', '博物馆'],
             ['BCOMPANY', '公司']],
         'SHOW':[['FSHOW', '展会'],
             ['ASHOW', '展会'],
@@ -295,6 +303,8 @@ class VolumeAPI(API):
                 kwargs['subtype']={'$in': [u'FASSOCIATION', u'AASSOCIATION', u'DASSOCIATION']}
             elif subtype == 'MAGAZINE':
                 kwargs['subtype']={'$in': [u'FMAGAZINE']}
+            elif subtype == 'MUSEUM':
+                kwargs['subtype']={'$in': [u'FMUSEUM', u'AMUSEUM', u'DMUSEUM', u'HMUSEUM', u'BMUSEUM']}
             else:
                 kwargs['subtype']=subtype
         if created:kwargs.update(self._deal_created(created))
@@ -356,6 +366,8 @@ class VolumeAPI(API):
                 kwargs['subtype']={'$in': [u'FASSOCIATION', u'AASSOCIATION', u'DASSOCIATION']}
             elif subtype == 'MAGAZINE':
                 kwargs['subtype']={'$in': [u'FMAGAZINE']}
+            elif subtype == 'MUSEUM':
+                kwargs['subtype']={'$in': [u'FMUSEUM', u'AMUSEUM', u'DMUSEUM', u'HMUSEUM', u'BMUSEUM']}
             else:
                 kwargs['subtype']=subtype
         elif perm is not None:
