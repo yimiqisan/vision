@@ -111,8 +111,11 @@ $.fn.selectlist.Constructor = Selectlist
 			if (prop) {
 			    if (prop == 'PERSONAL') {
 			        $("[for='name']").text('姓名');
+			        $("[for='engname']").text('英文姓名');
 			        $("[for='builder']").parent().addClass('hide');
 			        $("input[name=builder]").val('');
+                    $("[for='post']").parent().addClass('hide');
+			        $("input[name=post]").val('');
 			        $("[for='male']").parent().removeClass('hide');
 			        $("[for='born']").text('出生日期');
 			        $("[for='intro']").parent().removeClass('hide');
@@ -121,9 +124,12 @@ $.fn.selectlist.Constructor = Selectlist
 			        $("[for='market']").parent().addClass('hide');
 			    }else if (prop == 'ORGANIZATION') {
 			        $("[for='name']").text('名称');
+			        $("[for='engname']").text('英文名称');
 			        $("[for='male']").parent().addClass('hide');
 			        $("[for='builder']").parent().removeClass('hide');
 			        $("input[name=builder]").val('');
+			        $("[for='post']").parent().removeClass('hide');
+			        $("input[name=post]").val('');
 			        $("[for='born']").text('创建时间');
 			        $("[for='intro']").parent().addClass('hide');
 			        $("textarea[name=intro]").val('');
@@ -131,9 +137,12 @@ $.fn.selectlist.Constructor = Selectlist
 			        $("[for='market']").parent().removeClass('hide');
 			    }else if (prop == 'SHOW') {
 			        $("[for='name']").text('名称');
+			        $("[for='engname']").text('英文名称');
 			        $("[for='male']").parent().addClass('hide');
 			        $("[for='builder']").parent().removeClass('hide');
 			        $("input[name=builder]").val('');
+			        $("[for='post']").parent().removeClass('hide');
+			        $("input[name=post]").val('');
 			        $("[for='born']").text('创建时间');
 			        $("[for='intro']").parent().addClass('hide');
 			        $("textarea[name=intro]").val('');

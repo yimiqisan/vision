@@ -41,7 +41,8 @@
 		<li><p style="font-size:16px;font-weight:bold;height:40px;padding:10px 10px 10px 20px;">{% if vid %}编辑{% else %}新建{% end %}</p></li>
 		<li class="pull-right" style="border-left:1px solid black;"><a class="btn btn-mini" style="border:0px;height:20px;font-size:16px;padding:10px;" onclick="return backconfirm(this);" href="{{back}}">返回</a></li>
 	</ul>
-	<div class="span10" style="margin-left:0px;width:1028px;">
+	
+    <div class="span10" style="margin-left:0px;width:1028px;">
 		<form class="form-horizontal" method="post" action="/volume/new/">
 			<div class="span10 row3" style="padding:20px;">
 				<div class="control-group">
@@ -94,12 +95,24 @@
 						<p class="help-inline">请输入{% if prop=='PERSONAL' %}姓名{% else %}名称{% end %}</p>
 					</div>
 				</div>
+				<div class="control-group">
+					<label class="control-label" for="engname">{% if prop=='PERSONAL' %}英文姓名{% else %}英文名称{% end %}</label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="engname" name="engname" value="{% if engname %}{{engname}}{% end %}"/>
+					</div>
+				</div>
 				
 				<div class="control-group {% if prop=='PERSONAL' %}hide{% end %}">
 					<label class="control-label" for="builder">负责人</label>
 					<div class="controls">
 						<input type="text" class="input-xlarge" id="builder" name="builder" value="{% if builder %}{{builder}}{% end %}"/>
 						<p class="help-inline">请输入负责人</p>
+					</div>
+				</div>
+				<div class="control-group {% if prop=='PERSONAL' %}hide{% end %}">
+					<label class="control-label" for="post">职务</label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="post" name="post" value="{% if post %}{{post}}{% end %}"/>
 					</div>
 				</div>
 				
