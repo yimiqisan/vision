@@ -27,7 +27,11 @@
 				addItemTarget: 'bottom',
 				animate: true,
 				highlight: true
-			});
+			}).after($("<a href='#'>全选</a>").click(function() {
+				$("select[multiple]").children().attr("selected", "selected").end().change();
+				return false;
+			}));
+			
 		})
 	</script>
 {% end %}
