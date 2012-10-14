@@ -183,27 +183,48 @@
 						<p class="help-inline">请选择关系</p>
 					</div>
 				</div>
+				
 				<hr style="margin:20px 0px;"/>
-				<div class="control-group {% if prop!='PERSONAL' %}hide{% end %}">
-					<label class="control-label" for="intro">简介</label>
+				
+				<div class="control-group">
+					<label class="control-label" for="intro">一句话简介</label>
 					<div class="controls">
-						<textarea class="input-xlarge" id="intro" rows="3" name="intro">{% if intro %}{{ intro }}{% end %}</textarea>
-						<p class="help-inline">请输入简介</p>
+						<input type="text" class="input-xlarge" id="intro" name="intro" value="{% if intro %}{{ intro }}{% end %}"/>
+						<p class="help-inline">请输入一句话简介</p>
 					</div>
 				</div>
 				<div class="control-group">
-					<label class="control-label" for="about">相关机构</label>
+					<label class="control-label" for="intro_detail">详细介绍</label>
 					<div class="controls">
-						<textarea class="input-xlarge" id="about" rows="3" name="about">{% if about %}{{ about }}{% end %}</textarea>
-						<p class="help-inline">请输入相关机构</p>
+						<textarea class="input-xlarge" id="intro" rows="3" name="intro_detail">{% if intro_detail %}{{ intro_detail }}{% end %}</textarea>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label" for="about">相关机构简介</label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="about" name="about" value="{% if about %}{{ about }}{% end %}"/>
+						<p class="help-inline">请输入相关机构简介</p>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="about_detail">详细介绍</label>
+					<div class="controls">
+						<textarea class="input-xlarge" id="about_detail" rows="3" name="about_detail">{% if about_detail %}{{ about_detail }}{% end %}</textarea>
 					</div>
 				</div>
 				
 				<div class="control-group {% if prop=='PERSONAL' %}hide{% end %}">
 					<label class="control-label" for="market">市场投放</label>
 					<div class="controls">
-						<textarea class="input-xlarge" id="market" rows="3" name="market">{% if market %}{{ market }}{% end %}</textarea>
+						<input type="text" class="input-xlarge" id="market" name="market" value="{% if market %}{{ market }}{% end %}"/>
 						<p class="help-inline">请输入市场投放</p>
+					</div>
+				</div>
+				<div class="control-group {% if prop=='PERSONAL' %}hide{% end %}">
+					<label class="control-label" for="market_detail">详细介绍</label>
+					<div class="controls">
+						<textarea class="input-xlarge" id="market_detail" rows="3" name="market_detail">{% if market_detail %}{{ market_detail }}{% end %}</textarea>
 					</div>
 				</div>
 				
