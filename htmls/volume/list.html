@@ -199,7 +199,7 @@
 			<li class="span3">
 				<div class="thumbnail overmenu-group">
 					<a href="/volume/{{ v['vid'] }}/" style="width:220px;height:180px;position:relative;overflow:hidden;display:block;">
-						<img src="/image/attach/{{ v.get('logo', None) }}_300" onerror="this.src='{{ static_url("img/blank_260x180.gif") }}';" style="display:block;width:220px;margin:0 auto;" alt="">
+						<img src="/image/attach/{{ v.get('logo', None) }}_300" onload="if ((parseFloat($(this).width())/$(this).height()) > 1.23){$(this).css('height', '180').css('width', 'auto')};" onerror="this.src='{{ static_url("img/blank_260x180.gif") }}';" style="display:block;width:220px;margin:0 auto;" alt="">
 					</a>
 					<ul class="overmenu" bot=0>
 						{% if verify(perm, 0x01) %}

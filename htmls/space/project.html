@@ -106,7 +106,7 @@
 		<li class="span3 item">
 			<div class="thumbnail overmenu-group">
 				<a href="/item/{{ w['eid'] }}/" style="width:220px;height:180px;position:relative;overflow:hidden;display:block;">
-					<img src="/image/attach/{{ w['logo'] }}_300" style="display:block;width:220px;margin:0 auto;" alt="">
+					<img src="/image/attach/{{ w['logo'] }}_300" onload="if ((parseFloat($(this).width())/$(this).height()) > 1.23){$(this).css('height', '180').css('width', 'auto')};" onerror="this.src='{{ static_url("img/blank_260x180.gif") }}';" style="display:block;width:220px;margin:0 auto;" alt="">
 				</a>
 				<div class="caption" style="height:107px;"></div>
 				<ul class="overmenu">

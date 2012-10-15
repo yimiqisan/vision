@@ -97,7 +97,7 @@ class ItemPreviewHandler(BaseHandler):
             rv = v._api.get(vid)
             html = "item/index.html"
         vinfo = rv[1] if rv[0] and rv[1] else {}
-        vdict = {'vid':vid, 'vtype':tp, 'works':works, 'isPreview': True, 'back':'/item/'+eid+'/edit/'}
+        vdict = {'vid':vid, 'vtype':tp, 'works':works, 'isPreview': True, 'back':'/item/'+eid+'/edit/' if eid else self.SESSION['BSTACK'][-1]}
         return self.render(html, vinfo=vinfo, **vdict)
     
     def get_works_list(self):

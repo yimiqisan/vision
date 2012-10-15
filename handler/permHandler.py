@@ -92,6 +92,7 @@ class PermNewHandler(BaseHandler):
             s = Staff()
             rp = s._api.get(pid)
             rp[1]['isself'] = uid == pid
+            rp[1]['warning'] = r[1]
             return self.render('perm/new.html', **rp[1])
     
     @session
