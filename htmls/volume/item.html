@@ -15,7 +15,11 @@
 		</li>
 	</ul>
 	<div class="span10" style="border-bottom:1px solid black;width:1028px;margin-left:0px;margin-bottom:20px;padding-bottom:15px;">
-		<div class="span2" style="width:120px;margin-left:20px;border-right:1px solid black;"><img src="/image/attach/{{logo}}_100" onerror="this.src='{{ static_url("img/blank_100.gif") }}';" alt="头像" style="width:100px;height:100px;" /></div>
+		<div class="span2" style="width:120px;margin-left:20px;border-right:1px solid black;">
+			<a style="width:100px;height:100px;position:relative;overflow:hidden;display:block;">
+				<img src="/image/attach/{{logo}}_100" onload="if ((parseFloat($(this).width())/$(this).height()) > 1.0){$(this).css('height', '100').css('width', 'auto')};" onerror="this.src='{{ static_url("img/blank_100.gif") }}';" alt="头像" style="width:100px;" />
+			</a>
+		</div>
 		<div class="span7">
 			<p style="font-weight:bold;">
 				{{name}}&nbsp;/&nbsp;{{subtype_cn}}
@@ -59,7 +63,7 @@
 			<li class="span3">
 				<div class="thumbnail overmenu-group">
 					<a href="/item/{{w['eid']}}/" style="width:220px;height:180px;position:relative;overflow:hidden;display:block;">
-						<img src="/image/attach/{{ w['logo'] }}_300" style="display:block;width:220px;margin:0 auto;" alt="">
+						<img src="/image/attach/{{ w['logo'] }}_300" onload="if ((parseFloat($(this).width())/$(this).height()) > 1.23){$(this).css('height', '180').css('width', 'auto')};" onerror="this.src='{{ static_url("img/blank_260x180.gif") }}';" style="display:block;width:220px;margin:0 auto;" style="display:block;width:220px;margin:0 auto;" alt="">
 					</a>
 					<div class="caption" style="height:107px;">
 						{% if w['vtype'] == u'personal' %}

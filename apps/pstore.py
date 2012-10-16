@@ -73,7 +73,7 @@ class ImageProcessor(object):
         self.uid = uid
         self.sz_l = [300, 100]
         self.p = Pstore()
-        self.max_sz = 600
+        self.max_sz = 1024
     
     def _get_attr(self, im):
         if not im:
