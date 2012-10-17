@@ -100,14 +100,33 @@ class ImageProcessor(object):
                 print 'save eror'
                 return None
         return o.getvalue()
-        
+    
+    def _crop(self, im_obj, z):
+        o = StringIO.StringIO()
+        try:
+            im_obj = im_obj.crop((0, 0, z, z))
+            im_obj.save(o, 'JPEG')
+        except Exception, e:
+            try:
+                im_obj.save(o, 'GIF')
+            except Exception, e:
+                print 'save eror'
+                return None
+        return o.getvalue()
+
     def process(self, data):
         ofn = self._get_fn()
         im = Image.open(StringIO.StringIO(data))
-        if (im.size[0]>self.max_sz)or(im.size[1]>self.max_sz):
+        w, h = im.size
+        if (w>self.max_sz)or(h>self.max_sz):
             data = self._thumbnail(im, self.max_sz)
         if data is None:return None
         self.p.put(data, filename=ofn, size=-1)
+        try:
+            data = self._crop(im, h if w>h else w)
+            self.p.put(data, filename=ofn+'_'+'crop')
+        except Exception, e:
+            pass
         for sz in self.sz_l:
             fn = ofn+'_'+str(sz)
             data = self._thumbnail(im, sz)

@@ -60,7 +60,10 @@ class SpaceHandler(BaseHandler):
     def _build_params(self, params):
         l = []
         for k, v in params.items():
-            s = str(k)+'='+str(v)
+            try:
+                s = str(k)+'='+v
+            except:
+                s = str(k)+'='+str(v)
             l.append(s)
         return '&'.join(l)
     

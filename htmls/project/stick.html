@@ -31,7 +31,9 @@
 			{% for i in ilist %}
 			<li class="span3">
 				<div class="thumbnail overmenu-group">
-					<a href="/item/{{i['eid']}}"><img src="/image/attach/{{i['logo'] }}_300" style="width:260px;height:180px;" alt=""></a>
+					<a href="/item/{{i['eid']}}" style="width:220px;height:180px;position:relative;overflow:hidden;display:block;">
+						<img src="/image/attach/{{i['logo'] }}_crop" onload="if ((parseFloat($(this).width())/$(this).height()) > 1.23){$(this).css('height', '180').css('width', 'auto')};" onerror="this.src='{{ static_url("img/blank_260x180.gif") }}';" style="display:block;width:220px;margin:0 auto;" alt="">
+					</a>
 					<div class="caption" style="height:107px;">
 						{% if i['vtype'] == u'personal' %}
 							<h4>{{i['name']}}</h4></br>
