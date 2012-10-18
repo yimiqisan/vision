@@ -81,7 +81,7 @@
 					{% if logo %}
 						<span style="width:100px;height:100px;position:relative;overflow:hidden;display:block;">
 							<input type="hidden" name="logo" value="{{ logo }}"/>
-							<img src="/image/attach/{{ logo }}_100" onload="if ((parseFloat($(this).width())/$(this).height()) > 1.0){$(this).css('height', '100').css('width', 'auto')};" onerror="this.src='{{ static_url("img/blank_100.gif") }}';" alt="头像" style="width:100px;">
+							<img src="/image/attach/{{ logo }}_crop" onload="if ((parseFloat($(this).width())/$(this).height()) > 1.0){$(this).css('height', '100').css('width', 'auto')};" onerror="this.src='{{ static_url("img/blank_100.gif") }}';" alt="头像" style="width:100px;">
 						</span>
 					{% else %}
 						<span><img src="{{ static_url("img/blank_100.gif") }}" style="width:100px;height:100px;"/></span>
@@ -168,7 +168,7 @@
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="grade">级别</label>
-					<div class="controls">
+					<div class="controls" style="padding:5px;">
 						<span class="star-group">
 							{% for i in xrange(0, 5) %}<i class="star icon-star-empty"></i>{% end %}
 						</span>
@@ -178,7 +178,7 @@
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="nexus">关系</label>
-					<div class="controls">
+					<div class="controls" style="padding:5px;">
 						<span class="star-group">
 							{% for i in xrange(0, 5) %}<i class="star icon-star-empty"></i>{% end %}
 						</span>
@@ -204,33 +204,19 @@
 				</div>
 				
 				<div class="control-group">
-					<label class="control-label" for="about">相关机构简介</label>
+					<label class="control-label" for="about">相关机构</label>
 					<div class="controls">
-						<input type="text" class="input-xlarge" id="about" name="about" value="{% if about %}{{ about }}{% end %}"/>
-						<p class="help-inline">请输入相关机构简介</p>
+						<textarea class="input-xlarge" id="about" rows="3" name="about">{% if about %}{{ about }}{% end %}</textarea>
+						<p class="help-inline">请输入相关机构</p>
 					</div>
 				</div>
-				<div class="control-group">
-					<label class="control-label" for="about_detail">详细介绍</label>
-					<div class="controls">
-						<textarea class="input-xlarge" id="about_detail" rows="3" name="about_detail">{% if about_detail %}{{ about_detail }}{% end %}</textarea>
-					</div>
-				</div>
-				
 				<div class="control-group {% if prop=='PERSONAL' %}hide{% end %}">
 					<label class="control-label" for="market">市场投放</label>
 					<div class="controls">
-						<input type="text" class="input-xlarge" id="market" name="market" value="{% if market %}{{ market }}{% end %}"/>
+						<textarea class="input-xlarge" id="market" rows="3" name="market">{% if market %}{{ market }}{% end %}</textarea>
 						<p class="help-inline">请输入市场投放</p>
 					</div>
 				</div>
-				<div class="control-group {% if prop=='PERSONAL' %}hide{% end %}">
-					<label class="control-label" for="market_detail">详细介绍</label>
-					<div class="controls">
-						<textarea class="input-xlarge" id="market_detail" rows="3" name="market_detail">{% if market_detail %}{{ market_detail }}{% end %}</textarea>
-					</div>
-				</div>
-				
 				<input type="hidden" name="vid" value="{% if vid %}{{ vid }}{% end %}">
 			</div>
 			<div style="clear:both;"></div>

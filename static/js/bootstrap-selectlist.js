@@ -118,10 +118,8 @@ $.fn.selectlist.Constructor = Selectlist
 			        $("input[name=post]").val('');
 			        $("[for='male']").parent().removeClass('hide');
 			        $("[for='born']").text('出生日期');
-			        $("input[name=about]").val('');
-			        $("textarea[name=about_detail]").val('');
+			        $("textarea[name=about]").val('');
 			        $("[for='market']").parent().addClass('hide');
-			        $("[for='market_detail']").parent().addClass('hide');
 			    }else if (prop == 'ORGANIZATION') {
 			        $("[for='name']").text('名称');
 			        $("[for='engname']").text('英文名称');
@@ -131,10 +129,8 @@ $.fn.selectlist.Constructor = Selectlist
 			        $("[for='post']").parent().removeClass('hide');
 			        $("input[name=post]").val('');
 			        $("[for='born']").text('创建时间');
-			        $("input[name=about]").val('');
-			        $("textarea[name=about_detail]").val('');
+			        $("textarea[name=about]").val('');
 			        $("[for='market']").parent().removeClass('hide');
-			        $("[for='market_detail']").parent().removeClass('hide');
 			    }else if (prop == 'SHOW') {
 			        $("[for='name']").text('名称');
 			        $("[for='engname']").text('英文名称');
@@ -144,10 +140,8 @@ $.fn.selectlist.Constructor = Selectlist
 			        $("[for='post']").parent().removeClass('hide');
 			        $("input[name=post]").val('');
 			        $("[for='born']").text('创建时间');
-			        $("input[name=about]").val('');
-			        $("textarea[name=about_detail]").val('');
+			        $("textarea[name=about]").val('');
 			        $("[for='market']").parent().removeClass('hide');
-			        $("[for='market_detail']").parent().removeClass('hide');			        
 			    }
 				var args = {'kind': 'subtype', 'property': prop};
 				if (maintype) {args['maintype'] = maintype};

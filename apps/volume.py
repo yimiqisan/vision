@@ -319,7 +319,9 @@ class VolumeAPI(API):
         if agency:kwargs['agency']=agency
         if grade and int(grade):kwargs['grade']=int(grade)
         if nexus and int(nexus):kwargs['nexus']=int(nexus)
-        if male in ['male', 'female']:kwargs['male']=(male==u'male')
+        if male in ['male', 'female']:
+            kwargs['prop']=u'PERSONAL'
+            kwargs['male']=(male==u'male')
         if born_tuple:
             sd, ed = born_tuple
             sd = 1900+int(sd)
@@ -392,7 +394,9 @@ class VolumeAPI(API):
         if agency:kwargs['agency']=agency
         if grade and int(grade):kwargs['grade']=int(grade)
         if nexus and int(nexus):kwargs['nexus']=int(nexus)
-        if male in ['male', 'female']:kwargs['male']=(male==u'male')
+        if male in ['male', 'female']:
+            kwargs['prop']=u'PERSONAL'
+            kwargs['male']=(male==u'male')
         if born_tuple:
             sd, ed = born_tuple
             sd = 1900+int(sd)

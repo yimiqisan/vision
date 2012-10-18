@@ -50,10 +50,16 @@
 		</div>
 	</div>
 	<div class="span3" style="width:219px;border-top:1px solid black;border-right:1px solid black;border-bottom:1px solid black;margin-left:0px;padding-left:5px;padding-right:5px;">
-		<h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">{% if prop == 'PERSONAL' %}简介{% else %}相关机构{% end %}</h3><hr/>
-		<p style="padding:10px;min-height:200px;">{% if prop == 'PERSONAL' %}{{intro}}{% else %}{{about}}{% end %}</p>
-		<hr/><h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">{% if prop == 'PERSONAL' %}相关机构{% else %}市场投放{% end %}</h3><hr/>
-		<p style="padding:10px;min-height:200px;">{% if prop == 'PERSONAL' %}{{about}}{% else %}{{market}}{% end %}</p>
+		<h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">一句话简介</h3><hr/>
+		<p style="padding:10px;height:100px;overflow:scroll;">{{intro}}</p>
+		<hr/><h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">详细介绍</h3><hr/>
+		<p style="padding:10px;height:200px;overflow:scroll;">{{intro_detail}}</p>
+		<hr/><h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">相关机构</h3><hr/>
+		<p style="padding:10px;height:200px;overflow:scroll;">{{about}}</p>
+		{% if prop != 'PERSONAL' %}
+			<hr/><h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">市场投放</h3><hr/>
+			<p style="padding:10px;height:200px;overflow:scroll;">{{market}}</p>
+		{% end %}
 	</div>
 	<div class="span8" style="width:740px;">
 		<a class="btn btn-large" style="border-bottom:0px;font-weight:bold;font-size:18px;" href="/item/{{prop.lower()}}/{{vid}}/new/"><i class="icon-plus"></i>&nbsp;&nbsp;新建</a>

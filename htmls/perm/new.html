@@ -19,7 +19,7 @@
 				auto			: true,
 				fileObjName		: 'upload',
 				onUploadSuccess : function (file, data, response) {
-					$('#poster-disp').html('<span><img width=100 height=100 src="/image/attach/'+data+'_300"></span>');
+					$('#poster-disp').html('<span><img width=100 height=100 src="/image/attach/'+data+'_crop"></span>');
 					$('<input type="hidden" name="avatar" value="'+data+'"/>').insertBefore('[name=pid]');
 					$('#poster_queue').hide();
 					},
@@ -65,7 +65,7 @@
 			<div id="poster">头像上传</div>
 				<div id="poster-disp">
 				{% if avatar %}
-					<span><input type="hidden" name="avatar" value="{{ avatar }}"/><img width=100 height=100 src="/image/attach/{{ avatar }}_300"></span>
+					<span><input type="hidden" name="avatar" value="{{ avatar }}"/><img width=100 height=100 src="/image/attach/{{ avatar }}_crop"></span>
 				{% end %}
 			</div><br/>
 		</div>

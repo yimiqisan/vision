@@ -6,10 +6,12 @@
 
 {% block static %}
 	<script language="javascript" type="text/javascript">
-		function onClickRedirect (url) {
+		function onClickRedirect (href) {
 			var params = $.parseJSON($('#params').val());
-			host = window.location.host;
-			window.location.href = 'http://' + host + url + '?' + $.param(params);
+			params['href'] = href
+			url = window.location.href
+			url = url.substr(0, $.inArray('?', url))
+			window.location.href = url + '?' + $.param(params);
 		}
 		function onClickHref (k, v) {
 			var params = $.parseJSON($('#params').val());
@@ -185,7 +187,6 @@
 			</div>
 		</div>
 	</div>
-
 
 	<ul class="thumbnails" style="min-height:300px;">
 		{% for v in vlist %}

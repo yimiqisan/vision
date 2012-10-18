@@ -20,7 +20,7 @@ from vision.apps.tools import session
 class VolumeNewHandler(BaseHandler):
     '''新建作品集
     '''
-    KEYS = ["maintype", "maintype_cn", "prop", "prop_cn", "subtype", "subtype_cn", "logo", "name", "engname", "male", "born", "live", "agency", "website", "grade", "nexus", "intro", "intro_detail", "about", "about_detail", "builder", "post", "market", "market_detail"]
+    KEYS = ["maintype", "maintype_cn", "prop", "prop_cn", "subtype", "subtype_cn", "logo", "name", "engname", "male", "born", "live", "agency", "website", "grade", "nexus", "intro", "intro_detail", "about", "builder", "post", "market"]
     @addslash
     @session
     @authenticated
