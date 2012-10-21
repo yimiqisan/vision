@@ -73,7 +73,7 @@ class ImageProcessor(object):
         self.uid = uid
         self.sz_l = [300, 100]
         self.p = Pstore()
-        self.max_sz = 1024
+        self.max_sz = 1024#2048
     
     def _get_attr(self, im):
         if not im:
@@ -119,7 +119,7 @@ class ImageProcessor(object):
         im = Image.open(StringIO.StringIO(data))
         w, h = im.size
         if (w>self.max_sz)or(h>self.max_sz):
-            data = self._thumbnail(im, self.max_sz)
+            data = self._thumbnail(im.copy(), self.max_sz)
         if data is None:return None
         self.p.put(data, filename=ofn, size=-1)
         try:

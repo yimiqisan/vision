@@ -26,16 +26,16 @@
 			</p>
 			<p style="font-weight:bold;">	
 				{% if prop == 'PERSONAL' %}
-				 	性别：{{male_cn}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				 	出生日期：{{born}}
+				 	性别：{{male_cn}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				 	出生日期：{{born_f}}
 				{% else %}
-					负责人 {{builder}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					创立日期：{{born}}
+					负责人 {{builder}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					创立日期：{{born_f}}
 				{% end %}
 			</p>
 			<script>show_pid('live', {{live}}, '国家地区：')</script>
 			<p style="font-weight:bold;">
-				所属机构：{{agency}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;网址：{{website}}
+				所属机构：{{agency}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;网址：{{website}}
 			</p>
 		</div>
 		<div class="span2" style="width:120px;border-left:1px solid black;height:80px;padding:10px;">
@@ -72,13 +72,9 @@
 						<img src="/image/attach/{{ w['logo'] }}_crop" onload="if ((parseFloat($(this).width())/$(this).height()) > 1.23){$(this).css('height', '180').css('width', 'auto')};" onerror="this.src='{{ static_url("img/blank_260x180.gif") }}';" style="display:block;width:220px;margin:0 auto;" style="display:block;width:220px;margin:0 auto;" alt="">
 					</a>
 					<div class="caption" style="height:107px;">
-						{% if w['vtype'] == u'personal' %}
-							<h4>{{w['name']}}</h4></br>
-							<p>{{ abstract(w['client'], 44) }}</p>
-						{% else %}
-							<h4>{{w['title']}}</h4></br>
-							<p>{{ abstract(w['content'], 44) }}</p>
-						{% end %}
+						<p>名称：{{ abstract(w['name'], 12) }}</p>
+						<p style="margin-bottom:5px;">客户：{{ abstract(w['client'], 40) }}</p>
+						<p>年份：{{w['year']}}</p>
 					</div>
 					<ul class="overmenu" bot=0 >
 						<li><a href="/item/{{ w['eid'] }}/edit/">编辑</a></li>

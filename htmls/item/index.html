@@ -45,13 +45,15 @@
 		</div>
 	</div>
 	<div class="span3" style="width:219px;border-top:1px solid black;border-right:1px solid black;border-bottom:1px solid black;margin-left:0px;padding-left:5px;padding-right:5px;margin-bottom:20px;">
-		<h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">简介</h3><hr/>
-		<p style="padding:10px;min-height:200px;">{{vinfo['intro']}}</p>
-		<hr/><h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">相关机构</h3><hr/>
-		<p style="padding:10px;min-height:200px;">{{vinfo['about']}}</p>
+		<h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">标题</h3><hr/>
+		<p style="padding:10px;min-height:100px;">{{name}}</p>
+		<hr/><h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">客户</h3><hr/>
+		<p style="padding:10px;min-height:200px;">{{client}}</p>
+		<hr/><h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">年代</h3><hr/>
+		<p style="padding:10px;min-height:10px;">{{year}}</p>
+		
 	</div>
-
-
+	
 	<div class="span8" style="width:740px;">
 		{% for w in works %}
 		<div class="thumbnail">

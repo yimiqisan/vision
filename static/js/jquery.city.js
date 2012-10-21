@@ -23,7 +23,7 @@ function _(a,b){
 }
  function _show(a, b, c){
      function show_country(a){return COUNTRY_DICT[a];}
-     function show_city(a, b){r = show_country(a);return r+PID2NAME[b];}
+     function show_city(a, b){r = show_country(a);return r+'/'+PID2NAME[b];}
     if(b) {
         d = '0x'+parseInt(b/(16*16)).toString(16);
         b = '0x'+b.toString(16);
