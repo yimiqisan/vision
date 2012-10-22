@@ -74,7 +74,6 @@
 			{% else %}
 				<div class="alert navi-browser" style="float:left;display:none;margin:0px 0px 0px 100px;padding:4px 15px;width:460px;"><strong>友情提示：</strong>为了更好的服务您的工作，推荐使用chrome 浏览器&nbsp;&nbsp;<a target="_blank" href="http://www.google.cn/intl/zh-CN/chrome/browser/?installdataindex=chinabookmarkext&brand=CHUP">下载地址</a></div>
 			{% end %}
-			
 		</div>
 		
 		<div class="navbar" style="margin-bottom:40px;">
@@ -132,10 +131,12 @@
 							<li id="nav-human" class="dropdown drophover" style="">
 								<a href="/volume/human/" style="padding-top:5px;padding-bottom:5px;font-weight:bold;font-size:18px;" class="dropdown-toggle" data-toggle="dropdown">人文</a>
 								<ul class="dropdown-menu parallel-menu">
-									<li><a class="{% if subtype == 'hperformer' %}select{% end %}" href="/volume/hperformer/">表演者</a></li><li>/</li>
-									<li><a class="{% if subtype == 'htheater' %}select{% end %}" href="/volume/htheater/">剧院</a></li><li>/</li>
-									<li><a class="{% if subtype == 'hmuseum' %}select{% end %}" href="/volume/hmuseum/">博物馆</a></li><li>/</li>
-									<li><a class="{% if subtype == 'hshow' %}select{% end %}" href="/volume/hshow/">展会</a></li>
+									<li><a class="{% if subtype == 'hphotographer' %}select{% end %}" href="/volume/hphotographer/">摄影师</a></li><li>/</li>
+									<li><a class="{% if subtype == 'hshow' %}select{% end %}" href="/volume/hshow/">展会</a></li><li>/</li>
+									<li><a class="{% if subtype == 'hmuseum' %}select{% end %}" href="/volume/hmuseum/">博物馆（展馆）</a></li><li>/</li>
+									<li><a class="{% if subtype == 'hassociation' %}select{% end %}" href="/volume/hassociation/">协会</a></li><li>/</li>
+									<li><a class="{% if subtype == 'hmagazine' %}select{% end %}" href="/volume/hmagazine/">杂志</a></li><li>/</li>
+									<li><a class="{% if subtype == 'hlegacy' %}select{% end %}" href="/volume/hlegacy/">文化遗产</a></li><li>/</li>
 								</ul>
 							</li>
 							<li id="nav-brand" class="dropdown drophover" style="">

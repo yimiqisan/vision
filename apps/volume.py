@@ -59,11 +59,18 @@ VOL_TYPES_SUB = {
             ['DINSTITUTION', '院校'],
             ['DMUSEUM', '博物馆'],
             ['DSHOW', '展会']],
-        'HUMAN':[['HPERFORMER', '表演者'],
-            ['HTHEATER', '剧院'],
-            ['HMUSEUM', '博物馆'],
+        'HUMAN':[
+#            ['HPERFORMER', '表演者'],
+#            ['HTHEATER', '剧院'],
+#            ['HMUSEUM', '博物馆（展馆）'],
+#            ['HSHOW', '展会'],
+#            ['LEGACY', '文化遗产']],
+            ['HPHOTOGRAPHER', '摄影师'],
             ['HSHOW', '展会'],
-            ['LEGACY', '文化遗产']],
+            ['HASSOCIATION', '协会'],
+            ['HMAGAZINE', '杂志'],
+            ['HMUSEUM', '博物馆（展馆）'],
+            ['HLEGACY', '文化遗产']],
         'BRAND':[['BMEDIAPEOPLE', '媒体人'],
             ['BCOMPANY', '公司'],
             ['BMUSEUM', '博物馆'],
@@ -84,7 +91,8 @@ VOL_PROPERTY_SUB = {
             ['FMODEL', '模特'],
             ['FBLOGER', '博主'],
 #            ['FARTIST', '艺术家'],
-            ['HPERFORMER', '表演者'],
+#            ['HPERFORMER', '表演者'],
+            ['HPHOTOGRAPHER', '摄影师'],
             ['BMEDIAPEOPLE', '媒体人'],
             ['APAINTING', '绘画'],
             ['AEQUIPMENT', '装置'],
@@ -108,8 +116,11 @@ VOL_PROPERTY_SUB = {
             ['DASSOCIATION', '协会'],
             ['DINSTITUTION', '院校'],
             ['DMUSEUM', '博物馆'],
-            ['HTHEATER', '剧院'],
-            ['HMUSEUM', '博物馆'],
+#            ['HTHEATER', '剧院'],
+            ['HASSOCIATION', '协会'],
+            ['HMAGAZINE', '杂志'],
+            ['HMUSEUM', '博物馆（展馆）'],
+            ['HLEGACY', '文化遗产'],
             ['BMUSEUM', '博物馆'],
             ['BCOMPANY', '公司']],
         'SHOW':[['FSHOW', '展会'],
@@ -298,12 +309,14 @@ class VolumeAPI(API):
             subkey = _get_mtype(subtype)
             if subtype in mtype_l:
                 kwargs['maintype']=subtype
+            elif subtype == 'PHOTOGRAPHER':
+                kwargs['subtype']={'$in': [u'FPHOTOGRAPHER', u'HPHOTOGRAPHER']}
             elif subtype == 'INSTITUTIONS':
                 kwargs['subtype']={'$in': [u'FINSTITUTIONS', u'AINSTITUTION', u'DINSTITUTION']}
             elif subtype == 'ASSOCIATION':
-                kwargs['subtype']={'$in': [u'FASSOCIATION', u'AASSOCIATION', u'DASSOCIATION']}
+                kwargs['subtype']={'$in': [u'FASSOCIATION', u'AASSOCIATION', u'HASSOCIATION', u'DASSOCIATION']}
             elif subtype == 'MAGAZINE':
-                kwargs['subtype']={'$in': [u'FMAGAZINE']}
+                kwargs['subtype']={'$in': [u'FMAGAZINE', u'HMAGAZINE']}
             elif subtype == 'MUSEUM':
                 kwargs['subtype']={'$in': [u'FMUSEUM', u'AMUSEUM', u'DMUSEUM', u'HMUSEUM', u'BMUSEUM']}
             else:
@@ -363,12 +376,14 @@ class VolumeAPI(API):
             
             if subtype in mtype_l:
                 kwargs['maintype']=subtype
+            elif subtype == 'PHOTOGRAPHER':
+                kwargs['subtype']={'$in': [u'FPHOTOGRAPHER', u'HPHOTOGRAPHER']}
             elif subtype == 'INSTITUTIONS':
                 kwargs['subtype']={'$in': [u'FINSTITUTIONS', u'AINSTITUTION', u'DINSTITUTION']}
             elif subtype == 'ASSOCIATION':
-                kwargs['subtype']={'$in': [u'FASSOCIATION', u'AASSOCIATION', u'DASSOCIATION']}
+                kwargs['subtype']={'$in': [u'FASSOCIATION', u'AASSOCIATION', u'HASSOCIATION', u'DASSOCIATION']}
             elif subtype == 'MAGAZINE':
-                kwargs['subtype']={'$in': [u'FMAGAZINE']}
+                kwargs['subtype']={'$in': [u'FMAGAZINE', u'HMAGAZINE']}
             elif subtype == 'MUSEUM':
                 kwargs['subtype']={'$in': [u'FMUSEUM', u'AMUSEUM', u'DMUSEUM', u'HMUSEUM', u'BMUSEUM']}
             else:

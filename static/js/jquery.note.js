@@ -141,8 +141,8 @@
         function n(u, v, w) {
             var pic_num = $("#thumbnails li").length+1;
             var pic_name = "图:"+pic_num;
-            z = b('<li id="pic'+pic_num+'" itemid="pic'+pic_num+'" class="span8 box" style="cursor:move;width:720px;padding:5px;"><div class="thumbnail" style="min-height:200px;"><div style="float:left;width:30px;"><input type="radio" name="cover" value="'+pic_num+'" onclick="yhui.iNote.cover(this);" style="float:left;margin:5px;">'+pic_name+'</div><div style="float:left; clear:right;margin-right:10px;width:200px;height:200px;position:relative;overflow:hidden;display:block;"><img src="/image/attach/'+v+'_crop" onload="yhui.iNote.imgload(this);" alt="" title="" style="display:block;width:200px;margin:0 auto;margin-bottom:5px;"><input name="'+pic_num+'PIC" type="hidden" value="'+v+'" /></div><div id="'+pic_num+'View" class="" style="display:none;"></div><textarea id="'+pic_num+'Edit" name="'+pic_num+'Edit" class="inplace" style="width:454px;height:90px;">'+w+'</textarea><a class="close" rel="'+pic_num+'" href="#" onclick="yhui.iNote.delPic(this);return false;">×</a></div></li>');
-        //    z = b('<li id="pic'+pic_num+'" itemid="pic'+pic_num+'" class="span8 box" style="cursor:move;width:720px;padding:5px;"><div class="thumbnail" style="min-height:200px;"><div style="float:left;width:30px;"><input type="radio" name="cover" value="'+pic_num+'" onclick="yhui.iNote.cover(this);" style="float:left;margin:5px;">'+pic_name+'</div><div style="float:left; clear:right;margin-right:10px;"><img src="/image/attach/'+v+'" alt="" title="" style="width:200px;height:200px;margin-bottom:5px;" width="200" height="200"><input name="'+pic_num+'PIC" type="hidden" value="'+v+'" /></div><div id="'+pic_num+'View" class="" style="display:none;"></div><textarea id="'+pic_num+'Edit" name="'+pic_num+'Edit" class="inplace" style="width:454px;height:90px;">'+w+'</textarea><a class="close" rel="'+pic_num+'" href="#" onclick="yhui.iNote.delPic(this);return false;">×</a></div></li>');
+            //z = b('<li id="pic'+pic_num+'" itemid="pic'+pic_num+'" class="span8 box" style="cursor:move;width:720px;padding:5px;"><div class="thumbnail" style="min-height:200px;"><div style="float:left;width:30px;"><input type="radio" name="cover" value="'+pic_num+'" onclick="yhui.iNote.cover(this);" style="float:left;margin:5px;">'+pic_name+'</div><div style="float:left; clear:right;margin-right:10px;width:200px;height:200px;position:relative;overflow:hidden;display:block;"><img src="/image/attach/'+v+'_crop" onload="yhui.iNote.imgload(this);" alt="" title="" style="display:block;width:200px;margin:0 auto;margin-bottom:5px;"><input name="'+pic_num+'PIC" type="hidden" value="'+v+'" /></div><div id="'+pic_num+'View" class="" style="display:none;"></div><textarea id="'+pic_num+'Edit" name="'+pic_num+'Edit" class="inplace" style="width:454px;height:90px;">'+w+'</textarea><a class="close" rel="'+pic_num+'" href="#" onclick="yhui.iNote.delPic(this);return false;">×</a></div></li>');
+            z = b('<li id="pic'+pic_num+'" itemid="pic'+pic_num+'" class="span8 box" style="cursor:move;width:720px;padding:5px;"><div class="thumbnail" style="min-height:200px;"><div style="float:left;width:30px;"><input type="radio" name="cover" value="'+pic_num+'" onclick="yhui.iNote.cover(this);" style="float:left;margin:5px;"><p class="pname">'+pic_name+'</p></div><div style="float:left; clear:right;margin-right:10px;width:200px;height:200px;position:relative;overflow:hidden;display:block;"><img src="/image/attach/'+v+'_crop" onload="yhui.iNote.imgload(this);" alt="" title="" style="display:block;width:200px;margin:0 auto;margin-bottom:5px;"><input name="'+pic_num+'PIC" class="pic" type="hidden" value="'+v+'" /></div><div id="'+pic_num+'View" class="view" style="display:none;"></div><textarea id="'+pic_num+'Edit" name="'+pic_num+'Edit" class="inplace" style="width:454px;height:90px;">'+w+'</textarea><a class="close" rel="'+pic_num+'" href="#" onclick="yhui.iNote.delPic(this);return false;">×</a></div></li>');
             b('#thumbnails').append(z);
             drag_join(pic_num);
             return pic_name;
@@ -156,6 +156,26 @@
             if ((parseFloat($(e).width())/$(e).height()) > 1.0){
                 $(e).css("height", "200").css("width", "auto")
             };
+        };
+        function q(){
+            var tlength = $("#thumbnails li").length;
+            $("#thumbnails li").each(function(index, object){
+                var i = tlength - index;
+                pid = "pic"+i,
+                pname = "图"+i,
+                pic = i+"PIC",
+                view = i+"View",
+                edit = i+"Edit";
+                $(this).attr('id', pid);
+                $(this).attr('itemid', pid);
+                $(this).find('[name=cover]', i);
+                $(this).find('.pname').text(pname);
+                $(this).find('.pic').attr('name', pic);
+                $(this).find('.view').attr('id', view);
+                $(this).find('.inplace').attr('id', edit);
+                $(this).find('.inplace').attr('name', edit);
+                $(this).find('.close').attr('rel', i);
+            });
         }
 
         return {
@@ -176,6 +196,9 @@
             },
             imgload:function(u) {
                 return p(u);
+            },
+            alignment:function() {
+                return q();
             }
         }
     })();

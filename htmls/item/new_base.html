@@ -25,6 +25,7 @@
 				onUploadSuccess : function (file, data, response) {
 					var pic_num = $("#thumbnails li").length+1;
 					var pic_name = " 图:"+pic_num+" ";
+					yhui.iNote.alignment();
 					yhui.iNote.insertPic('PIC', data, '');
 				},
 				onQueueComplete : function (queueData) {
@@ -76,7 +77,6 @@
 			a.html(i.join(""));
 			var n = $("#year");
 			n.change(function(){}), c -= 0, c && (n.val(parseInt(c)));
-			
 		}
 
 		var coordinates = ToolMan.coordinates()
