@@ -51,11 +51,11 @@
 	</div>
 	<div class="span3" style="width:219px;border-top:1px solid black;border-right:1px solid black;border-bottom:1px solid black;margin-left:0px;padding-left:5px;padding-right:5px;">
 		<h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">一句话简介</h3><hr/>
-		<p style="padding:10px;height:100px;overflow:scroll;">{{intro}}</p>
+		<p style="padding:10px;height:100px;overflow-y:scroll;">{{intro}}</p>
 		<hr/><h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">详细介绍</h3><hr/>
-		<p style="padding:10px;height:200px;overflow:scroll;">{{intro_detail}}</p>
+		<p style="padding:10px;height:200px;overflow-y:scroll;">{{intro_detail}}</p>
 		<hr/><h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">相关机构</h3><hr/>
-		<p style="padding:10px;height:200px;overflow:scroll;">{{about}}</p>
+		<p style="padding:10px;height:200px;overflow-y:scroll;">{{about}}</p>
 		{% if prop != 'PERSONAL' %}
 			<hr/><h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">市场投放</h3><hr/>
 			<p style="padding:10px;height:200px;overflow:scroll;">{{market}}</p>
@@ -72,9 +72,14 @@
 						<img src="/image/attach/{{ w['logo'] }}_crop" onload="if ((parseFloat($(this).width())/$(this).height()) > 1.23){$(this).css('height', '180').css('width', 'auto')};" onerror="this.src='{{ static_url("img/blank_260x180.gif") }}';" style="display:block;width:220px;margin:0 auto;" style="display:block;width:220px;margin:0 auto;" alt="">
 					</a>
 					<div class="caption" style="height:107px;">
-						<p>名称：{{ abstract(w['name'], 12) }}</p>
-						<p style="margin-bottom:5px;">客户：{{ abstract(w['client'], 40) }}</p>
-						<p>年份：{{w['year']}}</p>
+						{% if prop == 'PERSONAL' %}
+							<p>名称：{{ abstract(w['name'], 12) }}</p>
+							<p style="margin-bottom:5px;">客户：{{ abstract(w['client'], 40) }}</p>
+							<p>年份：{{w['year']}}</p>							
+						{% else %}
+							<p>标题：{{ abstract(w['title'], 12) }}</p>
+							<p>正文：{{ abstract(w['content'], 40) }}</p>
+						{% end %}
 					</div>
 					<ul class="overmenu" bot=0 >
 						<li><a href="/item/{{ w['eid'] }}/edit/">编辑</a></li>

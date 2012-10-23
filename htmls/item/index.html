@@ -20,18 +20,20 @@
 		<div class="span7">
 			<p style="font-weight:bold;">
 				{{vinfo['name']}}&nbsp;/&nbsp;{{vinfo['subtype_cn']}}
+			</p>
+			<p style="font-weight:bold;">	
 				{% if vinfo['prop'] == 'PERSONAL' %}
-				 	性别：{{vinfo['male_cn']}}
-				 	出生日期：{{vinfo['born']}}
+				 	性别：{{vinfo['male_cn']}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				 	出生日期：{{vinfo['born_f']}}
 				{% else %}
-					负责人 {{vinfo['builder']}}
-					创立日期：{{vinfo['born']}}
+					负责人 {{vinfo['builder']}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					创立日期：{{vinfo['born_f']}}
 				{% end %}
 			</p>
-
-			<p style="font-weight:bold;"><script>show_pid('live', {{vinfo["live"]}}, '国家地区：')</script></p>
-			<p style="font-weight:bold;">所属机构：{{vinfo['agency']}}</p>
-			<p style="font-weight:bold;">网址：{{vinfo['website']}}</p>
+			<script>show_pid('live', {{vinfo["live"]}}, '国家地区：')</script>
+			<p style="font-weight:bold;">
+				所属机构：{{vinfo['agency']}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;网址：{{vinfo['website']}}
+			</p>
 		</div>
 		<div class="span2" style="width:120px;border-left:1px solid black;height:80px;padding:10px;">
 			<p>级别：
@@ -45,13 +47,19 @@
 		</div>
 	</div>
 	<div class="span3" style="width:219px;border-top:1px solid black;border-right:1px solid black;border-bottom:1px solid black;margin-left:0px;padding-left:5px;padding-right:5px;margin-bottom:20px;">
-		<h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">标题</h3><hr/>
-		<p style="padding:10px;min-height:100px;">{{name}}</p>
-		<hr/><h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">客户</h3><hr/>
-		<p style="padding:10px;min-height:200px;">{{client}}</p>
-		<hr/><h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">年代</h3><hr/>
-		<p style="padding:10px;min-height:10px;">{{year}}</p>
-		
+		{% if vinfo['prop'] == 'PERSONAL' %}
+			<h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">标题</h3><hr/>
+			<p style="padding:10px;height:100px;overflow-y:scroll;">{{name}}</p>
+			<hr/><h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">客户</h3><hr/>
+			<p style="padding:10px;height:200px;overflow-y:scroll;">{{client}}</p>
+			<hr/><h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">年代</h3><hr/>
+			<p style="padding:10px;min-height:10px;">{{year}}</p>
+		{% else %}
+			<h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">标题</h3><hr/>
+			<p style="padding:10px;height:100px;overflow-y:scroll;">{{title}}</p>
+			<hr/><h3 style="font-size:18px;padding-left:10px;margin-top:0px;margin-bottom:0px;">正文</h3><hr/>
+			<p style="padding:10px;height:200px;overflow-y:scroll;">{{content}}</p>
+		{% end %}
 	</div>
 	
 	<div class="span8" style="width:740px;">
