@@ -31,18 +31,18 @@
 			{% for i in ilist %}
 			<li class="span3">
 				<div class="thumbnail overmenu-group">
+					<p style="color:white;background:black;position:absolute;opacity:0.8;z-index:1000;" >{{ abstract(i['nick'], 16) }}&nbsp;创建于&nbsp;{{ i['created'] }} </p>
 					<a href="/item/{{i['eid']}}" style="width:220px;height:180px;position:relative;overflow:hidden;display:block;">
 						<img src="/image/attach/{{i['logo'] }}_crop" onload="if ((parseFloat($(this).width())/$(this).height()) > 1.23){$(this).css('height', '180').css('width', 'auto')};" onerror="this.src='{{ static_url("img/blank_260x180.gif") }}';" style="display:block;width:220px;margin:0 auto;" alt="">
 					</a>
 					<div class="caption" style="height:107px;">
-						{% if i['vtype'] == u'personal' %}
-							<h4>{{i['name']}}</h4></br>
-							<p>{{i['client']}}</p>
-							<br/><br/><br/><br/>
+						{% if i['vtype'] == 'personal' %}
+							<p>名称：{{ abstract(i['name'], 12) }}</p>
+							<p style="margin-bottom:5px;">客户：{{ abstract(i['client'], 40) }}</p>
+							<p>年份：{% if i['year'] %}{{i['year']}}{% else %}未知{% end %}</p>
 						{% else %}
-							<h4>{{i['title']}}</h4></br>
-							<p>{{i['content']}}</p>
-							<br/><br/><br/><br/>
+							<p>标题：{{ abstract(i['title'], 12) }}</p>
+							<p>正文：{{ abstract(i['content'], 40) }}</p>
 						{% end %}
 					</div>
 					<ul class="overmenu" >

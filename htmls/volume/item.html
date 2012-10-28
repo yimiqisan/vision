@@ -9,14 +9,14 @@
 {% end %}
 {% block body %}
 	<ul class="breadcrumb" style="padding:0px;height:40px;">
-		<li><p style="font-size:16px;font-weight:bold;height:40px;padding:10px 10px 10px 20px;">{{name}}</p></li>
+		<li><p style="font-size:16px;font-weight:bold;height:40px;padding:10px 10px 10px 20px;"><a href="{{ back }}">{{name}}</a></p></li>
 		<li class="pull-right" style="border-left:1px solid black;">
 			<a class="btn btn-mini" style="border:0px;height:20px;font-size:16px;padding:10px;" href="{{ back }}">返回</a>
 		</li>
 	</ul>
 	<div class="span10" style="border-bottom:1px solid black;width:1028px;margin-left:0px;margin-bottom:20px;padding-bottom:15px;">
 		<div class="span2" style="width:120px;margin-left:20px;border-right:1px solid black;">
-			<a style="width:100px;height:100px;position:relative;display:block;white-space:nowrap;overflow-x:auto;overflow-y:hidden;">
+			<a href="{{ back }}" style="width:100px;height:100px;position:relative;display:block;white-space:nowrap;overflow-x:auto;overflow-y:hidden;">
 				<img src="/image/attach/{{logo}}_crop" onload="if ((parseFloat($(this).width())/$(this).height()) > 1.0){$(this).css('height', '100').css('width', 'auto')};" onerror="this.src='{{ static_url("img/blank_100.gif") }}';" alt="头像" style="width:100px;" />
 			</a>
 		</div>
@@ -26,16 +26,16 @@
 			</p>
 			<p style="font-weight:bold;">	
 				{% if prop == 'PERSONAL' %}
-				 	性别：{{male_cn}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				 	性别：{{male_cn}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				 	出生日期：{{born_f}}
 				{% else %}
-					负责人 {{builder}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					负责人 {{builder}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					创立日期：{{born_f}}
 				{% end %}
 			</p>
 			<script>show_pid('live', {{live}}, '国家地区：')</script>
 			<p style="font-weight:bold;">
-				所属机构：{{agency}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;网址：{{website}}
+				所属机构：{{agency}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;网址：{{website}}
 			</p>
 		</div>
 		<div class="span2" style="width:120px;border-left:1px solid black;height:80px;padding:10px;">
@@ -68,6 +68,7 @@
 			{% for w in wlist %}
 			<li class="span3">
 				<div class="thumbnail overmenu-group">
+					<p style="color:white;background:black;position:absolute;opacity:0.8;z-index:1000;" >{{ abstract(w['nick'], 16) }}&nbsp;创建于&nbsp;{{ w['created'] }} </p>
 					<a href="/item/{{w['eid']}}/" style="width:220px;height:180px;position:relative;overflow:hidden;display:block;">
 						<img src="/image/attach/{{ w['logo'] }}_crop" onload="if ((parseFloat($(this).width())/$(this).height()) > 1.23){$(this).css('height', '180').css('width', 'auto')};" onerror="this.src='{{ static_url("img/blank_260x180.gif") }}';" style="display:block;width:220px;margin:0 auto;" style="display:block;width:220px;margin:0 auto;" alt="">
 					</a>
@@ -75,7 +76,7 @@
 						{% if prop == 'PERSONAL' %}
 							<p>名称：{{ abstract(w['name'], 12) }}</p>
 							<p style="margin-bottom:5px;">客户：{{ abstract(w['client'], 40) }}</p>
-							<p>年份：{{w['year']}}</p>							
+							<p>年份：{% if w['year'] %}{{w['year']}}{% else %}未知{% end %}</p>
 						{% else %}
 							<p>标题：{{ abstract(w['title'], 12) }}</p>
 							<p>正文：{{ abstract(w['content'], 40) }}</p>

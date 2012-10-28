@@ -185,6 +185,7 @@ class ItemHandler(BaseHandler):
             vinfo = rv[1] if rv[0] and rv[1] else {}
             r[1].update({'isPreview': False})
             vdict = r[1]
+            print vdict
             return self.render(html, back=self.SESSION['BSTACK'].pop(), vinfo=vinfo, **vdict)
         else:
             return self.render_alert(r[1])
