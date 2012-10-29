@@ -116,7 +116,10 @@ class ImageProcessor(object):
 
     def process(self, data):
         ofn = self._get_fn()
-        im = Image.open(StringIO.StringIO(data))
+        try:
+            im = Image.open(StringIO.StringIO(data))
+        except:
+            return 'error'
         w, h = im.size
         if (w>self.max_sz)or(h>self.max_sz):
             data = self._thumbnail(im.copy(), self.max_sz)

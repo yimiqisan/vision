@@ -10,7 +10,7 @@ Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 
 from tornado.web import addslash, authenticated
 
-from config import PERM_CLASS
+from config import PERM_CLASS, ADMIN
 from baseHandler import BaseHandler
 from vision.apps.project import Project
 from vision.apps.perm import Permission
@@ -202,6 +202,8 @@ class ProjectHandler(BaseHandler):
     @authenticated
     def get(self, pid):
         uid = self.SESSION['uid']
+        if ADMIN['admin'][-1] == uid:
+            self.redirect('/perm/')
         self.SESSION['BSTACK'] = ['/project/'+pid+'/'] if pid else ['/project/']
         page = int(self.get_argument('page', 1))
         p = Project()
