@@ -1,0 +1,39 @@
+{% extends ../space/base.html %}
+
+{% block meta %}
+	<title>vision</title>
+{% end %}
+
+{% block static %}
+	<script language="javascript" type="text/javascript">
+		$(document).ready(function() {
+		})
+	</script>
+{% end %}
+{% block bodyleft %}
+	<div class="inner-box"><a href="/space/" style="font-weight:bold;">我建立的</a></div><hr/>
+	<div class="inner-box"><a href="/collect/" style="font-weight:bold;">我收藏的</a></div><hr/>
+	<div class="inner-box"><a href="/project/" style="font-weight:bold;">项目</a></div><hr/>
+	<div class="inner-box"><a href="/project/new/"><i class="icon-plus"></i>新建</a></div><hr/>
+	<div class="inner-box active">项目列表</div>
+{% end %}
+
+{% block bodyright %}
+<div style="padding:0px 30px;">
+	<h3 class="pull-left">项目列表</h3>
+	<a class="btn btn-success pull-right" href="/project/" style="margin-right:10px;margin-top:15px;">返回</a>
+	<div style="clear:both;"></div><hr/>
+	<ul>
+		<li style="display:block;padding:3px 0;"><div style="float:left;width:150px;">创建时间</div>&nbsp;&nbsp;<div style="float:left;width:300px;">项目名称</div>&nbsp;&nbsp;<div style="float:left;width:160px;">创建人</div></li>
+		{% for p in plist %}
+			{% if not p['title'] %}
+				<li style="display:block;padding:1px 0;"><div style="float:left;width:150px;font-size:16px;">{{ p['created'] }}</div>&nbsp;&nbsp;<div style="float:left;width:300px;"><a href="/project/{{p['pid']}}" target="_blank" title="{{p['title']}}">{{ abstract(p['title'], 40) }}</a></div>&nbsp;&nbsp;<div style="float:left;width:160px;">{{ abstract(p['nick'], 20) }}</div></li>
+			{% else %}
+				<li style="display:block;padding:1px 0;"><div style="float:left;width:150px;">{{ p['created'] }}</div>&nbsp;&nbsp;<div style="float:left;width:300px;"><a href="/project/{{p['pid']}}" target="_blank" title="{{p['title']}}">{{ abstract(p['title'], 40) }}</a></div>&nbsp;&nbsp;<div style="float:left;width:160px;">{{ abstract(p['nick'], 20) }}</div></li>
+			{% end %}
+		{% end %}
+	</ul>
+</div>
+	{% module Template("util/pagination.html", pagination=pinfo, url='/project/', param='') %}
+{% end %}
+

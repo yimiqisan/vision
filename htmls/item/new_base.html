@@ -23,6 +23,10 @@
 				fileObjName		: 'upload',
 				queueSizeLimit	: 10,
 				onUploadSuccess : function (file, data, response) {
+					if (data == 'error'){
+						alert("图片已随坏！");
+						return 
+					}
 					var pic_num = $("#thumbnails li").length+1;
 					var pic_name = " 图:"+pic_num+" ";
 					yhui.iNote.alignment();

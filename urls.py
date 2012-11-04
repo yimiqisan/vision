@@ -50,6 +50,7 @@ handlers = [(r"/", RootHandler),
             (r"/a/item/(.{32})/paste/", AjaxItemPasteHandler),
             
             (r"/project/new/", ProjectNewHandler),
+            (r"/project/list/", ProjectListHandler),
             (r"/project/(.{32})/remove/", ProjectRemoveHandler),
             (r"/project/(.{32})/edit/", ProjectEditHandler),
             (r"/project/(.{32})?/?", ProjectHandler),

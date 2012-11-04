@@ -21,6 +21,10 @@
 				auto			: true,
 				fileObjName		: 'upload',
 				onUploadSuccess : function (file, data, response) {
+					if (data == 'error'){
+						alert("图片已随坏！");
+						return 
+					}
 					$('#poster-disp').html('<span><input type="hidden" name="logo" value="'+data+'"/><img width=100 height=100 src="/image/attach/'+data+'_300"></span>');
 					$('#poster_queue').hide();
 				},

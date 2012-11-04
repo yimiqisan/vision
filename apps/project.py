@@ -16,6 +16,7 @@ from vision.config import DB_CON, DB_NAME, DEFAULT_CUR_UID
 from modules import ProjectDoc
 from api import API, Added_id
 from perm import Permission
+from vision.apps.staff import Staff
 
 class Project(object):
     def __init__(self, api=None):
@@ -35,6 +36,7 @@ class ProjectAPI(API):
         collection = datastore[col_name]
         doc = collection.ProjectDoc()
         self.p = Permission()
+        self.stf = Staff()
         API.__init__(self, col_name=col_name, collection=collection, doc=doc)
     
     def save(self, owner, title, description, members, **kwargs):
@@ -52,10 +54,14 @@ class ProjectAPI(API):
     def _perm(self, uid, pid):
         return self.p._api.get_owner_value(uid, u'project', cid=pid)
         
+    def _gnick(self, owner):
+        self.stf.whois('_id', owner)
+        return self.stf.nick
+    
     def _output_format(self, result=[], cuid=DEFAULT_CUR_UID):
         ''' 项目格式化输出 '''
         now = datetime.now()
-        output_map = lambda i: {'pid':i['_id'], 'added_id':i['added_id'], 'pm':self._perm(cuid, i['_id']), 'owner':i['owner'], 'is_own':(cuid==i['owner'] if i['owner'] else True), 'title':i['title'], 'description':i.get('description', None), 'members':i['members'], 'created':self._escape_created(now, i['created'])}
+        output_map = lambda i: {'pid':i['_id'], 'added_id':i['added_id'], 'pm':self._perm(cuid, i['_id']), 'owner':i['owner'], 'nick':self._gnick(i['owner']), 'is_own':(cuid==i['owner'] if i['owner'] else True), 'title':i['title'], 'description':i.get('description', None), 'members':i['members'], 'created':self._escape_created(now, i['created']), 'time_meta':i['created']}
         if isinstance(result, dict):
             return output_map(result)
         return map(output_map, result)

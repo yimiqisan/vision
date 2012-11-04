@@ -68,6 +68,56 @@ class ProjectNewHandler(BaseHandler):
         for member in members:
             p._api.award(unicode(member), u'project', 'RELATION', cid=pid)
 
+class ProjectListHandler(BaseHandler):
+    '''项目列表
+    '''
+    @addslash
+    @session
+    @authenticated
+    def get(self):
+        uid = self.SESSION['uid']
+        page = self.get_argument('page', 1)
+        p = Project()
+        r = p._api.page(cuid=uid, page=page)
+        plist = self._flt_month(r[1])
+        return self.render("project/list.html", pinfo= self.page_info(page, 5, len(plist), 20), plist=plist)
+    
+    def page_info(self, page, pglen, cnt, limit):
+        info = {}
+        total_page = cnt/limit
+        if (cnt%limit) != 0:total_page+=1
+        info['total_page'] = total_page
+        info['has_pre'] = (page>1)
+        info['start_page'] = 1
+        info['pre_page'] = max(1, page-1)
+        info['page'] = page
+        info['page_list'] = range(max(1, min(page-4, total_page-pglen+1)), min(max(page+1+pglen/2, pglen+1), total_page+1))
+        info['has_eps'] = (total_page>max(page+1+pglen/2, pglen+1)>pglen)
+        info['has_next'] = (page<total_page)
+        info['next_page'] = min(page+1, total_page)
+        info['end_page'] = total_page
+        return info
+    
+    @session
+    def _flt_month(self, plist):
+        perm = self.SESSION['perm']
+        l = []
+        oy, om = ('', '')
+        for p in plist:
+            ny, nm = p['time_meta'].year, p['time_meta'].month
+            if (oy != ny) or (om != nm):
+                oy, om = ny, nm
+                l.append({'pid':'','title':'','nick':'','created':str(oy)+u'年'+str(om)+u'月'})
+            flag = False
+            for m in p['pm']:
+                if m[0] in [0x20, 0x21]:
+                    flag = True
+            for m in perm:
+                if m == PERM_CLASS['MANAGER']:
+                    flag = True
+            if flag:l.append({'pid':p['pid'],'title':p['title'],'nick':p['nick'],'created':p['created']})
+        return l
+
 class ProjectRemoveHandler(BaseHandler):
     '''删除项目
     '''
