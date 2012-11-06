@@ -11,7 +11,7 @@ import logging
 import uuid
 from datetime import datetime
 import time
-from md5 import md5
+from hashlib import md5
 
 from vision.config import DB_CON, DB_NAME, PERM_CLASS, ADMIN, DEFAULT_CUR_UID
 from modules import StaffDoc

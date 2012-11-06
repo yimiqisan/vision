@@ -1,0 +1,49 @@
+{% extends ../base.html %}
+
+{% block meta %}
+	<title>vision</title>
+{% end %}
+
+{% block static %}
+	<script language="javascript" src="{{ static_url('js/jquery.uploadify.min.js') }}" type="text/javascript"></script>
+	<script src="{{ static_url('js/jquery.dragsort.js') }}" type="text/javascript"></script>
+	<script language="javascript" type="text/javascript">
+		$(document).ready(function() {
+		})
+		var coordinates = ToolMan.coordinates()
+		var dragsort = ToolMan.dragsort()
+		
+	</script>
+	<link rel="stylesheet" type="text/css" href="{{ static_url('css/uploadify.css') }}"/>
+{% end %}
+
+{% block body %}
+	<ul class="breadcrumb" style="padding:0px;height:40px;">
+		<li><p style="font-size:16px;font-weight:bold;height:40px;padding:10px 10px 10px 20px;">从创建粘贴作品</p></li>
+		<li class="pull-right" style="border-left:1px solid black;"><a class="btn btn-mini" style="border:0px;height:20px;font-size:16px;padding:10px;" onclick="return backconfirm(this);" href="{{ back }}">返回</a></li>
+	</ul>
+
+
+<li id="pic'+pic_num+'" itemid="pic'+pic_num+'" class="span8 box" style="cursor:move;width:720px;padding:5px;">
+	<div class="thumbnail" style="min-height:200px;">
+		<div style="float:left;width:30px;"><input type="radio" name="cover" value="'+pic_num+'" onclick="yhui.iNote.cover(this);" style="float:left;margin:5px;"><p class="pname">'+pic_name+'</p></div><div style="float:left; clear:right;margin-right:10px;width:200px;height:200px;position:relative;overflow:hidden;display:block;"><img src="/image/attach/'+v+'_crop" onload="yhui.iNote.imgload(this);" alt="" title="" style="display:block;width:200px;margin:0 auto;margin-bottom:5px;"><input name="'+pic_num+'PIC" class="pic" type="hidden" value="'+v+'" /></div><div id="'+pic_num+'View" class="view" style="display:none;"></div><textarea id="'+pic_num+'Edit" name="'+pic_num+'Edit" class="inplace" style="width:454px;height:90px;">'+w+'</textarea><a class="close" rel="'+pic_num+'" href="#" onclick="yhui.iNote.delPic(this);return false;">×</a></div></li>
+
+
+
+	<div class="span10">
+		<ul class="thumbnails" style="margin-top:10px;">
+			{% for w in wlist %}
+			<li class="span3">
+				<div class="thumbnail">
+					<p style="color:white;background:black;position:absolute;opacity:0.8;z-index:1000;" >{{ abstract(w['nick'], 16) }}&nbsp;创建于&nbsp;{{ w['created'] }} </p>
+					<a href="/item/{{w['eid']}}/" style="width:220px;height:180px;position:relative;overflow:hidden;display:block;">
+						<img src="/image/attach/{{ w['logo'] }}_crop" onload="if ((parseFloat($(this).width())/$(this).height()) > 1.23){$(this).css('height', '180').css('width', 'auto')};" onerror="this.src='{{ static_url("img/blank_260x180.gif") }}';" style="display:block;width:220px;margin:0 auto;" style="display:block;width:220px;margin:0 auto;" alt="">
+					</a>
+					<div class="caption" style="height:107px;"></div>
+				</div>
+			</li>
+			{% end %}
+		</ul>
+		{% module Template("util/pagination.html", pagination=pinfo, url='/project/{{pid}}/sort/', param='') %}
+	</div>
+{% end %}

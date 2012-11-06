@@ -7,7 +7,7 @@ Created by 刘 智勇 on 2012-07-14.
 Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 """
 
-from md5 import md5
+from hashlib import md5
 import json
 #import sys
 #reload(sys)

@@ -50,3 +50,18 @@ class BaseHandler(RequestHandler):
         kwargs['alert']=msg
         self.render('alert.html', **kwargs)
     
+    def page_info(self, page, pglen, cnt, limit):
+        info = {}
+        total_page = cnt/limit
+        if (cnt%limit) != 0:total_page+=1
+        info['total_page'] = total_page
+        info['has_pre'] = (page>1)
+        info['start_page'] = 1
+        info['pre_page'] = max(1, page-1)
+        info['page'] = page
+        info['page_list'] = range(max(1, min(page-4, total_page-pglen+1)), min(max(page+1+pglen/2, pglen+1), total_page+1))
+        info['has_eps'] = (total_page>max(page+1+pglen/2, pglen+1)>pglen)
+        info['has_next'] = (page<total_page)
+        info['next_page'] = min(page+1, total_page)
+        info['end_page'] = total_page
+        return info

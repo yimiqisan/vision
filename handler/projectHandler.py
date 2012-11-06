@@ -82,22 +82,6 @@ class ProjectListHandler(BaseHandler):
         plist = self._flt_month(r[1])
         return self.render("project/list.html", pinfo= self.page_info(page, 5, len(plist), 20), plist=plist)
     
-    def page_info(self, page, pglen, cnt, limit):
-        info = {}
-        total_page = cnt/limit
-        if (cnt%limit) != 0:total_page+=1
-        info['total_page'] = total_page
-        info['has_pre'] = (page>1)
-        info['start_page'] = 1
-        info['pre_page'] = max(1, page-1)
-        info['page'] = page
-        info['page_list'] = range(max(1, min(page-4, total_page-pglen+1)), min(max(page+1+pglen/2, pglen+1), total_page+1))
-        info['has_eps'] = (total_page>max(page+1+pglen/2, pglen+1)>pglen)
-        info['has_next'] = (page<total_page)
-        info['next_page'] = min(page+1, total_page)
-        info['end_page'] = total_page
-        return info
-    
     @session
     def _flt_month(self, plist):
         perm = self.SESSION['perm']
@@ -117,6 +101,29 @@ class ProjectListHandler(BaseHandler):
                     flag = True
             if flag:l.append({'pid':p['pid'],'title':p['title'],'nick':p['nick'],'created':p['created']})
         return l
+
+class ProjectSortHandler(BaseHandler):
+    @session
+    def get(self, pid):
+        uid = self.SESSION['uid']
+        url = '/project/'+pid+'/stick/'
+        if url not in self.SESSION['BSTACK']:
+            bstack = self.SESSION['BSTACK']
+            bstack.append(url)
+            self.SESSION['BSTACK'] = bstack
+        page = int(self.get_argument('page', 1))
+        p = Project()
+        r = p._api.page(cuid=uid, limit=10000)
+        if r[0]:
+            plist = r[1]
+            if not pid:pid = plist[0]['pid'] if len(plist)>0 else None
+            rp = p._api.get(pid, cuid=uid)
+            e = Item()
+            re = e._api.page(vid=pid, page=page, limit=20)
+            works= re[1] if re[0] and re[1] and pid else []
+            print works
+            return self.render("project/sort.html", pinfo=self.page_info(page, 5, len(works), 15), wlist=works, pid=pid if pid else '', back=self.SESSION['BSTACK'][0])
+
 
 class ProjectRemoveHandler(BaseHandler):
     '''删除项目
@@ -179,23 +186,6 @@ class ProjectBuildHandler(BaseHandler):
         else:
             return self.render_alert(r[1])
 
-    def page_info(self, page, pglen, cnt, limit):
-        info = {}
-        total_page = cnt/limit
-        if (cnt%limit) != 0:total_page+=1
-        info['total_page'] = total_page
-        info['has_pre'] = (page>1)
-        info['start_page'] = 1
-        info['pre_page'] = max(1, page-1)
-        info['page'] = page
-        info['page_list'] = range(max(1, min(page-4, total_page-pglen+1)), min(max(page+1+pglen/2, pglen+1), total_page+1))
-        info['has_eps'] = (total_page>max(page+1+pglen/2, pglen+1)>pglen)
-        info['has_next'] = (page<total_page)
-        info['next_page'] = min(page+1, total_page)
-        info['end_page'] = total_page
-        return info
-
-
 class ProjectStickHandler(BaseHandler):
     '''收藏作品列表
     '''
@@ -210,7 +200,6 @@ class ProjectStickHandler(BaseHandler):
             bstack.append(url)
             self.SESSION['BSTACK'] = bstack
         page = int(self.get_argument('page', 1))
-        back = self.request.headers.get('Referer', None)
         i = Item()
         ro = i._api.page(vid=pid, vtype=u'project')
         olist = [o['refer_id'] for o in ro[1]]
@@ -228,22 +217,6 @@ class ProjectStickHandler(BaseHandler):
         else:
             return self.render_alert(r[1])
     
-    def page_info(self, page, pglen, cnt, limit):
-        info = {}
-        total_page = cnt/limit
-        if (cnt%limit) != 0:total_page+=1
-        info['total_page'] = total_page
-        info['has_pre'] = (page>1)
-        info['start_page'] = 1
-        info['pre_page'] = max(1, page-1)
-        info['page'] = page
-        info['page_list'] = range(max(1, min(page-4, total_page-pglen+1)), min(max(page+1+pglen/2, pglen+1), total_page+1))
-        info['has_eps'] = (total_page>max(page+1+pglen/2, pglen+1)>pglen)
-        info['has_next'] = (page<total_page)
-        info['next_page'] = min(page+1, total_page)
-        info['end_page'] = total_page
-        return info
-
 class ProjectHandler(BaseHandler):
     '''项目首页
     '''
@@ -285,21 +258,3 @@ class ProjectHandler(BaseHandler):
             if flag:rlist.append(p)
         return rlist
     
-    def page_info(self, page, pglen, cnt, limit):
-        info = {}
-        total_page = cnt/limit
-        if (cnt%limit) != 0:total_page+=1
-        info['total_page'] = total_page
-        info['has_pre'] = (page>1)
-        info['start_page'] = 1
-        info['pre_page'] = max(1, page-1)
-        info['page'] = page
-        info['page_list'] = range(max(1, min(page-4, total_page-pglen+1)), min(max(page+1+pglen/2, pglen+1), total_page+1))
-        info['has_eps'] = (total_page>max(page+1+pglen/2, pglen+1)>pglen)
-        info['has_next'] = (page<total_page)
-        info['next_page'] = min(page+1, total_page)
-        info['end_page'] = total_page
-        return info
-
-
-
