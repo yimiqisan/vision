@@ -76,7 +76,7 @@ class ProjectListHandler(BaseHandler):
     @authenticated
     def get(self):
         uid = self.SESSION['uid']
-        page = self.get_argument('page', 1)
+        page = int(self.get_argument('page', 1))
         p = Project()
         r = p._api.page(cuid=uid, page=page)
         plist = self._flt_month(r[1])

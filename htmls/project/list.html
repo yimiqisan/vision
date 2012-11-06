@@ -27,13 +27,13 @@
 		<li style="display:block;padding:3px 0;"><div style="float:left;width:150px;">创建时间</div>&nbsp;&nbsp;<div style="float:left;width:300px;">项目名称</div>&nbsp;&nbsp;<div style="float:left;width:160px;">创建人</div></li>
 		{% for p in plist %}
 			{% if not p['title'] %}
-				<li style="display:block;padding:1px 0;"><div style="float:left;width:150px;font-size:16px;">{{ p['created'] }}</div>&nbsp;&nbsp;<div style="float:left;width:300px;"><a href="/project/{{p['pid']}}" target="_blank" title="{{p['title']}}">{{ abstract(p['title'], 40) }}</a></div>&nbsp;&nbsp;<div style="float:left;width:160px;">{{ abstract(p['nick'], 20) }}</div></li>
+				<li style="display:block;padding:1px 0;"><div style="float:left;width:150px;font-size:16px;">{{ p['created'] }}</div>&nbsp;&nbsp;<div style="float:left;width:300px;"><a href="/project/{{p['pid']}}" target="_blank" title="{{p['title']}}">{{ abstract(p['title'], 23) }}</a></div>&nbsp;&nbsp;<div style="float:left;width:160px;">{{ abstract(p['nick'], 10) }}</div></li>
 			{% else %}
-				<li style="display:block;padding:1px 0;"><div style="float:left;width:150px;">{{ p['created'] }}</div>&nbsp;&nbsp;<div style="float:left;width:300px;"><a href="/project/{{p['pid']}}" target="_blank" title="{{p['title']}}">{{ abstract(p['title'], 40) }}</a></div>&nbsp;&nbsp;<div style="float:left;width:160px;">{{ abstract(p['nick'], 20) }}</div></li>
+				<li style="display:block;padding:1px 0;"><div style="float:left;width:150px;">{{ p['created'] }}</div>&nbsp;&nbsp;<div style="float:left;width:300px;"><a href="/project/{{p['pid']}}" target="_blank" title="{{p['title']}}">{{ abstract(p['title'], 23) }}</a></div>&nbsp;&nbsp;<div style="float:left;width:160px;">{{ abstract(p['nick'], 10) }}</div></li>
 			{% end %}
 		{% end %}
 	</ul>
 </div>
-	{% module Template("util/pagination.html", pagination=pinfo, url='/project/', param='') %}
+	{% module Template("util/pagination.html", pagination=pinfo, url='/project/list/', param='') %}
 {% end %}
 

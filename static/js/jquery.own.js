@@ -48,6 +48,7 @@ jQuery.fn.enable = function(opt_enable) {
 
 function delItem(e) {
     var mid = $(e).attr('id').replace('d-', 'm-');
+    var eid = $(e).attr('eid');
     var $p = $("#"+mid);
     var args = {'id': mid.replace('m-', '')};
     $.ajax({
@@ -59,6 +60,8 @@ function delItem(e) {
             $p.css("color", "#D6EED8");
         },
         success: function() {
+            var num = parseInt($('#ext-'+eid+' b').text());
+            $('#ext-'+eid+' b').text(num-1);
             $p.slideUp(300, function() {$p.remove();})
         }
     });

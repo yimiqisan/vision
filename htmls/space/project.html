@@ -120,7 +120,7 @@
 					<div class="pull-right reply-url" id="ext-{{w['eid']}}" style="border:0px;background:white;"><a href="#inp-{{w['eid']}}" data-toggle="reply-extend" style="color:black;background:white;">评论(<b>{{w['cnt']}}</b>)</a></div>
 					<input type="hidden" id="inp-{{w['eid']}}" value="0" class="reply"/>
 					{% for reply in rl %}
-						{% module Template("util/reply.html", reply=reply) %}
+						{% module Template("util/reply.html", reply=reply, eid=w['eid']) %}
 					{% end %}
 					<input type="hidden" id="ins-{{w['eid']}}"/>
 					<div class="clear"></div>
