@@ -61,7 +61,7 @@ class ProjectAPI(API):
     def _output_format(self, result=[], cuid=DEFAULT_CUR_UID):
         ''' 项目格式化输出 '''
         now = datetime.now()
-        output_map = lambda i: {'pid':i['_id'], 'added_id':i['added_id'], 'pm':self._perm(cuid, i['_id']), 'owner':i['owner'], 'nick':self._gnick(i['owner']), 'is_own':(cuid==i['owner'] if i['owner'] else True), 'title':i['title'], 'description':i.get('description', None), 'members':i['members'], 'created':self._escape_created(now, i['created']), 'time_meta':i['created']}
+        output_map = lambda i: {'pid':i['_id'], 'added_id':i['added_id'], 'pm':self._perm(cuid, i['_id']), 'owner':i['owner'], 'nick':self._gnick(i['owner']), 'is_own':(cuid==i['owner'] if i['owner'] else True), 'title':i['title'], 'works':i.get('works', []), 'description':i.get('description', None), 'members':i['members'], 'created':self._escape_created(now, i['created']), 'time_meta':i['created']}
         if isinstance(result, dict):
             return output_map(result)
         return map(output_map, result)

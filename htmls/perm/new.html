@@ -20,7 +20,7 @@
 				fileObjName		: 'upload',
 				onUploadSuccess : function (file, data, response) {
 					if (data == 'error'){
-						alert("图片已随坏！");
+						alert("图片已损坏！");
 						return 
 					}
 					$('#poster-disp').html('<span><img width=100 height=100 src="/image/attach/'+data+'_crop"></span>');

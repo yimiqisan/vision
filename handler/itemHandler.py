@@ -88,7 +88,6 @@ class ItemPreviewHandler(BaseHandler):
         eid = self.get_argument('eid', None)
         logo, works = self.get_works_list()
         infos = self.get_info_dict(tp)
-        print infos
         if tp == u'project':
             p = Project()
             rv = p._api.get(vid)
@@ -98,7 +97,7 @@ class ItemPreviewHandler(BaseHandler):
             rv = v._api.get(vid)
             html = "item/index.html"
         vinfo = rv[1] if rv[0] and rv[1] else {}
-        vdict = {'vid':vid, 'vtype':tp, 'works':works, 'isPreview': True, 'back':'/item/'+eid+'/edit/' if eid else self.SESSION['BSTACK'][-1]}
+        vdict = {'vid':vid, 'vtype':tp, 'eid':'', 'name':'', 'client':'', 'created':'', 'nick':'', 'title':'', 'content':'', 'year':'', 'works':works, 'isPreview': True, 'back':'/item/'+eid+'/edit/' if eid else self.SESSION['BSTACK'][-1]}
         vdict.update(infos)
         return self.render(html, vinfo=vinfo, **vdict)
     
@@ -185,7 +184,6 @@ class ItemHandler(BaseHandler):
             vinfo = rv[1] if rv[0] and rv[1] else {}
             r[1].update({'isPreview': False})
             vdict = r[1]
-            print vdict
             return self.render(html, back=self.SESSION['BSTACK'].pop(), vinfo=vinfo, **vdict)
         else:
             return self.render_alert(r[1])

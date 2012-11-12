@@ -106,7 +106,7 @@ class ProjectSortHandler(BaseHandler):
     @session
     def get(self, pid):
         uid = self.SESSION['uid']
-        url = '/project/'+pid+'/stick/'
+        url = '/project/'+pid+'/sort/'
         if url not in self.SESSION['BSTACK']:
             bstack = self.SESSION['BSTACK']
             bstack.append(url)
@@ -121,9 +121,24 @@ class ProjectSortHandler(BaseHandler):
             e = Item()
             re = e._api.page(vid=pid, page=page, limit=20)
             works= re[1] if re[0] and re[1] and pid else []
-            print works
             return self.render("project/sort.html", pinfo=self.page_info(page, 5, len(works), 15), wlist=works, pid=pid if pid else '', back=self.SESSION['BSTACK'][0])
-
+    
+    @session
+    def post(self, pid):
+        uid = self.SESSION['uid']
+        i = 1
+        l = []
+        item = self.get_argument('sort-'+str(i), None)
+        while(item):
+            l.append(item)
+            i+=1
+            item = self.get_argument('sort-'+str(i), None)
+        p = Project()
+        r = p._api.edit(pid, works=l, isOverWrite=True)
+        if r[0]:
+            return self.redirect('/project/'+pid+'/sort/')
+        else:
+            return self.render_alert(r[1])
 
 class ProjectRemoveHandler(BaseHandler):
     '''删除项目
@@ -217,6 +232,16 @@ class ProjectStickHandler(BaseHandler):
         else:
             return self.render_alert(r[1])
     
+    @session
+    def post(self, pid):
+        uid = self.SESSION['uid']
+        works = self.get_argument('works', None)
+        p = Project()
+        if works:
+            r = p._api.edit(pid, works=works)
+            if r[0]:
+                return self.redirect('/project/'+pid+'/sort/')
+    
 class ProjectHandler(BaseHandler):
     '''项目首页
     '''
@@ -237,8 +262,13 @@ class ProjectHandler(BaseHandler):
             rp = p._api.get(pid, cuid=uid)
             if rp[0]: project=rp[1]
             e = Item()
-            re = e._api.page(vid=pid, page=page, limit=20)
-            works= re[1] if re[0] and re[1] and pid else []
+#            re = e._api.page(vid=pid, page=page, limit=20)
+#            works= re[1] if re[0] and re[1] and pid else []
+            works = []
+            for w in project['works']:
+                rw = e._api.get(w)
+                if rw[0]:
+                    works.append(rw[1])
             return self.render("space/project.html", plist=plist, pinfo=self.page_info(page, 5, len(works), 15), works=works, project=project, pid=pid if pid else '', rl=[])
         else:
             return self.render_alert(r[1])

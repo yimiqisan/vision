@@ -8,6 +8,7 @@ Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 """
 
 import json
+from datetime import datetime
 from tornado.web import addslash, authenticated
 
 from vision.config import ADMIN
@@ -42,6 +43,7 @@ class VolumeNewHandler(BaseHandler):
         d = {}
         for n in self.KEYS:
             d[n] = self.get_argument(n, None)
+        d['born'] = self._flt_born(d['born'])
         v = volume.Volume()
         if vid:
             r = v._api.edit(vid, **d)
@@ -53,7 +55,23 @@ class VolumeNewHandler(BaseHandler):
         else:
             d.update({'vid':vid, 'warning':r[1]})
             return self.render("volume/new.html", **d)
-        
+    
+    def _flt_born(self, d):
+        dt = datetime.now()
+        if d[:4] == '0000':
+            year = unicode(dt.year)
+        else:
+            year = d[:4]
+        if d[4:6] == '00':
+            month = unicode(dt.month)
+        else:
+            month = d[4:6]
+        if d[6:8] == '00':
+            day = unicode(dt.day)
+        else:
+            day = d[6:8]
+        return year+month+day
+    
 class VolumeRemoveHandler(BaseHandler):
     '''删除作品集
     '''

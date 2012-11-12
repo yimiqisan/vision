@@ -167,6 +167,7 @@ class ProjectDoc(Document):
             'title':    unicode,
             'description':  unicode,
             'members':  list,
+            'works':    list,
             'created':  datetime,
             'added':    dict,
             'added_id': int,

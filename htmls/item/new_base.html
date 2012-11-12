@@ -24,7 +24,7 @@
 				queueSizeLimit	: 10,
 				onUploadSuccess : function (file, data, response) {
 					if (data == 'error'){
-						alert("图片已随坏！");
+						alert("图片已损坏！");
 						return 
 					}
 					var pic_num = $("#thumbnails li").length+1;
