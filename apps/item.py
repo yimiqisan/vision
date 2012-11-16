@@ -81,8 +81,8 @@ class ItemAPI(API):
         ''' 考呗一个作品 '''
         r = self.get(id)
         if r[0]:
-            self.save(r[1]['owner'], kwargs['vid'], kwargs['vtype'], r[1]['logo'], *r[1]['works'], refer_id=r[1]['eid'])
-        return (True, None)
+            return self.save(r[1]['owner'], kwargs['vid'], kwargs['vtype'], r[1]['logo'], *r[1]['works'], refer_id=r[1]['eid'])
+        return r
     
     def page(self, cuid=DEFAULT_CUR_UID, owner=None, vid=None, vtype=None, page=1, pglen=5, cursor=None, limit=20, order_by='added_id', order=-1):
         ''' 分页显示作品 '''

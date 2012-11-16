@@ -44,6 +44,10 @@ class ItemNewHandler(BaseHandler):
         e = Item()
         if not eid:
             r = e._api.save(uid, vid, tp, logo, *works, **infos)
+            p = Project()
+            rp = p._api.get(vid)
+            l = rp[1]['works'].append(r[1])
+            p._api.edit(vid, works=l, isOverWrite=True)
         else:
             r = e._api.edit(eid, logo=logo, works=works, **infos)
         if r[0]:
@@ -212,6 +216,14 @@ class AjaxItemPasteHandler(BaseHandler):
         vid = self.get_argument('vid', None)
         e = Item()
         r = e._api.copy(eid, **{'vid':vid, 'vtype':u'project'})
+        p = Project()
+        rp = p._api.get(vid)
+        l = rp[1]['works']
+        if isinstance(l, list):
+            l.append(r[1]) 
+        else:
+            l = [r[1]]
+        p._api.edit(vid, works=l, isOverWrite=True)
         if r[0]:return self.write(json.dumps({'rep':'ok'}))
 
 

@@ -260,12 +260,16 @@ class ProjectHandler(BaseHandler):
             plist = self._f_proj(r[1])
             if not pid:pid = plist[0]['pid'] if len(plist)>0 else None
             rp = p._api.get(pid, cuid=uid)
-            if rp[0]: project=rp[1]
+            if rp[0] and rp[1]:
+                project = rp[1]
+                if not rp[1]['works']:
+                    project['works'] = []
             e = Item()
 #            re = e._api.page(vid=pid, page=page, limit=20)
 #            works= re[1] if re[0] and re[1] and pid else []
             works = []
             for w in project['works']:
+                if not w:continue
                 rw = e._api.get(w)
                 if rw[0]:
                     works.append(rw[1])
