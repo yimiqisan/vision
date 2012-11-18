@@ -88,7 +88,7 @@
 				{% if verify(perm, 0x02) or verify(project['pm'], [0x20, 0x21]) %}<li><a href="/project/{{ project['pid'] }}/build/">从创建的粘贴</a></li>{% end %}
 				{% if verify(perm, 0x02) or verify(project['pm'], [0x20, 0x21]) %}<li><a href="/project/{{ project['pid'] }}/stick/">从收藏的粘贴</a></li>{% end %}
 				{% if verify(perm, 0x02) or verify(project['pm'], [0x20, 0x21]) %}<li class="divider"></li><li><a href="/project/{{ project['pid'] }}/remove/" onclick="return delconfirm(this);">删除项目</a></li>{% end %}
-				{% if verify(perm, 0x02) or verify(project['pm'], [0x20]) %}<li style="display:none;"><a href="/project/{{ project['pid'] }}/sort/">对作品排序</a></li>{% end %}
+				{% if verify(perm, 0x02) or verify(project['pm'], [0x20]) %}<li><a href="/project/{{ project['pid'] }}/sort/">对作品排序</a></li>{% end %}
 			</ul>
 		</li>
 	</ul>
@@ -143,4 +143,3 @@
 	<script src="{{ static_url('js/jquery.reply.js') }}" type="text/javascript"></script>
 	{% module Template("util/pagination.html", pagination=pinfo, url='/project/'+pid, param='') %}
 {% end %}
-

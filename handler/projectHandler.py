@@ -78,9 +78,10 @@ class ProjectListHandler(BaseHandler):
         uid = self.SESSION['uid']
         page = int(self.get_argument('page', 1))
         p = Project()
-        r = p._api.page(cuid=uid, page=page)
+        r = p._api.page(cuid=uid, limit=10000)
         plist = self._flt_month(r[1])
-        return self.render("project/list.html", pinfo= self.page_info(page, 5, len(plist), 20), plist=plist)
+        limit = 20
+        return self.render("project/list.html", pinfo= self.page_info(page, 5, len(plist), limit), plist=plist[(page-1)*limit:page*limit])
     
     @session
     def _flt_month(self, plist):
@@ -265,13 +266,11 @@ class ProjectHandler(BaseHandler):
                 if not rp[1]['works']:
                     project['works'] = []
             e = Item()
-#            re = e._api.page(vid=pid, page=page, limit=20)
-#            works= re[1] if re[0] and re[1] and pid else []
             works = []
             for w in project['works']:
                 if not w:continue
                 rw = e._api.get(w)
-                if rw[0]:
+                if rw[0] and rw[1]:
                     works.append(rw[1])
             return self.render("space/project.html", plist=plist, pinfo=self.page_info(page, 5, len(works), 15), works=works, project=project, pid=pid if pid else '', rl=[])
         else:

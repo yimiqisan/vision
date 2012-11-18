@@ -16,7 +16,7 @@
 			<p style="font-weight:bold;">{{name}}&nbsp;/&nbsp;{{subtype_cn}} 性别：{{male_cn}} 出生日期：{{born}}</p>
 			<script>show_pid('live', {{live}}, '国家地区：')</script>
 			<p style="font-weight:bold;">所属机构：{{agency}}</p>
-			<p style="font-weight:bold;">网址：{{website}}</p>
+			<p style="font-weight:bold;">网址：<a href="{{website}}" target="_blank">{{ abstract(website, 50) }}</a></p>
 		</div>
 		<div class="span2" style="width:120px;border-left:1px solid black;height:80px;padding:10px;">
 			<p>级别：

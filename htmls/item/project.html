@@ -7,7 +7,7 @@
 {% block static %}{% end %}
 {% block body %}
 	<ul class="breadcrumb" style="padding:0px;height:40px;">
-		<li><p style="font-size:16px;font-weight:bold;height:40px;padding:10px 10px 10px 20px;">{{vinfo['title']}}</p></li>
+		<li><p style="font-size:16px;font-weight:bold;height:40px;padding:10px 10px 10px 20px;">{{ abstract(vinfo['title'], 50) }}</p></li>
 		{% if not isPreview %}
 			<li class="pull-right" style="border-left:1px solid black;"><a class="btn btn-mini" style="border:0px;height:20px;font-size:16px;padding:10px;" href="/project/{{vinfo['pid']}}/">返回</a></li>
 		{% end %}

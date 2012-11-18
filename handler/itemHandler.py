@@ -46,8 +46,10 @@ class ItemNewHandler(BaseHandler):
             r = e._api.save(uid, vid, tp, logo, *works, **infos)
             p = Project()
             rp = p._api.get(vid)
-            l = rp[1]['works'].append(r[1])
-            p._api.edit(vid, works=l, isOverWrite=True)
+            if rp[0] and rp[1]:
+                l = rp[1]['works']
+                l.append(r[1])
+                p._api.edit(vid, works=l, isOverWrite=True)
         else:
             r = e._api.edit(eid, logo=logo, works=works, **infos)
         if r[0]:

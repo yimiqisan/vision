@@ -20,16 +20,19 @@
 
 {% block bodyright %}
 <div style="padding:0px 30px;">
-	<h3 class="pull-left">项目列表</h3>
-	<a class="btn btn-success pull-right" href="/project/" style="margin-right:10px;margin-top:15px;">返回</a>
+	<h3 class="pull-left" style="margin-bottom:0px;color:white;background:black;padding:5px 10px;border:1px solid black;border-bottom:0px;">项目列表</h3>
+	<h3 class="pull-right" style="margin-bottom:0px;color:black;background:white;padding:5px 10px;border:1px solid black;border-bottom:0px;font-weight:normal;">
+		<a class="" href="/project/">返回</a>
+	</h3>
 	<div style="clear:both;"></div><hr/>
+	
 	<ul>
-		<li style="display:block;padding:3px 0;"><div style="float:left;width:150px;">创建时间</div>&nbsp;&nbsp;<div style="float:left;width:300px;">项目名称</div>&nbsp;&nbsp;<div style="float:left;width:160px;">创建人</div></li>
+		<li style="display:block;padding:4px 0;"><div style="float:left;width:150px;font-size:20px;">创建时间</div>&nbsp;&nbsp;<div style="float:left;width:300px;font-size:20px;">项目名称</div>&nbsp;&nbsp;<div style="float:left;width:160px;font-size:20px;">创建人</div></li>
 		{% for p in plist %}
 			{% if not p['title'] %}
-				<li style="display:block;padding:1px 0;"><div style="float:left;width:150px;font-size:16px;">{{ p['created'] }}</div>&nbsp;&nbsp;<div style="float:left;width:300px;"><a href="/project/{{p['pid']}}" target="_blank" title="{{p['title']}}">{{ abstract(p['title'], 23) }}</a></div>&nbsp;&nbsp;<div style="float:left;width:160px;">{{ abstract(p['nick'], 10) }}</div></li>
+				<li style="display:block;padding:3px 0;"><div style="float:left;width:150px;font-size:16px;">{{ p['created'] }}</div>&nbsp;&nbsp;<div style="float:left;width:300px;"><a href="/project/{{p['pid']}}" target="_blank" title="{{p['title']}}">{{ abstract(p['title'], 23) }}</a></div>&nbsp;&nbsp;<div style="float:left;width:160px;">{{ abstract(p['nick'], 10) }}</div></li>
 			{% else %}
-				<li style="display:block;padding:1px 0;"><div style="float:left;width:150px;">{{ p['created'] }}</div>&nbsp;&nbsp;<div style="float:left;width:300px;"><a href="/project/{{p['pid']}}" target="_blank" title="{{p['title']}}">{{ abstract(p['title'], 23) }}</a></div>&nbsp;&nbsp;<div style="float:left;width:160px;">{{ abstract(p['nick'], 10) }}</div></li>
+				<li style="display:block;padding:3px 0;"><div style="float:left;width:150px;">{{ p['created'] }}</div>&nbsp;&nbsp;<div style="float:left;width:300px;"><a href="/project/{{p['pid']}}" target="_blank" title="{{p['title']}}">{{ abstract(p['title'], 23) }}</a></div>&nbsp;&nbsp;<div style="float:left;width:160px;">{{ abstract(p['nick'], 10) }}</div></li>
 			{% end %}
 		{% end %}
 	</ul>

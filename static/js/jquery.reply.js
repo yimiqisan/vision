@@ -55,7 +55,7 @@
                 }
                 var node = $(response.html);
                 node.hide();
-                $(node).insertAfter($("#ins-"+id));
+                $(node).insertBefore($("#ins-"+id));
                 node.slideDown(300);
                 $('#'+id+'Edit').val("").select();
                 var num = parseInt($('#ext-'+id+' b').text());
