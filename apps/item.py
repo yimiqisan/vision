@@ -63,6 +63,10 @@ class ItemAPI(API):
         self.stf.whois('_id', owner)
         return self.stf.nick
     
+    def _gename(self, owner):
+        self.stf.whois('_id', owner)
+        return self.stf.engname
+    
     def _output_format(self, result=[], cuid=DEFAULT_CUR_UID):
         ''' 作品格式化输出 '''
         now = datetime.now()
@@ -81,7 +85,7 @@ class ItemAPI(API):
         ''' 考呗一个作品 '''
         r = self.get(id)
         if r[0]:
-            return self.save(r[1]['owner'], kwargs['vid'], kwargs['vtype'], r[1]['logo'], *r[1]['works'], refer_id=r[1]['eid'])
+            return self.save(kwargs['owner'], kwargs['vid'], kwargs['vtype'], r[1]['logo'], *r[1]['works'], refer_id=r[1]['eid'], nick=kwargs['nick'])
         return r
     
     def page(self, cuid=DEFAULT_CUR_UID, owner=None, vid=None, vtype=None, page=1, pglen=5, cursor=None, limit=20, order_by='added_id', order=-1):

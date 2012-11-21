@@ -256,10 +256,16 @@ class VolumeAPI(API):
             r = VOLUME_AFFECT_DEF
         return r
     
+    def _born(self, b):
+        dt = datetime.now()
+        if not b or dt.year<b.year:
+            return '未知'
+        return "%02d/%02d/%02d"%(b.year,b.month,b.day)
+    
     def _output_format(self, result=[], cuid=DEFAULT_CUR_UID):
         ''' 格式化输出作品集 '''
         now = datetime.now()
-        output_map = lambda i: {'vid':i['_id'], 'added_id':i['added_id'], 'affect':self._affect(cuid, i['owner'], i.get('atte_list', [])), 'logo':i.get('logo', None), 'name':i.get('name', '无名'), 'engname':i['added'].get('engname', None), 'builder':i['added'].get('builder', None), 'post':i['added'].get('post', None), 'prop':i.get('prop', None), 'prop_cn':get_cn(p=i.get('prop', None)), 'maintype':i.get('maintype', None), 'maintype_cn':get_cn(m=i.get('maintype', None)), 'subtype':i.get('subtype', None), 'subtype_cn':get_cn(s=i.get('subtype', None)), 'live':i.get('live', '0x0'), 'male':i.get('male', None), 'male_cn':'男' if i.get('male', None) else '女', 'born_f':"%02d/%02d/%02d"%(i.get('born', datetime.now()).year,i.get('born', datetime.now()).month,i.get('born', datetime.now()).day), 'born':"%02d%02d%02d"%(i.get('born', datetime.now()).year,i.get('born', datetime.now()).month,i.get('born', datetime.now()).day), 'website':i['added'].get('website', None), 'agency':i.get('agency', None), 'grade':i.get('grade', None), 'nexus':i.get('nexus', None), 'intro':i['added'].get('intro', None), 'intro_detail':i['added'].get('intro_detail', None), 'about':i['added'].get('about', None), 'about_detail':i['added'].get('about_detail', None), 'market':i['added'].get('market', None), 'market_detail':i['added'].get('market_detail', None), 'atte_list':i.get('atte_list', []), 'created':self._escape_created(now, i['created'])}
+        output_map = lambda i: {'vid':i['_id'], 'added_id':i['added_id'], 'affect':self._affect(cuid, i['owner'], i.get('atte_list', [])), 'logo':i.get('logo', None), 'name':i.get('name', '无名'), 'engname':i['added'].get('engname', None), 'builder':i['added'].get('builder', None), 'post':i['added'].get('post', None), 'prop':i.get('prop', None), 'prop_cn':get_cn(p=i.get('prop', None)), 'maintype':i.get('maintype', None), 'maintype_cn':get_cn(m=i.get('maintype', None)), 'subtype':i.get('subtype', None), 'subtype_cn':get_cn(s=i.get('subtype', None)), 'live':i.get('live', '0x0'), 'male':i.get('male', None), 'male_cn':'男' if i.get('male', None) else '女', 'born_f':self._born(i.get('born')), 'born':"%02d%02d%02d"%(i.get('born', datetime.now()).year,i.get('born', datetime.now()).month,i.get('born', datetime.now()).day), 'website':i['added'].get('website', None), 'agency':i.get('agency', None), 'grade':i.get('grade', None), 'nexus':i.get('nexus', None), 'intro':i['added'].get('intro', None), 'intro_detail':i['added'].get('intro_detail', None), 'about':i['added'].get('about', None), 'about_detail':i['added'].get('about_detail', None), 'market':i['added'].get('market', None), 'market_detail':i['added'].get('market_detail', None), 'atte_list':i.get('atte_list', []), 'created':self._escape_created(now, i['created'])}
         if isinstance(result, dict):
             return output_map(result)
         return map(output_map, result)

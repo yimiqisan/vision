@@ -217,7 +217,7 @@ class AjaxItemPasteHandler(BaseHandler):
         uid = self.SESSION['uid']
         vid = self.get_argument('vid', None)
         e = Item()
-        r = e._api.copy(eid, **{'vid':vid, 'vtype':u'project'})
+        r = e._api.copy(eid, **{'vid':vid, 'vtype':u'project', 'nick':self.SESSION['nick'], 'owner':uid})
         p = Project()
         rp = p._api.get(vid)
         l = rp[1]['works']

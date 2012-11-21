@@ -30,7 +30,8 @@ class VolumeNewHandler(BaseHandler):
         d = {}
         for n in self.KEYS:d[n] = None
         d['vid'] = None
-        d['born'] = 0
+        dt = datetime.now()
+        d['born'] = str(dt.year)+'0000'
         d['back'] = self.SESSION['BSTACK'][-1]
         return self.render("volume/new.html", **d)
     
@@ -59,6 +60,7 @@ class VolumeNewHandler(BaseHandler):
     def _flt_born(self, d):
         dt = datetime.now()
         if d[:4] == '0000':
+            return '21000101'
             year = unicode(dt.year)
         else:
             year = d[:4]
@@ -150,7 +152,7 @@ class VolumeListHandler(BaseHandler):
             subtype = ''
         if href:subtype = volume.relation(subtype, href)
         v = volume.Volume()
-        r = v._api.page(cuid=uid, owner=uid, perm=self.pm, created=dtime, prop=prop, name=word, subtype=subtype.upper(), live=live, grade=grade, nexus=nexus, male=sex, born_tuple=period_tuple, page=page, limit=5)
+        r = v._api.page(cuid=uid, owner=uid, perm=self.pm, created=dtime, prop=prop, name=word, subtype=subtype.upper(), live=live, grade=grade, nexus=nexus, male=sex, born_tuple=period_tuple, page=page, limit=20)
         if r[0]:
             params = self._d_params()
             return self.render("volume/list.html", vlist=r[1], vinfo=r[2], subtype=subtype, params=json.dumps(params), f=params, vurl='/volume/'+subtype+'/', vparams=self._build_params(params))

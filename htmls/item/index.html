@@ -10,7 +10,7 @@
 {% autoescape None %}
 {% block body %}
 	<ul class="breadcrumb" style="padding:0px;height:40px;">
-		<li><p style="font-size:16px;font-weight:bold;height:40px;padding:10px 10px 10px 20px;"><a href="{{ back }}">{{vinfo['name']}}</a></p></li>
+		<li><p style="font-size:16px;font-weight:bold;height:40px;padding:10px 10px 10px 20px;"><a href="{{ back }}">{{vinfo['name']}}({{vinfo['engname']}})</a></p></li>
 		<li class="pull-right" style="border-left:1px solid black;">
 			<a class="btn btn-mini" style="border:0px;height:20px;font-size:16px;padding:10px;" href="{% if back %}{{ back }}{% else %}/volume/{% end %}">返回</a>
 		</li>
@@ -23,7 +23,7 @@
 		</div>
 		<div class="span7">
 			<p style="font-weight:bold;">
-				{{vinfo['name']}}&nbsp;/&nbsp;{{vinfo['subtype_cn']}}
+				{{vinfo['name']}}({{vinfo['engname']}})&nbsp;/&nbsp;{{vinfo['subtype_cn']}}
 			</p>
 			<p style="font-weight:bold;">	
 				{% if vinfo['prop'] == 'PERSONAL' %}
