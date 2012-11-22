@@ -84,8 +84,12 @@ class ItemAPI(API):
     def copy(self, id, **kwargs):
         ''' 考呗一个作品 '''
         r = self.get(id)
-        if r[0]:
-            return self.save(kwargs['owner'], kwargs['vid'], kwargs['vtype'], r[1]['logo'], *r[1]['works'], refer_id=r[1]['eid'], nick=kwargs['nick'])
+        if r[0] and r[1]:
+            if r[1].has_key('title') and r[1]['title']:
+                title = r[1]['title']
+            elif r[1].has_key('name') and r[1]['name']:
+                title = r[1]['name']
+            return self.save(kwargs['owner'], kwargs['vid'], kwargs['vtype'], r[1]['logo'], *r[1]['works'], refer_id=r[1]['eid'], nick=kwargs['nick'], title=title)
         return r
     
     def page(self, cuid=DEFAULT_CUR_UID, owner=None, vid=None, vtype=None, page=1, pglen=5, cursor=None, limit=20, order_by='added_id', order=-1):

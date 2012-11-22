@@ -88,7 +88,7 @@
 				{% if verify(perm, 0x02) or verify(project['pm'], [0x20, 0x21]) %}<li><a href="/project/{{ project['pid'] }}/build/">从创建的粘贴</a></li>{% end %}
 				{% if verify(perm, 0x02) or verify(project['pm'], [0x20, 0x21]) %}<li><a href="/project/{{ project['pid'] }}/stick/">从收藏的粘贴</a></li>{% end %}
 				{% if verify(perm, 0x02) or verify(project['pm'], [0x20, 0x21]) %}<li class="divider"></li><li><a href="/project/{{ project['pid'] }}/remove/" onclick="return delconfirm(this);">删除项目</a></li>{% end %}
-				{% if verify(perm, 0x02) or verify(project['pm'], [0x20]) %}<li><a href="/project/{{ project['pid'] }}/sort/">对作品排序</a></li>{% end %}
+				{% if verify(perm, 0x02) or verify(project['pm'], '0x20') %}<li><a href="/project/{{ project['pid'] }}/sort/">对作品排序</a></li>{% end %}
 			</ul>
 		</li>
 	</ul>
@@ -111,7 +111,9 @@
 				<a href="/item/{{ w['eid'] }}/" style="width:220px;height:180px;position:relative;overflow:hidden;display:block;">
 					<img src="/image/attach/{{ w['logo'] }}_crop" onload="if ((parseFloat($(this).width())/$(this).height()) > 1.23){$(this).css('height', '180').css('width', 'auto')};" onerror="this.src='{{ static_url("img/blank_260x180.gif") }}';" style="display:block;width:220px;margin:0 auto;" alt="">
 				</a>
-				<div class="caption" style="height:107px;"></div>
+				<div class="caption" style="height:107px;">
+					<h4>名称：{{ abstract(w['title'], 12) }}</h4>
+				</div>
 				<ul class="overmenu">
 					<li><a href="/item/{{ w['eid'] }}/edit/">编辑</a></li>
 					<li><a href="/item/{{ w['eid'] }}/remove/?refer=/project/{{project['pid']}}/" onclick="return delconfirm(this);">删除</a></li>

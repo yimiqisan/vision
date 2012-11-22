@@ -78,7 +78,7 @@ class ItemNewHandler(BaseHandler):
         elif tp == VTYPE_LIST[2]:
             ikeys = ["title", "content"]
         else:
-            ikeys = []
+            ikeys = ["title"]
         d = {}
         for n in ikeys:d[n] = self.get_argument(n, None)
         return d
@@ -128,7 +128,7 @@ class ItemPreviewHandler(BaseHandler):
         elif tp == VTYPE_LIST[2]:
             ikeys = ["title", "content"]
         else:
-            ikeys = []
+            ikeys = ["title"]
         d = {}
         for n in ikeys:d[n] = self.get_argument(n, None)
         return d

@@ -47,6 +47,7 @@ class SpaceHandler(BaseHandler):
         r = v._api.page_own(cuid=uid, owner=uid, created=dtime, prop=prop, name=word, subtype=subtype.upper(), live=live, grade=grade, nexus=nexus, male=sex, born_tuple=period_tuple, page=page, limit=15)
         if r[0]:
             params = self._d_params()
+            params.pop('page', None)
             return self.render("space/index.html", vlist=r[1], vinfo=r[2], subtype=subtype, params=json.dumps(params), f=params, vurl='/space/'+subtype+'/', vparams=self._build_params(params))
         else:
             return self.render_alert(r[1])

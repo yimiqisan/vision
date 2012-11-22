@@ -22,6 +22,7 @@
 		}
 		function onClickOK (e) {
 			var $ul = e.closest('ul')
+			, $ultags = $('.ul-tags')
 			, params = $.parseJSON($('#params').val())
 			, inps = $ul.find('input[type=hidden]')
 			, sel = $ul.find('input[type=radio]:checked');
@@ -39,7 +40,7 @@
 			}else{
 				delete params['sex'];
 			}
-			period = $ul.find('[name=period]');
+			period = $ultags.find('[name=period]');
 			if (period.val()) {
 				params['period'] = period.val();
 			}else{
@@ -109,7 +110,7 @@
 							<ul class="dropdown-menu" style="padding:0px;">
 								<li style=""><script>select_pid("show_live",  "{{ f.get('show_live', '0x0') }}")</script></li>
 								<li class="ok"><a onclick="onClickOK($(this)); return false;" style="padding:5px 27px;">确定</a></li>
-								<li class="cancel" style="border-left:1px solid black;"><a style="padding:5px 27px 5px 26px;" onclick="onCancel($(this), 2);return false;">取消</a></li>
+								<li class="cancel" style="border-left:1px solid black;"><a style="padding:5px 27px 5px 26px;" onclick="onCancel($(this), 1);return false;">取消</a></li>
 							</ul>
 						</li>
 						<li class="dropdown">
@@ -201,7 +202,8 @@
 					<li><a href="/collect/{{ v['vid'] }}/remove/" onclick="return delconfirm(this);">取消收藏</a></li>
 				</ul>
 				<div class="caption" style="height:107px;">
-					<h4>{{ abstract(v['name'], 9) }} / {{ v['subtype_cn'] }}</h4>
+					<p style="font-size:16px;margin-bottom:2px;">{{ abstract(v['engname'], 15) }}</p>
+					<p style="font-size:16px;">{{ abstract(v['name'], 9) }} / {{ v['subtype_cn'] }}</h4>
 					<p>{{ abstract(v['intro'], 44) }}</p>
 				</div>
 			</div>

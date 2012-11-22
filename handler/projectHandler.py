@@ -191,19 +191,10 @@ class ProjectBuildHandler(BaseHandler):
             bstack.append(url)
             self.SESSION['BSTACK'] = bstack
         page = int(self.get_argument('page', 1))
-        i = Item()
-        ro = i._api.page(vid=pid, vtype=u'project')
-        olist = [o['refer_id'] for o in ro[1]]
         v = Volume()
-        r = v._api.page_own(owner=uid, limit=1000)
-        ilist = []
-        for vi in r[1]:
-            ri = i._api.page(vid=vi['vid'])
-            for j in ri[1]:
-                j['is_paste'] = j['eid'] in olist
-            ilist.extend(ri[1])
+        r = v._api.page_own(cuid=uid, owner=uid, page=page, limit=20)
         if r[0]:
-            return self.render("project/build.html", ilist=ilist, back=self.SESSION['BSTACK'][0], pinfo=self.page_info(page, 5, len(ilist), 20), pid=pid)
+            return self.render("project/build.html", vlist=r[1], vinfo=r[2], vurl='/project/'+pid+'/', pid=pid, back=self.SESSION['BSTACK'][0])
         else:
             return self.render_alert(r[1])
 
@@ -215,39 +206,32 @@ class ProjectStickHandler(BaseHandler):
     @authenticated
     def get(self, pid):
         uid = self.SESSION['uid']
-        url = '/project/'+pid+'/stick/'
-        if url not in self.SESSION['BSTACK']:
-            bstack = self.SESSION['BSTACK']
-            bstack.append(url)
-            self.SESSION['BSTACK'] = bstack
+        self.SESSION['BSTACK'] = ['/project/'+pid+'/stick/']
+        page = int(self.get_argument('page', 1))
+        v = Volume()
+        r = v._api.page_own(cuid=uid, atte=uid, page=page, limit=20)
+        if r[0]:
+            return self.render("project/stick.html", vlist=r[1], vinfo=r[2], vurl='/project/'+pid+'/', pid=pid, back=self.SESSION['BSTACK'][0])
+        else:
+            return self.render_alert(r[1])
+
+class ProjectWorksHandler(BaseHandler):
+    @addslash
+    @session
+    def get(self, pid, vid):
+        uid = self.SESSION['uid']
         page = int(self.get_argument('page', 1))
         i = Item()
         ro = i._api.page(vid=pid, vtype=u'project')
         olist = [o['refer_id'] for o in ro[1]]
-        v = Volume()
-        r = v._api.page_own(atte=uid, limit=1000)
-        ilist = []
-        for ci in r[1]:
-            rid = ci['vid']
-            ri = i._api.page(vid=rid)
-            for j in ri[1]:
-                j['is_paste'] = j['eid'] in olist
-            ilist.extend(ri[1])
+        r = i._api.page(page=page, vid=vid)
         if r[0]:
-            return self.render("project/stick.html", ilist=ilist, back=self.SESSION['BSTACK'][0], pinfo=self.page_info(page, 5, len(ilist), 20), pid=pid)
+            for j in r[1]:
+                j['is_paste'] = j['eid'] in olist
+            return self.render("project/works.html", ilist=r[1], pinfo=r[2], back=self.SESSION['BSTACK'][0], pid=pid)
         else:
             return self.render_alert(r[1])
-    
-    @session
-    def post(self, pid):
-        uid = self.SESSION['uid']
-        works = self.get_argument('works', None)
-        p = Project()
-        if works:
-            r = p._api.edit(pid, works=works)
-            if r[0]:
-                return self.redirect('/project/'+pid+'/sort/')
-    
+
 class ProjectHandler(BaseHandler):
     '''项目首页
     '''
@@ -270,6 +254,8 @@ class ProjectHandler(BaseHandler):
                 project = rp[1]
                 if not rp[1]['works']:
                     project['works'] = []
+            else:
+                project={'works':[]}
             e = Item()
             works = []
             for w in project['works']:

@@ -163,6 +163,7 @@ class VolumeListHandler(BaseHandler):
         params = {}
         for k in self.request.arguments.keys():
             params[k] = self.get_argument(k)
+        params.pop('page', None)
         return params
     
     def _build_params(self, params):

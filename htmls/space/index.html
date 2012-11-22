@@ -22,6 +22,7 @@
 		}
 		function onClickOK (e) {
 			var $ul = e.closest('ul')
+			, $ultags = $('.ul-tags')
 			, params = $.parseJSON($('#params').val())
 			, inps = $ul.find('input[type=hidden]')
 			, sel = $ul.find('input[type=radio]:checked');
@@ -39,7 +40,7 @@
 			}else{
 				delete params['sex'];
 			}
-			period = $ul.find('[name=period]');
+			period = $ultags.find('[name=period]');
 			if (period.val()) {
 				params['period'] = period.val();
 			}else{
@@ -203,7 +204,8 @@
 					<li><a href="/volume/{{ v['vid'] }}/remove/" onclick="return delconfirm(this);">删除</a></li>
 				</ul>
 				<div class="caption" style="height:107px;">
-					<h4>{{ abstract(v['name'], 9) }} / {{ v['subtype_cn'] }}</h4>
+					<p style="font-size:16px;margin-bottom:2px;">{{ abstract(v['engname'], 15) }}</p>
+					<p style="font-size:16px;">{{ abstract(v['name'], 9) }} / {{ v['subtype_cn'] }}</h4>
 					<p>{{ abstract(v['intro'], 44) }}</p>
 				</div>
 			</div>

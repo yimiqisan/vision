@@ -34,6 +34,7 @@
 		}
 		function onClickOK (e) {
 			var $ul = e.closest('ul')
+			, $ultags = $('.ul-tags')
 			, params = $.parseJSON($('#params').val())
 			, inps = $ul.find('input[type=hidden]')
 			, sel = $ul.find('input[type=radio]:checked');
@@ -51,7 +52,7 @@
 			}else{
 				delete params['sex'];
 			}
-			period = $ul.find('[name=period]');
+			period = $ultags.find('[name=period]');
 			if (period.val()) {
 				params['period'] = period.val();
 			}else{
@@ -122,7 +123,7 @@
 							<a href="#" class="dropdown-toggle" style="padding-top:5px;padding-bottom:5px;" data-toggle="dropdown">
 								<img src="{{ static_url('img/tag.png') }}">
 								标签 <span class="half half_top"><span class="half_in">&#9670;</span>&#9670;</span></a>
-							<ul class="dropdown-menu" style="padding:0px;width:180px;">
+							<ul class="dropdown-menu ul-tags" style="padding:0px;width:180px;">
 								<li class="nohover" style="border-bottom:1px solid black;"><a style="padding:5px 20px;">级别:
 									<span class="star-group" style="padding:5px 20px;">{% for i in xrange(0, 5) %}<i class="star icon-star-empty"></i>{% end %}</span>
 									<input type="hidden" name="grade" class="star-value" value="{{ f.get('grade', 0) }}">

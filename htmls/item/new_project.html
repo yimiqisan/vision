@@ -1,1 +1,12 @@
 {% extends new_base.html %}
+{% block static-add %}{% end %}
+
+{% block infos %}
+	<div class="control-group">
+		<label class="control-label" for="title">作品名称</label>
+		<div class="controls">
+			<input type="text" class="input-xlarge" name="title" id="title" value="{% if title %}{{ title }}{% end %}"/>
+			<p class="help-inline">请输入作品名称</p>
+		</div>
+	</div>
+{% end %}
