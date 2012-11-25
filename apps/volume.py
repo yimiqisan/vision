@@ -381,7 +381,6 @@ class VolumeAPI(API):
                         owner=None
                         break
                 if owner:kwargs['owner']=owner
-            
             if subtype in mtype_l:
                 kwargs['maintype']=subtype
             elif subtype == 'PHOTOGRAPHER':

@@ -94,7 +94,7 @@ def abstract(handler, c, n=100):
             s = re.sub(r'</?\w+[^>]*>','',c)
         else:
             return c
-    s = s.replace(' ', '')
+#    s = s.replace(' ', '')
     if (len(s) > n):
         return s[:n-3] + '...'
     else:

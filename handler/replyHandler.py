@@ -114,7 +114,7 @@ class AjaxNewReplyHandler(BaseHandler):
         to = self.get_argument("to")
         c = self.get_argument("content")
         rly = Reply()
-        nick = self.current_user if uid else '匿名驴友'
+        nick = self.current_user if uid else '匿名'
         kwargs = {'nick':nick, 'ulogo':ulogo}
         r = rly._api.save(c, owner=uid, tid=to, channel=self.CHANNEL, **kwargs)
         if r[0]:

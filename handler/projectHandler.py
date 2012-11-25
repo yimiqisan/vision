@@ -206,7 +206,11 @@ class ProjectStickHandler(BaseHandler):
     @authenticated
     def get(self, pid):
         uid = self.SESSION['uid']
-        self.SESSION['BSTACK'] = ['/project/'+pid+'/stick/']
+        url = '/project/'+pid+'/stick/'
+        if url not in self.SESSION['BSTACK']:
+            bstack = self.SESSION['BSTACK']
+            bstack.append(url)
+            self.SESSION['BSTACK'] = bstack
         page = int(self.get_argument('page', 1))
         v = Volume()
         r = v._api.page_own(cuid=uid, atte=uid, page=page, limit=20)
@@ -228,7 +232,7 @@ class ProjectWorksHandler(BaseHandler):
         if r[0]:
             for j in r[1]:
                 j['is_paste'] = j['eid'] in olist
-            return self.render("project/works.html", ilist=r[1], pinfo=r[2], back=self.SESSION['BSTACK'][0], pid=pid)
+            return self.render("project/works.html", ilist=r[1], pinfo=r[2], back=self.SESSION['BSTACK'].pop(), pid=pid)
         else:
             return self.render_alert(r[1])
 
@@ -240,8 +244,7 @@ class ProjectHandler(BaseHandler):
     @authenticated
     def get(self, pid):
         uid = self.SESSION['uid']
-        if ADMIN['admin'][-1] == uid:
-            self.redirect('/perm/')
+        if ADMIN['admin'][-1] == uid:self.redirect('/perm/')
         self.SESSION['BSTACK'] = ['/project/'+pid+'/'] if pid else ['/project/']
         page = int(self.get_argument('page', 1))
         p = Project()
@@ -263,7 +266,8 @@ class ProjectHandler(BaseHandler):
                 rw = e._api.get(w)
                 if rw[0] and rw[1]:
                     works.append(rw[1])
-            return self.render("space/project.html", plist=plist, pinfo=self.page_info(page, 5, len(works), 15), works=works, project=project, pid=pid if pid else '', rl=[])
+            wlimit = 15
+            return self.render("space/project.html", plist=plist, pinfo=self.page_info(page, 5, len(works), wlimit), works=works[(page-1)*wlimit:(page)*wlimit], project=project, pid=pid if pid else '', rl=[])
         else:
             return self.render_alert(r[1])
     
