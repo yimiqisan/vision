@@ -12,6 +12,7 @@ from tornado.web import addslash, authenticated
 from baseHandler import BaseHandler
 from vision.apps.reply import Reply
 from vision.apps.staff import Staff
+from vision.apps.alert import Alert
 from vision.apps.tools import session
 from datetime import datetime
 
@@ -33,6 +34,8 @@ class AjaxReplyHandler(BaseHandler):
             for i in r[1]:
                 i['info'] = self._oinfo(i['owner'])
                 htmls.append(self.render_string("util/reply.html", reply=i, uid=uid))
+            a = Alert()
+            a._api.click(uid, tid)
             return self.write(json.dumps({'htmls':htmls, 'info':r[1], 'cursor': r[2]}))
         else:
             return self.write({'error':'save error'})

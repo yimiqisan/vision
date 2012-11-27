@@ -17,6 +17,7 @@ from modules import ItemDoc
 from api import API, Added_id
 from vision.apps.reply import Reply
 from vision.apps.staff import Staff
+from vision.apps.alert import Alert
 
 VTYPE_LIST = [u'personal', u'organization', u'show', u'project']
 
@@ -39,6 +40,7 @@ class ItemAPI(API):
         doc = collection.ItemDoc()
         self.rpl = Reply()
         self.stf = Staff()
+        self.alt = Alert()
         API.__init__(self, col_name=col_name, collection=collection, doc=doc)
     
     def save(self, owner, vid, vtype, logo, *works, **kwargs):
@@ -67,10 +69,13 @@ class ItemAPI(API):
         self.stf.whois('_id', owner)
         return self.stf.engname
     
+    def _alt_count(self, owner, project):
+        return self.alt._api.list(owner, project)[1]
+    
     def _output_format(self, result=[], cuid=DEFAULT_CUR_UID):
         ''' 作品格式化输出 '''
         now = datetime.now()
-        output_map = lambda i: {'eid':i['_id'], 'refer_id':i['added'].get('refer_id', None), 'logo':i.get('logo', None), 'vid':i.get('vid', None), 'vtype':i.get('vtype', None), 'added_id':i['added_id'], 'owner':i['owner'], 'nick':self._gnick(i['owner']), 'is_own':(cuid==i['owner'] if i['owner'] else True), 'works':i['works'], 'cnt':self.rpl._api._count(i['_id']), 'created':self._escape_created(now, i['created']), 'name':i['added'].get('name', None), 'client':i['added'].get('client', None), 'title':i['added'].get('title', None), 'content':i['added'].get('content', None), 'year':i['added'].get('year', None)}
+        output_map = lambda i: {'eid':i['_id'], 'refer_id':i['added'].get('refer_id', None), 'logo':i.get('logo', None), 'vid':i.get('vid', None), 'vtype':i.get('vtype', None), 'added_id':i['added_id'], 'owner':i['owner'], 'nick':self._gnick(i['owner']), 'is_own':(cuid==i['owner'] if i['owner'] else True), 'works':i['works'], 'cnt':self.rpl._api._count(i['_id']), 'created':self._escape_created(now, i['created']), 'name':i['added'].get('name', None), 'client':i['added'].get('client', None), 'title':i['added'].get('title', None), 'content':i['added'].get('content', None), 'year':i['added'].get('year', None), 'acnt':self._alt_count(i['owner'], i['_id'])}
         if isinstance(result, dict):
             return output_map(result)
         return map(output_map, result)

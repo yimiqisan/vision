@@ -64,7 +64,6 @@ class PermissionAPI(API):
         if owner:kwargs['owner'] = owner
         if channel:kwargs['channel'] = channel
         if cid:kwargs['cid'] = cid
-        kwargs['limit'] = 1000
         r = self.find(**kwargs)
         pl = []
         if r[0] and r[1]:

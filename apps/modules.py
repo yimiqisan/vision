@@ -202,6 +202,26 @@ class TimeLineDoc(Document):
     use_dot_notation=True
 
 
+class AlertDoc(Document):
+    __collection__ = 'alert'
+    __database__ = DB_NAME
+    
+    structure = {
+            '_id':      unicode,
+            'owner':    unicode,
+            'subject':  unicode,
+            'nature':   IS(u'alert', u'error', u'success', u'confirm'),
+            'count':    int,
+            'created':  datetime,
+            'added':    dict,
+            'added_id': int,
+    }
+    required_fields = ['_id', 'created']
+    default_values = {'_id':uuid.uuid4().hex, 'created':datetime.now()}
+    
+    use_schemaless = True
+    use_dot_notation=True
+
 
 
 

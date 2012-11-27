@@ -13,8 +13,10 @@ from datetime import datetime
 import time
 
 from vision.config import DB_CON, DB_NAME, DEFAULT_CUR_UID
+from staff import StaffAPI
 from modules import TimeLineDoc
 from api import API, Added_id
+import case
 
 class Reply(object):
     def __init__(self, api=None):
@@ -33,22 +35,9 @@ class ReplyAPI(API):
         col_name = TimeLineDoc.__collection__
         collection = datastore[col_name]
         doc = collection.TimeLineDoc()
+        self.staff = StaffAPI()
         API.__init__(self, col_name=col_name, collection=collection, doc=doc)
     
-    def _flt_tpc(self, c, k):
-        c = c.strip()
-        t = tid = None
-        if not k:k=u'weibo'
-        if c.startswith('#')and(c.count('#')>1):
-            l = c.split('#')
-            for i in l:
-                if (i!=''):t = i;break
-            m = Mapping()
-            r = m.do(k, t)
-            if not r[0]:return r
-            tid = r[1]
-        return tid
-
     def _get_nick(self, id):
         r = self.one(_id=id)
         if (r[0] and r[1]):return r[1]['added'].get('nick', None)
@@ -69,21 +58,15 @@ class ReplyAPI(API):
     
     def _fire_alert(self, channel, tid, at_list):
         c = case.get_case_object()
-        if channel == u'reply':
-            for at in at_list:c.fire('a_weibo_ra', to=at)
-        else:
-            for at in at_list:c.fire('a_weibo_at', to=at)
+        for at in at_list:
+            uid = self.staff.nick2id(at)
+            if uid:
+                c.fire('a_reply', to=uid, tid=tid)
     
-    def save(self, content, owner=None, tid=None, channel=u'normal', **kwargs):
+    def save(self, content, owner=None, tid=None, channel=u'reply', **kwargs):
         ''' 保存回复 '''
-        if tid:
-            a = Added_id(tid)
-            a.incr()
-        else:
-            kind = kwargs.get('kind', u'event')
-            tid = self._flt_tpc(content, kind)
         at_list = self._flt_at(content)
-        #self._fire_alert(channel, tid, at_list)
+        self._fire_alert(channel, tid, at_list)
         return super(ReplyAPI, self).create(owner=owner, content=content, at_list=at_list, topic=tid, channel=channel, **kwargs)
     
     def remove(self, id):

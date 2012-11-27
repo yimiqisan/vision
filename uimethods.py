@@ -138,6 +138,12 @@ def build_params(handler, params):
         l.append(s)
     return '&'.join(l)
 
+def acnt(handler, owner, l):
+    for i in l:
+        if owner == i['owner']:
+            return i['count']
+    return 0
+
 if __name__ == '__main__':
     l = [{'pid':'a'}, {'pid':'b'}, {'pid':'c'}, {'pid':'d'}, {'pid':'e'}, {'pid':'f'}, {'pid':'g'}, {'pid':'h'}, {'pid':'i'}]
     print next_index('handler', 'a', l)

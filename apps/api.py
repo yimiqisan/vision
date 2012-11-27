@@ -242,7 +242,7 @@ class API(object):
         order = kwargs.pop('order', -1)
         order_by = kwargs.pop('order_by', 'added_id')
         try:
-            r = self.collection.find(kwargs).sort(order_by, order).limit(30)
+            r = self.collection.find(kwargs).sort(order_by, order).limit(1000)
         except Exception, e:
             logging.info(e)
             return (False, e)
