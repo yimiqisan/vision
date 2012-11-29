@@ -28,6 +28,7 @@ class SpaceHandler(BaseHandler):
         self.SESSION['BSTACK'] = ['/space/'+subtype+'/']
         if perm[0][0] == 0x01:return self.redirect('/space/perm/')
         uid = self.SESSION['uid']
+        subtype = subtype.lower()
         page = int(self.get_argument('page', 1))
         prop = self.get_argument('prop', None)
         dtime = self.get_argument('dtime', None)
@@ -48,7 +49,7 @@ class SpaceHandler(BaseHandler):
         if r[0]:
             params = self._d_params()
             params.pop('page', None)
-            return self.render("space/index.html", vlist=r[1], vinfo=r[2], subtype=subtype, params=json.dumps(params), f=params, vurl='/space/'+subtype+'/', vparams=self._build_params(params))
+            return self.render("space/index.html", vlist=r[1], vinfo=r[2], subtype=subtype, params=json.dumps(params), f=params, vurl='/space/'+subtype.lower()+'/', vparams=self._build_params(params))
         else:
             return self.render_alert(r[1])
     

@@ -171,7 +171,7 @@ class ProjectEditHandler(BaseHandler):
         if r[0]:
             proj = r[1]
             m = Permission()
-            rp = m._api.list(channel=u'project', cid=pid)
+            rp = m._api.list(channel=u'project', cid=pid, limit=10000)
             proj['members'] = rp
             return self.render("project/new.html", **proj)
         else:
@@ -194,7 +194,7 @@ class ProjectBuildHandler(BaseHandler):
         v = Volume()
         r = v._api.page_own(cuid=uid, owner=uid, page=page, limit=20)
         if r[0]:
-            return self.render("project/build.html", vlist=r[1], vinfo=r[2], vurl='/project/'+pid+'/', pid=pid, back=self.SESSION['BSTACK'][0])
+            return self.render("project/build.html", vlist=r[1], vinfo=r[2], vurl='/project/'+pid+'/build/', pid=pid, back=self.SESSION['BSTACK'][0])
         else:
             return self.render_alert(r[1])
 
@@ -215,7 +215,7 @@ class ProjectStickHandler(BaseHandler):
         v = Volume()
         r = v._api.page_own(cuid=uid, atte=uid, page=page, limit=20)
         if r[0]:
-            return self.render("project/stick.html", vlist=r[1], vinfo=r[2], vurl='/project/'+pid+'/', pid=pid, back=self.SESSION['BSTACK'][0])
+            return self.render("project/stick.html", vlist=r[1], vinfo=r[2], vurl='/project/'+pid+'/stick/', pid=pid, back=self.SESSION['BSTACK'][0])
         else:
             return self.render_alert(r[1])
 
@@ -263,7 +263,7 @@ class ProjectHandler(BaseHandler):
             works = []
             for w in project['works']:
                 if not w:continue
-                rw = e._api.get(w)
+                rw = e._api.get(w, cuid=uid)
                 if rw[0] and rw[1]:
                     works.append(rw[1])
             wlimit = 15

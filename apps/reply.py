@@ -65,6 +65,9 @@ class ReplyAPI(API):
     
     def save(self, content, owner=None, tid=None, channel=u'reply', **kwargs):
         ''' 保存回复 '''
+        if tid:
+            a = Added_id(tid)
+            a.incr()
         at_list = self._flt_at(content)
         self._fire_alert(channel, tid, at_list)
         return super(ReplyAPI, self).create(owner=owner, content=content, at_list=at_list, topic=tid, channel=channel, **kwargs)

@@ -133,10 +133,11 @@ class VolumeListHandler(BaseHandler):
     @addperm
     def get(self, subtype):
         uid = self.SESSION['uid']
+        page = int(self.get_argument('page', 1))
         self.SESSION['BSTACK'] = ['/volume/'+subtype+'/'] if subtype else ['/volume/']
         if ADMIN['admin'][-1] == uid:
             self.redirect('/perm/')
-        page = int(self.get_argument('page', 1))
+        subtype = subtype.lower()
         prop = self.get_argument('prop', None)
         dtime = self.get_argument('dtime', None)
         live = self.get_argument('show_live', None)
@@ -147,15 +148,16 @@ class VolumeListHandler(BaseHandler):
         period_tuple = period.split('-') if period else None
         word = self.get_argument('word', None)
         href = self.get_argument('href', None)
-        if subtype == u'show':
+        if subtype == u'show' or href == u'show':
             prop=u'SHOW'
             subtype = ''
         if href:subtype = volume.relation(subtype, href)
         v = volume.Volume()
+        print self.pm
         r = v._api.page(cuid=uid, owner=uid, perm=self.pm, created=dtime, prop=prop, name=word, subtype=subtype.upper(), live=live, grade=grade, nexus=nexus, male=sex, born_tuple=period_tuple, page=page, limit=20)
         if r[0]:
             params = self._d_params()
-            return self.render("volume/list.html", vlist=r[1], vinfo=r[2], subtype=subtype, params=json.dumps(params), f=params, vurl='/volume/'+subtype+'/', vparams=self._build_params(params))
+            return self.render("volume/list.html", vlist=r[1], vinfo=r[2], subtype=subtype, params=json.dumps(params), f=params, vurl='/volume/'+subtype.lower()+'/', vparams=self._build_params(params))
         else:
             return self.render_alert(r[1])
     

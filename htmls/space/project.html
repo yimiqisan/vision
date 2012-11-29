@@ -108,7 +108,7 @@
 		<li class="span3 item">
 			<div class="thumbnail overmenu-group">
 				<p style="color:white;background:black;position:absolute;opacity:0.8;z-index:100;" >{{ abstract(w['nick'], 16) }}&nbsp;创建于&nbsp;{{ w['created'] }} </p>
-				<a href="/item/{{ w['eid'] }}/" style="width:220px;height:180px;position:relative;overflow:hidden;display:block;">
+				<a href="/item/{{ w['eid'] }}/" style="width:220px;height:180px;position:relative;overflow:hidden;display:block;z-index:90;">
 					<img src="/image/attach/{{ w['logo'] }}_crop" onload="if ((parseFloat($(this).width())/$(this).height()) > 1.23){$(this).css('height', '180').css('width', 'auto')};" onerror="this.src='{{ static_url("img/blank_260x180.gif") }}';" style="display:block;width:220px;margin:0 auto;" alt="">
 				</a>
 				<div class="caption" style="height:107px;">
@@ -119,7 +119,7 @@
 					<li><a href="/item/{{ w['eid'] }}/remove/?refer=/project/{{project['pid']}}/" onclick="return delconfirm(this);">删除</a></li>
 				</ul>
 
-				<div class="caption reply-group" id="m-{{ w['eid'] }}" style="border-top:1px solid black;margin-bottom:5px;padding:1px;">
+				<div class="caption reply-group" id="m-{{ w['eid'] }}" style="border-top:1px solid black;margin-bottom:5px;padding:1px;z-index:200;">
 					{% if acnt(uid, w['acnt']) > 0 %}<div class="pull-left" style="padding:5px 5px 0 5px;color:red;">{{ acnt(uid, w['acnt']) }}条新留言</div>{% end %}
 					<div class="pull-right reply-url" id="ext-{{w['eid']}}" style="border:0px;background:white;"><a href="#inp-{{w['eid']}}" data-toggle="reply-extend" style="color:black;background:white;">评论(<b>{{w['cnt']}}</b>)</a></div>
 					<input type="hidden" id="inp-{{w['eid']}}" value="0" class="reply"/>
@@ -130,7 +130,7 @@
 					<div class="clear"></div>
 					<div class="reply-submit hide">
 						<a class="photo30 pull-left" href="#"><img width="30" height="30" alt="" src="/image/avatar/{{ ulogo }}_100" onerror="this.src='/static/img/default_avatar.gif';" ></a>
-						<textarea id="{{w['eid']}}Edit" name="{{w['eid']}}Edit" class="inplace" rows=1 cols=30></textarea>
+						<textarea id="{{w['eid']}}Edit" name="{{w['eid']}}Edit" class="inplace reply-content" rows=1 cols=30></textarea>
 						<div class="clear"></div>
 						<div class="pull-right">
 							<a class="btn btn-mini" id="sub-{{w['eid']}}" data-toggle="reply-submit" style="display:inline;">评论</a>
