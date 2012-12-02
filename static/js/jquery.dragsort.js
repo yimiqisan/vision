@@ -648,7 +648,6 @@ ToolMan._dragsortFactory = {
 	},
 
 	_onDragStart : function(dragEvent) {
-        
 	},
 
 	_onDragMove : function(dragEvent) {

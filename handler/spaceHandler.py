@@ -25,7 +25,7 @@ class SpaceHandler(BaseHandler):
     @authenticated
     def get(self, subtype):
         perm = self.SESSION['perm']
-        self.SESSION['BSTACK'] = ['/space/'+subtype+'/']
+        self.SESSION['BSTACK'] = [self.request.uri]
         if perm[0][0] == 0x01:return self.redirect('/space/perm/')
         uid = self.SESSION['uid']
         subtype = subtype.lower()
@@ -40,7 +40,7 @@ class SpaceHandler(BaseHandler):
         period_tuple = period.split('-') if period else None
         word = self.get_argument('word', None)
         href = self.get_argument('href', None)
-        if subtype == u'show':
+        if subtype == u'show' or href == u'show':
             prop=u'SHOW'
             subtype = ''
         if href:subtype = volume.relation(subtype, href)

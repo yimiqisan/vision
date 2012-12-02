@@ -213,7 +213,7 @@ class API(object):
         info['start_page'] = 1
         info['pre_page'] = max(1, page-1)
         info['page'] = page
-        info['page_list'] = range(max(1, min(page-4, total_page-pglen+1)), min(max(page+1+pglen/2, pglen+1), total_page+1))
+        info['page_list'] = range(max(1, min(page-4+2, total_page-pglen+1)), min(max(page+1+pglen/2, pglen+1), total_page+1))
         info['has_eps'] = (total_page>max(page+1+pglen/2, pglen+1)>pglen)
         info['has_next'] = (page<total_page)
         info['next_page'] = min(page+1, total_page)

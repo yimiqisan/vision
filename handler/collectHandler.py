@@ -27,7 +27,7 @@ class CollectHandler(BaseHandler):
     @authenticated
     def get(self, subtype):
         uid = self.SESSION['uid']
-        self.SESSION['BSTACK'] = ['/collect/'+subtype+'/'] if subtype else ['/collect/']
+        self.SESSION['BSTACK'] = [self.request.uri]# if subtype else ['/collect/']
         subtype = subtype.lower()
         page = int(self.get_argument('page', 1))
         prop = self.get_argument('prop', None)
@@ -40,7 +40,7 @@ class CollectHandler(BaseHandler):
         period_tuple = period.split('-') if period else None
         word = self.get_argument('word', None)
         href = self.get_argument('href', None)
-        if subtype == u'show':
+        if subtype == u'show' or href == u'show':
             prop=u'SHOW'
             subtype = ''
         if href:subtype = volume.relation(subtype, href)

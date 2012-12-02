@@ -185,7 +185,7 @@ class ProjectBuildHandler(BaseHandler):
     @authenticated
     def get(self, pid):
         uid = self.SESSION['uid']
-        url = '/project/'+pid+'/build/'
+        url = self.request.uri#'/project/'+pid+'/build/'
         if url not in self.SESSION['BSTACK']:
             bstack = self.SESSION['BSTACK']
             bstack.append(url)
@@ -206,7 +206,7 @@ class ProjectStickHandler(BaseHandler):
     @authenticated
     def get(self, pid):
         uid = self.SESSION['uid']
-        url = '/project/'+pid+'/stick/'
+        url = self.request.uri#'/project/'+pid+'/stick/'
         if url not in self.SESSION['BSTACK']:
             bstack = self.SESSION['BSTACK']
             bstack.append(url)
@@ -245,7 +245,7 @@ class ProjectHandler(BaseHandler):
     def get(self, pid):
         uid = self.SESSION['uid']
         if ADMIN['admin'][-1] == uid:self.redirect('/perm/')
-        self.SESSION['BSTACK'] = ['/project/'+pid+'/'] if pid else ['/project/']
+        self.SESSION['BSTACK'] = [self.request.uri] if pid else ['/project/']
         page = int(self.get_argument('page', 1))
         p = Project()
         r = p._api.page(cuid=uid, limit=10000)

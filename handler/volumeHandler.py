@@ -29,6 +29,8 @@ class VolumeNewHandler(BaseHandler):
         uid = self.SESSION['uid']
         d = {}
         for n in self.KEYS:d[n] = None
+        if d['website'] and 'http' not in d['website']:
+            d['website'] = 'http://'+d['website']
         d['vid'] = None
         dt = datetime.now()
         d['born'] = str(dt.year)+'0000'
@@ -134,7 +136,7 @@ class VolumeListHandler(BaseHandler):
     def get(self, subtype):
         uid = self.SESSION['uid']
         page = int(self.get_argument('page', 1))
-        self.SESSION['BSTACK'] = ['/volume/'+subtype+'/'] if subtype else ['/volume/']
+        self.SESSION['BSTACK'] = [self.request.uri]
         if ADMIN['admin'][-1] == uid:
             self.redirect('/perm/')
         subtype = subtype.lower()
@@ -153,7 +155,6 @@ class VolumeListHandler(BaseHandler):
             subtype = ''
         if href:subtype = volume.relation(subtype, href)
         v = volume.Volume()
-        print self.pm
         r = v._api.page(cuid=uid, owner=uid, perm=self.pm, created=dtime, prop=prop, name=word, subtype=subtype.upper(), live=live, grade=grade, nexus=nexus, male=sex, born_tuple=period_tuple, page=page, limit=20)
         if r[0]:
             params = self._d_params()
