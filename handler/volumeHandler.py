@@ -122,7 +122,7 @@ class VolumeHandler(BaseHandler):
             page = int(self.get_argument('page', 1))
             i = Item()
             ri = i._api.page(page=page, vid=vid)
-            return self.render("volume/item.html", back=self.SESSION['BSTACK'][0], wlist=ri[1], winfo=ri[2], **r[1])
+            return self.render("volume/item.html", back=self.SESSION['BSTACK'][0], wlist=ri[1], winfo=ri[2], vurl='/volume/'+vid+'/', **r[1])
         else:
             return self.render_alert(r[1])
 

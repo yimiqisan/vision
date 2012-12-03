@@ -171,7 +171,7 @@ class ProjectEditHandler(BaseHandler):
         if r[0]:
             proj = r[1]
             m = Permission()
-            rp = m._api.list(channel=u'project', cid=pid, limit=10000)
+            rp = m._api.page(channel=u'project', cid=pid, limit=1000)
             proj['members'] = rp
             return self.render("project/new.html", **proj)
         else:
@@ -232,7 +232,7 @@ class ProjectWorksHandler(BaseHandler):
         if r[0]:
             for j in r[1]:
                 j['is_paste'] = j['eid'] in olist
-            return self.render("project/works.html", ilist=r[1], pinfo=r[2], back=self.SESSION['BSTACK'].pop(), pid=pid)
+            return self.render("project/works.html", ilist=r[1], pinfo=r[2], vurl='/project/'+pid+'/volume/'+vid+'/', back=self.SESSION['BSTACK'].pop(), pid=pid)
         else:
             return self.render_alert(r[1])
 

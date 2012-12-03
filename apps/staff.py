@@ -51,6 +51,8 @@ class Staff(object):
         email = info.get('email', None)
         if email:
             if self._api.is_email_exist(email):return (False, '邮箱已被占用')
+        if '.' not in email:
+            return (False, '邮箱格式错误')
         password = info.get('password', None)
         if password:
             info['password'] = unicode(md5(password).hexdigest())

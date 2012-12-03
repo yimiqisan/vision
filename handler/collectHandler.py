@@ -27,7 +27,7 @@ class CollectHandler(BaseHandler):
     @authenticated
     def get(self, subtype):
         uid = self.SESSION['uid']
-        self.SESSION['BSTACK'] = [self.request.uri]# if subtype else ['/collect/']
+        self.SESSION['BSTACK'] = [self.request.uri]
         subtype = subtype.lower()
         page = int(self.get_argument('page', 1))
         prop = self.get_argument('prop', None)
@@ -98,7 +98,7 @@ class CollectItemHandler(BaseHandler):
             page = int(self.get_argument('page', 1))
             i = Item()
             ri = i._api.page(page=page, vid=r[1]['vid'])
-            return self.render("collect/item.html", wlist=ri[1], winfo=ri[2], **r[1])
+            return self.render("collect/item.html", wlist=ri[1], back=self.SESSION['BSTACK'][0], winfo=ri[2], **r[1])
         else:
             return self.render_alert(r[1])
 
