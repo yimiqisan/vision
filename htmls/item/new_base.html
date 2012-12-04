@@ -60,7 +60,7 @@
 					alert('请上传作品');
 				}
 				for (var i=0; i<slist.length; i++) {
-					var num = slist[i].charAt(3, slist[i].length-1)
+					var num = slist[i].substr(3, slist[i].length-1)
 					, j = i+1;
 					$('#'+slist[i]+' input[type=hidden]').attr('name', j+'PIC');
 					$('#'+num+'Edit').attr('name', j+'Edit');
@@ -68,6 +68,7 @@
 				}
 				for (var i=0; i<slist.length; i++) {
 					var j = i+1;
+//					alert($('textarea[name='+j+'Edit]').attr('id'));
 					KindEditor.sync('textarea[name='+j+'Edit]');
 				}
 			})
