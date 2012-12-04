@@ -47,7 +47,7 @@ class ItemNewHandler(BaseHandler):
             p = Project()
             rp = p._api.get(vid)
             if rp[0] and rp[1]:
-                l = rp[1]['works']
+                l = rp[1]['works'] if rp[1]['works'] else []
                 l.append(r[1])
                 p._api.edit(vid, works=l, isOverWrite=True)
         else:

@@ -58,6 +58,6 @@
 			{% end %}
 		</ul>
 		<script src="{{ static_url('js/bootstrap-overmenu.js') }}" type="text/javascript"></script>
-		{% module Template("util/pagination.html", pagination=pinfo, url='/project/{{pid}}/stick/', param='') %}
+		{% module Template("util/pagination.html", pagination=pinfo, url=vurl, param='') %}
 	</div>
 {% end %}

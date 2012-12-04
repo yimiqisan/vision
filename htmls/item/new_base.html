@@ -64,8 +64,11 @@
 					, j = i+1;
 					$('#'+slist[i]+' input[type=hidden]').attr('name', j+'PIC');
 					$('#'+num+'Edit').attr('name', j+'Edit');
-					KindEditor.sync('textarea[name='+j+'Edit]');
 					$('#'+slist[i]+' input[name=cover]').val(j);
+				}
+				for (var i=0; i<slist.length; i++) {
+					var j = i+1;
+					KindEditor.sync('textarea[name='+j+'Edit]');
 				}
 			})
 			yhui.iNote.init('{{ eid }}');

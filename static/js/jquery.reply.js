@@ -61,6 +61,7 @@
                 var num = parseInt($('#ext-'+id+' b').text());
                 $('#ext-'+id+' b').text(num+1);
             });
+            $('#falls').masonry({itemSelector: '.item',columnWidth: 10});
         },
         at: function ( e ) {
             

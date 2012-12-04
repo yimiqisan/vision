@@ -30,8 +30,14 @@ class ProjectNewHandler(BaseHandler):
     @authenticated
     def get(self):
         uid = self.SESSION['uid']
+        url = self.request.uri
+        if url not in self.SESSION['BSTACK']:
+            bstack = self.SESSION['BSTACK']
+            bstack.append(url)
+            self.SESSION['BSTACK'] = bstack
         d = {'pid':None}
         for n in self.KEYS:d[n] = None
+        d['back'] = self.SESSION['BSTACK'][0]
         return self.render("project/new.html", **d)
     
     @addslash
