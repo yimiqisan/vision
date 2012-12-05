@@ -118,7 +118,6 @@
 					<li><a href="/item/{{ w['eid'] }}/edit/">编辑</a></li>
 					<li><a href="/item/{{ w['eid'] }}/remove/?refer=/project/{{project['pid']}}/" onclick="return delconfirm(this);">删除</a></li>
 				</ul>
-
 				<div class="caption reply-group" id="m-{{ w['eid'] }}" style="border-top:1px solid black;margin-bottom:5px;padding:1px;z-index:200;">
 					{% if acnt(uid, w['acnt']) > 0 %}<div class="pull-left" style="padding:5px 5px 0 5px;color:red;">{{ acnt(uid, w['acnt']) }}条新留言</div>{% end %}
 					<div class="pull-right reply-url" id="ext-{{w['eid']}}" style="border:0px;background:white;"><a href="#inp-{{w['eid']}}" data-toggle="reply-extend" style="color:black;background:white;">评论(<b>{{w['cnt']}}</b>)</a></div>

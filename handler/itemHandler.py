@@ -35,9 +35,9 @@ class ItemNewHandler(BaseHandler):
     
     @addslash
     @session
-    @authenticated
     def post(self, tp, vid):
         uid = self.SESSION['uid']
+        if not uid:return self.redirect('/')
         eid = self.get_argument('eid', None)
         logo, works = self.get_works_list()
         infos = self.get_info_dict(tp)
@@ -88,9 +88,9 @@ class ItemPreviewHandler(BaseHandler):
     '''
     @addslash
     @session
-    @authenticated
     def post(self, tp, vid):
         uid = self.SESSION['uid']
+        if not uid:return self.redirect('/')
         eid = self.get_argument('eid', None)
         logo, works = self.get_works_list()
         infos = self.get_info_dict(tp)

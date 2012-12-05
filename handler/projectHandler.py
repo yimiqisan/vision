@@ -82,12 +82,17 @@ class ProjectListHandler(BaseHandler):
     @authenticated
     def get(self):
         uid = self.SESSION['uid']
+        url = self.request.uri
+        if url not in self.SESSION['BSTACK']:
+            bstack = self.SESSION['BSTACK']
+            bstack.append(url)
+            self.SESSION['BSTACK'] = bstack
         page = int(self.get_argument('page', 1))
         p = Project()
         r = p._api.page(cuid=uid, limit=10000)
         plist = self._flt_month(r[1])
         limit = 20
-        return self.render("project/list.html", pinfo= self.page_info(page, 5, len(plist), limit), plist=plist[(page-1)*limit:page*limit])
+        return self.render("project/list.html", pinfo= self.page_info(page, 5, len(plist), limit), plist=plist[(page-1)*limit:page*limit], back = self.SESSION['BSTACK'][0])
     
     @session
     def _flt_month(self, plist):

@@ -342,7 +342,7 @@ class VolumeAPI(API):
                 kwargs['prop']={'$all':prop}
             elif prop.upper() in prop_list:
                 kwargs['prop']=prop
-        if live and (live!='0x0'):kwargs['live']=re.compile('^'+live+'\w{0,2}$')
+        if live and (live!='0x00'):kwargs['live']=re.compile('^'+live+'\w{0,2}$')
         if agency:kwargs['agency']=agency
         if grade and int(grade):kwargs['grade']=int(grade)
         if nexus and int(nexus):kwargs['nexus']=int(nexus)
@@ -355,7 +355,10 @@ class VolumeAPI(API):
             ed = 1900+int(ed)
             start_d = datetime(year=sd, month=1, day=1)
             end_d = datetime(year=ed, month=1, day=1)
-            kwargs['born']={'$gt': start_d, '$lt': end_d}
+            if ed == 0:
+                kwargs['born']={'$gt': start_d}
+            else:
+                kwargs['born']={'$gt': start_d, '$lt': end_d}
         if atte:kwargs['atte_list']=atte
         kwargs['page']=page
         kwargs['pglen']=pglen
@@ -418,7 +421,7 @@ class VolumeAPI(API):
                 kwargs['prop']={'$all':prop}
             elif prop.upper() in prop_list:
                 kwargs['prop']=prop
-        if live and (live!='0x0'):kwargs['live']=re.compile('^'+live+'\w{0,2}$')
+        if live and (live!='0x00'):kwargs['live']=re.compile('^'+live+'\w{0,2}$')
         if agency:kwargs['agency']=agency
         if grade and int(grade):kwargs['grade']=int(grade)
         if nexus and int(nexus):kwargs['nexus']=int(nexus)
@@ -431,7 +434,10 @@ class VolumeAPI(API):
             ed = 1900+int(ed)
             start_d = datetime(year=sd, month=1, day=1)
             end_d = datetime(year=ed, month=1, day=1)
-            kwargs['born']={'$gt': start_d, '$lt': end_d}
+            if ed == 0:
+                kwargs['born']={'$gt': start_d}
+            else:
+                kwargs['born']={'$gt': start_d, '$lt': end_d}
         if not created and not subtype and not prop and not name and not live and not grade and not nexus and not male and not born_tuple:
             kwargs = {'$or':[{'owner':owner}, kwargs]}
         kwargs['page']=page
@@ -463,3 +469,19 @@ class CollectAPI(API):
         except Exception, e:
             logging.info(e)
             return True
+
+
+
+if __name__ == '__main__':
+    v = Volume()
+    r = v._api.find()
+    for i in r[1]:
+        try:
+            w = i['live']
+            vid = i['_id']
+            if len(w)==3 or len(w)==5:
+                x = w[:2]+'0'+w[2:]
+                v._api.edit(vid, live=x)
+        except Exception, e:
+            print e
+            continue

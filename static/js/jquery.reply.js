@@ -54,14 +54,14 @@
                     return alert(response.error);
                 }
                 var node = $(response.html);
-                node.hide();
+//                node.hide();
                 $(node).insertBefore($("#ins-"+id));
                 node.slideDown(300);
                 $('#'+id+'Edit').val("").select();
                 var num = parseInt($('#ext-'+id+' b').text());
                 $('#ext-'+id+' b').text(num+1);
+                $('#falls').masonry({itemSelector: '.item',columnWidth: 10});
             });
-            $('#falls').masonry({itemSelector: '.item',columnWidth: 10});
         },
         at: function ( e ) {
             

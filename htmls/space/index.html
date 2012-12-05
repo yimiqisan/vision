@@ -135,7 +135,7 @@
 								<li class="nohover" style="border-bottom:1px solid black;"><a style="padding:5px 20px;">
 									年代：<select name="period" style="width:100px;height:25px;margin-bottom:0px;">
 										<option value =""></option>
-										<option value ="90-00" {% if f.get('period', '')=='90-00' %}selected{% end %}>90~00年代</option>
+										<option value ="90-00" {% if f.get('period', '')=='90-00' %}selected{% end %}>90~现在</option>
 										<option value="80-90" {% if f.get('period', '')=='80-90' %}selected{% end %}>80~90年代</option>
 										<option value="70-80" {% if f.get('period', '')=='70-80' %}selected{% end %}>70~80年代</option>
 										<option value="60-70" {% if f.get('period', '')=='60-70' %}selected{% end %}>60~70年代</option>
@@ -144,6 +144,7 @@
 										<option value="30-40" {% if f.get('period', '')=='30-40' %}selected{% end %}>30~40年代</option>
 										<option value="20-30" {% if f.get('period', '')=='20-30' %}selected{% end %}>20~30年代</option>
 										<option value="10-20" {% if f.get('period', '')=='10-20' %}selected{% end %}>10~20年代</option>
+										<option value="00-10" {% if f.get('period', '')=='00-10' %}selected{% end %}>00~10年代</option>
 									</select>
 								</a></li>
 								<li class="ok"><a onclick="onClickOK($(this));return false;" style="padding:5px 31px;">确定</a></li>
