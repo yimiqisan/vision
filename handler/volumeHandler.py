@@ -155,7 +155,7 @@ class VolumeListHandler(BaseHandler):
             subtype = ''
         if href:subtype = volume.relation(subtype, href)
         v = volume.Volume()
-        r = v._api.page(cuid=uid, owner=uid, perm=self.pm, created=dtime, prop=prop, name=word, subtype=subtype.upper(), live=live, grade=grade, nexus=nexus, male=sex, born_tuple=period_tuple, page=page, limit=20)
+        r = v._api.page(cuid=uid, owner=uid, perm=self.pm, created=dtime, prop=prop, name=word, subtype=subtype.upper(), live=live, grade=grade, nexus=nexus, male=sex, born_tuple=period_tuple, page=page, limit=2)
         if r[0]:
             params = self._d_params()
             return self.render("volume/list.html", vlist=r[1], vinfo=r[2], subtype=subtype, params=json.dumps(params), f=params, vurl='/volume/'+subtype.lower()+'/', vparams=self._build_params(params))

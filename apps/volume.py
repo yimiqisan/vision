@@ -355,7 +355,7 @@ class VolumeAPI(API):
             ed = 1900+int(ed)
             start_d = datetime(year=sd, month=1, day=1)
             end_d = datetime(year=ed, month=1, day=1)
-            if ed == 0:
+            if ed == 1900:
                 kwargs['born']={'$gt': start_d}
             else:
                 kwargs['born']={'$gt': start_d, '$lt': end_d}
@@ -434,7 +434,7 @@ class VolumeAPI(API):
             ed = 1900+int(ed)
             start_d = datetime(year=sd, month=1, day=1)
             end_d = datetime(year=ed, month=1, day=1)
-            if ed == 0:
+            if ed == 1900:
                 kwargs['born']={'$gt': start_d}
             else:
                 kwargs['born']={'$gt': start_d, '$lt': end_d}
