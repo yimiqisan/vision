@@ -21,7 +21,7 @@
 				auto			: true,
 				multi			: true,
 				fileObjName		: 'upload',
-				queueSizeLimit	: 10,
+				queueSizeLimit	: 15,
 				onUploadSuccess : function (file, data, response) {
 					if (data == 'error'){
 						alert("图片已损坏！");
@@ -131,7 +131,7 @@
 		<h3>插图</h3>
 	</div>
 	<div class="modal-body">
-		<span style="color:orange;">友情提示：按住 shift 键 或 ctrl&lt;command&gt; 键，一次最多10张！</span>
+		<span style="color:orange;">友情提示：按住 shift 键 或 ctrl&lt;command&gt; 键，一次最多15张！</span>
 		<div id="poster">图片上传</div>
 	</div>
 </div>
