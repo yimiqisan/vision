@@ -24,10 +24,10 @@ class SpaceHandler(BaseHandler):
     @session
     @authenticated
     def get(self, subtype):
+        uid = self.SESSION['uid']
         perm = self.SESSION['perm']
         self.SESSION['BSTACK'] = [self.request.uri]
         if perm[0][0] == 0x01:return self.redirect('/space/perm/')
-        uid = self.SESSION['uid']
         subtype = subtype.lower()
         page = int(self.get_argument('page', 1))
         prop = self.get_argument('prop', None)
@@ -57,6 +57,7 @@ class SpaceHandler(BaseHandler):
         params = {}
         for k in self.request.arguments.keys():
             params[k] = self.get_argument(k)
+        params.pop('page', None)
         return params
     
     def _build_params(self, params):
