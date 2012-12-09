@@ -31,6 +31,8 @@ function _(a,b){
             n=show_country(b)
         }else if($.inArray(b, COUNTRY2CITY[d])+1){
             n=show_city(d, b)
+        }else{
+            n=''
         }
         $('#'+a).text(c+n);
     }
