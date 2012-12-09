@@ -89,7 +89,7 @@ class ProjectListHandler(BaseHandler):
             self.SESSION['BSTACK'] = bstack
         page = int(self.get_argument('page', 1))
         p = Project()
-        r = p._api.page(cuid=uid, limit=10000)
+        r = p._api.query(cuid=uid)
         plist = self._flt_month(r[1])
         limit = 20
         return self.render("project/list.html", pinfo= self.page_info(page, 5, len(plist), limit), plist=plist[(page-1)*limit:page*limit], back = self.SESSION['BSTACK'][0])
@@ -125,7 +125,7 @@ class ProjectSortHandler(BaseHandler):
             self.SESSION['BSTACK'] = bstack
         page = int(self.get_argument('page', 1))
         p = Project()
-        r = p._api.page(cuid=uid, limit=10000)
+        r = p._api.query(cuid=uid)
         if r[0]:
             plist = r[1]
             if not pid:pid = plist[0]['pid'] if len(plist)>0 else None
@@ -182,7 +182,7 @@ class ProjectEditHandler(BaseHandler):
         if r[0]:
             proj = r[1]
             m = Permission()
-            rp = m._api.page(channel=u'project', cid=pid, limit=1000)
+            rp = m._api.query(channel=u'project', cid=pid)
             proj['members'] = rp
             return self.render("project/new.html", **proj)
         else:
@@ -259,7 +259,7 @@ class ProjectHandler(BaseHandler):
         self.SESSION['BSTACK'] = [self.request.uri] if pid else ['/project/']
         page = int(self.get_argument('page', 1))
         p = Project()
-        r = p._api.page(cuid=uid, limit=10000)
+        r = p._api.query(cuid=uid)
         if r[0]:
             plist = self._f_proj(r[1])
             if not pid:pid = plist[0]['pid'] if len(plist)>0 else None

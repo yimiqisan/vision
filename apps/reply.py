@@ -89,7 +89,7 @@ class ReplyAPI(API):
     def _perm(self, cuid, owner):
         return 0x01
     
-    def _output_format(self, result=[], cuid=DEFAULT_CUR_UID):
+    def _output(self, result=[], cuid=DEFAULT_CUR_UID):
         ''' 回复格式化输出 '''
         now = datetime.now()
         output_map = lambda i: {'id':i['_id'], 'added_id':i['added_id'], 'owner':i['owner'], 'perm':self._perm(cuid, i['owner']), 'is_own':(cuid==i['owner'] if i['owner'] else True), 'nick':i['added'].get('nick', '匿名'), 'tid':i.get('topic', None), 'content':i['content'], 'ulogo':i['added'].get('ulogo', None), 'channel':i['channel'], 'count': self._count(i['_id']), 'created':self._escape_created(now, i['created'])}
@@ -100,7 +100,7 @@ class ReplyAPI(API):
     def get(self, id):
         ''' 获取单个回复 '''
         r = self.one(_id=id)
-        if (r[0] and r[1]):return (True, self._output_format(result=r[1]))
+        if (r[0] and r[1]):return (True, self._output(result=r[1]))
         return r
     
     def extend(self, cuid=DEFAULT_CUR_UID, owner=None, topic=None, channel=None, at=None, cursor=None, limit=20, order_by='added_id', order=-1):
@@ -118,7 +118,7 @@ class ReplyAPI(API):
         if r[0]:
             kw = {'result':r[1]}
             if cuid:kw['cuid']=cuid
-            l = self._output_format(**kw)
+            l = self._output(**kw)
             added_id = min(l[0]['added_id'], l[-1]['added_id']) if len(l)!=0 else -1
             return (True, l, added_id)
         else:
@@ -141,7 +141,7 @@ class ReplyAPI(API):
         if r[0]:
             kw = {'result':r[1]}
             if cuid:kw['cuid']=cuid
-            l = self._output_format(**kw)
+            l = self._output(**kw)
             return (True, l, r[2])
         else:
             return (False, r[1])

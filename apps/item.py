@@ -72,7 +72,7 @@ class ItemAPI(API):
     def _alt_count(self, owner, project):
         return self.alt._api.list(owner, project)[1]
     
-    def _output_format(self, result=[], cuid=DEFAULT_CUR_UID):
+    def _output(self, result=[], cuid=DEFAULT_CUR_UID):
         ''' 作品格式化输出 '''
         now = datetime.now()
         output_map = lambda i: {'eid':i['_id'], 'refer_id':i['added'].get('refer_id', None), 'logo':i.get('logo', None), 'vid':i.get('vid', None), 'vtype':i.get('vtype', None), 'added_id':i['added_id'], 'owner':i['owner'], 'nick':self._gnick(i['owner']), 'is_own':(cuid==i['owner'] if i['owner'] else True), 'works':i['works'], 'cnt':self.rpl._api._count(i['_id']), 'created':self._escape_created(now, i['created']), 'name':i['added'].get('name', None), 'client':i['added'].get('client', None), 'title':i['added'].get('title', None), 'content':i['added'].get('content', None), 'year':i['added'].get('year', None), 'acnt':self._alt_count(cuid, i['_id'])}
@@ -83,7 +83,7 @@ class ItemAPI(API):
     def get(self, id, cuid=DEFAULT_CUR_UID):
         ''' 获取单个作品 '''
         r = self.one(_id=id)
-        if (r[0] and r[1]):return (True, self._output_format(result=r[1], cuid=cuid))
+        if (r[0] and r[1]):return (True, self._output(result=r[1], cuid=cuid))
         return r
     
     def copy(self, id, **kwargs):
@@ -113,7 +113,7 @@ class ItemAPI(API):
         if r[0]:
             kw = {'result':r[1]}
             if cuid:kw['cuid']=cuid
-            l = self._output_format(**kw)
+            l = self._output(**kw)
             return (True, l, r[2])
         else:
             return (False, r[1])

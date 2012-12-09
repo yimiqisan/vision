@@ -60,7 +60,7 @@ class CollectAPI(API):
         ''' 删除单个收藏 '''
         return super(CollectAPI, self).remove(id)
     
-    def _output_format(self, result=[], cuid=DEFAULT_CUR_UID):
+    def _output(self, result=[], cuid=DEFAULT_CUR_UID):
         ''' 格式化输出 '''
         now = datetime.now()
         output_map = lambda i: {'cid':i['_id'], 'refer_id':i['refer_id'], 'added_id':i['added_id'], 'logo':i.get('logo', None), 'name':i.get('name', '无名'), 'prop':i.get('prop', None), 'prop_cn':get_cn(p=i.get('prop', None)), 'maintype':i.get('maintype', None), 'maintype_cn':get_cn(m=i.get('maintype', None)), 'subtype':i.get('subtype', None), 'subtype_cn':get_cn(s=i.get('subtype', None)), 'live':i.get('live', None), 'male':i.get('male', None), 'male_cn':'男' if i.get('male', None) else '女', 'born':datetime.strftime(i.get('born', datetime.now()), '%Y%m%d'), 'website':i['added'].get('website', None), 'agency':i.get('agency', None), 'grade':i.get('grade', None), 'nexus':i.get('nexus', None), 'intro':i['added'].get('intro', None), 'about':i['added'].get('about', None), 'created':self._escape_created(now, i['created'])}
@@ -71,7 +71,7 @@ class CollectAPI(API):
     def get(self, id):
         ''' 获取单个收藏 '''
         r = self.one(_id=id)
-        if (r[0] and r[1]):return (True, self._output_format(result=r[1]))
+        if (r[0] and r[1]):return (True, self._output(result=r[1]))
         return r
     
     def page(self, cuid=DEFAULT_CUR_UID, owner=None, perm=None, name=None, prop=None, live=None, agency=None, tags=[], grade=None, nexus=None, male=None, born_interval=(None, None), page=1, pglen=5, limit=20, order_by='added_id', order=-1):
@@ -100,7 +100,7 @@ class CollectAPI(API):
         if r[0]:
             kw = {'result':r[1]}
             if cuid:kw['cuid']=cuid
-            l = self._output_format(**kw)
+            l = self._output(**kw)
             return (True, l, r[2])
         else:
             return (False, r[1])

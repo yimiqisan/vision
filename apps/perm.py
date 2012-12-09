@@ -55,7 +55,7 @@ class PermissionAPI(API):
     def get(self, id):
         ''' 获取权限 '''
         r = self.one(_id=id)
-        if (r[0] and r[1]):return (True, self._output_format(result=r[1]))
+        if (r[0] and r[1]):return (True, self._output(result=r[1]))
         return r
     
     def get_owner_value(self, owner=None, channel=None, cid=None):
@@ -78,7 +78,7 @@ class PermissionAPI(API):
             ret_d[k] = out['added'][k]
         return ret_d
     
-    def _output_format(self, result=[]):
+    def _output(self, result=[]):
         ''' 权限格式化 '''
         if isinstance(result, dict):
             return self._output_map(result)
@@ -93,9 +93,29 @@ class PermissionAPI(API):
         if key and (key in PERM_CLASS.keys()):kwargs['value'] = PERM_CLASS[key]
         r = self.find(**kwargs)
         if r[0]:
-            return self._output_format(result=r[1])
+            return self._output(result=r[1])
         else:
             return None
+    
+    def query(self, owner=None, channel=None, cid=None, key=None, limit=None, order_by='added_id', order=-1):
+        ''' 显示别表 '''
+        kwargs = {}
+        if owner:kwargs['owner']=owner
+        if channel:kwargs['channel'] = channel
+        if cid:kwargs['cid'] = cid
+        if key and (key in PERM_CLASS.keys()):kwargs['value'] = PERM_CLASS[key]
+        kwargs['limit']=limit
+        kwargs['order_by']=order_by
+        kwargs['order']=order
+        r = super(PermissionAPI, self).find(**kwargs)
+        if r[0]:
+            kw = {'result':r[1]}
+            if cuid:kw['cuid']=cuid
+            l = self._output(**kw)
+            return (True, l, r[2])
+        else:
+            return (False, r[1])
+
     
 class preperm(object):
     def __init__(self, keys=['SUPEROR', 'MANAGER']):

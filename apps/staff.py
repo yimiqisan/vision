@@ -154,7 +154,7 @@ class StaffAPI(API):
     def _perm(self, uid):
         return self.p._api.get_owner_value(uid, u'site')
     
-    def _output_format(self, result=[], cuid=DEFAULT_CUR_UID):
+    def _output(self, result=[], cuid=DEFAULT_CUR_UID):
         ''' 格式化输出用户信息 '''
         now = datetime.now()
         output_map = lambda i: {'pid':i['_id'], 'added_id':i['added_id'], 'pm':self._perm(i['_id']), 'email':i.get('email', None), 'password':None, 'belong':i['belong'], 'job':i['added'].get('job', ''), 'discribe':i['added'].get('discribe', ''), 'is_own':(cuid==i['belong'] if i['belong'] else True), 'nick':i['nick'] if i['nick'] and '@' not in i['nick'] else i.get('email', None), 'level':i['level'], 'avatar':i.get('avatar', None), 'male':i['added'].get('male', None), 'created':self._escape_created(now, i['created'])}
@@ -165,7 +165,7 @@ class StaffAPI(API):
     def get(self, id):
         ''' 获取单个用户信息 '''
         r = self.one(_id=id)
-        if (r[0] and r[1]):return (True, self._output_format(result=r[1]))
+        if (r[0] and r[1]):return (True, self._output(result=r[1]))
         return r
     
     def page(self, cuid=DEFAULT_CUR_UID, belong=None, level=None, page=1, pglen=5, cursor=None, limit=20, order_by='added_id', order=-1):
@@ -183,8 +183,24 @@ class StaffAPI(API):
         if r[0]:
             kw = {'result':r[1]}
             if cuid:kw['cuid']=cuid
-            l = self._output_format(**kw)
+            l = self._output(**kw)
             return (True, l, r[2])
         else:
             return (False, r[1])
     
+    def query(self, cuid=DEFAULT_CUR_UID, belong=None, level=None, limit=None, order_by='added_id', order=-1):
+        ''' 分页显示用户信息 '''
+        kwargs = {}
+        if belong:kwargs['belong']=belong
+        if level:kwargs['level'] = {'$in':level} if isinstance(level, list) else level
+        kwargs['limit']=limit
+        kwargs['order_by']=order_by
+        kwargs['order']=order
+        r = super(StaffAPI, self).find(**kwargs)
+        if r[0]:
+            kw = {'result':r[1]}
+            if cuid:kw['cuid']=cuid
+            l = self._output(**kw)
+            return (True, l)
+        else:
+            return (False, r[1])

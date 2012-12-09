@@ -58,6 +58,7 @@ class API(object):
         self.doc = doc
         self.structure = self.doc.structure
         self.structure.pop('added', None)
+        self._fmt = lambda o: o
         
     def _init_doc(self, id):
         try:
@@ -173,6 +174,12 @@ class API(object):
             return(False, unicode(e))
         return (True, id)
     
+    def _output(self, result=[]):
+        now = datetime.now()
+        if isinstance(result, dict):
+            return self._fmt(result)
+        return map(self._fmt, result)
+    
     def extend(self, **kwargs):
         ''' 下拉 '''
         cursor = kwargs.pop('cursor', None)
@@ -185,8 +192,6 @@ class API(object):
             kwargs.update({order_by:{'$gt':cursor}})
         try:
             objs= self.collection.find(kwargs).sort(order_by, order).limit(limit)
-#            kwargs.update({'created':{'$lt':datetime.now()}})
-#            objs= self.collection.find(kwargs).sort('created', 1).limit(limit)
         except:
             return (False, 'search error')
         return (True, objs)
@@ -213,7 +218,7 @@ class API(object):
         info['start_page'] = 1
         info['pre_page'] = max(1, page-1)
         info['page'] = page
-        info['page_list'] = range(max(1, min(page-4+2, total_page-pglen+1)), min(max(page+1+pglen/2, pglen+1), total_page+1))
+        info['page_list'] = range(max(1, min(page-pglen/2, total_page-pglen+1)), min(max(page+pglen/2, pglen), total_page)+1)
         info['has_eps'] = (total_page>max(page+1+pglen/2, pglen+1)>pglen)
         info['has_next'] = (page<total_page)
         info['next_page'] = min(page+1, total_page)
@@ -239,10 +244,14 @@ class API(object):
         
     def find(self, **kwargs):
         ''' 查询多项 '''
+        lmt = kwargs.pop('limit', None)
         order = kwargs.pop('order', -1)
         order_by = kwargs.pop('order_by', 'added_id')
         try:
-            r = self.collection.find(kwargs).sort(order_by, order).limit(1000)
+            if lmt:
+                r = self.collection.find(kwargs).sort(order_by, order).limit(lmt)
+            else:
+                r = self.collection.find(kwargs).sort(order_by, order)
         except Exception, e:
             logging.info(e)
             return (False, e)

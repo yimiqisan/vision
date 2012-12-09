@@ -267,7 +267,7 @@ class VolumeAPI(API):
             return 'http://'+w
         return w
     
-    def _output_format(self, result=[], cuid=DEFAULT_CUR_UID):
+    def _output(self, result=[], cuid=DEFAULT_CUR_UID):
         ''' 格式化输出作品集 '''
         now = datetime.now()
         output_map = lambda i: {'vid':i['_id'], 'added_id':i['added_id'], 'affect':self._affect(cuid, i['owner'], i.get('atte_list', [])), 'logo':i.get('logo', None), 'name':i.get('name', '无名'), 'engname':i['added'].get('engname', None), 'builder':i['added'].get('builder', None), 'post':i['added'].get('post', None), 'prop':i.get('prop', None), 'prop_cn':get_cn(p=i.get('prop', None)), 'maintype':i.get('maintype', None), 'maintype_cn':get_cn(m=i.get('maintype', None)), 'subtype':i.get('subtype', None), 'subtype_cn':get_cn(s=i.get('subtype', None)), 'live':i.get('live', '0x0'), 'male':i.get('male', None), 'male_cn':'男' if i.get('male', None) else '女', 'born_f':self._born(i.get('born')), 'born':"%02d%02d%02d"%(i.get('born', datetime.now()).year,i.get('born', datetime.now()).month,i.get('born', datetime.now()).day), 'website':self._website(i['added'].get('website', None)), 'agency':i.get('agency', None), 'grade':i.get('grade', None), 'nexus':i.get('nexus', None), 'intro':i['added'].get('intro', None), 'intro_detail':i['added'].get('intro_detail', None), 'about':i['added'].get('about', None), 'about_detail':i['added'].get('about_detail', None), 'market':i['added'].get('market', None), 'market_detail':i['added'].get('market_detail', None), 'atte_list':i.get('atte_list', []), 'created':self._escape_created(now, i['created'])}
@@ -279,7 +279,7 @@ class VolumeAPI(API):
         ''' 获取某个作品集 '''
         r = self.one(_id=id)
         if (r[0] and r[1]):
-            return (True, self._output_format(result=r[1]))
+            return (True, self._output(result=r[1]))
         else:
             return (False, r)
     
@@ -369,7 +369,7 @@ class VolumeAPI(API):
         if r[0]:
             kw = {'result':r[1]}
             if cuid:kw['cuid']=cuid
-            l = self._output_format(**kw)
+            l = self._output(**kw)
             return (True, l, r[2])
         else:
             return (False, r[1])
@@ -449,7 +449,7 @@ class VolumeAPI(API):
         if r[0]:
             kw = {'result':r[1]}
             if cuid:kw['cuid']=cuid
-            l = self._output_format(**kw)
+            l = self._output(**kw)
             return (True, l, r[2])
         else:
             return (False, r[1])

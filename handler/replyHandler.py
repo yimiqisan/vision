@@ -28,7 +28,7 @@ class AjaxReplyHandler(BaseHandler):
         cursor = self.get_argument('cursor', None)
         if cursor:cursor=int(cursor)
         rly = Reply()
-        r = rly._api.extend(cuid=uid, channel=[u'reply'], topic=tid, cursor=cursor, limit=100, order=-1)
+        r = rly._api.extend(cuid=uid, channel=[u'reply'], topic=tid, cursor=cursor, limit=1000, order=-1)
         if r[0]:
             htmls = []
             for i in r[1]:
@@ -84,7 +84,7 @@ class AjaxNewReplyHandler(BaseHandler):
     def get(self):
         uid = self.SESSION['uid']
         tid = self.get_argument("id")
-        limit = int(self.get_argument("limit", 100))
+        limit = int(self.get_argument("limit", 1000))
         cursor = self.get_argument('cursor', None)
         if cursor:cursor=int(cursor)
         tl = Reply()

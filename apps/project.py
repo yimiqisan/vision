@@ -58,7 +58,7 @@ class ProjectAPI(API):
         self.stf.whois('_id', owner)
         return self.stf.nick
     
-    def _output_format(self, result=[], cuid=DEFAULT_CUR_UID):
+    def _output(self, result=[], cuid=DEFAULT_CUR_UID):
         ''' 项目格式化输出 '''
         now = datetime.now()
         output_map = lambda i: {'pid':i['_id'], 'added_id':i['added_id'], 'pm':self._perm(cuid, i['_id']), 'owner':i['owner'], 'nick':self._gnick(i['owner']), 'is_own':(cuid==i['owner'] if i['owner'] else True), 'title':i['title'], 'works':i.get('works', []), 'description':i.get('description', None), 'members':i['members'], 'created':self._escape_created(now, i['created']), 'time_meta':i['created']}
@@ -69,7 +69,7 @@ class ProjectAPI(API):
     def get(self, id, cuid=DEFAULT_CUR_UID):
         ''' 获取单个项目 '''
         r = self.one(_id=id)
-        if (r[0] and r[1]):return (True, self._output_format(result=r[1], cuid=cuid))
+        if (r[0] and r[1]):return (True, self._output(result=r[1], cuid=cuid))
         return r
     
     def page(self, cuid=DEFAULT_CUR_UID, owner=None, page=1, pglen=5, cursor=None, limit=20, order_by='added_id', order=-1):
@@ -86,8 +86,24 @@ class ProjectAPI(API):
         if r[0]:
             kw = {'result':r[1]}
             if cuid:kw['cuid']=cuid
-            l = self._output_format(**kw)
+            l = self._output(**kw)
             return (True, l, r[2])
+        else:
+            return (False, r[1])
+
+    def query(self, cuid=DEFAULT_CUR_UID, owner=None, limit=None, order_by='added_id', order=-1):
+        ''' 显示项目列表 '''
+        kwargs = {}
+        if owner:kwargs['owner']=owner
+        kwargs['limit']=limit
+        kwargs['order_by']=order_by
+        kwargs['order']=order
+        r = super(ProjectAPI, self).find(**kwargs)
+        if r[0]:
+            kw = {'result':r[1]}
+            if cuid:kw['cuid']=cuid
+            l = self._output(**kw)
+            return (True, l)
         else:
             return (False, r[1])
     
