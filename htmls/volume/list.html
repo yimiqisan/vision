@@ -170,21 +170,25 @@
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'fmakeup' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('fmakeup')">化妆师</a></li>
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'fmodel' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('fmodel')">模特</a></li>
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'fbloger' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('fbloger')">博主</a></li>
+										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'fwriter' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('fwriter')">作家</a></li>
 									{% elif subtype == 'brand' %}
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'bmediapeople' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('bmediapeople')">媒体人</a></li>
 									{% elif subtype == 'human' %}
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'hphotographer' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('hphotographer')">摄影师</a></li>
+										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'hwriter' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('hwriter')">作家</a></li>
 									{% elif subtype == 'art' %}
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'apainting' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('apainting')">绘画</a></li>
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'aequipment' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('aequipment')">装置</a></li>
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'asculpture' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('asculpture')">雕塑</a></li>
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'aimage' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('aimage')">影像</a></li>
+										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'awriter' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('awriter')">作家</a></li>
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'amultimedia' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('amultimedia')">多媒体</a></li>
 									{% elif subtype == 'design' %}
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'dbuilding' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('dbuilding')">建筑</a></li>
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'dindoor' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('dindoor')">室内</a></li>
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'dproduct' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('dproduct')">产品</a></li>
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'dflat' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('dflat')">平面</a></li>
+										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'dwriter' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('dwriter')">作家</a></li>
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'dmutilmedia' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('dmutilmedia')">多媒体</a></li>
 									{% else %}
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'fdesigner' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('fdesigner')">设计师</a></li>
@@ -193,17 +197,21 @@
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'fmakeup' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('fmakeup')">化妆师</a></li>
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'fmodel' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('fmodel')">模特</a></li>
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'fbloger' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('fbloger')">博主</a></li>
+										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'fwriter' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('fwriter')">作家(时尚)</a></li>
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'bmediapeople' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('bmediapeople')">媒体人</a></li>
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'hphotographer' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('hphotographer')">摄影师(人文)</a></li>
+										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'hwriter' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('hwriter')">作家(人文)</a></li>
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'apainting' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('apainting')">绘画</a></li>
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'aequipment' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('aequipment')">装置</a></li>
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'asculpture' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('asculpture')">雕塑</a></li>
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'aimage' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('aimage')">影像</a></li>
+										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'awriter' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('awriter')">作家(艺术)</a></li>
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'amultimedia' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('amultimedia')">多媒体</a></li>
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'dbuilding' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('dbuilding')">建筑</a></li>
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'dindoor' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('dindoor')">室内</a></li>
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'dproduct' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('dproduct')">产品</a></li>
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'dflat' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('dflat')">平面</a></li>
+										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'dwriter' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('dwriter')">作家(设计)</a></li>
 										<li style="border-bottom:1px solid black;"><a class="{% if subtype == 'dmutilmedia' %}select{% end %}" style="padding:5px 20px;" onclick="onClickRedirect('dmutilmedia')">多媒体</a></li>
 									{% end %}
 									</ul>
