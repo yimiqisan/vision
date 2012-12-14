@@ -204,7 +204,7 @@ color: #555;
 text-shadow: 0 1px 0 white;
 }
 
-.parallel-menu {min-width:580px;}
+.parallel-menu {min-width:600px;}
 .parallel-menu li {float:left;}
 .parallel-menu a {padding:1px 5px;float:left;}
 
