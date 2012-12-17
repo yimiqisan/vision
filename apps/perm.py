@@ -97,7 +97,7 @@ class PermissionAPI(API):
         else:
             return None
     
-    def query(self, owner=None, cuid=DEFAULT_CUR_UID, channel=None, cid=None, key=None, limit=None, order_by='added_id', order=-1):
+    def query(self, owner=None, channel=None, cid=None, key=None, limit=None, order_by='added_id', order=-1):
         ''' 显示别表 '''
         kwargs = {}
         if owner:kwargs['owner']=owner
@@ -110,7 +110,6 @@ class PermissionAPI(API):
         r = super(PermissionAPI, self).find(**kwargs)
         if r[0]:
             kw = {'result':r[1]}
-            if cuid:kw['cuid']=cuid
             l = self._output(**kw)
             return (True, l, r[2])
         else:

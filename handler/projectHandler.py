@@ -182,7 +182,7 @@ class ProjectEditHandler(BaseHandler):
         if r[0]:
             proj = r[1]
             m = Permission()
-            rp = m._api.query(channel=u'project', cid=pid, cuid=uid)
+            rp = m._api.query(channel=u'project', cid=pid)
             proj['members'] = rp
             return self.render("project/new.html", **proj)
         else:
