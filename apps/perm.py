@@ -111,7 +111,7 @@ class PermissionAPI(API):
         if r[0]:
             kw = {'result':r[1]}
             l = self._output(**kw)
-            return (True, l, r[2])
+            return (True, l)
         else:
             return (False, r[1])
 
