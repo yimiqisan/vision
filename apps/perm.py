@@ -12,7 +12,7 @@ import uuid
 from datetime import datetime
 import time
 
-from vision.config import DB_CON, DB_NAME, ADMIN, PERM_CLASS
+from vision.config import DB_CON, DB_NAME, ADMIN, PERM_CLASS, DEFAULT_CUR_UID
 from modules import PermissionDoc
 from api import API
 
@@ -97,7 +97,7 @@ class PermissionAPI(API):
         else:
             return None
     
-    def query(self, owner=None, channel=None, cid=None, key=None, limit=None, order_by='added_id', order=-1):
+    def query(self, owner=None, cuid=DEFAULT_CUR_UID, channel=None, cid=None, key=None, limit=None, order_by='added_id', order=-1):
         ''' 显示别表 '''
         kwargs = {}
         if owner:kwargs['owner']=owner
