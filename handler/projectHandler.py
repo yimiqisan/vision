@@ -138,7 +138,7 @@ class ProjectSortHandler(BaseHandler):
                 rw = e._api.get(w)
                 if rw[0] and rw[1]:
                     works.append(rw[1])
-            return self.render("project/sort.html", pinfo=self.page_info(page, 5, len(works), 15), wlist=works, pid=pid if pid else '', back=self.SESSION['BSTACK'][0])
+            return self.render("project/sort.html", pinfo=self.page_info(page, 5, len(works), 15), wlist=works, vurl='/project/'+pid+'/sort/', pid=pid if pid else '', back=self.SESSION['BSTACK'][0])
     
     @session
     def post(self, pid):

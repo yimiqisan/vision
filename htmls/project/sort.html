@@ -49,6 +49,6 @@
 		</ul>
 		<input type="submit" class="btn btn-primary censor pull-right" style="border:1px solid black;font-weight:bold;" value="确定" /></br>
 		</form>
-		{% module Template("util/pagination.html", pagination=pinfo, url='/project/{{pid}}/sort/', param='') %}
+		{% module Template("util/pagination.html", pagination=pinfo, url=vurl, param='') %}
 	</div>
 {% end %}
